@@ -9,7 +9,7 @@ const Colors = {
   ORANGE: '#F68B38',
   YELLOW: '#FFD600',
   PURPLE: '#6236FF',
-  BLUE: '#009DDC',
+  BLUE: '#428ABF',
   DARK_BLUE: '#003253',
 };
 export default Object.freeze(Colors);
