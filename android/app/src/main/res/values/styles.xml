@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- Status Bar color -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- Details color -->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+
+        <item name="android:alertDialogTheme">@style/MyDialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/MyDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/MyDialogTheme</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+</resources>
