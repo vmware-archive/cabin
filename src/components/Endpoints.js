@@ -30,8 +30,6 @@ export default class Endpoints extends Component {
     super();
     this.state = {
       endpoints: Immutable.fromJS([
-        { url: 'https://185.19.30.148', username: 'foobar', password: 'FdKPSuwQ'},
-        { url: 'https://104.155.25.175', username: 'admin', password: 'Dn1nQOOW8CEFeumx'},
       ]),
     };
   }
