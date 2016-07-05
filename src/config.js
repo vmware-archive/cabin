@@ -1,6 +1,6 @@
 import ReactNative from 'react-native';
 import React from 'react';
-import Alt from 'alt';
+import alt from './alt';
 import {version} from '../package.json';
 import LocalesUtils from './utils/LocalesUtils';
 import Intl from 'intl';
@@ -31,7 +31,7 @@ _window.React       = React;
 _window.Component   = React.Component;
 _window._           = _;
 _window.Immutable   = Immutable;
-_window.alt         = new Alt();
+_window.alt         = alt;
 _window.APP_CONFIG  = CONFIGS.dev;
 _window.intl        = (...args) => LocalesUtils.getLocalizedString(...args);
 _window.intlrd      = (...args) => LocalesUtils.getLocalizedRelativeDate(...args);

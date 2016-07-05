@@ -1,8 +1,8 @@
-import NodesApi from 'api/NodesApi';
 import NodesRoutes from 'routes/NodesRoutes';
 import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import NodesActions from 'actions/NodesActions';
 
 const {
   View,
@@ -31,31 +31,35 @@ const styles = StyleSheet.create({
 export default class Nodes extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map),
+    endpoint: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   constructor() {
     super();
-    this.state = {
-      nodes: Immutable.List(),
-      status: 'loading',
-    };
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
+    alt.stores.NodesStore.listen(this.onChange);
     this.refresh();
   }
 
+  componentWillUnmount() {
+    alt.stores.NodesStore.unlisten(this.onChange);
+  }
+
   render() {
+    const status = alt.stores.NodesStore.getStatus(this.props.endpoint);
+    const nodes = alt.stores.NodesStore.getNodes(this.props.endpoint);
     return (
       <View style={styles.container}>
-        {this.state.status === 'loading' ?
+        {status === 'loading' ?
           <ActivityIndicatorIOS style={{flex: 1}}/> :
           <CollectionView style={styles.list}
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
-            list={this.state.nodes}
+            list={nodes}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
           />
@@ -76,8 +80,12 @@ export default class Nodes extends Component {
     );
   }
 
+  onChange() {
+    this.forceUpdate();
+  }
+
   refresh() {
-    NodesApi.fetchNodes(this.props.endpoint).then(nodes => this.setState({nodes, status: 'success'}));
+    NodesActions.fetchNodes(this.props.endpoint);
   }
 
   onPressItem(node) {

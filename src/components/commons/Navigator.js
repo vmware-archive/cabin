@@ -6,7 +6,6 @@ import TextInputState from 'TextInputState';
 
 const {
   View,
-  Animated,
   DeviceEventEmitter,
   StatusBar,
   StyleSheet,
@@ -41,47 +40,6 @@ const styles = StyleSheet.create({
   },
 });
 
-class AzNavigator extends ExNavigator {
-  setNavigationBarHidden(hidden) {
-    if (this.props.onSetNavigationBarHidden) {
-      this.props.onSetNavigationBarHidden(hidden);
-    }
-  }
-
-  clearToRoute(route) {
-    const currentRouteStack = this.getCurrentRoutes();
-    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
-    if (route && currentRouteName !== route.name) {
-      super.resetTo(route);
-    }
-  }
-
-  push(route) {
-    if (!route) {
-      return;
-    }
-    const currentRouteStack = this.getCurrentRoutes();
-    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
-    if (currentRouteName !== route.name) {
-      super.push(route);
-    } else {
-      super.replace(route);
-    }
-  }
-
-  pop(route) {
-    TextInputState.blurTextInput(TextInputState.currentlyFocusedField());
-    const currentRouteStack = this.getCurrentRoutes();
-    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
-
-    if (route && currentRouteName === route.name && currentRouteStack.length > 1) {
-      super.pop();
-    } else if (!route) { // No route provided, still honor the pop with no check
-      super.pop();
-    }
-  }
-}
-
 class Navigator extends Component {
 
   static propTypes = {
@@ -91,13 +49,6 @@ class Navigator extends Component {
     **/
     navigatorEvent: PropTypes.string.isRequired,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      top: new Animated.Value(0),
-    };
-  }
 
   componentDidMount() {
     this.navigationEventListener = DeviceEventEmitter.addListener(this.props.navigatorEvent, this.handleNavigationChange.bind(this));
@@ -128,28 +79,18 @@ class Navigator extends Component {
   render() {
     const navigationBarStyle = this.props.navigationBarStyle || styles.navigationBarStyle;
     return (
-      <Animated.View style={[styles.container, {top: this.state.top}]}>
-        <AzNavigator
+      <View style={styles.container}>
+        <ExNavigator
           ref="Navigator"
           barButtonIconStyle={styles.barButtonIconStyle}
           barButtonTextStyle={styles.barButtonTextStyle}
           titleStyle={styles.titleStyle}
           {...this.props}
-          sceneStyle={[this.props.sceneStyle, styles.sceneStyle]}
-          onSetNavigationBarHidden={this.setNavigationBarHidden.bind(this)}
+          sceneStyle={[styles.sceneStyle, this.props.sceneStyle]}
           navigationBarStyle={navigationBarStyle}
         />
-      </Animated.View>
+      </View>
     );
-  }
-
-  setNavigationBarHidden(hidden) {
-    Animated.parallel([
-      Animated.timing(
-        this.state.top,
-        {toValue: hidden ? -64 : 0, duration: 300}
-      ),
-    ]).start();
   }
 
   setStatusBarStyle(statusBarStyle = 'default') {
@@ -159,27 +100,25 @@ class Navigator extends Component {
   }
 
   handleNavigationChange({type, route}) {
-    const navigator = this.refs.Navigator;
-
     switch (type) {
       case 'push':
-        navigator.push(route);
+        this.push(route);
         break;
       default:
       case 'pop':
-        navigator.pop(route);
+        this.pop(route);
         break;
       case 'popToRoute':
-        navigator.popToRoute(route);
+        this.popToRoute(route);
         break;
       case 'popToTop':
-        navigator.popToTop();
+        this.popToTop();
         break;
       case 'clearToRoute':
-        navigator.clearToRoute(route);
+        this.clearToRoute(route);
         break;
       case 'replace':
-        navigator.replace(route);
+        this.replace(route);
         break;
     }
     this.forceUpdate();
@@ -189,20 +128,53 @@ class Navigator extends Component {
     return this.refs.Navigator.getCurrentRoutes();
   }
 
+  clearToRoute(route) {
+    const currentRouteStack = this.getCurrentRoutes();
+    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
+    if (route && currentRouteName !== route.name) {
+      this.refs.Navigator.resetTo(route);
+    }
+  }
+
   push(route) {
-    return this.refs.Navigator.push(route);
+    if (!route) {
+      return;
+    }
+    const currentRouteStack = this.getCurrentRoutes();
+    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
+    if (currentRouteName !== route.name) {
+      this.refs.Navigator.push(route);
+    } else {
+      this.replace(route);
+    }
   }
 
   canPop() {
     return this.refs.Navigator.getCurrentRoutes().length > 1;
   }
 
-  pop() {
-    return this.refs.Navigator.pop();
+  pop(route) {
+    TextInputState.blurTextInput(TextInputState.currentlyFocusedField());
+    const currentRouteStack = this.getCurrentRoutes();
+    const currentRouteName = currentRouteStack[currentRouteStack.length - 1].name;
+
+    if (route && currentRouteName === route.name && currentRouteStack.length > 1) {
+      this.refs.Navigator.pop();
+    } else if (!route) { // No route provided, still honor the pop with no check
+      this.refs.Navigator.pop();
+    }
   }
 
   popToTop() {
     return this.refs.Navigator.popToTop();
+  }
+
+  popToRoute(route) {
+    return this.refs.Navigator.popToRoute(route);
+  }
+
+  replace(route) {
+    return this.refs.Navigator.replace(route);
   }
 }
 

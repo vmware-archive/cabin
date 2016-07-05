@@ -2,6 +2,7 @@ import CollectionView from 'components/commons/CollectionView';
 import NodesRoutes from 'routes/NodesRoutes';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -30,6 +31,8 @@ export default class Endpoints extends Component {
     super();
     this.state = {
       endpoints: Immutable.fromJS([
+        { url: 'https://185.19.30.148', username: 'foobar', password: 'FdKPSuwQ'},
+        { url: 'https://104.155.25.175', username: 'admin', password: 'Dn1nQOOW8CEFeumx'},
       ]),
     };
   }
@@ -38,13 +41,21 @@ export default class Endpoints extends Component {
   render() {
     return (
       <View style={styles.flex}>
-        <CollectionView style={styles.list}
-          contentInset={{bottom: 40}}
-          scrollIndicatorInsets={{bottom: 0}}
-          contentContainerStyle={styles.listContent}
-          list={this.state.endpoints}
-          renderRow={this.renderRow.bind(this)}
-        />
+        <AltContainer stores={{
+          list: () => {
+            return {
+              store: alt.stores.EndpointsStore,
+              value: alt.stores.EndpointsStore.getEndpoints(),
+            };
+          }}}>
+          <CollectionView style={styles.list}
+            contentInset={{bottom: 40}}
+            scrollIndicatorInsets={{bottom: 0}}
+            contentContainerStyle={styles.listContent}
+            list={this.state.endpoints}
+            renderRow={this.renderRow.bind(this)}
+          />
+        </AltContainer>
       </View>
     );
   }

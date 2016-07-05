@@ -68,6 +68,7 @@ export default class ListItem extends Component {
     detailTitle: PropTypes.string,
     showSeparator: PropTypes.bool,
     showArrow: PropTypes.bool,
+    renderTitle: PropTypes.func,
   }
 
   static defaultProps = {
@@ -77,10 +78,12 @@ export default class ListItem extends Component {
     return (
       <TouchableOpacity style={styles.item} onPress={this.props.onPress}>
         <View style={styles.left}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{this.props.title}</Text>
-            {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
-          </View>
+          {this.props.renderTitle ? this.props.renderTitle() :
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{this.props.title}</Text>
+              {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+            </View>
+          }
         </View>
         <View style={styles.right}>
           {this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>}

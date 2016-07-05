@@ -5,6 +5,7 @@ const {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Text,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -18,19 +19,26 @@ const styles = StyleSheet.create({
     tintColor: Colors.WHITE,
     width: 20, height: 20,
   },
+  text: {
+    color: Colors.WHITE,
+    fontSize: 17,
+  },
 });
 
 class NavbarButton extends Component {
 
   static propTypes = {
     onPress: PropTypes.func.isRequired,
-    ...Image.propTypes,
+    title: PropTypes.string,
+    source: Image.propTypes.source,
   };
 
   render() {
+    const { title, source } = this.props;
     return (
       <TouchableOpacity onPress={this.props.onPress} style={styles.container}>
-        <Image {...this.props} style={[styles.image, this.props.style]} />
+        {title && <Text style={[styles.text, this.props.style]}>{title}</Text>}
+        {source && <Image source={source} style={[styles.image, this.props.style]} />}
       </TouchableOpacity>
     );
   }
