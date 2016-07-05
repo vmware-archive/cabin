@@ -26,7 +26,7 @@ export default class TabBar extends Component {
   render() {
     return (
       <TabBarIOS
-        unselectedTintColor={Colors.BORDER}
+        unselectedTintColor={Colors.GRAY}
         tintColor={Colors.BLUE}>
         <TabBarIOS.Item
           title="Endpoints"

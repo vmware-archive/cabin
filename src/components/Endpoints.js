@@ -3,10 +3,12 @@ import NodesRoutes from 'routes/NodesRoutes';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import AltContainer from 'alt-container';
+import EndpointsActions from 'actions/EndpointsActions';
 
 const {
   View,
   StyleSheet,
+  Alert,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -27,17 +29,6 @@ const styles = StyleSheet.create({
 
 export default class Endpoints extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      endpoints: Immutable.fromJS([
-        { url: 'https://185.19.30.148', username: 'foobar', password: 'FdKPSuwQ'},
-        { url: 'https://104.155.25.175', username: 'admin', password: 'Dn1nQOOW8CEFeumx'},
-      ]),
-    };
-  }
-
-
   render() {
     return (
       <View style={styles.flex}>
@@ -52,7 +43,7 @@ export default class Endpoints extends Component {
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
             contentContainerStyle={styles.listContent}
-            list={this.state.endpoints}
+            list={alt.stores.EndpointsStore.getEndpoints()}
             renderRow={this.renderRow.bind(this)}
           />
         </AltContainer>
@@ -61,18 +52,33 @@ export default class Endpoints extends Component {
   }
 
   renderRow(endpoint, rowID, index) {
-    const isLast = index < this.state.endpoints.size - 1;
+    const list = alt.stores.EndpointsStore.getEndpoints();
+    const isLast = index < list.size - 1;
     return (
       <ListItem
         title={endpoint.get('url')}
         showSeparator={isLast}
         showArrow={true}
         onPress={() => this.onPressItem(endpoint)}
+        onLongPress={() => this.onLongPressItem(endpoint)}
       />
     );
   }
 
   onPressItem(endpoint) {
     this.props.navigator.push(NodesRoutes.getNodesIndexRoute(endpoint));
+  }
+
+  onLongPressItem(endpoint) {
+    Alert.alert(
+      intl('endpoint_remove_title'),
+      intl('endpoint_remove_subtitle'),
+      [
+        {text: intl('cancel'), style: 'cancel', onPress: () => {}},
+        {text: intl('yes'), onPress: () => {
+          EndpointsActions.removeEndpoint(endpoint);
+        }},
+      ],
+    );
   }
 }

@@ -7,7 +7,7 @@ import NodesActions from 'actions/NodesActions';
 const {
   View,
   StyleSheet,
-  ActivityIndicatorIOS,
+  ActivityIndicator,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -54,7 +54,7 @@ export default class Nodes extends Component {
     return (
       <View style={styles.container}>
         {status === 'loading' ?
-          <ActivityIndicatorIOS style={{flex: 1}}/> :
+          <ActivityIndicator style={{flex: 1}}/> :
           <CollectionView style={styles.list}
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}

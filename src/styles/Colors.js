@@ -1,9 +1,10 @@
 const Colors = {
-  WHITE: '#FFFFFF',
-  BLACK: '#000000',
   BORDER: '#EAEAEA',
   BACKGROUND: '#EFEFF4',
 
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
+  GRAY: '#929292',
   RED: '#FF475E',
   GREEN: '#1EDC68',
   ORANGE: '#F68B38',

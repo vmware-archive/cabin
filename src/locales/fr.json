@@ -1,4 +1,9 @@
 {
   "cancel": "Annuler",
   "done": "Terminer",
+  "yes": "Oui",
+  "no": "Non",
+
+  "endpoint_remove_title": "Supprimer endpoint",
+  "endpoint_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet endpoint ?",
 }

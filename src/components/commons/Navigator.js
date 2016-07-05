@@ -47,7 +47,7 @@ class Navigator extends Component {
     /** The channel on which the navigator will listen events
     * and handle navigation
     **/
-    navigatorEvent: PropTypes.string.isRequired,
+    navigatorEvent: PropTypes.string,
   };
 
   componentDidMount() {

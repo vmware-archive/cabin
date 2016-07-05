@@ -13,17 +13,29 @@ class EndpointsStore {
     this.state = Immutable.Map();
   }
 
-  onInitAppSuccess() {
-    return AsyncStorage.get(this.displayName).then(snapshot => {
-      if (snapshot) {
-        this.setState(snapshot);
+  onInitAppSuccess(appState) {
+    if (appState.get(this.displayName)) {
+      console.log('dev ?', __DEV__);
+      if (__DEV__) {
+        this.setState(appState.get(this.displayName).set('test.endpoint', Immutable.fromJS({
+          url: 'test.endpoint', name: 'Test Endpoint', username: 'foo', password: 'bar',
+        })));
+      } else {
+        this.setState(appState.get(this.displayName));
       }
-    });
+      return true;
+    }
+    return false;
   }
 
   onAddEndpoint({url, username, password}) {
     const endpoint = Immutable.fromJS({url, username, password});
     this.setState(this.state.set(endpoint.get('url'), endpoint));
+    this.saveStore();
+  }
+
+  onRemoveEndpoint(endpoint) {
+    this.setState(this.state.remove(endpoint.get('url')));
     this.saveStore();
   }
 

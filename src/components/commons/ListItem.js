@@ -74,9 +74,10 @@ export default class ListItem extends Component {
   static defaultProps = {
     showSeparator: true,
   }
+
   render() {
     return (
-      <TouchableOpacity style={styles.item} onPress={this.props.onPress}>
+      <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
         <View style={styles.left}>
           {this.props.renderTitle ? this.props.renderTitle() :
             <View style={styles.titleContainer}>
