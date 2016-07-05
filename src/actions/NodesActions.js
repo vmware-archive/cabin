@@ -15,9 +15,10 @@ class NodesActions {
     this.fetchNodesStart(endpoint);
     return NodesApi.fetchNodes(endpoint).then(nodes => {
       this.fetchNodesSuccess({endpoint, nodes});
-    }).catch(() => {
-      this.fetchNodesFailure(endpoint);
     });
+    // .catch(() => {
+    //   this.fetchNodesFailure(endpoint);
+    // });
   }
 }
 

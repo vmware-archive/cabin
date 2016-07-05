@@ -1,9 +1,10 @@
 import CollectionView from 'components/commons/CollectionView';
-import NodesRoutes from 'routes/NodesRoutes';
+import EndpointsRoutes from 'routes/EndpointsRoutes';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import AltContainer from 'alt-container';
 import EndpointsActions from 'actions/EndpointsActions';
+import NodesActions from 'actions/NodesActions';
 
 const {
   View,
@@ -56,7 +57,7 @@ export default class Endpoints extends Component {
     const isLast = index < list.size - 1;
     return (
       <ListItem
-        title={endpoint.get('url')}
+        title={endpoint.get('name')}
         showSeparator={isLast}
         showArrow={true}
         onPress={() => this.onPressItem(endpoint)}
@@ -66,7 +67,8 @@ export default class Endpoints extends Component {
   }
 
   onPressItem(endpoint) {
-    this.props.navigator.push(NodesRoutes.getNodesIndexRoute(endpoint));
+    NodesActions.fetchNodes(endpoint);
+    this.props.navigator.push(EndpointsRoutes.getEndpointShowRoute(endpoint));
   }
 
   onLongPressItem(endpoint) {

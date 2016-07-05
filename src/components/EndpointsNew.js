@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   scrollViewContent: {
-    paddingTop: 40,
+    marginTop: 40,
     borderColor: Colors.BORDER,
     borderTopWidth: 1,
     borderBottomWidth: 1,
@@ -33,6 +33,7 @@ export default class EndpointsNew extends Component {
     super();
     this.state = {
       url: '',
+      name: '',
       username: '',
       password: '',
     };
@@ -52,6 +53,9 @@ export default class EndpointsNew extends Component {
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} placeholder="URL" onChangeText={url => this.setState({url})}/>;
+          }}/>
+          <ListItem renderTitle={() => {
+            return <TextInput style={{flex: 1}} placeholder="Optional name" onChangeText={name => this.setState({name})}/>;
           }}/>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} placeholder="Username" onChangeText={username => this.setState({username})}/>;

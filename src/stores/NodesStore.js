@@ -29,6 +29,7 @@ class NodesStore {
   }
 
   onFetchNodesSuccess({endpoint, nodes}) {
+    console.log('fetch nodes');
     this.setState(
       this.state.setIn(['nodes', endpoint.get('url')], nodes)
       .setIn(['status', endpoint.get('url')], 'success')

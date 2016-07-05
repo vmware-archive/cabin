@@ -31,26 +31,13 @@ const styles = StyleSheet.create({
 export default class Nodes extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map).isRequired,
-  }
-
-  constructor() {
-    super();
-    this.onChange = this.onChange.bind(this);
-  }
-
-  componentDidMount() {
-    alt.stores.NodesStore.listen(this.onChange);
-    this.refresh();
-  }
-
-  componentWillUnmount() {
-    alt.stores.NodesStore.unlisten(this.onChange);
+    status: PropTypes.string,
+    nodes: PropTypes.instanceOf(Immutable.List).isRequired,
+    endpoint: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const status = alt.stores.NodesStore.getStatus(this.props.endpoint);
-    const nodes = alt.stores.NodesStore.getNodes(this.props.endpoint);
+    const { status, nodes } = this.props;
     return (
       <View style={styles.container}>
         {status === 'loading' ?
@@ -69,7 +56,7 @@ export default class Nodes extends Component {
   }
 
   renderRow(node, rowID, index) {
-    const showSeparator = index < this.state.nodes.size - 1;
+    const showSeparator = index < this.props.nodes.size - 1;
     return (
       <ListItem
         title={node.getIn(['metadata', 'name'])}
@@ -80,12 +67,9 @@ export default class Nodes extends Component {
     );
   }
 
-  onChange() {
-    this.forceUpdate();
-  }
 
   refresh() {
-    NodesActions.fetchNodes(this.props.endpoint);
+    this.props.endpoint && NodesActions.fetchNodes(this.props.endpoint);
   }
 
   onPressItem(node) {

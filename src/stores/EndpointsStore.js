@@ -15,10 +15,9 @@ class EndpointsStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      console.log('dev ?', __DEV__);
       if (__DEV__) {
         this.setState(appState.get(this.displayName).set('test.endpoint', Immutable.fromJS({
-          url: 'test.endpoint', name: 'Test Endpoint', username: 'foo', password: 'bar',
+          url: 'http://localhost:8080', name: 'Test Endpoint', username: 'foo', password: 'bar',
         })));
       } else {
         this.setState(appState.get(this.displayName));
@@ -28,8 +27,8 @@ class EndpointsStore {
     return false;
   }
 
-  onAddEndpoint({url, username, password}) {
-    const endpoint = Immutable.fromJS({url, username, password});
+  onAddEndpoint({url, name, username, password}) {
+    const endpoint = Immutable.fromJS({url, username, password, name: name ? name : url});
     this.setState(this.state.set(endpoint.get('url'), endpoint));
     this.saveStore();
   }
@@ -41,6 +40,10 @@ class EndpointsStore {
 
   saveStore() {
     AsyncStorage.setItem(this.displayName, alt.takeSnapshot(this));
+  }
+
+  static get(url) {
+    return this.state.get(url);
   }
 
   static getEndpoints() {
