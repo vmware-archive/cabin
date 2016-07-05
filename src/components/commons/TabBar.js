@@ -6,6 +6,7 @@ import Colors from 'styles/Colors';
 const {
   TabBarIOS,
   StyleSheet,
+  View, Text,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ export default class TabBar extends Component {
         unselectedTintColor={Colors.GRAY}
         tintColor={Colors.BLUE}>
         <TabBarIOS.Item
-          title="Endpoints"
+          title="Cluster"
           icon={require('images/target.png')}
           selected={this.state.activeTab === 0}
           onPress={() => this.setState({activeTab: 0})}>
@@ -40,10 +41,19 @@ export default class TabBar extends Component {
             />
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title="Settings"
-          icon={require('images/settings.png')}
+          title="Deploy"
+          icon={require('images/deploy.png')}
           selected={this.state.activeTab === 1}
           onPress={() => this.setState({activeTab: 1})}>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.BACKGROUND}}>
+              <Text>Coming soon</Text>
+            </View>
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Settings"
+          icon={require('images/settings.png')}
+          selected={this.state.activeTab === 2}
+          onPress={() => this.setState({activeTab: 2})}>
             <Navigator
               sceneStyle={styles.sceneStyle}
               navigatorEvent="settings:navigation"
