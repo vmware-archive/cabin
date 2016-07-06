@@ -1,8 +1,24 @@
+/*
+  Copyright 2015 Skippbox, Ltd
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
 import NodesRoutes from 'routes/NodesRoutes';
 import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import NodesActions from 'actions/NodesActions';
+import ListHeader from 'components/commons/ListHeader';
 
 const {
   View,
@@ -23,7 +39,6 @@ const styles = StyleSheet.create({
   listContent: {
     marginTop: 40,
     borderColor: Colors.BORDER,
-    borderTopWidth: 1,
     borderBottomWidth: 1,
   },
 });
@@ -49,6 +64,7 @@ export default class Nodes extends Component {
             list={nodes}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
+            renderHeader={() => <ListHeader title="Nodes" />}
           />
         }
       </View>
