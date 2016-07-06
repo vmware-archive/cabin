@@ -16,7 +16,6 @@
 import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-import NodesActions from 'actions/NodesActions';
 import ListHeader from 'components/commons/ListHeader';
 
 const {
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    marginTop: 40,
+    marginTop: 20,
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
   },
@@ -85,7 +84,7 @@ export default class EntitiesList extends Component {
 
 
   refresh() {
-    this.props.endpoint && NodesActions.fetchNodes(this.props.endpoint);
+    this.props.onRefresh && this.props.onRefresh();
   }
 
   onPressItem(entity) {

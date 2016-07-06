@@ -8,7 +8,7 @@ export default Immutable.fromJS({
     nodes: {
       'test.co': [
         {metadata: {
-          name: 'Test Node',
+          name: 'Node A',
           resourceVersion: 99,
           uid: '123456789',
           labels: {
@@ -23,9 +23,9 @@ export default Immutable.fromJS({
     status: {'test.co': 'success'},
     services: {
       'test.co': [
-        {metadata: {
-          name: 'Test Services',
-        }},
+        {metadata: { name: 'Service A' }},
+        {metadata: { name: 'Service B' }},
+        {metadata: { name: 'Service C' }},
       ],
     },
   },
@@ -33,9 +33,8 @@ export default Immutable.fromJS({
     status: {'test.co': 'success'},
     replications: {
       'test.co': [
-        {metadata: {
-          name: 'Test Replication',
-        }},
+        {metadata: { name: 'Replication Controller A' }},
+        {metadata: { name: 'Replication Controller B' }},
       ],
     },
   },

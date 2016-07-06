@@ -15,6 +15,7 @@
 */
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -75,6 +76,12 @@ const styles = StyleSheet.create({
   },
 });
 
+class Counter extends Component {
+  render() {
+    return <Text style={styles.statItem}>{this.props.value}</Text>;
+  }
+}
+
 export default class EndpointItem extends Component {
 
   static propTypes = {
@@ -94,9 +101,33 @@ export default class EndpointItem extends Component {
             </View>
           </View>
           <View style={styles.stats}>
-            <Text style={styles.statItem}>3 Nodes</Text>
-            <Text style={styles.statItem}>2 Services</Text>
-            <Text style={styles.statItem}>0 RC</Text>
+            <AltContainer stores={{
+              value: () => {
+                return {
+                  store: alt.stores.NodesStore,
+                  value: alt.stores.NodesStore.getNodes(endpoint).size + ' Nodes',
+                };
+              }}}>
+              <Counter value=".. Nodes"/>
+            </AltContainer>
+            <AltContainer stores={{
+              value: () => {
+                return {
+                  store: alt.stores.ServicesStore,
+                  value: alt.stores.ServicesStore.getServices(endpoint).size + ' Services',
+                };
+              }}}>
+              <Counter value=".. Services"/>
+            </AltContainer>
+            <AltContainer stores={{
+              value: () => {
+                return {
+                  store: alt.stores.ReplicationsStore,
+                  value: alt.stores.ReplicationsStore.getReplications(endpoint).size + ' Replications',
+                };
+              }}}>
+              <Counter value=".. Replications"/>
+            </AltContainer>
           </View>
         </TouchableOpacity>
       </View>

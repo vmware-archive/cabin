@@ -16,6 +16,9 @@
 import { PropTypes } from 'react';
 import EntitiesList from 'components/EntitiesList';
 import NodesRoutes from 'routes/NodesRoutes';
+import NodesActions from 'actions/NodesActions';
+import ServicesActions from 'actions/ServicesActions';
+import ReplicationsActions from 'actions/ReplicationsActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SegmentedControl from 'components/commons/SegmentedControl';
@@ -94,6 +97,7 @@ export default class EndpointShow extends Component {
             status={alt.stores.NodesStore.getStatus(endpoint)}
             entities={alt.stores.NodesStore.getNodes(endpoint)}
             onPress={(node) => this.props.navigator.push(NodesRoutes.getNodesShowRoute(node))}
+            onRefresh={() => NodesActions.fetchNodes(endpoint)}
           />
         </AltContainer>}
 
@@ -115,6 +119,7 @@ export default class EndpointShow extends Component {
             listHeader="Services"
             status={alt.stores.ServicesStore.getStatus(endpoint)}
             entities={alt.stores.ServicesStore.getServices(endpoint)}
+            onRefresh={() => ServicesActions.fetchServices(endpoint)}
           />
         </AltContainer>}
 
@@ -136,6 +141,7 @@ export default class EndpointShow extends Component {
             listHeader="Replication Controllers"
             status={alt.stores.ReplicationsStore.getStatus(endpoint)}
             entities={alt.stores.ReplicationsStore.getReplications(endpoint)}
+            onRefresh={() => ReplicationsActions.fetchReplications(endpoint)}
           />
         </AltContainer>}
       </View>
