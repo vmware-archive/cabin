@@ -16,7 +16,7 @@
 import CollectionView from 'components/commons/CollectionView';
 import EndpointsRoutes from 'routes/EndpointsRoutes';
 import Colors from 'styles/Colors';
-import ListItem from 'components/commons/ListItem';
+import EndpointItem from 'components/Endpoints/EndpointItem';
 import AltContainer from 'alt-container';
 import EndpointsActions from 'actions/EndpointsActions';
 import NodesActions from 'actions/NodesActions';
@@ -36,13 +36,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   listContent: {
-    marginTop: 40,
-    borderColor: Colors.BORDER,
-    borderBottomWidth: 1,
+    marginTop: 20,
   },
 });
 
-export default class Endpoints extends Component {
+export default class EndpointsIndex extends Component {
 
   render() {
     return (
@@ -66,14 +64,10 @@ export default class Endpoints extends Component {
     );
   }
 
-  renderRow(endpoint, rowID, index) {
-    const list = alt.stores.EndpointsStore.getEndpoints();
-    const isLast = index < list.size - 1;
+  renderRow(endpoint) {
     return (
-      <ListItem
-        title={endpoint.get('name')}
-        showSeparator={isLast}
-        showArrow={true}
+      <EndpointItem
+        endpoint={endpoint}
         onPress={() => this.onPressItem(endpoint)}
         onLongPress={() => this.onLongPressItem(endpoint)}
       />

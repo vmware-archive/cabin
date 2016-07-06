@@ -19,4 +19,24 @@ export default Immutable.fromJS({
       ],
     },
   },
+  ServicesStore: {
+    status: {'test.co': 'success'},
+    services: {
+      'test.co': [
+        {metadata: {
+          name: 'Test Services',
+        }},
+      ],
+    },
+  },
+  ReplicationsStore: {
+    status: {'test.co': 'success'},
+    replications: {
+      'test.co': [
+        {metadata: {
+          name: 'Test Replication',
+        }},
+      ],
+    },
+  },
 });

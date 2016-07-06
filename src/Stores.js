@@ -15,4 +15,6 @@
 */
 import 'stores/EndpointsStore';
 import 'stores/NodesStore';
+import 'stores/ServicesStore';
+import 'stores/ReplicationsStore';
 export default {};

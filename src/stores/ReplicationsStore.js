@@ -15,22 +15,21 @@
 */
 import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
-import NodesActions from 'actions/NodesActions';
+import ReplicationsActions from 'actions/ReplicationsActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import FakeData from './FakeData';
-// import { AsyncStorage } from 'react-native';
 
-class NodesStore {
+class ReplicationsStore {
 
   constructor() {
     this.bindActions(InitActions);
-    this.bindActions(NodesActions);
+    this.bindActions(ReplicationsActions);
     if (__DEV__ && FakeData.get(this.displayName)) {
       this.state = FakeData.get(this.displayName);
     } else {
       this.state = Immutable.fromJS({
-        nodes: {},
+        replications: {},
         status: {},
       });
     }
@@ -44,30 +43,30 @@ class NodesStore {
     return false;
   }
 
-  onFetchNodesStart(endpoint) {
+  onFetchReplicationsStart(endpoint) {
     this.setState(this.state.setIn(['status', endpoint.get('url')], 'loading'));
   }
 
-  onFetchNodesSuccess({endpoint, nodes}) {
+  onFetchReplicationsSuccess({endpoint, replications}) {
     this.setState(
-      this.state.setIn(['nodes', endpoint.get('url')], nodes)
+      this.state.setIn(['replications', endpoint.get('url')], replications)
       .setIn(['status', endpoint.get('url')], 'success')
     );
   }
 
-  onFetchNodesFailure(endpoint) {
-    const nodes = alt.stores.NodesStore.getNodes(endpoint);
-    this.setState(this.state.setIn(['status', endpoint.get('url')], nodes.size === 0 ? 'failure' : 'success'));
+  onFetchReplicationsFailure(endpoint) {
+    const replications = alt.stores.ReplicationsStore.getReplications(endpoint);
+    this.setState(this.state.setIn(['status', endpoint.get('url')], replications.size === 0 ? 'failure' : 'success'));
   }
 
   static getStatus(endpoint) {
     return this.state.getIn(['status', endpoint.get('url')], 'success');
   }
 
-  static getNodes(endpoint) {
-    return this.state.getIn(['nodes', endpoint.get('url')], Immutable.List());
+  static getReplications(endpoint) {
+    return this.state.getIn(['replications', endpoint.get('url')], Immutable.List());
   }
 
 }
 
-export default alt.createStore(immutableUtil(NodesStore), 'NodesStore');
+export default alt.createStore(immutableUtil(ReplicationsStore), 'ReplicationsStore');

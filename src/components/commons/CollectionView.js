@@ -102,7 +102,6 @@ class CollectionView extends Component {
           <RefreshControl
           refreshing={isRefreshing}
           onRefresh={this.handleRefresh.bind(this)}
-          tintColor={Colors.BLACK}
           colors={[Colors.BLUE, Colors.RED, Colors.ORANGE]}
           progressBackgroundColor={Colors.WHITE}
           />

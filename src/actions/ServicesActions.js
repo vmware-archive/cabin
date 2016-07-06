@@ -13,18 +13,28 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import NodesShow from 'components/NodesShow';
+import alt from 'src/alt';
+import ServicesApi from 'api/ServicesApi';
 
-export default {
+class ServicesActions {
 
-  getNodesShowRoute(node) {
-    return {
-      name: 'NodesShow',
-      statusBarStyle: 'light-content',
-      getTitle: () => node.getIn(['metadata', 'name']),
-      renderScene(navigator) {
-        return <NodesShow node={node} navigator={navigator} />;
-      },
-    };
-  },
-};
+  constructor() {
+    this.generateActions(
+      'fetchServicesStart',
+      'fetchServicesSuccess',
+      'fetchServicesFailure',
+    );
+  }
+
+  fetchServices(endpoint) {
+    this.fetchServicesStart(endpoint);
+    return ServicesApi.fetchServices(endpoint).then(services => {
+      this.fetchServicesSuccess({endpoint, services});
+    })
+    .catch(() => {
+      this.fetchServicesFailure(endpoint);
+    });
+  }
+}
+
+export default alt.createActions(ServicesActions);

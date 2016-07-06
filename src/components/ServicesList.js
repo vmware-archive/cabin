@@ -43,16 +43,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Nodes extends Component {
+export default class ServicesList extends Component {
 
   static propTypes = {
     status: PropTypes.string,
-    nodes: PropTypes.instanceOf(Immutable.List).isRequired,
+    services: PropTypes.instanceOf(Immutable.List).isRequired,
     endpoint: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const { status, nodes } = this.props;
+    const { status, services } = this.props;
     return (
       <View style={styles.container}>
         {status === 'loading' ?
@@ -61,7 +61,7 @@ export default class Nodes extends Component {
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
-            list={nodes}
+            list={services}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
             renderHeader={() => <ListHeader title="Nodes" />}

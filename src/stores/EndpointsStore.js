@@ -17,6 +17,7 @@ import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
 import EndpointsActions from 'actions/EndpointsActions';
 import NodesActions from 'actions/NodesActions';
+import ServicesActions from 'actions/ServicesActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import { AsyncStorage } from 'react-native';
@@ -38,7 +39,10 @@ class EndpointsStore {
     if (appState.get(this.displayName)) {
       this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
-        this.state.map(endpoint => NodesActions.fetchNodes.defer(endpoint));
+        this.state.map(endpoint => {
+          NodesActions.fetchNodes.defer(endpoint);
+          ServicesActions.fetchServices.defer(endpoint);
+        });
       }, 1000);
       return true;
     }

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
     paddingHorizontal: 16,
-    paddingBottom: 10,
+    paddingBottom: 14,
   },
   title: {
     color: Colors.GRAY,

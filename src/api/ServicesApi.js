@@ -13,18 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import NodesShow from 'components/NodesShow';
+import BaseApi from './BaseApi';
 
-export default {
+export default class ServicesApi {
 
-  getNodesShowRoute(node) {
-    return {
-      name: 'NodesShow',
-      statusBarStyle: 'light-content',
-      getTitle: () => node.getIn(['metadata', 'name']),
-      renderScene(navigator) {
-        return <NodesShow node={node} navigator={navigator} />;
-      },
-    };
-  },
-};
+  static fetchServices(endpoint) {
+    const authentication = {username: endpoint.get('username'), password: endpoint.get('password')};
+    return BaseApi.get(`${endpoint.get('url')}/api/v1/services`, {}, authentication).then((response) => {
+      return response.get('items');
+    });
+  }
+
+}

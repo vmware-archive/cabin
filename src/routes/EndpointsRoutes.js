@@ -13,10 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Endpoints from 'components/Endpoints';
-import EndpointsNew from 'components/EndpointsNew';
-import EndpointShow from 'components/EndpointShow';
-import EndpointsNavbarTitle from 'components/EndpointsNavbarTitle';
+import EndpointsIndex from 'components/Endpoints/EndpointsIndex';
+import EndpointsNew from 'components/Endpoints/EndpointsNew';
+import EndpointShow from 'components/Endpoints/EndpointShow';
+import EndpointsNavbarTitle from 'components/Endpoints/EndpointsNavbarTitle';
 import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
 import NavigationActions from 'actions/NavigationActions';
@@ -31,7 +31,7 @@ const EndpointsRoutes = {
       statusBarStyle: 'light-content',
       getTitle: () => 'Clusters',
       renderScene(navigator) {
-        return <Endpoints navigator={navigator} />;
+        return <EndpointsIndex navigator={navigator} />;
       },
       renderRightButton() {
         return (
