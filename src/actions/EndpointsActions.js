@@ -19,6 +19,7 @@ class EndpointsActions {
   constructor() {
     this.generateActions(
       'addEndpoint',
+      'editEndpoint',
       'removeEndpoint',
     );
   }

@@ -51,6 +51,11 @@ class EndpointsStore {
     this.saveStore();
   }
 
+  onEditEndpoint({endpoint, params}) {
+    this.setState(this.state.mergeIn([endpoint.get('url')], params));
+    this.saveStore();
+  }
+
   onRemoveEndpoint(endpoint) {
     this.setState(this.state.remove(endpoint.get('url')));
     this.saveStore();

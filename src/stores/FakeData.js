@@ -10,7 +10,7 @@ export default Immutable.fromJS({
         {metadata: {
           name: 'Test Node',
           resourceVersion: 99,
-          udi: '123456789',
+          uid: '123456789',
           labels: {
             hostname: 'test',
             env: 'prod',

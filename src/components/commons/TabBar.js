@@ -45,7 +45,7 @@ export default class TabBar extends Component {
         unselectedTintColor={Colors.GRAY}
         tintColor={Colors.BLUE}>
         <TabBarIOS.Item
-          title="Cluster"
+          title="Clusters"
           icon={require('images/target.png')}
           selected={this.state.activeTab === 0}
           onPress={() => this.setState({activeTab: 0})}>

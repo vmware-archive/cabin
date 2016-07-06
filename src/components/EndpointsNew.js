@@ -17,6 +17,7 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import EndpointsActions from 'actions/EndpointsActions';
 import NavigationActions from 'actions/NavigationActions';
+import { PropTypes } from 'react';
 
 const {
   View,
@@ -44,14 +45,23 @@ const styles = StyleSheet.create({
 
 export default class EndpointsNew extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      url: '',
-      name: '',
-      username: '',
-      password: '',
-    };
+  static propTypes = {
+    endpoint: PropTypes.instanceOf(Immutable.Map), // if provided, it will edit endpoint instead of create new one
+  }
+
+  constructor(props) {
+    super(props);
+    const { endpoint } = props;
+    if (endpoint) {
+      this.state = endpoint.toJS();
+    } else {
+      this.state = {
+        url: '',
+        name: '',
+        username: '',
+        password: '',
+      };
+    }
   }
 
   componentDidMount() {
@@ -67,16 +77,16 @@ export default class EndpointsNew extends Component {
       <View style={styles.flex}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} placeholder="URL" onChangeText={url => this.setState({url})}/>;
+            return <TextInput style={{flex: 1}} defaultValue={this.state.url} placeholder="URL" onChangeText={url => this.setState({url})}/>;
           }}/>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} placeholder="Optional name" onChangeText={name => this.setState({name})}/>;
+            return <TextInput style={{flex: 1}} defaultValue={this.state.name} placeholder="Optional name" onChangeText={name => this.setState({name})}/>;
           }}/>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} placeholder="Username" onChangeText={username => this.setState({username})}/>;
+            return <TextInput style={{flex: 1}} defaultValue={this.state.username} placeholder="Username" onChangeText={username => this.setState({username})}/>;
           }}/>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} placeholder="Password" onChangeText={password => this.setState({password})}/>;
+            return <TextInput style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
           }} showSeparator={false}/>
         </ScrollView>
       </View>
@@ -84,7 +94,11 @@ export default class EndpointsNew extends Component {
   }
 
   onSubmit() {
-    EndpointsActions.addEndpoint({...this.state});
+    if (this.props.endpoint) {
+      EndpointsActions.editEndpoint({endpoint: this.props.endpoint, params: {...this.state}});
+    } else {
+      EndpointsActions.addEndpoint({...this.state});
+    }
     NavigationActions.popRoute();
   }
 
