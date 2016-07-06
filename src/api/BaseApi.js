@@ -85,7 +85,6 @@ class BaseApi {
   }
 
   static handleError(error) {
-    console.log(error);
     return Promise.reject({status: BaseApi.getStatus(error), message: error.message});
   }
 

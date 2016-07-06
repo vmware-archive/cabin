@@ -20,24 +20,23 @@ import NodesActions from 'actions/NodesActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import { AsyncStorage } from 'react-native';
+import FakeData from './FakeData';
 
 class EndpointsStore {
 
   constructor() {
     this.bindActions(InitActions);
     this.bindActions(EndpointsActions);
-    this.state = Immutable.Map();
+    if (__DEV__ && FakeData.get(this.displayName)) {
+      this.state = FakeData.get(this.displayName);
+    } else {
+      this.state = Immutable.Map();
+    }
   }
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      if (__DEV__) {
-        this.setState(appState.get(this.displayName).set('test.endpoint', Immutable.fromJS({
-          url: 'http://localhost:8080', name: 'Test Endpoint', username: 'foo', password: 'bar',
-        })));
-      } else {
-        this.setState(appState.get(this.displayName));
-      }
+      this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
         this.state.map(endpoint => NodesActions.fetchNodes.defer(endpoint));
       }, 1000);

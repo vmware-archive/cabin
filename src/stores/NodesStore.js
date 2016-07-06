@@ -18,6 +18,7 @@ import InitActions from 'actions/InitActions';
 import NodesActions from 'actions/NodesActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
+import FakeData from './FakeData';
 // import { AsyncStorage } from 'react-native';
 
 class NodesStore {
@@ -25,15 +26,19 @@ class NodesStore {
   constructor() {
     this.bindActions(InitActions);
     this.bindActions(NodesActions);
-    this.state = Immutable.fromJS({
-      nodes: {},
-      status: {},
-    });
+    if (__DEV__ && FakeData.get(this.displayName)) {
+      this.state = FakeData.get(this.displayName);
+    } else {
+      this.state = Immutable.fromJS({
+        nodes: {},
+        status: {},
+      });
+    }
   }
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      this.setState(appState.get(this.displayName));
+      this.setState(this.state.mergeDeep(appState.get(this.displayName)));
       return true;
     }
     return false;
@@ -44,7 +49,6 @@ class NodesStore {
   }
 
   onFetchNodesSuccess({endpoint, nodes}) {
-    console.log('fetch nodes');
     this.setState(
       this.state.setIn(['nodes', endpoint.get('url')], nodes)
       .setIn(['status', endpoint.get('url')], 'success')
@@ -52,7 +56,9 @@ class NodesStore {
   }
 
   onFetchNodesFailure(endpoint) {
-    this.setState(this.state.setIn(['status', endpoint.get('url')], 'failure'));
+    const nodes = alt.stores.NodesStore.getNodes(endpoint);
+    console.log(endpoint.get('url'), nodes.toJS(), this.state.toJS());
+    this.setState(this.state.setIn(['status', endpoint.get('url')], nodes.size === 0 ? 'failure' : 'success'));
   }
 
   static getStatus(endpoint) {
