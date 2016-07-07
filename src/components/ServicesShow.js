@@ -56,7 +56,6 @@ export default class ServicesShow extends Component {
 
   render() {
     const { service } = this.props;
-    console.log(service.toJS());
     const labels = service.getIn(['metadata', 'labels'], Immutable.List());
     let count = labels.size;
     const labelItems = labels.map((value, key) => {

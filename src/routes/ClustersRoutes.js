@@ -17,6 +17,8 @@ import ClustersIndex from 'components/Clusters/ClustersIndex';
 import ClustersNew from 'components/Clusters/ClustersNew';
 import ClusterShow from 'components/Clusters/ClustersShow';
 import ClustersNavbarTitle from 'components/Clusters/ClustersNavbarTitle';
+import Search from 'components/Search';
+import SearchBar from 'components/SearchBar';
 import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
 import NavigationActions from 'actions/NavigationActions';
@@ -62,11 +64,11 @@ const ClustersRoutes = {
           </AltContainer>
         );
       },
-      renderRightButton() {
+      renderRightButton(navigator) {
         return (
           <NavbarButton key="search" source={require('images/search.png')}
             onPress={() => {
-              // NavigationActions.pushRoute(ClustersRoutes.getClustersSearchRoute(cluster));
+              navigator.push(ClustersRoutes.getClustersSearchRoute(cluster));
             }}
           />
         );
@@ -122,6 +124,23 @@ const ClustersRoutes = {
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getClustersSearchRoute(cluster) {
+    return {
+      name: 'ClustersSearch',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      renderTitle() {
+        return <SearchBar/>;
+      },
+      renderScene(navigator) {
+        return <Search cluster={cluster} navigator={navigator} />;
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FadeAndroid;
       },
     };
   },
