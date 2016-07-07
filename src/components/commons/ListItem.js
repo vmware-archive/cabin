@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import SwipeOut from 'react-native-swipeout';
 
 const {
   Text,
@@ -92,21 +93,25 @@ export default class ListItem extends Component {
 
   render() {
     return (
-      <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
-        <View style={styles.left}>
-          {this.props.renderTitle ? this.props.renderTitle() :
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{this.props.title}</Text>
-              {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
-            </View>
-          }
-        </View>
-        <View style={styles.right}>
-          {this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>}
-          {this.props.showArrow && <View style={styles.arrow}/>}
-        </View>
-        {this.props.showSeparator && <View style={styles.separator}/>}
-      </TouchableOpacity>
+      <SwipeOut autoClose={true} right={this.props.onDelete && [
+        {text: 'Delete', backgroundColor: Colors.RED, onPress: this.props.onDelete},
+      ]}>
+        <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+          <View style={styles.left}>
+            {this.props.renderTitle ? this.props.renderTitle() :
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>{this.props.title}</Text>
+                {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+              </View>
+            }
+          </View>
+          <View style={styles.right}>
+            {this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>}
+            {this.props.showArrow && <View style={styles.arrow}/>}
+          </View>
+          {this.props.showSeparator && <View style={styles.separator}/>}
+        </TouchableOpacity>
+      </SwipeOut>
     );
   }
 

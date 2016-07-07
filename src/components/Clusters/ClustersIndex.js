@@ -24,7 +24,6 @@ import PodsActions from 'actions/PodsActions';
 const {
   View,
   StyleSheet,
-  Alert,
   InteractionManager,
 } = ReactNative;
 
@@ -78,7 +77,6 @@ export default class ClustersIndex extends Component {
       <ClustersItem
         cluster={cluster}
         onPress={() => this.onPressItem(cluster)}
-        onLongPress={() => this.onLongPressItem(cluster)}
       />
     );
   }
@@ -94,18 +92,5 @@ export default class ClustersIndex extends Component {
   onPressItem(cluster) {
     PodsActions.fetchPods(cluster);
     this.props.navigator.push(ClustersRoutes.getClusterShowRoute(cluster));
-  }
-
-  onLongPressItem(cluster) {
-    Alert.alert(
-      intl('cluster_remove_title'),
-      intl('cluster_remove_subtitle'),
-      [
-        {text: intl('cancel'), style: 'cancel', onPress: () => {}},
-        {text: intl('yes'), onPress: () => {
-          ClustersActions.removeCluster(cluster);
-        }},
-      ],
-    );
   }
 }

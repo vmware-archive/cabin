@@ -17,10 +17,15 @@ import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersUtils from 'utils/ClustersUtils';
+import SwipeOut from 'react-native-swipeout';
+import ClustersActions from 'actions/ClustersActions';
+import NavigationActions from 'actions/NavigationActions';
+import ClustersRoutes from 'routes/ClustersRoutes';
 
 const {
   View,
   Text,
+  Alert,
   TouchableOpacity,
   StyleSheet,
 } = ReactNative;
@@ -91,48 +96,71 @@ export default class ClusterItem extends Component {
 
   render() {
     const { cluster } = this.props;
+    const buttons = [
+      { text: intl('edit'), backgroundColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
+      { text: intl('delete'), backgroundColor: Colors.RED, onPress: this.handleDelete.bind(this)},
+    ];
     return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{cluster.get('name')}</Text>
-            <View style={styles.status}>
-              <Text style={styles.statusText}>{ClustersUtils.textForStatus(cluster.get('status'))}</Text>
-              <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(cluster.get('status'))}]} />
+      <SwipeOut right={buttons} backgroundColor="transparent" autoClose={true}>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+            <View style={styles.header}>
+              <Text style={styles.title}>{cluster.get('name')}</Text>
+              <View style={styles.status}>
+                <Text style={styles.statusText}>{ClustersUtils.textForStatus(cluster.get('status'))}</Text>
+                <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(cluster.get('status'))}]} />
+              </View>
             </View>
-          </View>
-          <View style={styles.stats}>
-            <AltContainer stores={{
-              value: () => {
-                return {
-                  store: alt.stores.PodsStore,
-                  value: alt.stores.PodsStore.getPods(cluster).size + ' Pods',
-                };
-              }}}>
-              <Counter value=".. Pods"/>
-            </AltContainer>
-            <AltContainer stores={{
-              value: () => {
-                return {
-                  store: alt.stores.ServicesStore,
-                  value: alt.stores.ServicesStore.getServices(cluster).size + ' Services',
-                };
-              }}}>
-              <Counter value=".. Services"/>
-            </AltContainer>
-            <AltContainer stores={{
-              value: () => {
-                return {
-                  store: alt.stores.ReplicationsStore,
-                  value: alt.stores.ReplicationsStore.getReplications(cluster).size + ' Replications',
-                };
-              }}}>
-              <Counter value=".. Replications"/>
-            </AltContainer>
-          </View>
-        </TouchableOpacity>
-      </View>
+            <View style={styles.stats}>
+              <AltContainer stores={{
+                value: () => {
+                  return {
+                    store: alt.stores.PodsStore,
+                    value: alt.stores.PodsStore.getPods(cluster).size + ' Pods',
+                  };
+                }}}>
+                <Counter value=".. Pods"/>
+              </AltContainer>
+              <AltContainer stores={{
+                value: () => {
+                  return {
+                    store: alt.stores.ServicesStore,
+                    value: alt.stores.ServicesStore.getServices(cluster).size + ' Services',
+                  };
+                }}}>
+                <Counter value=".. Services"/>
+              </AltContainer>
+              <AltContainer stores={{
+                value: () => {
+                  return {
+                    store: alt.stores.ReplicationsStore,
+                    value: alt.stores.ReplicationsStore.getReplications(cluster).size + ' Replications',
+                  };
+                }}}>
+                <Counter value=".. Replications"/>
+              </AltContainer>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </SwipeOut>
     );
+  }
+
+  handleDelete() {
+    Alert.alert(
+      intl('cluster_remove_title'),
+      intl('cluster_remove_subtitle'),
+      [
+        {text: intl('cancel'), style: 'cancel', onPress: () => {}},
+        {text: intl('yes'), onPress: () => {
+          ClustersActions.removeCluster(this.props.cluster);
+        }},
+      ],
+    );
+  }
+
+  handleEdit() {
+    NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute(this.props.cluster));
   }
 
 }

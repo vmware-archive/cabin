@@ -4,6 +4,7 @@
   "yes": "Oui",
   "no": "Non",
   "edit": "Modifier",
+  "delete": "Supprimer",
 
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",

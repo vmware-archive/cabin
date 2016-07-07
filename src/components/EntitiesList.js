@@ -79,6 +79,7 @@ export default class EntitiesList extends Component {
         showArrow={true}
         showSeparator={showSeparator}
         onPress={() => this.onPressItem(entitiy)}
+        onDelete={() => {}}
       />
     );
   }
