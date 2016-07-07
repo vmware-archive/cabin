@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EndpointsNavbarTitle extends Component {
+export default class ClustersNavbarTitle extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map).isRequired,
+    cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.dot}/>
-        <Text style={styles.text}>{this.props.endpoint.get('name')}</Text>
+        <Text style={styles.text}>{this.props.cluster.get('name')}</Text>
       </View>
     );
   }

@@ -16,6 +16,7 @@
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
+import ClustersUtils from 'utils/ClustersUtils';
 
 const {
   View,
@@ -82,39 +83,39 @@ class Counter extends Component {
   }
 }
 
-export default class EndpointItem extends Component {
+export default class ClusterItem extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map).isRequired,
+    cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   render() {
-    const { endpoint } = this.props;
+    const { cluster } = this.props;
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.header}>
-            <Text style={styles.title}>{endpoint.get('url')}</Text>
+            <Text style={styles.title}>{cluster.get('name')}</Text>
             <View style={styles.status}>
-              <Text style={styles.statusText}>Running</Text>
-              <View style={[styles.dot, {backgroundColor: Colors.GREEN}]} />
+              <Text style={styles.statusText}>{ClustersUtils.textForStatus(cluster.get('status'))}</Text>
+              <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(cluster.get('status'))}]} />
             </View>
           </View>
           <View style={styles.stats}>
             <AltContainer stores={{
               value: () => {
                 return {
-                  store: alt.stores.NodesStore,
-                  value: alt.stores.NodesStore.getNodes(endpoint).size + ' Nodes',
+                  store: alt.stores.PodsStore,
+                  value: alt.stores.PodsStore.getPods(cluster).size + ' Pods',
                 };
               }}}>
-              <Counter value=".. Nodes"/>
+              <Counter value=".. Pods"/>
             </AltContainer>
             <AltContainer stores={{
               value: () => {
                 return {
                   store: alt.stores.ServicesStore,
-                  value: alt.stores.ServicesStore.getServices(endpoint).size + ' Services',
+                  value: alt.stores.ServicesStore.getServices(cluster).size + ' Services',
                 };
               }}}>
               <Counter value=".. Services"/>
@@ -123,7 +124,7 @@ export default class EndpointItem extends Component {
               value: () => {
                 return {
                   store: alt.stores.ReplicationsStore,
-                  value: alt.stores.ReplicationsStore.getReplications(endpoint).size + ' Replications',
+                  value: alt.stores.ReplicationsStore.getReplications(cluster).size + ' Replications',
                 };
               }}}>
               <Counter value=".. Replications"/>

@@ -13,17 +13,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import BaseApi from './BaseApi';
+import PodsShow from 'components/PodsShow';
 
-class NodesApi {
+export default {
 
-  static fetchNodes(endpoint) {
-    const authentication = {username: endpoint.get('username'), password: endpoint.get('password')};
-    return BaseApi.get(`${endpoint.get('url')}/api/v1/nodes`, {}, authentication).then((response) => {
-      return response.get('items');
-    });
-  }
-
-}
-
-export default NodesApi;
+  getPodsShowRoute(pod) {
+    return {
+      name: 'PodsShow',
+      statusBarStyle: 'light-content',
+      getTitle: () => pod.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return <PodsShow pod={pod} navigator={navigator} />;
+      },
+    };
+  },
+};

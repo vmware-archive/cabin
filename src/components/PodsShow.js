@@ -48,15 +48,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class NodesShow extends Component {
+export default class PodsShow extends Component {
 
   static propTypes = {
-    node: PropTypes.instanceOf(Immutable.Map),
+    pod: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const { node } = this.props;
-    const labels = node.getIn(['metadata', 'labels'], Immutable.List());
+    const { pod } = this.props;
+    const labels = pod.getIn(['metadata', 'labels'], Immutable.List());
     let count = labels.size;
     const labelItems = labels.map((value, key) => {
       count--;
@@ -66,9 +66,9 @@ export default class NodesShow extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <View style={styles.section}>
-            <ListItem title={node.getIn(['metadata', 'name'])}/>
-            <ListItem title="Version" detailTitle={node.getIn(['metadata', 'resourceVersion'])}/>
-            <ListItem title="UID" subtitle={node.getIn(['metadata', 'uid'])} showSeparator={false}/>
+            <ListItem title={pod.getIn(['metadata', 'name'])}/>
+            <ListItem title="Version" detailTitle={pod.getIn(['metadata', 'resourceVersion'])}/>
+            <ListItem title="UID" subtitle={pod.getIn(['metadata', 'uid'])} showSeparator={false}/>
           </View>
 
           <Text style={styles.sectionTitle}>LABELS</Text>

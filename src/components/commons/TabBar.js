@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import EndpointsRoutes from 'routes/EndpointsRoutes';
+import ClustersRoutes from 'routes/ClustersRoutes';
 import SettingsRoutes from 'routes/SettingsRoutes';
 import Navigator from 'components/commons/Navigator';
 import Colors from 'styles/Colors';
@@ -51,8 +51,8 @@ export default class TabBar extends Component {
           onPress={() => this.setState({activeTab: 0})}>
             <Navigator
               sceneStyle={styles.sceneStyle}
-              navigatorEvent="endpoints:navigation"
-              initialRoute={EndpointsRoutes.getEndpointsIndexRoute()}
+              navigatorEvent="clusters:navigation"
+              initialRoute={ClustersRoutes.getClustersIndexRoute()}
             />
         </TabBarIOS.Item>
         <TabBarIOS.Item

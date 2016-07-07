@@ -46,7 +46,7 @@ export default class EntitiesList extends Component {
   static propTypes = {
     status: PropTypes.string,
     entities: PropTypes.instanceOf(Immutable.List).isRequired,
-    endpoint: PropTypes.instanceOf(Immutable.Map),
+    cluster: PropTypes.instanceOf(Immutable.Map),
     listHeader: PropTypes.string,
   }
 
@@ -70,14 +70,14 @@ export default class EntitiesList extends Component {
     );
   }
 
-  renderRow(node, rowID, index) {
+  renderRow(pod, rowID, index) {
     const showSeparator = index < this.props.entities.size - 1;
     return (
       <ListItem
-        title={node.getIn(['metadata', 'name'])}
+        title={pod.getIn(['metadata', 'name'])}
         showArrow={true}
         showSeparator={showSeparator}
-        onPress={() => this.onPressItem(node)}
+        onPress={() => this.onPressItem(pod)}
       />
     );
   }

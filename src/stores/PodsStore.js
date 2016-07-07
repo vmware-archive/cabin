@@ -15,22 +15,21 @@
 */
 import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
-import NodesActions from 'actions/NodesActions';
+import PodsActions from 'actions/PodsActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import FakeData from './FakeData';
-// import { AsyncStorage } from 'react-native';
 
-class NodesStore {
+class PodsStore {
 
   constructor() {
     this.bindActions(InitActions);
-    this.bindActions(NodesActions);
+    this.bindActions(PodsActions);
     if (__DEV__ && FakeData.get(this.displayName)) {
       this.state = FakeData.get(this.displayName);
     } else {
       this.state = Immutable.fromJS({
-        nodes: {},
+        pods: {},
         status: {},
       });
     }
@@ -44,30 +43,30 @@ class NodesStore {
     return false;
   }
 
-  onFetchNodesStart(endpoint) {
-    this.setState(this.state.setIn(['status', endpoint.get('url')], 'loading'));
+  onFetchPodsStart(cluster) {
+    this.setState(this.state.setIn(['status', cluster.get('url')], 'loading'));
   }
 
-  onFetchNodesSuccess({endpoint, nodes}) {
+  onFetchPodsSuccess({cluster, pods}) {
     this.setState(
-      this.state.setIn(['nodes', endpoint.get('url')], nodes)
-      .setIn(['status', endpoint.get('url')], 'success')
+      this.state.setIn(['pods', cluster.get('url')], pods)
+      .setIn(['status', cluster.get('url')], 'success')
     );
   }
 
-  onFetchNodesFailure(endpoint) {
-    const nodes = alt.stores.NodesStore.getNodes(endpoint);
-    this.setState(this.state.setIn(['status', endpoint.get('url')], nodes.size === 0 ? 'failure' : 'success'));
+  onFetchPodsFailure(cluster) {
+    const pods = alt.stores.PodsStore.getPods(cluster);
+    this.setState(this.state.setIn(['status', cluster.get('url')], pods.size === 0 ? 'failure' : 'success'));
   }
 
-  static getStatus(endpoint) {
-    return this.state.getIn(['status', endpoint.get('url')], 'success');
+  static getStatus(cluster) {
+    return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
-  static getNodes(endpoint) {
-    return this.state.getIn(['nodes', endpoint.get('url')], Immutable.List());
+  static getPods(cluster) {
+    return this.state.getIn(['pods', cluster.get('url')], Immutable.List());
   }
 
 }
 
-export default alt.createStore(immutableUtil(NodesStore), 'NodesStore');
+export default alt.createStore(immutableUtil(PodsStore), 'PodsStore');

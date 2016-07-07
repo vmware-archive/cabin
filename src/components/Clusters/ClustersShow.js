@@ -15,8 +15,8 @@
 */
 import { PropTypes } from 'react';
 import EntitiesList from 'components/EntitiesList';
-import NodesRoutes from 'routes/NodesRoutes';
-import NodesActions from 'actions/NodesActions';
+import PodsRoutes from 'routes/PodsRoutes';
+import PodsActions from 'actions/PodsActions';
 import ServicesActions from 'actions/ServicesActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
 import AltContainer from 'alt-container';
@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
   },
-  endpointStatus: {
+  clusterStatus: {
     width: 40, height: 40,
     backgroundColor: Colors.GREEN,
   },
 });
 
-export default class EndpointShow extends Component {
+export default class ClusterShow extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map).isRequired,
+    cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   constructor() {
@@ -63,7 +63,7 @@ export default class EndpointShow extends Component {
   }
 
   render() {
-    const { endpoint } = this.props;
+    const { cluster } = this.props;
     const controls = ['Pods', 'Services', 'Replications'];
     return (
       <View style={styles.flex}>
@@ -81,23 +81,23 @@ export default class EndpointShow extends Component {
         {this.state.activePage === 0 && <AltContainer stores={{
           entities: () => {
             return {
-              store: alt.stores.NodesStore,
-              value: alt.stores.NodesStore.getNodes(endpoint),
+              store: alt.stores.PodsStore,
+              value: alt.stores.PodsStore.getPods(cluster),
             };
           },
           status: () => {
             return {
-              store: alt.stores.NodesStore,
-              value: alt.stores.NodesStore.getStatus(endpoint),
+              store: alt.stores.PodsStore,
+              value: alt.stores.PodsStore.getStatus(cluster),
             };
           }}}>
           <EntitiesList
             navigator={this.props.navigator}
-            listHeader="Nodes"
-            status={alt.stores.NodesStore.getStatus(endpoint)}
-            entities={alt.stores.NodesStore.getNodes(endpoint)}
-            onPress={(node) => this.props.navigator.push(NodesRoutes.getNodesShowRoute(node))}
-            onRefresh={() => NodesActions.fetchNodes(endpoint)}
+            listHeader="Pods"
+            status={alt.stores.PodsStore.getStatus(cluster)}
+            entities={alt.stores.PodsStore.getPods(cluster)}
+            onPress={(pod) => this.props.navigator.push(PodsRoutes.getPodsShowRoute(pod))}
+            onRefresh={() => PodsActions.fetchPods(cluster)}
           />
         </AltContainer>}
 
@@ -105,21 +105,21 @@ export default class EndpointShow extends Component {
           entities: () => {
             return {
               store: alt.stores.ServicesStore,
-              value: alt.stores.ServicesStore.getServices(endpoint),
+              value: alt.stores.ServicesStore.getServices(cluster),
             };
           },
           status: () => {
             return {
               store: alt.stores.ServicesStore,
-              value: alt.stores.ServicesStore.getStatus(endpoint),
+              value: alt.stores.ServicesStore.getStatus(cluster),
             };
           }}}>
           <EntitiesList
             navigator={this.props.navigator}
             listHeader="Services"
-            status={alt.stores.ServicesStore.getStatus(endpoint)}
-            entities={alt.stores.ServicesStore.getServices(endpoint)}
-            onRefresh={() => ServicesActions.fetchServices(endpoint)}
+            status={alt.stores.ServicesStore.getStatus(cluster)}
+            entities={alt.stores.ServicesStore.getServices(cluster)}
+            onRefresh={() => ServicesActions.fetchServices(cluster)}
           />
         </AltContainer>}
 
@@ -127,21 +127,21 @@ export default class EndpointShow extends Component {
           entities: () => {
             return {
               store: alt.stores.ReplicationsStore,
-              value: alt.stores.ReplicationsStore.getReplications(endpoint),
+              value: alt.stores.ReplicationsStore.getReplications(cluster),
             };
           },
           status: () => {
             return {
               store: alt.stores.ReplicationsStore,
-              value: alt.stores.ReplicationsStore.getStatus(endpoint),
+              value: alt.stores.ReplicationsStore.getStatus(cluster),
             };
           }}}>
           <EntitiesList
             navigator={this.props.navigator}
             listHeader="Replication Controllers"
-            status={alt.stores.ReplicationsStore.getStatus(endpoint)}
-            entities={alt.stores.ReplicationsStore.getReplications(endpoint)}
-            onRefresh={() => ReplicationsActions.fetchReplications(endpoint)}
+            status={alt.stores.ReplicationsStore.getStatus(cluster)}
+            entities={alt.stores.ReplicationsStore.getReplications(cluster)}
+            onRefresh={() => ReplicationsActions.fetchReplications(cluster)}
           />
         </AltContainer>}
       </View>

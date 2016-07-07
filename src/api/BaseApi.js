@@ -15,6 +15,8 @@
 */
 import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
+import utf8 from 'utf8';
+import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager } from 'react-native';
 
 let REQUESTS_COUNT = 0;
@@ -43,7 +45,7 @@ class BaseApi {
       'Content-Type': 'application/json',
     };
     if (authentication) {
-      headers.Authorization = 'Basic ' + btoa(`${authentication.username}:${authentication.password}`);
+      headers.Authorization = 'Basic ' + base64.encode(utf8.encode(`${authentication.username}:${authentication.password}`));
     }
 
     if (dataUrl) {
@@ -92,7 +94,8 @@ class BaseApi {
     return this.apiFetch({method: 'post', url, body});
   }
 
-  static get(url, dataUrl, authentication) {
+  static get(url, dataUrl, cluster) {
+    const authentication = {username: cluster.get('username'), password: cluster.get('password')};
     return this.apiFetch({method: 'get', url, dataUrl, authentication});
   }
 

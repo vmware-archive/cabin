@@ -13,15 +13,30 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import BaseApi from './BaseApi';
+import Colors from 'styles/Colors';
 
-export default class ServicesApi {
+export default class ClustersUtils {
 
-  static fetchServices(endpoint) {
-    const authentication = {username: endpoint.get('username'), password: endpoint.get('password')};
-    return BaseApi.get(`${endpoint.get('url')}/api/v1/services`, {}, authentication).then((response) => {
-      return response.get('items');
-    });
+  static colorForStatus(status) {
+    switch (status) {
+      case Constants.Status.UP:
+        return Colors.GREEN;
+      case Constants.Status.DOWN:
+        return Colors.RED;
+      default:
+        return Colors.GRAY;
+    }
+  }
+
+  static textForStatus(status) {
+    switch (status) {
+      case Constants.Status.UP:
+        return intl('status_up');
+      case Constants.Status.DOWN:
+        return intl('status_down');
+      default:
+        return intl('status_checking');
+    }
   }
 
 }

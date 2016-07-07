@@ -14,17 +14,18 @@
   limitations under the License.
 */
 import CollectionView from 'components/commons/CollectionView';
-import EndpointsRoutes from 'routes/EndpointsRoutes';
+import ClustersRoutes from 'routes/ClustersRoutes';
 import Colors from 'styles/Colors';
-import EndpointItem from 'components/Endpoints/EndpointItem';
+import ClustersItem from 'components/Clusters/ClustersItem';
 import AltContainer from 'alt-container';
-import EndpointsActions from 'actions/EndpointsActions';
-import NodesActions from 'actions/NodesActions';
+import ClustersActions from 'actions/ClustersActions';
+import PodsActions from 'actions/PodsActions';
 
 const {
   View,
   StyleSheet,
   Alert,
+  InteractionManager,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -40,7 +41,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EndpointsIndex extends Component {
+export default class ClustersIndex extends Component {
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => this.checkClusters());
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.checkTimeout);
+  }
 
   render() {
     return (
@@ -48,15 +57,15 @@ export default class EndpointsIndex extends Component {
         <AltContainer stores={{
           list: () => {
             return {
-              store: alt.stores.EndpointsStore,
-              value: alt.stores.EndpointsStore.getEndpoints(),
+              store: alt.stores.ClustersStore,
+              value: alt.stores.ClustersStore.getClusters(),
             };
           }}}>
           <CollectionView style={styles.list}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
             contentContainerStyle={styles.listContent}
-            list={alt.stores.EndpointsStore.getEndpoints()}
+            list={alt.stores.ClustersStore.getClusters()}
             renderRow={this.renderRow.bind(this)}
           />
         </AltContainer>
@@ -64,29 +73,37 @@ export default class EndpointsIndex extends Component {
     );
   }
 
-  renderRow(endpoint) {
+  renderRow(cluster) {
     return (
-      <EndpointItem
-        endpoint={endpoint}
-        onPress={() => this.onPressItem(endpoint)}
-        onLongPress={() => this.onLongPressItem(endpoint)}
+      <ClustersItem
+        cluster={cluster}
+        onPress={() => this.onPressItem(cluster)}
+        onLongPress={() => this.onLongPressItem(cluster)}
       />
     );
   }
 
-  onPressItem(endpoint) {
-    NodesActions.fetchNodes(endpoint);
-    this.props.navigator.push(EndpointsRoutes.getEndpointShowRoute(endpoint));
+  checkClusters() {
+    ClustersActions.checkClusters().then(() => {
+      this.checkTimeout = setTimeout(() => {
+        this.checkClusters();
+      }, 10000);
+    });
   }
 
-  onLongPressItem(endpoint) {
+  onPressItem(cluster) {
+    PodsActions.fetchPods(cluster);
+    this.props.navigator.push(ClustersRoutes.getClusterShowRoute(cluster));
+  }
+
+  onLongPressItem(cluster) {
     Alert.alert(
-      intl('endpoint_remove_title'),
-      intl('endpoint_remove_subtitle'),
+      intl('cluster_remove_title'),
+      intl('cluster_remove_subtitle'),
       [
         {text: intl('cancel'), style: 'cancel', onPress: () => {}},
         {text: intl('yes'), onPress: () => {
-          EndpointsActions.removeEndpoint(endpoint);
+          ClustersActions.removeCluster(cluster);
         }},
       ],
     );

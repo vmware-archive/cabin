@@ -43,28 +43,28 @@ class ServicesStore {
     return false;
   }
 
-  onFetchServicesStart(endpoint) {
-    this.setState(this.state.setIn(['status', endpoint.get('url')], 'loading'));
+  onFetchServicesStart(cluster) {
+    this.setState(this.state.setIn(['status', cluster.get('url')], 'loading'));
   }
 
-  onFetchServicesSuccess({endpoint, services}) {
+  onFetchServicesSuccess({cluster, services}) {
     this.setState(
-      this.state.setIn(['services', endpoint.get('url')], services)
-      .setIn(['status', endpoint.get('url')], 'success')
+      this.state.setIn(['services', cluster.get('url')], services)
+      .setIn(['status', cluster.get('url')], 'success')
     );
   }
 
-  onFetchServicesFailure(endpoint) {
-    const services = alt.stores.ServicesStore.getServices(endpoint);
-    this.setState(this.state.setIn(['status', endpoint.get('url')], services.size === 0 ? 'failure' : 'success'));
+  onFetchServicesFailure(cluster) {
+    const services = alt.stores.ServicesStore.getServices(cluster);
+    this.setState(this.state.setIn(['status', cluster.get('url')], services.size === 0 ? 'failure' : 'success'));
   }
 
-  static getStatus(endpoint) {
-    return this.state.getIn(['status', endpoint.get('url')], 'success');
+  static getStatus(cluster) {
+    return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
-  static getServices(endpoint) {
-    return this.state.getIn(['services', endpoint.get('url')], Immutable.List());
+  static getServices(cluster) {
+    return this.state.getIn(['services', cluster.get('url')], Immutable.List());
   }
 
 }

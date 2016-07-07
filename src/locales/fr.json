@@ -5,6 +5,10 @@
   "no": "Non",
   "edit": "Modifier",
 
-  "endpoint_remove_title": "Supprimer endpoint",
-  "endpoint_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet endpoint ?",
+  "cluster_remove_title": "Supprimer cluster",
+  "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
+
+  "status_up": "Actif",
+  "status_down": "Éteint",
+  "status_checking": "Verification...",
 }

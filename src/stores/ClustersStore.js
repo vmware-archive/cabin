@@ -15,19 +15,17 @@
 */
 import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
-import EndpointsActions from 'actions/EndpointsActions';
-import NodesActions from 'actions/NodesActions';
-import ServicesActions from 'actions/ServicesActions';
+import ClustersActions from 'actions/ClustersActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import { AsyncStorage } from 'react-native';
 import FakeData from './FakeData';
 
-class EndpointsStore {
+class ClustersStore {
 
   constructor() {
     this.bindActions(InitActions);
-    this.bindActions(EndpointsActions);
+    this.bindActions(ClustersActions);
     if (__DEV__ && FakeData.get(this.displayName)) {
       this.state = FakeData.get(this.displayName);
     } else {
@@ -39,29 +37,44 @@ class EndpointsStore {
     if (appState.get(this.displayName)) {
       this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
-        this.state.map(endpoint => {
-          NodesActions.fetchNodes.defer(endpoint);
-          ServicesActions.fetchServices.defer(endpoint);
+        this.state.map(cluster => {
+          if (cluster.get('status') === Constants.Status.UP) {
+            ClustersActions.fetchClusterEntities(cluster);
+          }
         });
-      }, 1000);
+      }, 500);
       return true;
     }
     return false;
   }
 
-  onAddEndpoint({url, name, username, password}) {
-    const endpoint = Immutable.fromJS({url, username, password, name: name ? name : url});
-    this.setState(this.state.set(endpoint.get('url'), endpoint));
+  onCheckClusterStart(cluster) {
+    if (!this.state.getIn([cluster.get('url'), 'status'])) {
+      this.setState(this.state.setIn([cluster.get('url'), 'status'], Constants.Status.CHECKING));
+    }
+  }
+
+  onCheckClusterSuccess({cluster, up}) {
+    const previousStatus = this.state.getIn([cluster.get('url'), 'status']);
+    if (up && previousStatus !== Constants.Status.UP) {
+      ClustersActions.fetchClusterEntities(cluster);
+    }
+    this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.UP : Constants.Status.DOWN));
+  }
+
+  onAddCluster({url, name, username, password}) {
+    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url});
+    this.setState(this.state.set(cluster.get('url'), cluster));
     this.saveStore();
   }
 
-  onEditEndpoint({endpoint, params}) {
-    this.setState(this.state.mergeIn([endpoint.get('url')], params));
+  onEditCluster({cluster, params}) {
+    this.setState(this.state.mergeIn([cluster.get('url')], params));
     this.saveStore();
   }
 
-  onRemoveEndpoint(endpoint) {
-    this.setState(this.state.remove(endpoint.get('url')));
+  onRemoveCluster(cluster) {
+    this.setState(this.state.remove(cluster.get('url')));
     this.saveStore();
   }
 
@@ -73,9 +86,9 @@ class EndpointsStore {
     return this.state.get(url);
   }
 
-  static getEndpoints() {
+  static getClusters() {
     return this.state.toList();
   }
 }
 
-export default alt.createStore(immutableUtil(EndpointsStore), 'EndpointsStore');
+export default alt.createStore(immutableUtil(ClustersStore), 'ClustersStore');

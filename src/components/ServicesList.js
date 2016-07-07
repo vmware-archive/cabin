@@ -13,11 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import NodesRoutes from 'routes/NodesRoutes';
+import PodsRoutes from 'routes/PodsRoutes';
 import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-import NodesActions from 'actions/NodesActions';
+import PodsActions from 'actions/PodsActions';
 import ListHeader from 'components/commons/ListHeader';
 
 const {
@@ -48,7 +48,7 @@ export default class ServicesList extends Component {
   static propTypes = {
     status: PropTypes.string,
     services: PropTypes.instanceOf(Immutable.List).isRequired,
-    endpoint: PropTypes.instanceOf(Immutable.Map),
+    cluster: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
@@ -64,31 +64,31 @@ export default class ServicesList extends Component {
             list={services}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
-            renderHeader={() => <ListHeader title="Nodes" />}
+            renderHeader={() => <ListHeader title="Pods" />}
           />
         }
       </View>
     );
   }
 
-  renderRow(node, rowID, index) {
-    const showSeparator = index < this.props.nodes.size - 1;
+  renderRow(pod, rowID, index) {
+    const showSeparator = index < this.props.pods.size - 1;
     return (
       <ListItem
-        title={node.getIn(['metadata', 'name'])}
+        title={pod.getIn(['metadata', 'name'])}
         showArrow={true}
         showSeparator={showSeparator}
-        onPress={() => this.onPressItem(node)}
+        onPress={() => this.onPressItem(pod)}
       />
     );
   }
 
 
   refresh() {
-    this.props.endpoint && NodesActions.fetchNodes(this.props.endpoint);
+    this.props.cluster && PodsActions.fetchPods(this.props.cluster);
   }
 
-  onPressItem(node) {
-    this.props.navigator.push(NodesRoutes.getNodesShowRoute(node));
+  onPressItem(pod) {
+    this.props.navigator.push(PodsRoutes.getPodsShowRoute(pod));
   }
 }

@@ -13,8 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/EndpointsStore';
-import 'stores/NodesStore';
+import 'stores/ClustersStore';
+import 'stores/PodsStore';
 import 'stores/ServicesStore';
 import 'stores/ReplicationsStore';
 export default {};

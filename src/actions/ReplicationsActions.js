@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-import ReplicationsApi from 'api/ReplicationsApi';
+import ClustersApi from 'api/ClustersApi';
 
 class ReplicationsActions {
 
@@ -26,13 +26,13 @@ class ReplicationsActions {
     );
   }
 
-  fetchReplications(endpoint) {
-    this.fetchReplicationsStart(endpoint);
-    return ReplicationsApi.fetchReplications(endpoint).then(replications => {
-      this.fetchReplicationsSuccess({endpoint, replications});
+  fetchReplications(cluster) {
+    this.fetchReplicationsStart(cluster);
+    return ClustersApi.fetchReplications(cluster).then(replications => {
+      this.fetchReplicationsSuccess({cluster, replications});
     })
     .catch(() => {
-      this.fetchReplicationsFailure(endpoint);
+      this.fetchReplicationsFailure(cluster);
     });
   }
 }

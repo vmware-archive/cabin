@@ -15,7 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-import EndpointsActions from 'actions/EndpointsActions';
+import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import { PropTypes } from 'react';
 
@@ -43,17 +43,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EndpointsNew extends Component {
+export default class ClustersNew extends Component {
 
   static propTypes = {
-    endpoint: PropTypes.instanceOf(Immutable.Map), // if provided, it will edit endpoint instead of create new one
+    cluster: PropTypes.instanceOf(Immutable.Map), // if provided, it will edit cluster instead of create new one
   }
 
   constructor(props) {
     super(props);
-    const { endpoint } = props;
-    if (endpoint) {
-      this.state = endpoint.toJS();
+    const { cluster } = props;
+    if (cluster) {
+      this.state = cluster.toJS();
     } else {
       this.state = {
         url: '',
@@ -65,7 +65,7 @@ export default class EndpointsNew extends Component {
   }
 
   componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('EndpointsNew:submit', this.onSubmit.bind(this));
+    this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
   }
 
   componentWillUnmount() {
@@ -94,10 +94,10 @@ export default class EndpointsNew extends Component {
   }
 
   onSubmit() {
-    if (this.props.endpoint) {
-      EndpointsActions.editEndpoint({endpoint: this.props.endpoint, params: {...this.state}});
+    if (this.props.cluster) {
+      ClustersActions.editCluster({cluster: this.props.cluster, params: {...this.state}});
     } else {
-      EndpointsActions.addEndpoint({...this.state});
+      ClustersActions.addCluster({...this.state});
     }
     NavigationActions.popRoute();
   }

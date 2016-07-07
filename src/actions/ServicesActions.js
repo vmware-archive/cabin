@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-import ServicesApi from 'api/ServicesApi';
+import ClustersApi from 'api/ClustersApi';
 
 class ServicesActions {
 
@@ -26,13 +26,13 @@ class ServicesActions {
     );
   }
 
-  fetchServices(endpoint) {
-    this.fetchServicesStart(endpoint);
-    return ServicesApi.fetchServices(endpoint).then(services => {
-      this.fetchServicesSuccess({endpoint, services});
+  fetchServices(cluster) {
+    this.fetchServicesStart(cluster);
+    return ClustersApi.fetchServices(cluster).then(services => {
+      this.fetchServicesSuccess({cluster, services});
     })
     .catch(() => {
-      this.fetchServicesFailure(endpoint);
+      this.fetchServicesFailure(cluster);
     });
   }
 }

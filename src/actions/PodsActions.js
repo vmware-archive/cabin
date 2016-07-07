@@ -14,16 +14,27 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-class EndpointsActions {
+import ClustersApi from 'api/ClustersApi';
+
+class PodsActions {
 
   constructor() {
     this.generateActions(
-      'addEndpoint',
-      'editEndpoint',
-      'removeEndpoint',
+      'fetchPodsStart',
+      'fetchPodsSuccess',
+      'fetchPodsFailure',
     );
   }
 
+  fetchPods(cluster) {
+    this.fetchPodsStart(cluster);
+    return ClustersApi.fetchPods(cluster).then(pods => {
+      this.fetchPodsSuccess({cluster, pods});
+    })
+    .catch(() => {
+      this.fetchPodsFailure(cluster);
+    });
+  }
 }
 
-export default alt.createActions(EndpointsActions);
+export default alt.createActions(PodsActions);

@@ -28,7 +28,8 @@
     "__DEV__": true,
     "alt": true,
     "Immutable": true,
-    "_": true
+    "_": true,
+    "Constants": true,
   },
   "ecmaFeatures": {
     "arrowFunctions": true,

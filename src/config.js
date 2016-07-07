@@ -22,6 +22,7 @@ import Intl from 'intl';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import './Stores';
+import Constants from 'utils/Constants';
 
 const _window = global || window;
 
@@ -48,6 +49,7 @@ _window._           = _;
 _window.Immutable   = Immutable;
 _window.alt         = alt;
 _window.APP_CONFIG  = CONFIGS.dev;
+_window.Constants   = Constants;
 _window.intl        = (...args) => LocalesUtils.getLocalizedString(...args);
 _window.intlrd      = (...args) => LocalesUtils.getLocalizedRelativeDate(...args);
 _window.intld       = (...args) => LocalesUtils.getLocalizedDate(...args);

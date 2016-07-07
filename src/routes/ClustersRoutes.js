@@ -13,10 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import EndpointsIndex from 'components/Endpoints/EndpointsIndex';
-import EndpointsNew from 'components/Endpoints/EndpointsNew';
-import EndpointShow from 'components/Endpoints/EndpointShow';
-import EndpointsNavbarTitle from 'components/Endpoints/EndpointsNavbarTitle';
+import ClustersIndex from 'components/Clusters/ClustersIndex';
+import ClustersNew from 'components/Clusters/ClustersNew';
+import ClusterShow from 'components/Clusters/ClustersShow';
+import ClustersNavbarTitle from 'components/Clusters/ClustersNavbarTitle';
 import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
 import NavigationActions from 'actions/NavigationActions';
@@ -24,41 +24,41 @@ import AltContainer from 'alt-container';
 
 const { DeviceEventEmitter } = ReactNative;
 
-const EndpointsRoutes = {
-  getEndpointsIndexRoute() {
+const ClustersRoutes = {
+  getClustersIndexRoute() {
     return {
-      name: 'EndpointsIndex',
+      name: 'ClustersIndex',
       statusBarStyle: 'light-content',
       getTitle: () => 'Clusters',
       renderScene(navigator) {
-        return <EndpointsIndex navigator={navigator} />;
+        return <ClustersIndex navigator={navigator} />;
       },
       renderRightButton() {
         return (
           <NavbarButton source={require('images/add.png')}
-            onPress={() => NavigationActions.pushRoute(EndpointsRoutes.getEndpointsNewRoute())}
+            onPress={() => NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute())}
           />
         );
       },
     };
   },
 
-  getEndpointShowRoute(endpoint) {
+  getClusterShowRoute(cluster) {
     return {
-      name: 'EndpointShow',
+      name: 'ClusterShow',
       statusBarStyle: 'light-content',
-      getTitle: () => endpoint.get('name'),
+      getTitle: () => cluster.get('name'),
       getBackButtonTitle: () => '',
       renderTitle: () => {
         return (
           <AltContainer stores={{
-            endpoint: () => {
+            cluster: () => {
               return {
-                store: alt.stores.EndpointsStore,
-                value: alt.stores.EndpointsStore.get(endpoint.get('url')),
+                store: alt.stores.ClustersStore,
+                value: alt.stores.ClustersStore.get(cluster.get('url')),
               };
             }}}>
-            <EndpointsNavbarTitle endpoint={endpoint} />
+            <ClustersNavbarTitle cluster={cluster} />
           </AltContainer>
         );
       },
@@ -66,8 +66,8 @@ const EndpointsRoutes = {
         return (
           <NavbarButton title={intl('edit')}
             onPress={() => {
-              const updatedEndpoint = alt.stores.EndpointsStore.get(endpoint.get('url'));
-              NavigationActions.pushRoute(EndpointsRoutes.getEndpointsNewRoute(updatedEndpoint));
+              const updatedCluster = alt.stores.ClustersStore.get(cluster.get('url'));
+              NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute(updatedCluster));
             }}
           />
         );
@@ -75,15 +75,15 @@ const EndpointsRoutes = {
       renderScene(navigator) {
         return (
           <AltContainer stores={{
-            endpoint: () => {
+            cluster: () => {
               return {
-                store: alt.stores.EndpointsStore,
-                value: alt.stores.EndpointsStore.get(endpoint.get('url')),
+                store: alt.stores.ClustersStore,
+                value: alt.stores.ClustersStore.get(cluster.get('url')),
               };
             }}}>
-            <EndpointShow
+            <ClusterShow
               navigator={navigator}
-              endpoint={alt.stores.EndpointsStore.get(endpoint.get('url'))}
+              cluster={alt.stores.ClustersStore.get(cluster.get('url'))}
             />
           </AltContainer>
         );
@@ -91,17 +91,17 @@ const EndpointsRoutes = {
     };
   },
 
-  getEndpointsNewRoute(optionalEndpoint) {
+  getClustersNewRoute(optionalCluster) {
     return {
-      name: 'EndpointsNew',
+      name: 'ClustersNew',
       statusBarStyle: 'light-content',
       renderScene() {
         return (
           <Navigator
             initialRoute={{
-              getTitle: () => 'New Endpoint',
+              getTitle: () => 'New Cluster',
               renderScene(navigator) {
-                return <EndpointsNew endpoint={optionalEndpoint} navigator={navigator} />;
+                return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
               },
               renderLeftButton() {
                 return (
@@ -113,7 +113,7 @@ const EndpointsRoutes = {
               renderRightButton() {
                 return (
                   <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('EndpointsNew:submit')}
+                    onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
                   />
                 );
               },
@@ -128,4 +128,4 @@ const EndpointsRoutes = {
   },
 };
 
-export default EndpointsRoutes;
+export default ClustersRoutes;

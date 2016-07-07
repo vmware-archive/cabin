@@ -1,14 +1,14 @@
 import Immutable from 'immutable';
 export default Immutable.fromJS({
-  EndpointsStore: {
-    'test.co': { url: 'test.co', name: 'Test Endpoint', username: 'foo', password: 'bar' },
+  ClustersStore: {
+    'test': { url: 'test', name: 'Test Cluster', username: 'foo', password: 'bar', status: 'UP' },
   },
-  NodesStore: {
-    status: {'test.co': 'success'},
-    nodes: {
-      'test.co': [
+  PodsStore: {
+    status: {'test': 'success'},
+    pods: {
+      'test': [
         {metadata: {
-          name: 'Node A',
+          name: 'Pod A',
           resourceVersion: 99,
           uid: '123456789',
           labels: {
@@ -20,9 +20,9 @@ export default Immutable.fromJS({
     },
   },
   ServicesStore: {
-    status: {'test.co': 'success'},
+    status: {'test': 'success'},
     services: {
-      'test.co': [
+      'test': [
         {metadata: { name: 'Service A' }},
         {metadata: { name: 'Service B' }},
         {metadata: { name: 'Service C' }},
@@ -30,9 +30,9 @@ export default Immutable.fromJS({
     },
   },
   ReplicationsStore: {
-    status: {'test.co': 'success'},
+    status: {'test': 'success'},
     replications: {
-      'test.co': [
+      'test': [
         {metadata: { name: 'Replication Controller A' }},
         {metadata: { name: 'Replication Controller B' }},
       ],
