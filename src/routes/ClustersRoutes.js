@@ -64,10 +64,9 @@ const ClustersRoutes = {
       },
       renderRightButton() {
         return (
-          <NavbarButton title={intl('edit')}
+          <NavbarButton key="search" source={require('images/search.png')}
             onPress={() => {
-              const updatedCluster = alt.stores.ClustersStore.get(cluster.get('url'));
-              NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute(updatedCluster));
+              // NavigationActions.pushRoute(ClustersRoutes.getClustersSearchRoute(cluster));
             }}
           />
         );

@@ -51,14 +51,23 @@
                         <constraint firstAttribute="height" constant="49" id="xmv-83-RuZ"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="pmS-3g-MAv">
+                    <rect key="frame" x="180" y="90" width="120" height="300"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="A4K-Og-k5i"/>
+                        <constraint firstAttribute="height" constant="300" id="IBp-Sd-JBF"/>
+                    </constraints>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.97254901960784312" green="0.98431372549019602" blue="0.9882352941176471" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="pmS-3g-MAv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="9ne-Ne-uf5"/>
                 <constraint firstAttribute="trailing" secondItem="hya-Ft-5MA" secondAttribute="trailing" id="AVZ-A6-jiw"/>
                 <constraint firstItem="iM7-xT-b1R" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="D0O-jM-Khu"/>
                 <constraint firstAttribute="bottom" secondItem="hya-Ft-5MA" secondAttribute="bottom" id="GYB-fJ-m7B"/>
                 <constraint firstItem="iM7-xT-b1R" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JFX-ey-Rkx"/>
                 <constraint firstAttribute="trailing" secondItem="iM7-xT-b1R" secondAttribute="trailing" id="Pcp-fK-vcN"/>
+                <constraint firstItem="pmS-3g-MAv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="VEI-f6-Hds"/>
                 <constraint firstItem="hya-Ft-5MA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uCn-O5-7iA"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -66,4 +75,7 @@
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
+    <resources>
+        <image name="logo" width="280" height="67"/>
+    </resources>
 </document>
