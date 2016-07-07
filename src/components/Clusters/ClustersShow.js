@@ -15,7 +15,7 @@
 */
 import { PropTypes } from 'react';
 import EntitiesList from 'components/EntitiesList';
-import PodsRoutes from 'routes/PodsRoutes';
+import EntitiesRoutes from 'routes/EntitiesRoutes';
 import PodsActions from 'actions/PodsActions';
 import ServicesActions from 'actions/ServicesActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
@@ -96,7 +96,7 @@ export default class ClusterShow extends Component {
             listHeader="Pods"
             status={alt.stores.PodsStore.getStatus(cluster)}
             entities={alt.stores.PodsStore.getPods(cluster)}
-            onPress={(pod) => this.props.navigator.push(PodsRoutes.getPodsShowRoute(pod))}
+            onPress={(pod) => this.props.navigator.push(EntitiesRoutes.getPodsShowRoute(pod))}
             onRefresh={() => PodsActions.fetchPods(cluster)}
           />
         </AltContainer>}
@@ -119,6 +119,7 @@ export default class ClusterShow extends Component {
             listHeader="Services"
             status={alt.stores.ServicesStore.getStatus(cluster)}
             entities={alt.stores.ServicesStore.getServices(cluster)}
+            onPress={(service) => this.props.navigator.push(EntitiesRoutes.getServicesShowRoute(service))}
             onRefresh={() => ServicesActions.fetchServices(cluster)}
           />
         </AltContainer>}

@@ -48,17 +48,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class PodsShow extends Component {
+export default class ServicesShow extends Component {
 
   static propTypes = {
-    pod: PropTypes.instanceOf(Immutable.Map),
+    service: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const { pod } = this.props;
-    console.log(pod.toJS());
-
-    const labels = pod.getIn(['metadata', 'labels'], Immutable.List());
+    const { service } = this.props;
+    console.log(service.toJS());
+    const labels = service.getIn(['metadata', 'labels'], Immutable.List());
     let count = labels.size;
     const labelItems = labels.map((value, key) => {
       count--;
@@ -68,10 +67,9 @@ export default class PodsShow extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <View style={styles.section}>
-            <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
-            <ListItem title="Status" detailTitle={pod.getIn(['status', 'phase'])}/>
-            <ListItem title="Version" detailTitle={pod.getIn(['metadata', 'resourceVersion'])}/>
-            <ListItem title="UID" subtitle={pod.getIn(['metadata', 'uid'])} showSeparator={false}/>
+            <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
+            <ListItem title="Version" detailTitle={service.getIn(['metadata', 'resourceVersion'])}/>
+            <ListItem title="UID" subtitle={service.getIn(['metadata', 'uid'])} showSeparator={false}/>
           </View>
 
           <Text style={styles.sectionTitle}>LABELS</Text>

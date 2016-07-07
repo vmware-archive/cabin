@@ -21,7 +21,7 @@ const Colors = {
   BLACK: '#000000',
   GRAY: '#929292',
   RED: '#FF475E',
-  GREEN: '#1EDC68',
+  GREEN: '#76BC54',
   ORANGE: '#F68B38',
   YELLOW: '#FFD600',
   PURPLE: '#6236FF',

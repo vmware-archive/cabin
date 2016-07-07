@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import PodsShow from 'components/PodsShow';
+import ServicesShow from 'components/ServicesShow';
 
 export default {
 
@@ -24,6 +25,17 @@ export default {
       getTitle: () => pod.getIn(['metadata', 'name']),
       renderScene(navigator) {
         return <PodsShow pod={pod} navigator={navigator} />;
+      },
+    };
+  },
+
+  getServicesShowRoute(service) {
+    return {
+      name: 'ServicesShow',
+      statusBarStyle: 'light-content',
+      getTitle: () => service.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return <ServicesShow service={service} navigator={navigator} />;
       },
     };
   },

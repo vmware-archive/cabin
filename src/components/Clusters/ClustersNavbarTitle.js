@@ -15,6 +15,7 @@
 */
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
+import ClustersUtils from 'utils/ClustersUtils';
 
 const {
   View,
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
   },
   dot: {
     width: 10, height: 10,
-    backgroundColor: '#39BF57',
     borderRadius: 5,
     marginRight: 6,
   },
@@ -51,7 +51,7 @@ export default class ClustersNavbarTitle extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.dot}/>
+        <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(this.props.cluster.get('status'))}]}/>
         <Text style={styles.text}>{this.props.cluster.get('name')}</Text>
       </View>
     );
