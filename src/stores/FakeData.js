@@ -23,7 +23,7 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     services: {
       'test': [
-        {metadata: { name: 'Service A' }},
+        {metadata: { name: 'Service A', labels: {label: 'value'} }},
         {metadata: { name: 'Service B' }},
         {metadata: { name: 'Service C' }},
       ],

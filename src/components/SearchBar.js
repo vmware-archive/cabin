@@ -22,6 +22,7 @@ const {
   StyleSheet,
   Dimensions,
   InteractionManager,
+  DeviceEventEmitter,
 } = ReactNative;
 
 
@@ -68,6 +69,9 @@ export default class SearchBar extends Component {
           numberOfLines={1}
           placeholderTextColor={'rgba(255, 255, 255, 0.4)'}
           returnKeyType="search"
+          onChangeText={(text) => {
+            DeviceEventEmitter.emit('search:change', {text});
+          }}
         />
       </View>
     );

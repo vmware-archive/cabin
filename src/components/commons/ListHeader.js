@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingHorizontal: 16,
     height: 24,
+    marginTop: 10,
   },
   title: {
     color: Colors.GRAY,

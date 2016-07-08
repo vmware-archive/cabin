@@ -97,8 +97,8 @@ export default class ClusterItem extends Component {
   render() {
     const { cluster } = this.props;
     const buttons = [
-      { text: intl('edit'), backgroundColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
-      { text: intl('delete'), backgroundColor: Colors.RED, onPress: this.handleDelete.bind(this)},
+      { text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
+      { text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)},
     ];
     return (
       <SwipeOut right={buttons} backgroundColor="transparent" autoClose={true}>

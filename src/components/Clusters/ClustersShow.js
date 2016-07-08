@@ -142,6 +142,7 @@ export default class ClusterShow extends Component {
             listHeader="Replication Controllers"
             status={alt.stores.ReplicationsStore.getStatus(cluster)}
             entities={alt.stores.ReplicationsStore.getReplications(cluster)}
+            onPress={(service) => this.props.navigator.push(EntitiesRoutes.getReplicationsShowRoute(service))}
             onRefresh={() => ReplicationsActions.fetchReplications(cluster)}
           />
         </AltContainer>}

@@ -94,7 +94,7 @@ export default class ListItem extends Component {
   render() {
     return (
       <SwipeOut autoClose={true} right={this.props.onDelete && [
-        {text: 'Delete', backgroundColor: Colors.RED, onPress: this.props.onDelete},
+        {text: 'Delete', backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.props.onDelete},
       ]}>
         <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>

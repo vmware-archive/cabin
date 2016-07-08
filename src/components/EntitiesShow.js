@@ -48,17 +48,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class PodsShow extends Component {
+export default class EntitiesShow extends Component {
 
   static propTypes = {
-    pod: PropTypes.instanceOf(Immutable.Map),
+    entity: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const { pod } = this.props;
-    console.log(pod.toJS());
+    const { entity } = this.props;
 
-    const labels = pod.getIn(['metadata', 'labels'], Immutable.List());
+    const labels = entity.getIn(['metadata', 'labels'], Immutable.List());
     let count = labels.size;
     const labelItems = labels.map((value, key) => {
       count--;
@@ -68,16 +67,19 @@ export default class PodsShow extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <View style={styles.section}>
-            <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
-            <ListItem title="Status" detailTitle={pod.getIn(['status', 'phase'])}/>
-            <ListItem title="Version" detailTitle={pod.getIn(['metadata', 'resourceVersion'])}/>
-            <ListItem title="UID" subtitle={pod.getIn(['metadata', 'uid'])} showSeparator={false}/>
+            <ListItem title="Name" detailTitle={entity.getIn(['metadata', 'name'])}/>
+            {entity.getIn(['status', 'phase']) && <ListItem title="Status" detailTitle={entity.getIn(['status', 'phase'])}/>}
+            <ListItem title="Version" detailTitle={entity.getIn(['metadata', 'resourceVersion'])}/>
+            <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} showSeparator={false}/>
           </View>
-
-          <Text style={styles.sectionTitle}>LABELS</Text>
-          <View style={styles.section}>
-            {labelItems}
-          </View>
+          {labels.size > 0 && (
+            <View>
+              <Text style={styles.sectionTitle}>LABELS</Text>
+              <View style={styles.section}>
+                {labelItems}
+              </View>
+            </View>
+          )}
         </ScrollView>
       </View>
     );

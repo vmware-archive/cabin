@@ -137,7 +137,9 @@ const ClustersRoutes = {
         return <SearchBar/>;
       },
       renderScene(navigator) {
-        return <Search cluster={cluster} navigator={navigator} />;
+        return (
+          <Search cluster={cluster} navigator={navigator} />
+        );
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FadeAndroid;

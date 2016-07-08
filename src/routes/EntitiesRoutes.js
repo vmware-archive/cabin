@@ -13,18 +13,30 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import PodsShow from 'components/PodsShow';
-import ServicesShow from 'components/ServicesShow';
+import EntitiesShow from 'components/EntitiesShow';
 
 export default {
+
+  getEntitiesShowRoute(entity) {
+    return {
+      name: 'EntitiesShow',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => entity.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return <EntitiesShow entity={entity} navigator={navigator} />;
+      },
+    };
+  },
 
   getPodsShowRoute(pod) {
     return {
       name: 'PodsShow',
       statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
       getTitle: () => pod.getIn(['metadata', 'name']),
       renderScene(navigator) {
-        return <PodsShow pod={pod} navigator={navigator} />;
+        return <EntitiesShow entity={pod} navigator={navigator} />;
       },
     };
   },
@@ -33,9 +45,22 @@ export default {
     return {
       name: 'ServicesShow',
       statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
       getTitle: () => service.getIn(['metadata', 'name']),
       renderScene(navigator) {
-        return <ServicesShow service={service} navigator={navigator} />;
+        return <EntitiesShow entity={service} navigator={navigator} />;
+      },
+    };
+  },
+
+  getReplicationsShowRoute(replication) {
+    return {
+      name: 'ReplicationsShow',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => replication.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return <EntitiesShow entity={replication} navigator={navigator} />;
       },
     };
   },
