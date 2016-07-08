@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: Colors.BORDER,
     borderTopWidth: 1,
-    borderBottomWidth: 1,
   },
   sectionTitle: {
     paddingHorizontal: 15,
@@ -54,7 +53,7 @@ export default class Settings extends Component {
         <ScrollView style={styles.list}>
           <View style={styles.section}>
             <ListItem title="Hello there"/>
-            <ListItem title="Skippbox" detailTitle="v0.1.0" showSeparator={false}/>
+            <ListItem title="Skippbox" detailTitle="v0.1.0" isLast={true}/>
           </View>
           <Text style={styles.sectionTitle}>👋</Text>
         </ScrollView>

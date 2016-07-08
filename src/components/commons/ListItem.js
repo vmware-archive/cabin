@@ -85,7 +85,7 @@ export default class ListItem extends Component {
     title: PropTypes.string,
     subtitle: PropTypes.string,
     detailTitle: PropTypes.string,
-    lastItem: PropTypes.bool,
+    isLast: PropTypes.bool,
     showArrow: PropTypes.bool,
     renderTitle: PropTypes.func,
     renderDetail: PropTypes.func,
@@ -105,7 +105,7 @@ export default class ListItem extends Component {
             {this.renderDetail()}
             {this.props.showArrow && <View style={styles.arrow}/>}
           </View>
-          <View style={[styles.separator, this.props.lastItem && {left: 0}]}/>
+          <View style={[styles.separator, this.props.isLast && {left: 0}]}/>
         </TouchableOpacity>
       </SwipeOut>
     );

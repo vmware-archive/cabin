@@ -36,8 +36,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     marginTop: 20,
-    borderColor: Colors.BORDER,
-    borderBottomWidth: 1,
   },
 });
 
@@ -71,13 +69,13 @@ export default class EntitiesList extends Component {
   }
 
   renderRow(entity, rowID, index) {
-    const lastItem = index < this.props.entities.size - 1;
+    const isLast = index >= this.props.entities.size - 1;
     return (
       <ListItem
         title={entity.getIn(['metadata', 'name'])}
         entity={entity}
         showArrow={true}
-        lastItem={lastItem}
+        isLast={isLast}
         onPress={() => this.onPressItem(entity)}
         onDelete={() => this.props.onDelete(entity)}
       />

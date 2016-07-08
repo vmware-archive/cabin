@@ -70,7 +70,7 @@ export default class EntitiesShow extends Component {
             <ListItem title="Name" detailTitle={entity.getIn(['metadata', 'name'])}/>
             {entity.getIn(['status', 'phase']) && <ListItem title="Status" detailTitle={entity.getIn(['status', 'phase'])}/>}
             <ListItem title="Version" detailTitle={entity.getIn(['metadata', 'resourceVersion'])}/>
-            <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} lastItem={true}/>
+            <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} isLast={true}/>
           </View>
           {labels.size > 0 && (
             <View>

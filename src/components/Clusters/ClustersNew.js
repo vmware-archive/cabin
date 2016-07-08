@@ -86,7 +86,7 @@ export default class ClustersNew extends Component {
           }}/>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
-          }} lastItem={true}/>
+          }} isLast={true}/>
         </ScrollView>
       </View>
     );

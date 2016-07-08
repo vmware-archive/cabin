@@ -76,7 +76,7 @@ export default class Search extends Component {
 
   render() {
     const result = SearchEntitiesStore.getResult({cluster: this.props.cluster, query: this.query});
-    const renderItems = (e, i) => this.renderItem(e, i);
+    const renderItems = (e, i, list) => this.renderItem(e, i, list);
     const services = result.get('services', Immutable.List()).map(renderItems);
     const pods = result.get('pods', Immutable.List()).map(renderItems);
     const replications = result.get('replications', Immutable.List()).map(renderItems);
@@ -98,13 +98,15 @@ export default class Search extends Component {
     );
   }
 
-  renderItem(entity, key) {
+  renderItem(entity, index, list) {
+    const isLast = index >= list.size - 1;
     return (
       <ListItem
-        key={key}
+        key={index}
         entity={entity}
         title={entity.getIn(['metadata', 'name'])}
         showArrow={true}
+        isLast={isLast}
         onPress={() => this.handlePress(entity)}
       />
     );
