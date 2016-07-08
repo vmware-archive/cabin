@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginTop: 6,
     paddingHorizontal: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'center',
@@ -69,6 +69,7 @@ export default class SearchBar extends Component {
           numberOfLines={1}
           placeholderTextColor={'rgba(255, 255, 255, 0.4)'}
           returnKeyType="search"
+          clearButtonMode="while-editing"
           onChangeText={(text) => {
             DeviceEventEmitter.emit('search:change', {text});
           }}

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
-    padding: 8,
+    padding: 12,
     alignItems: 'center',
   },
   title: {

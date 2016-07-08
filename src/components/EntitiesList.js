@@ -70,15 +70,16 @@ export default class EntitiesList extends Component {
     );
   }
 
-  renderRow(entitiy, rowID, index) {
+  renderRow(entity, rowID, index) {
     const showSeparator = index < this.props.entities.size - 1;
     return (
       <ListItem
-        title={entitiy.getIn(['metadata', 'name'])}
-        detailTitle={entitiy.getIn(['status', 'phase'])}
+        title={entity.getIn(['metadata', 'name'])}
+        detailTitle={entity.getIn(['status', 'phase'])}
+        entity={entity}
         showArrow={true}
         showSeparator={showSeparator}
-        onPress={() => this.onPressItem(entitiy)}
+        onPress={() => this.onPressItem(entity)}
         onDelete={() => {}}
       />
     );

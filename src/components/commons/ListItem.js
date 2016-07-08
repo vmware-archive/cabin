@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import SwipeOut from 'react-native-swipeout';
+import EntityIcon from 'components/commons/EntityIcon';
 
 const {
   Text,
@@ -85,6 +86,7 @@ export default class ListItem extends Component {
     showSeparator: PropTypes.bool,
     showArrow: PropTypes.bool,
     renderTitle: PropTypes.func,
+    entity: PropTypes.instanceOf(Immutable.Map), // optional
   }
 
   static defaultProps = {
@@ -98,12 +100,7 @@ export default class ListItem extends Component {
       ]}>
         <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>
-            {this.props.renderTitle ? this.props.renderTitle() :
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>{this.props.title}</Text>
-                {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
-              </View>
-            }
+            {this.renderTitle()}
           </View>
           <View style={styles.right}>
             {this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>}
@@ -112,6 +109,24 @@ export default class ListItem extends Component {
           {this.props.showSeparator && <View style={styles.separator}/>}
         </TouchableOpacity>
       </SwipeOut>
+    );
+  }
+
+  renderTitle() {
+    if (this.props.renderTitle) { return this.props.renderTitle(); }
+    if (this.props.entity) {
+      return (
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+          <EntityIcon type={this.props.entity.get('type')} />
+          <Text style={{marginLeft: 10, fontSize: 16}}>{this.props.entity.getIn(['metadata', 'name'])}</Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{this.props.title}</Text>
+        {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+      </View>
     );
   }
 

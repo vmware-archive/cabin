@@ -7,7 +7,7 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     pods: {
       'test': [
-        {metadata: {
+        {type: 'pods', metadata: {
           name: 'Pod A',
           resourceVersion: 99,
           uid: '123456789',
@@ -23,9 +23,9 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     services: {
       'test': [
-        {metadata: { name: 'Service A', labels: {label: 'value'} }},
-        {metadata: { name: 'Service B' }},
-        {metadata: { name: 'Service C' }},
+        {type: 'services', metadata: { name: 'Service A', labels: {label: 'value'} }},
+        {type: 'services', metadata: { name: 'Service B' }},
+        {type: 'services', metadata: { name: 'Service C' }},
       ],
     },
   },
@@ -33,8 +33,8 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     replications: {
       'test': [
-        {metadata: { name: 'Replication Controller A' }},
-        {metadata: { name: 'Replication Controller B' }},
+        {type: 'replications', metadata: { name: 'Replication Controller A' }},
+        {type: 'replications', metadata: { name: 'Replication Controller B' }},
       ],
     },
   },

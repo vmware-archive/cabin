@@ -49,7 +49,7 @@ class PodsStore {
 
   onFetchPodsSuccess({cluster, pods}) {
     this.setState(
-      this.state.setIn(['pods', cluster.get('url')], pods)
+      this.state.setIn(['pods', cluster.get('url')], pods.map(e => e.set('type', 'pods')))
       .setIn(['status', cluster.get('url')], 'success')
     );
   }

@@ -21,10 +21,10 @@ const Colors = {
   BLACK: '#000000',
   GRAY: '#929292',
   RED: '#FF475E',
-  GREEN: '#76BC54',
-  ORANGE: '#F68B38',
+  GREEN: '#27AE60',
+  ORANGE: '#E67E22',
   YELLOW: '#FFD600',
-  PURPLE: '#6236FF',
+  PURPLE: '#8E44AD',
   BLUE: '#428ABF',
   DARK_BLUE: '#003253',
 };

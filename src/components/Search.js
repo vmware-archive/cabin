@@ -82,7 +82,11 @@ export default class Search extends Component {
     const replications = result.get('replications', Immutable.List()).map(renderItems);
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          keyboardDismissMode={'interactive'}
+          keyboardShouldPersistTaps={true}>
           {pods.size > 0 && <ListHeader title="Pods"/>}
           {pods}
           {services.size > 0 && <ListHeader title="Services"/>}
@@ -94,13 +98,14 @@ export default class Search extends Component {
     );
   }
 
-  renderItem(entitiy, key) {
+  renderItem(entity, key) {
     return (
       <ListItem
         key={key}
-        title={entitiy.getIn(['metadata', 'name'])}
+        entity={entity}
+        title={entity.getIn(['metadata', 'name'])}
         showArrow={true}
-        onPress={() => this.handlePress(entitiy)}
+        onPress={() => this.handlePress(entity)}
       />
     );
   }

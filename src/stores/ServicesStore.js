@@ -49,7 +49,7 @@ class ServicesStore {
 
   onFetchServicesSuccess({cluster, services}) {
     this.setState(
-      this.state.setIn(['services', cluster.get('url')], services)
+      this.state.setIn(['services', cluster.get('url')], services.map(e => e.set('type', 'services')))
       .setIn(['status', cluster.get('url')], 'success')
     );
   }
