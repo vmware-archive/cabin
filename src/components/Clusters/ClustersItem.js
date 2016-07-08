@@ -13,15 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { PropTypes } from 'react';
+import SwipeOut from 'react-native-swipeout';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
-import ClustersUtils from 'utils/ClustersUtils';
-import SwipeOut from 'react-native-swipeout';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
+import StatusView from 'components/commons/StatusView';
 
+const { PropTypes } = React;
 const {
   View,
   Text,
@@ -56,19 +56,6 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     fontSize: 17,
-  },
-  status: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statusText: {
-    fontSize: 14,
-    color: Colors.GRAY,
-  },
-  dot: {
-    width: 10, height: 10,
-    borderRadius: 5,
-    marginLeft: 6,
   },
   stats: {
     height: 50,
@@ -106,10 +93,7 @@ export default class ClusterItem extends Component {
           <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
             <View style={styles.header}>
               <Text style={styles.title}>{cluster.get('name')}</Text>
-              <View style={styles.status}>
-                <Text style={styles.statusText}>{ClustersUtils.textForStatus(cluster.get('status'))}</Text>
-                <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(cluster.get('status'))}]} />
-              </View>
+              <StatusView status={cluster.get('status')} />
             </View>
             <View style={styles.stats}>
               <AltContainer stores={{

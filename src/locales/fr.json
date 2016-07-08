@@ -11,5 +11,6 @@
 
   "status_up": "Actif",
   "status_down": "Éteint",
-  "status_checking": "Verification...",
+  "status_checking": "Verification..",
+  "status_pending": "En attente..",
 }

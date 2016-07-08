@@ -1,5 +1,5 @@
 export default {
   Status: {
-    UP: 'UP', CHECKING: 'CHECKING', DOWN: 'DOWN',
+    RUNNING: 'RUNNING', CHECKING: 'CHECKING', PENDING: 'PENDING', DOWN: 'DOWN',
   },
 };

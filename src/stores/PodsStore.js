@@ -59,6 +59,12 @@ class PodsStore {
     this.setState(this.state.setIn(['status', cluster.get('url')], pods.size === 0 ? 'failure' : 'success'));
   }
 
+  onDeletePodStart({cluster, pod}) {
+    this.setState(this.state.updateIn(['pods', cluster.get('url')], pods => {
+      return pods.filter(p => p.getIn(['metadata', 'name']) !== pod.getIn(['metadata', 'name']));
+    }));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }

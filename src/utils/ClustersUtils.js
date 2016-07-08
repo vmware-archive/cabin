@@ -14,14 +14,15 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+const { Status } = Constants;
 
 export default class ClustersUtils {
 
   static colorForStatus(status) {
     switch (status) {
-      case Constants.Status.UP:
+      case Status.RUNNING:
         return Colors.GREEN;
-      case Constants.Status.DOWN:
+      case Status.DOWN:
         return Colors.RED;
       default:
         return Colors.GRAY;
@@ -30,10 +31,12 @@ export default class ClustersUtils {
 
   static textForStatus(status) {
     switch (status) {
-      case Constants.Status.UP:
+      case Status.RUNNING || 'Running':
         return intl('status_up');
-      case Constants.Status.DOWN:
+      case Status.DOWN:
         return intl('status_down');
+      case Status.PENDING:
+        return intl('status_pending');
       default:
         return intl('status_checking');
     }

@@ -38,7 +38,7 @@ class ClustersStore {
       this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
         this.state.map(cluster => {
-          if (cluster.get('status') === Constants.Status.UP) {
+          if (cluster.get('status') === Constants.Status.RUNNING) {
             ClustersActions.fetchClusterEntities(cluster);
           }
         });
@@ -56,10 +56,10 @@ class ClustersStore {
 
   onCheckClusterSuccess({cluster, up}) {
     const previousStatus = this.state.getIn([cluster.get('url'), 'status']);
-    if (up && previousStatus !== Constants.Status.UP) {
+    if (up && previousStatus !== Constants.Status.RUNNING) {
       ClustersActions.fetchClusterEntities(cluster);
     }
-    this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.UP : Constants.Status.DOWN));
+    this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.RUNNING : Constants.Status.DOWN));
   }
 
   onAddCluster({url, name, username, password}) {

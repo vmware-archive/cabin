@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     borderColor: Colors.BORDER,
     borderTopWidth: 1,
-    borderBottomWidth: 1,
   },
 });
 
@@ -87,7 +86,7 @@ export default class ClustersNew extends Component {
           }}/>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
-          }} showSeparator={false}/>
+          }} lastItem={true}/>
         </ScrollView>
       </View>
     );

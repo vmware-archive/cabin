@@ -16,6 +16,7 @@
 import Colors from 'styles/Colors';
 import SwipeOut from 'react-native-swipeout';
 import EntityIcon from 'components/commons/EntityIcon';
+import StatusView from 'components/commons/StatusView';
 
 const {
   Text,
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
   right: {
     flexDirection: 'row',
     paddingVertical: 15,
+    paddingLeft: 10,
   },
   titleContainer: {
     flex: 1,
@@ -83,14 +85,11 @@ export default class ListItem extends Component {
     title: PropTypes.string,
     subtitle: PropTypes.string,
     detailTitle: PropTypes.string,
-    showSeparator: PropTypes.bool,
+    lastItem: PropTypes.bool,
     showArrow: PropTypes.bool,
     renderTitle: PropTypes.func,
+    renderDetail: PropTypes.func,
     entity: PropTypes.instanceOf(Immutable.Map), // optional
-  }
-
-  static defaultProps = {
-    showSeparator: true,
   }
 
   render() {
@@ -103,10 +102,10 @@ export default class ListItem extends Component {
             {this.renderTitle()}
           </View>
           <View style={styles.right}>
-            {this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>}
+            {this.renderDetail()}
             {this.props.showArrow && <View style={styles.arrow}/>}
           </View>
-          {this.props.showSeparator && <View style={styles.separator}/>}
+          <View style={[styles.separator, this.props.lastItem && {left: 0}]}/>
         </TouchableOpacity>
       </SwipeOut>
     );
@@ -118,7 +117,7 @@ export default class ListItem extends Component {
       return (
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
           <EntityIcon type={this.props.entity.get('type')} />
-          <Text style={{marginLeft: 10, fontSize: 16}}>{this.props.entity.getIn(['metadata', 'name'])}</Text>
+          <Text style={{flex: 1, marginLeft: 10, fontSize: 16}} numberOfLines={1}>{this.props.entity.getIn(['metadata', 'name'])}</Text>
         </View>
       );
     }
@@ -130,4 +129,15 @@ export default class ListItem extends Component {
     );
   }
 
+  renderDetail() {
+    if (this.props.renderDetail) { return this.props.renderDetail(); }
+    const { entity } = this.props;
+    if (entity && entity.get('type') === 'pods') {
+      const status = entity.get('status');
+      if (status) {
+        return <StatusView status={status} />;
+      }
+    }
+    return this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>;
+  }
 }

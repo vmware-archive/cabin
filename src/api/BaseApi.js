@@ -103,8 +103,9 @@ class BaseApi {
     return this.apiFetch({method: 'put', url, body});
   }
 
-  static delete(url, body) {
-    return this.apiFetch({method: 'delete', url, body});
+  static delete(url, body, cluster) {
+    const authentication = {username: cluster.get('username'), password: cluster.get('password')};
+    return this.apiFetch({method: 'delete', url, body, authentication});
   }
 
   static getStatus(response) {

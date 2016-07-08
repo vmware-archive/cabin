@@ -11,5 +11,6 @@
 
   "status_up": "Running",
   "status_down": "Down",
-  "status_checking": "Checking...",
+  "status_checking": "Checking..",
+  "status_pending": "Pending..",
 }

@@ -23,6 +23,9 @@ class PodsActions {
       'fetchPodsStart',
       'fetchPodsSuccess',
       'fetchPodsFailure',
+      'deletePodStart',
+      'deletePodSuccess',
+      'deletePodFailure',
     );
   }
 
@@ -33,6 +36,15 @@ class PodsActions {
     })
     .catch(() => {
       this.fetchPodsFailure(cluster);
+    });
+  }
+
+  deletePod({cluster, pod}) {
+    this.deletePodStart({cluster, pod});
+    return ClustersApi.deletePod({cluster, pod}).then(() => {
+      this.deletePodSuccess({cluster, pod});
+    }).catch(() => {
+      this.deletePodFailure({cluster, pod});
     });
   }
 }

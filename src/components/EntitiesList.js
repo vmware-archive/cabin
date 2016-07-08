@@ -54,7 +54,7 @@ export default class EntitiesList extends Component {
     const { status, entities } = this.props;
     return (
       <View style={styles.container}>
-        {status === 'loading' ?
+        {status === 'loading' && entities.isEmpty() ?
           <ActivityIndicator style={{flex: 1}}/> :
           <CollectionView style={styles.list}
             contentContainerStyle={styles.listContent}
@@ -71,16 +71,15 @@ export default class EntitiesList extends Component {
   }
 
   renderRow(entity, rowID, index) {
-    const showSeparator = index < this.props.entities.size - 1;
+    const lastItem = index < this.props.entities.size - 1;
     return (
       <ListItem
         title={entity.getIn(['metadata', 'name'])}
-        detailTitle={entity.getIn(['status', 'phase'])}
         entity={entity}
         showArrow={true}
-        showSeparator={showSeparator}
+        lastItem={lastItem}
         onPress={() => this.onPressItem(entity)}
-        onDelete={() => {}}
+        onDelete={() => this.props.onDelete(entity)}
       />
     );
   }

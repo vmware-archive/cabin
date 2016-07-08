@@ -23,10 +23,15 @@ class ClustersApi {
       .catch(() => Promise.resolve(false));
   }
 
+  /* PODS */
   static fetchPods(cluster) {
     return BaseApi.get(`${cluster.get('url')}/api/v1/pods`, {}, cluster).then((response) => {
       return response.get('items');
     });
+  }
+
+  static deletePod({cluster, pod}) {
+    return BaseApi.delete(`${cluster.get('url')}/api/v1/namespaces/default/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster);
   }
 
   static fetchReplications(cluster) {
