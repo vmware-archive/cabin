@@ -51,7 +51,6 @@ export default class StatusView extends Component {
     if (typeof status === 'object' && status.get('phase')) {
       status = status.get('phase').toUpperCase();
     }
-    console.log(status);
     if (typeof status !== 'string') { return false; }
     return (
       <View style={[styles.status, this.props.style]}>

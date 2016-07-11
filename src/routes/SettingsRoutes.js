@@ -14,6 +14,8 @@
   limitations under the License.
 */
 import Settings from 'components/Settings';
+import SettingsEntities from 'components/SettingsEntities';
+import AltContainer from 'alt-container';
 
 export default {
   getSettingsIndexRoute() {
@@ -23,6 +25,21 @@ export default {
       getTitle: () => 'Settings',
       renderScene(navigator) {
         return <Settings navigator={navigator} />;
+      },
+    };
+  },
+
+  getSettingsEntitiesRoute() {
+    return {
+      name: 'SettingsEntities',
+      statusBarStyle: 'light-content',
+      getTitle: () => 'Entities order',
+      renderScene(navigator) {
+        return (
+          <AltContainer store={alt.stores.SettingsStore}>
+            <SettingsEntities navigator={navigator} />
+          </AltContainer>
+        );
       },
     };
   },

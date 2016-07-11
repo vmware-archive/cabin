@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import SettingsRoutes from 'routes/SettingsRoutes';
 
 const {
   View,
@@ -47,18 +48,26 @@ const styles = StyleSheet.create({
 
 export default class Settings extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      scrollEnabled: true,
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <View style={styles.section}>
-            <ListItem title="Hello there"/>
-            <ListItem title="Skippbox" detailTitle="v0.1.0" isLast={true}/>
+            <ListItem title="Skippbox" detailTitle="v0.1.0"/>
+            <ListItem title="Change entities order" showArrow={true} isLast={true} onPress={() => {
+              this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
+            }}/>
           </View>
           <Text style={styles.sectionTitle}>👋</Text>
         </ScrollView>
       </View>
     );
   }
-
 }

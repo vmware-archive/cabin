@@ -13,9 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ClustersStore';
-import 'stores/PodsStore';
-import 'stores/ReplicationsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-export default {};
+import alt from 'src/alt';
+
+class SettingsActions {
+
+  constructor() {
+    this.generateActions(
+      'updateEntitiesOrder',
+      'setEntityHidden',
+    );
+  }
+}
+
+export default alt.createActions(SettingsActions);

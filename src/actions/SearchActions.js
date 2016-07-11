@@ -14,7 +14,6 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-// import ClustersApi from 'api/ClustersApi';
 
 class SearchActions {
 

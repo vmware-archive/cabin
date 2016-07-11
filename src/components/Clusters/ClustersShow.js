@@ -21,7 +21,7 @@ import ServicesActions from 'actions/ServicesActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
-import SegmentedControl from 'components/commons/SegmentedControl';
+import SegmentedTabs from 'components/commons/SegmentedTabs';
 
 const {
   View,
@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: 10,
-    backgroundColor: Colors.BLUE,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
   },
@@ -60,20 +55,20 @@ export default class ClusterShow extends Component {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
+    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay();
   }
 
   render() {
     const { cluster } = this.props;
-    const controls = ['Pods', 'Services', 'Replications'];
     return (
       <View style={styles.flex}>
         <View style={styles.header}>
-          <SegmentedControl
-            style={{flex: 1, marginHorizontal: 8}}
+          <SegmentedTabs
+            isScrollable={true}
             selectedIndex={this.state.animatedIndex}
-            controls={controls}
+            controls={this.controls.toJS()}
             onPress={(i) => {
-              this.state.animatedIndex.setValue(i);
+              Animated.timing(this.state.animatedIndex, {toValue: i, duration: 300}).start();
               this.setState({activePage: i});
             }}
           />

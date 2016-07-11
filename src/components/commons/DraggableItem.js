@@ -13,9 +13,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ClustersStore';
-import 'stores/PodsStore';
-import 'stores/ReplicationsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-export default {};
+import ListItem from 'components/commons/ListItem';
+
+export default class DraggableItem extends Component {
+
+  render() {
+    return (
+      <ListItem {...this.props} onLongPress={(e) => {
+        this.props.onLongPress && this.props.onLongPress(e);
+        this.props.onDragStart && this.props.onDragStart();
+      }}/>
+    );
+  }
+
+}
