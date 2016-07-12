@@ -15,7 +15,6 @@
 */
 import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
-import utf8 from 'utf8';
 import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager } from 'react-native';
 
@@ -54,7 +53,7 @@ class BaseApi {
     }
 
     if (cluster) {
-      headers.Authorization = 'Basic ' + base64.encode(utf8.encode(`${cluster.get('username')}:${cluster.get('password')}`));
+      headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
     }
 
     if (dataUrl) {
