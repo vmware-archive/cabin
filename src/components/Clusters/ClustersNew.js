@@ -79,16 +79,16 @@ export default class ClustersNew extends Component {
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} defaultValue={this.state.url} placeholder="URL" onChangeText={url => this.setState({url})}/>;
+            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.url} placeholder="URL" onChangeText={url => this.setState({url})}/>;
           }}/>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} defaultValue={this.state.name} placeholder="Optional name" onChangeText={name => this.setState({name})}/>;
           }}/>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} defaultValue={this.state.username} placeholder="Username" onChangeText={username => this.setState({username})}/>;
+            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.username} placeholder="Username" onChangeText={username => this.setState({username})}/>;
           }}/>
           <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
+            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
           }} isLast={true}/>
         </ScrollView>
       </View>
@@ -101,6 +101,10 @@ export default class ClustersNew extends Component {
     } else {
       ClustersActions.addCluster({...this.state});
     }
+    setTimeout(() => {
+      const cluster = alt.stores.ClustersStore.get(this.state.url);
+      cluster && ClustersActions.checkCluster(cluster);
+    }, 1000);
     NavigationActions.popRoute();
   }
 

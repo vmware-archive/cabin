@@ -35,6 +35,7 @@ class ClustersStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
+      console.log(appState.get(this.displayName).toJS());
       this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
         this.state.map(cluster => {
@@ -60,12 +61,14 @@ class ClustersStore {
       ClustersActions.fetchClusterEntities(cluster);
     }
     this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.RUNNING : Constants.Status.DOWN));
+    this.saveStore();
   }
 
   onAddCluster({url, name, username, password}) {
-    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url});
+    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url, status: Constants.Status.CHECKING});
     this.setState(this.state.set(cluster.get('url'), cluster));
     this.saveStore();
+    return Promise.resolve(cluster);
   }
 
   onEditCluster({cluster, params}) {
@@ -76,6 +79,16 @@ class ClustersStore {
 
   onRemoveCluster(cluster) {
     this.setState(this.state.remove(cluster.get('url')));
+    this.saveStore();
+  }
+
+  onSetCurrentNamespace({cluster, namespace}) {
+    this.setState(this.state.setIn([cluster.get('url'), 'currentNamespace'], namespace));
+    this.saveStore();
+  }
+
+  onFetchNamespacesSuccess({cluster, namespaces}) {
+    this.setState(this.state.setIn([cluster.get('url'), 'namespaces'], namespaces));
     this.saveStore();
   }
 

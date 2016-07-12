@@ -57,6 +57,13 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 17,
   },
+  namespace: {
+    fontSize: 14,
+    opacity: 0.5,
+    marginTop: 2,
+    marginLeft: 12,
+    marginBottom: -8,
+  },
   stats: {
     height: 50,
     flexDirection: 'row',
@@ -88,13 +95,16 @@ export default class ClusterItem extends Component {
       { text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)},
     ];
     return (
-      <SwipeOut right={buttons} backgroundColor="transparent" autoClose={true}>
+      <SwipeOut ref="swipeOut" right={buttons} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
-          <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+          <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.handleLongPress.bind(this)}>
             <View style={styles.header}>
-              <Text style={styles.title}>{cluster.get('name')}</Text>
+              <Text style={styles.title}>
+                {cluster.get('name')}
+              </Text>
               <StatusView status={cluster.get('status')} />
             </View>
+            {cluster.get('currentNamespace') && <Text style={styles.namespace}>Namespace: {cluster.get('currentNamespace')}</Text>}
             <View style={styles.stats}>
               <AltContainer stores={{
                 value: () => {
@@ -128,6 +138,10 @@ export default class ClusterItem extends Component {
         </View>
       </SwipeOut>
     );
+  }
+
+  handleLongPress() {
+    this.refs.swipeOut.show();
   }
 
   handleDelete() {

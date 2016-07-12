@@ -37,15 +37,24 @@ class BaseApi {
     }
   }
 
-  static apiFetch({url, method, body, dataUrl, authentication}) {
+  static apiFetch({url, method, body, dataUrl, cluster}) {
     this.showNetworkActivityIndicator();
     const headers = {
       'X-Requested-With': 'XMLHttpRequest',
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    if (authentication) {
-      headers.Authorization = 'Basic ' + base64.encode(utf8.encode(`${authentication.username}:${authentication.password}`));
+
+    if (cluster && url.indexOf('http') === -1) {
+      let path = '';
+      if (url.indexOf('api/v1') === -1) {
+        path = cluster.get('currentNamespace') ? `/api/v1/namespaces/${cluster.get('currentNamespace')}` : '/api/v1';
+      }
+      url = `${cluster.get('url')}${path}${url}`;
+    }
+
+    if (cluster) {
+      headers.Authorization = 'Basic ' + base64.encode(utf8.encode(`${cluster.get('username')}:${cluster.get('password')}`));
     }
 
     if (dataUrl) {
@@ -90,22 +99,20 @@ class BaseApi {
     return Promise.reject({status: BaseApi.getStatus(error), message: error.message});
   }
 
-  static post(url, body = {}) {
-    return this.apiFetch({method: 'post', url, body});
+  static post(url, body = {}, cluster) {
+    return this.apiFetch({method: 'post', url, body, cluster});
   }
 
   static get(url, dataUrl, cluster) {
-    const authentication = {username: cluster.get('username'), password: cluster.get('password')};
-    return this.apiFetch({method: 'get', url, dataUrl, authentication});
+    return this.apiFetch({method: 'get', url, dataUrl, cluster});
   }
 
-  static put(url, body) {
-    return this.apiFetch({method: 'put', url, body});
+  static put(url, body, cluster) {
+    return this.apiFetch({method: 'put', url, body, cluster});
   }
 
   static delete(url, body, cluster) {
-    const authentication = {username: cluster.get('username'), password: cluster.get('password')};
-    return this.apiFetch({method: 'delete', url, body, authentication});
+    return this.apiFetch({method: 'delete', url, body, cluster});
   }
 
   static getStatus(response) {

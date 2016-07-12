@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 export default Immutable.fromJS({
   ClustersStore: {
-    'test': { url: 'test', name: 'Test Cluster', username: 'foo', password: 'bar', status: 'UP' },
+    'test': { url: 'test', name: 'Test Cluster', username: 'foo', password: 'bar', status: 'UP', namespaces: ['default', 'custom-namespace'] },
   },
   PodsStore: {
     status: {'test': 'success'},

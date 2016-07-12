@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
+    "@exponent/react-native-action-sheet": "^0.2.0",
     "@exponent/react-native-navigator": "^0.4.7",
     "alt": "0.18.4",
     "alt-container": "1.0.2",

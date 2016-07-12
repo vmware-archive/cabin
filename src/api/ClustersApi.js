@@ -23,25 +23,31 @@ class ClustersApi {
       .catch(() => Promise.resolve(false));
   }
 
+  static fetchNamespaces(cluster) {
+    return BaseApi.get('/api/v1/namespaces', {}, cluster).then(response => {
+      return response.get('items').map(namespace => namespace.getIn(['metadata', 'name']));
+    });
+  }
+
   /* PODS */
   static fetchPods(cluster) {
-    return BaseApi.get(`${cluster.get('url')}/api/v1/pods`, {}, cluster).then((response) => {
+    return BaseApi.get('/pods', {}, cluster).then(response => {
       return response.get('items');
     });
   }
 
   static deletePod({cluster, pod}) {
-    return BaseApi.delete(`${cluster.get('url')}/api/v1/namespaces/default/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster);
+    return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster);
   }
 
   static fetchReplications(cluster) {
-    return BaseApi.get(`${cluster.get('url')}/api/v1/replicationcontrollers`, {}, cluster).then((response) => {
+    return BaseApi.get('/replicationcontrollers', {}, cluster).then(response => {
       return response.get('items');
     });
   }
 
   static fetchServices(cluster) {
-    return BaseApi.get(`${cluster.get('url')}/api/v1/services`, {}, cluster).then((response) => {
+    return BaseApi.get('/services', {}, cluster).then(response => {
       return response.get('items');
     });
   }

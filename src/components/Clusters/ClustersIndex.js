@@ -19,7 +19,6 @@ import Colors from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import PodsActions from 'actions/PodsActions';
 
 const {
   View,
@@ -95,7 +94,8 @@ export default class ClustersIndex extends Component {
   }
 
   onPressItem(cluster) {
-    PodsActions.fetchPods(cluster);
+    ClustersActions.fetchClusterEntities(cluster);
+    ClustersActions.fetchNamespaces(cluster);
     this.props.navigator.push(ClustersRoutes.getClusterShowRoute(cluster));
   }
 }

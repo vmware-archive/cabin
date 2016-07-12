@@ -28,6 +28,8 @@ class ClustersActions {
       'addCluster',
       'editCluster',
       'removeCluster',
+      'setCurrentNamespace',
+      'fetchNamespacesSuccess',
     );
   }
 
@@ -49,6 +51,13 @@ class ClustersActions {
     ServicesActions.fetchServices.defer(cluster);
     ReplicationsActions.fetchReplications.defer(cluster);
   }
+
+  fetchNamespaces(cluster) {
+    ClustersApi.fetchNamespaces(cluster).then(namespaces => {
+      this.fetchNamespacesSuccess({cluster, namespaces});
+    });
+  }
+
 }
 
 export default alt.createActions(ClustersActions);

@@ -22,6 +22,7 @@ import ReplicationsActions from 'actions/ReplicationsActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
+import NamespacePicker from 'components/commons/NamespacePicker';
 
 const {
   View,
@@ -63,6 +64,7 @@ export default class ClusterShow extends Component {
     return (
       <View style={styles.flex}>
         <View style={styles.header}>
+          <NamespacePicker cluster={cluster}/>
           <SegmentedTabs
             isScrollable={true}
             selectedIndex={this.state.animatedIndex}

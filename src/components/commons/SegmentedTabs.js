@@ -147,9 +147,9 @@ export default class SegmentedTabs extends Component {
           showsHorizontalScrollIndicator={false}
           horizontal={true}
           scrollEventThrottle={200}
-          onScroll={isScrollable && (e => {
+          onScroll={!isScrollable ? undefined : e => {
             this.scrollValue = e.nativeEvent.contentOffset.x;
-          })}
+          }}
           contentContainerStyle={isScrollable && {paddingHorizontal: containerPadding}}>
           {items}
           <Animated.View style={[styles.indicator, {backgroundColor: activeColor, width: animatedWidth, marginLeft: indicatorMargin, marginTop: -10}]} />
