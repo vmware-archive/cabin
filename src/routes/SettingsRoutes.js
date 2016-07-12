@@ -33,7 +33,7 @@ export default {
     return {
       name: 'SettingsEntities',
       statusBarStyle: 'light-content',
-      getTitle: () => 'Entities order',
+      getTitle: () => 'Object kind list',
       renderScene(navigator) {
         return (
           <AltContainer store={alt.stores.SettingsStore}>

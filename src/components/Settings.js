@@ -15,13 +15,15 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import ListHeader from 'components/commons/ListHeader';
 import SettingsRoutes from 'routes/SettingsRoutes';
+import Linking from 'utils/Linking';
 
 const {
   View,
   StyleSheet,
   ScrollView,
-  Text,
+  Image,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -31,18 +33,26 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
+    // paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
-    borderColor: Colors.BORDER,
-    borderTopWidth: 1,
+  titleContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
-  sectionTitle: {
-    paddingHorizontal: 15,
-    marginBottom: 6,
-    fontSize: 13,
-    color: '#6d6d72',
+  logo: {
+    height: 20, width: 20,
+    resizeMode: 'contain',
+    marginRight: 6,
+  },
+  tintColor: {
+    tintColor: Colors.BLACK,
+    opacity: 0.7,
+  },
+  twitterText: {
+    fontSize: 16,
+    color: Colors.BLUE,
   },
 });
 
@@ -59,13 +69,54 @@ export default class Settings extends Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list}>
-          <View style={styles.section}>
-            <ListItem title="Skippbox" detailTitle="v0.1.0"/>
-            <ListItem title="Change entities order" showArrow={true} isLast={true} onPress={() => {
-              this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
+          <ListHeader title="Customize"/>
+          <ListItem title="Object kind list" showArrow={true} isLast={true} onPress={() => {
+            this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
+          }}/>
+
+          <ListHeader style={{marginTop: 20}} title="About us"/>
+          <ListItem detailTitle="v0.1.0" renderTitle={() => {
+            return (
+              <View style={styles.titleContainer}>
+                <Image style={styles.logo} source={require('images/icon.png')}/>
+                <Image style={[styles.logo, {width: 84}]} source={require('images/logo.png')}/>
+              </View>
+            );
+          }}/>
+          <ListItem detailTitle="@skippbox" onPress={() => Linking.openURL('https://twitter.com/skippbox')}
+            renderTitle={() => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Image style={styles.logo} source={require('images/twitter.png')}/>
+                </View>
+              );
             }}/>
-          </View>
-          <Text style={styles.sectionTitle}>👋</Text>
+          <ListItem detailTitle="info@skippbox.com" onPress={() => Linking.openURL('mailto://info@skippbox.com')}
+            renderTitle={() => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Image style={[styles.logo, styles.tintColor]} source={require('images/mail.png')}/>
+                </View>
+              );
+            }}/>
+          <ListItem detailTitle="www.skippbox.com" isLast={true} onPress={() => Linking.openURL('http://www.skippbox.com')}
+            renderTitle={() => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Image style={[styles.logo, styles.tintColor]} source={require('images/web.png')}/>
+                </View>
+              );
+            }}/>
+
+          <ListHeader style={{marginTop: 20}} title="Issues"/>
+          <ListItem detailTitle="Github" showArrow={true} isLast={true} onPress={() => Linking.openURL('https://github.com/skippbox/theapp/issues')}
+            renderTitle={() => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Image style={[styles.logo, styles.tintColor]} source={require('images/github.png')}/>
+                </View>
+              );
+            }}/>
         </ScrollView>
       </View>
     );

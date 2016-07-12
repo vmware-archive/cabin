@@ -80,11 +80,13 @@ export default class NamespacePicker extends Component {
       if (index > 1) {
         namespace = namespaces.get(index - 2);
       }
-      ClustersActions.setCurrentNamespace({cluster: this.props.cluster, namespace});
-      setTimeout(() => {
-        const cluster = alt.stores.ClustersStore.get(this.props.cluster.get('url'));
-        cluster && ClustersActions.fetchClusterEntities(cluster);
-      }, 500);
+      if (namespace !== this.props.cluster.get('currentNamespace')) {
+        ClustersActions.setCurrentNamespace({cluster: this.props.cluster, namespace});
+        setTimeout(() => {
+          const cluster = alt.stores.ClustersStore.get(this.props.cluster.get('url'));
+          cluster && ClustersActions.fetchClusterEntities(cluster);
+        }, 500);
+      }
     });
   }
 

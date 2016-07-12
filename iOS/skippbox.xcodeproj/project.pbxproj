@@ -24,6 +24,7 @@
 		8E5BABEF1BB02DBD00D0FDEF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */; };
 		8E5BABF11BB02DC600D0FDEF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */; };
 		8E5BABF51BB02F5400D0FDEF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF41BB02F5400D0FDEF /* libz.tbd */; };
+		A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A56492E41D351C6500C1DF4F /* libSafariViewManager.a */; };
 		A579E6681BD5451100CD8E2C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */; };
 		A5B2F11E1BD62E0100CF6A12 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */; };
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -109,6 +110,13 @@
 			remoteGlobalIDString = 580C376F1AB104AF0015E709;
 			remoteInfo = RCTTest;
 		};
+		A56492E31D351C6500C1DF4F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = SafariViewManager;
+		};
 		A579E6601BD5420500CD8E2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */;
@@ -178,6 +186,7 @@
 		8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8E5BABF41BB02F5400D0FDEF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A557E0F31CB29D2300C7193B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SafariViewManager.xcodeproj; path = "../node_modules/react-native-safari-view/SafariViewManager.xcodeproj"; sourceTree = "<group>"; };
 		A56B11E51CB3F11D008CD1B3 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
 		A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
@@ -193,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */,
 				A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */,
 				A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */,
 				8E5BABF51BB02F5400D0FDEF /* libz.tbd in Frameworks */,
@@ -321,6 +331,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */,
 				A5B2F11F1BD62F7600CF6A12 /* RCTTest.xcodeproj */,
 				A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */,
 				A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */,
@@ -363,6 +374,14 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* skippbox.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A56492D31D351C6500C1DF4F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A56492E41D351C6500C1DF4F /* libSafariViewManager.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -516,6 +535,10 @@
 					ProductGroup = A5C6FD791BF9FB260057C13B /* Products */;
 					ProjectRef = A5C6FD781BF9FB260057C13B /* RNClipboard.xcodeproj */;
 				},
+				{
+					ProductGroup = A56492D31D351C6500C1DF4F /* Products */;
+					ProjectRef = A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -600,6 +623,13 @@
 			fileType = archive.ar;
 			path = libRCTTest.a;
 			remoteRef = 8E0BE7B91BDA688E00C4BA5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A56492E41D351C6500C1DF4F /* libSafariViewManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSafariViewManager.a;
+			remoteRef = A56492E31D351C6500C1DF4F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */ = {

@@ -35,7 +35,6 @@ class ClustersStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      console.log(appState.get(this.displayName).toJS());
       this.setState(this.state.merge(appState.get(this.displayName)));
       setTimeout(() => {
         this.state.map(cluster => {

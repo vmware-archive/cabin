@@ -46,7 +46,7 @@ export default class ListItem extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <Text style={styles.title}>{this.props.title}</Text>
       </View>
     );

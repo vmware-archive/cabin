@@ -57,6 +57,7 @@
     "qs": "6.2.0",
     "react": "15.2.0",
     "react-native": "0.28",
+    "react-native-safari-view": "^1.0.0",
     "react-native-sortable-listview": "0.0.8",
     "react-native-swipeout": "git+https://github.com/kemcake/react-native-swipeout.git",
     "utf8": "^2.1.1"
