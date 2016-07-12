@@ -93,7 +93,7 @@ export default class ClusterItem extends Component {
           <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
             <View style={styles.header}>
               <Text style={styles.title}>{cluster.get('name')}</Text>
-              {cluster.get('status') && <StatusView status={cluster.get('status')} />}
+              <StatusView status={cluster.get('status')} />
             </View>
             <View style={styles.stats}>
               <AltContainer stores={{

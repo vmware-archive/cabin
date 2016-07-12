@@ -93,11 +93,12 @@ export default class ListItem extends Component {
   }
 
   render() {
+    const Container = (this.props.onPress || this.props.onLongPress) ? TouchableOpacity : View;
     return (
       <SwipeOut autoClose={true} right={this.props.onDelete && [
         {text: 'Delete', backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.props.onDelete},
       ]} style={this.props.style}>
-        <TouchableOpacity style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+        <Container style={styles.item} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>
             {this.renderTitle()}
           </View>
@@ -106,7 +107,7 @@ export default class ListItem extends Component {
             {this.props.showArrow && <View style={styles.arrow}/>}
           </View>
           <View style={[styles.separator, this.props.isLast && {left: 0}]}/>
-        </TouchableOpacity>
+        </Container>
       </SwipeOut>
     );
   }

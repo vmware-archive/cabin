@@ -128,7 +128,7 @@ export default class SegmentedTabs extends Component {
         <View key={`tab${index}`}
           style={styles.controlContainer}
           collapsable={false}
-          onLayout={isScrollable && (e => this.handleControlLayout(index, e))}>
+          onLayout={isScrollable ? e => this.handleControlLayout(index, e) : undefined}>
           <Touchable
             onPress={() => this.handlePress(index)}
             style={[styles.control, isScrollable ? {paddingHorizontal: 10} : {width: defaultWidth}]}>

@@ -66,6 +66,7 @@ export default class ClustersIndex extends Component {
             contentContainerStyle={styles.listContent}
             list={alt.stores.ClustersStore.getClusters()}
             renderRow={this.renderRow.bind(this)}
+            onRefresh={this.handleRefresh.bind(this)}
           />
         </AltContainer>
       </View>
@@ -79,6 +80,10 @@ export default class ClustersIndex extends Component {
         onPress={() => this.onPressItem(cluster)}
       />
     );
+  }
+
+  handleRefresh() {
+    this.checkClusters();
   }
 
   checkClusters() {

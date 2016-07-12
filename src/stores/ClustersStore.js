@@ -69,7 +69,8 @@ class ClustersStore {
   }
 
   onEditCluster({cluster, params}) {
-    this.setState(this.state.mergeIn([cluster.get('url')], params));
+    this.setState(this.state.remove(cluster.get('url'))
+      .set(params.get('url'), cluster.merge(params)));
     this.saveStore();
   }
 

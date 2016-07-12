@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 export default class StatusView extends Component {
 
   static propTypes = {
-    type: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
   }
 
   render() {

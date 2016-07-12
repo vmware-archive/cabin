@@ -74,7 +74,10 @@ export default class ClustersNew extends Component {
   render() {
     return (
       <View style={styles.flex}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView style={styles.scrollView}
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardDismissMode={'interactive'}
+          keyboardShouldPersistTaps={true}>
           <ListItem renderTitle={() => {
             return <TextInput style={{flex: 1}} defaultValue={this.state.url} placeholder="URL" onChangeText={url => this.setState({url})}/>;
           }}/>
@@ -94,7 +97,7 @@ export default class ClustersNew extends Component {
 
   onSubmit() {
     if (this.props.cluster) {
-      ClustersActions.editCluster({cluster: this.props.cluster, params: {...this.state}});
+      ClustersActions.editCluster({cluster: this.props.cluster, params: Immutable.fromJS({...this.state})});
     } else {
       ClustersActions.addCluster({...this.state});
     }
