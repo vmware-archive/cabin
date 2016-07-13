@@ -93,7 +93,7 @@ export default class ClusterShow extends Component {
             listHeader="Pods"
             status={alt.stores.PodsStore.getStatus(cluster)}
             entities={alt.stores.PodsStore.getPods(cluster)}
-            onPress={pod => this.props.navigator.push(EntitiesRoutes.getPodsShowRoute(pod))}
+            onPress={pod => this.props.navigator.push(EntitiesRoutes.getPodsShowRoute({pod, cluster}))}
             onRefresh={() => PodsActions.fetchPods(cluster)}
             onDelete={pod => PodsActions.deletePod({cluster, pod})}
           />

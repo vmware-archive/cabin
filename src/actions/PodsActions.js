@@ -26,6 +26,12 @@ class PodsActions {
       'deletePodStart',
       'deletePodSuccess',
       'deletePodFailure',
+      'addPodLabelStart',
+      'addPodLabelSuccess',
+      'addPodLabelFailure',
+      'deletePodLabelStart',
+      'deletePodLabelSuccess',
+      'deletePodLabelFailure',
     );
   }
 
@@ -45,6 +51,24 @@ class PodsActions {
       this.deletePodSuccess({cluster, pod});
     }).catch(() => {
       this.deletePodFailure({cluster, pod});
+    });
+  }
+
+  addPodLabel({cluster, pod, key, value}) {
+    this.addPodLabelStart({cluster, pod, key, value});
+    return ClustersApi.addPodLabel({cluster, pod, key, value}).then(() => {
+      this.addPodLabelSuccess({cluster, pod, key, value});
+    }).catch(() => {
+      this.addPodLabelFailure({cluster, pod, key, value});
+    });
+  }
+
+  deletePodLabel({cluster, pod, key}) {
+    this.deletePodLabelStart({cluster, pod, key});
+    return ClustersApi.deletePodLabel({cluster, pod, key}).then(() => {
+      this.deletePodLabelSuccess({cluster, pod, key});
+    }).catch(() => {
+      this.deletePodLabelFailure({cluster, pod, key});
     });
   }
 }

@@ -16,6 +16,7 @@
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import LabelsView from 'components/commons/LabelsView';
+import PodsActions from 'actions/PodsActions';
 
 const {
   View,
@@ -48,10 +49,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EntitiesShow extends Component {
+export default class PodsShow extends Component {
 
   static propTypes = {
     entity: PropTypes.instanceOf(Immutable.Map),
+    cluster: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
@@ -65,10 +67,17 @@ export default class EntitiesShow extends Component {
             <ListItem title="Version" detailTitle={`${entity.getIn(['metadata', 'resourceVersion'])}`}/>
             <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} isLast={true}/>
           </View>
-          <LabelsView entity={entity}/>
+          <LabelsView entity={entity} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
         </ScrollView>
       </View>
     );
   }
 
+  handleLabelSubmit({key, value}) {
+    return PodsActions.addPodLabel({pod: this.props.entity, cluster: this.props.cluster, key, value});
+  }
+
+  handleLabelDelete(key) {
+    return PodsActions.deletePodLabel({pod: this.props.entity, cluster: this.props.cluster, key});
+  }
 }

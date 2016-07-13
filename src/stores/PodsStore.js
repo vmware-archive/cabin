@@ -65,12 +65,39 @@ class PodsStore {
     }));
   }
 
+  onAddPodLabelStart({cluster, pod, key, value}) {
+    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key], value));
+  }
+
+  onAddPodLabelFailure({cluster, pod, key}) {
+    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
+  onDeletePodLabelStart({cluster, pod, key}) {
+    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
   static getPods(cluster) {
     return this.state.getIn(['pods', cluster.get('url')], Immutable.List());
+  }
+
+  static get({podName, cluster}) {
+    return this.state.getIn(['pods', cluster.get('url')]).first(e => {
+      return e.getIn(['metadata', 'name']) === podName;
+    });
   }
 
 }

@@ -14,6 +14,8 @@
   limitations under the License.
 */
 import EntitiesShow from 'components/EntitiesShow';
+import PodsShow from 'components/PodsShow';
+import AltContainer from 'alt-container';
 
 export default {
 
@@ -29,14 +31,24 @@ export default {
     };
   },
 
-  getPodsShowRoute(pod) {
+  getPodsShowRoute({pod, cluster}) {
     return {
       name: 'PodsShow',
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => pod.getIn(['metadata', 'name']),
       renderScene(navigator) {
-        return <EntitiesShow entity={pod} navigator={navigator} />;
+        return (
+          <AltContainer stores={{
+            entity: () => {
+              return {
+                store: alt.stores.PodsStore,
+                value: alt.stores.PodsStore.get({podName: pod.getIn(['metadata', 'name']), cluster}),
+              };
+            }}}>
+            <PodsShow entity={pod} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
       },
     };
   },

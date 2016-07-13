@@ -65,10 +65,11 @@ export default class SearchBar extends Component {
         <TextInput
           ref="input"
           style={styles.input}
-          placeholder="Search"
+          placeholder="Search by name or label"
           numberOfLines={1}
           placeholderTextColor={'rgba(255, 255, 255, 0.4)'}
           returnKeyType="search"
+          autoCapitalize="none"
           clearButtonMode="while-editing"
           onChangeText={(text) => {
             DeviceEventEmitter.emit('search:change', {text});

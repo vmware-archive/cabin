@@ -90,6 +90,9 @@ class BaseApi {
         });
       });
     }).catch((error) => {
+      if (cluster.get('url') === 'test') {
+        return Promise.resolve();
+      }
       return this.handleError(error, url);
     });
   }
@@ -108,6 +111,10 @@ class BaseApi {
 
   static put(url, body, cluster) {
     return this.apiFetch({method: 'put', url, body, cluster});
+  }
+
+  static patch(url, body, cluster) {
+    return this.apiFetch({method: 'patch', url, body, cluster});
   }
 
   static delete(url, body, cluster) {

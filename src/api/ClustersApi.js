@@ -40,12 +40,28 @@ class ClustersApi {
     return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster);
   }
 
+  static addPodLabel({cluster, pod, key, value}) {
+    const body = {metadata: {
+      labels: pod.getIn(['metadata', 'labels'], Immutable.Map()).set(key, value).toJS(),
+    }};
+    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster);
+  }
+
+  static deletePodLabel({cluster, pod, key}) {
+    const body = {metadata: {
+      labels: pod.getIn(['metadata', 'labels'], Immutable.Map()).remove(key).toJS(),
+    }};
+    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster);
+  }
+
+  /* RC */
   static fetchReplications(cluster) {
     return BaseApi.get('/replicationcontrollers', {}, cluster).then(response => {
       return response.get('items');
     });
   }
 
+  /* SERVICES */
   static fetchServices(cluster) {
     return BaseApi.get('/services', {}, cluster).then(response => {
       return response.get('items');
