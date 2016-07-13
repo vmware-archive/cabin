@@ -45,7 +45,7 @@ export default class Settings extends Component {
   }
 
   render() {
-    const entities = alt.stores.SettingsStore.getEntities();
+    const entities = this.props.entities;
     return (
       <View style={styles.container}>
           <SortableListView

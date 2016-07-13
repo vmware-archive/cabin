@@ -36,7 +36,13 @@ export default {
       getTitle: () => 'Object kind list',
       renderScene(navigator) {
         return (
-          <AltContainer store={alt.stores.SettingsStore}>
+          <AltContainer stores={{
+            entities: () => {
+              return {
+                store: alt.stores.SettingsStore,
+                value: alt.stores.SettingsStore.getEntities(),
+              };
+            }}}>
             <SettingsEntities navigator={navigator} />
           </AltContainer>
         );
