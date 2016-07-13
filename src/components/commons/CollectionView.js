@@ -62,6 +62,11 @@ class CollectionView extends Component {
       rowHasChanged: (row1, row2) => !Immutable.is(row1, row2),
     }),
     renderScrollComponent: (props) => <ScrollView {...props}/>,
+    onEndReachedThreshold: 0,
+    stickyHeaderIndices: [],
+    scrollRenderAheadDistance: 0,
+    initialListSize: 0,
+    pageSize: 0,
   };
 
   constructor(props) {

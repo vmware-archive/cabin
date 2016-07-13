@@ -14,7 +14,8 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import ListItem from 'components/commons/ListItem';
+import ListInputItem from 'components/commons/ListInputItem';
+import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import { PropTypes } from 'react';
@@ -23,7 +24,6 @@ const {
   View,
   ScrollView,
   StyleSheet,
-  TextInput,
   DeviceEventEmitter,
 } = ReactNative;
 
@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   scrollViewContent: {
-    marginTop: 40,
-    borderColor: Colors.BORDER,
-    borderTopWidth: 1,
+    marginTop: 20,
   },
 });
 
@@ -55,10 +53,11 @@ export default class ClustersNew extends Component {
       this.state = cluster.toJS();
     } else {
       this.state = {
-        url: '',
+        url: 'http://',
         name: '',
         username: '',
         password: '',
+        token: '',
       };
     }
   }
@@ -78,18 +77,21 @@ export default class ClustersNew extends Component {
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
-          <ListItem renderTitle={() => {
-            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.url} placeholder="URL" onChangeText={url => this.setState({url})}/>;
-          }}/>
-          <ListItem renderTitle={() => {
-            return <TextInput style={{flex: 1}} defaultValue={this.state.name} placeholder="Optional name" onChangeText={name => this.setState({name})}/>;
-          }}/>
-          <ListItem renderTitle={() => {
-            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.username} placeholder="Username" onChangeText={username => this.setState({username})}/>;
-          }}/>
-          <ListItem renderTitle={() => {
-            return <TextInput autoCapitalize="none" autoCorrect={false} style={{flex: 1}} defaultValue={this.state.password} placeholder="Password" onChangeText={password => this.setState({password})}/>;
-          }} isLast={true}/>
+          <ListHeader title="Cluster info"/>
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
+            onChangeText={url => this.setState({url})}/>
+          <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
+            onChangeText={name => this.setState({name})} isLast={true}/>
+
+          <ListHeader title="Authentication" style={{marginTop: 30}}/>
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
+            onChangeText={username => this.setState({username})}/>
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
+            onChangeText={password => this.setState({password})} isLast={true}/>
+          {/* <ListHeader title="Or"/>
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Access Token"
+            onChangeText={token => this.setState({token})} isLast={true}/>*/}
+
         </ScrollView>
       </View>
     );
