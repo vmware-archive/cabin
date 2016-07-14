@@ -95,7 +95,7 @@ class PodsStore {
   }
 
   static get({podName, cluster}) {
-    return this.state.getIn(['pods', cluster.get('url')]).first(e => {
+    return this.state.getIn(['pods', cluster.get('url')]).find(e => {
       return e.getIn(['metadata', 'name']) === podName;
     });
   }

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class EntitiesShow extends Component {
+export default class LabelsView extends Component {
 
   static propTypes = {
     entity: PropTypes.instanceOf(Immutable.Map),

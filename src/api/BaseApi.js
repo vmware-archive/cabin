@@ -36,18 +36,19 @@ class BaseApi {
     }
   }
 
-  static apiFetch({url, method, body, dataUrl, cluster}) {
+  static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const headers = {
       'X-Requested-With': 'XMLHttpRequest',
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': method === 'patch' ? 'application/strategic-merge-patch+json' : 'application/json',
     };
 
     if (cluster && url.indexOf('http') === -1) {
       let path = '';
       if (url.indexOf('api/v1') === -1) {
-        path = cluster.get('currentNamespace') ? `/api/v1/namespaces/${cluster.get('currentNamespace')}` : '/api/v1';
+        const namespace = entity ? entity.getIn(['metadata', 'namespace']) : cluster.get('currentNamespace');
+        path = namespace ? `/api/v1/namespaces/${namespace}` : '/api/v1';
       }
       url = `${cluster.get('url')}${path}${url}`;
     }
@@ -101,24 +102,24 @@ class BaseApi {
     return Promise.reject({status: BaseApi.getStatus(error), message: error.message});
   }
 
-  static post(url, body = {}, cluster) {
-    return this.apiFetch({method: 'post', url, body, cluster});
+  static post(url, body = {}, cluster, entity) {
+    return this.apiFetch({method: 'post', url, body, cluster, entity});
   }
 
-  static get(url, dataUrl, cluster) {
-    return this.apiFetch({method: 'get', url, dataUrl, cluster});
+  static get(url, dataUrl, cluster, entity) {
+    return this.apiFetch({method: 'get', url, dataUrl, cluster, entity});
   }
 
-  static put(url, body, cluster) {
-    return this.apiFetch({method: 'put', url, body, cluster});
+  static put(url, body, cluster, entity) {
+    return this.apiFetch({method: 'put', url, body, cluster, entity});
   }
 
-  static patch(url, body, cluster) {
-    return this.apiFetch({method: 'patch', url, body, cluster});
+  static patch(url, body, cluster, entity) {
+    return this.apiFetch({method: 'patch', url, body, cluster, entity});
   }
 
-  static delete(url, body, cluster) {
-    return this.apiFetch({method: 'delete', url, body, cluster});
+  static delete(url, body, cluster, entity) {
+    return this.apiFetch({method: 'delete', url, body, cluster, entity});
   }
 
   static getStatus(response) {

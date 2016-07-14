@@ -15,13 +15,15 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import ListHeader from 'components/commons/ListHeader';
+import StatusView from 'components/commons/StatusView';
 import LabelsView from 'components/commons/LabelsView';
+import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
 
 const {
   View,
   StyleSheet,
-  ScrollView,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -33,51 +35,69 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 20,
   },
   section: {
     marginBottom: 20,
-    borderColor: Colors.BORDER,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-  },
-  sectionTitle: {
-    paddingHorizontal: 15,
-    marginBottom: 6,
-    fontSize: 13,
-    color: '#6d6d72',
   },
 });
 
 export default class PodsShow extends Component {
 
   static propTypes = {
-    entity: PropTypes.instanceOf(Immutable.Map),
+    pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
   }
 
   render() {
-    const { entity } = this.props;
+    const { pod } = this.props;
+    let ready = 0;
+    const containerStatuses = pod.getIn(['status', 'containerStatuses']).map(status => {
+      if (status.get('ready')) { ready++; }
+      return status;
+    });
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list}>
+        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
           <View style={styles.section}>
-            <ListItem title="Name" detailTitle={entity.getIn(['metadata', 'name'])}/>
-            {entity.getIn(['status', 'phase']) && <ListItem title="Status" detailTitle={entity.getIn(['status', 'phase'])}/>}
-            <ListItem title="Version" detailTitle={`${entity.getIn(['metadata', 'resourceVersion'])}`}/>
-            <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} isLast={true}/>
+            <ListHeader title=""/>
+            <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
+            <ListItem title="Status" renderDetail={() => {
+              return <StatusView status={pod.get('status')}/>;
+            }}/>
+            <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
+            <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
+            <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} isLast={true}/>
           </View>
-          <LabelsView entity={entity} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
+          <View style={styles.section}>
+            <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
+          </View>
+          <View style={styles.section}>
+            <ListHeader title="Containers"/>
+            {this.renderContainers()}
+          </View>
         </ScrollView>
       </View>
     );
   }
 
+  renderContainers() {
+    const containers = this.props.pod.getIn(['spec', 'containers']);
+    const items = containers.map((container, i) => {
+      return <ListItem key={i} isLast={i === containers.size - 1} title={container.get('name')} subtitle={container.get('image')}/>;
+    });
+    return items;
+  }
+
+  handleRefresh() {
+    PodsActions.fetchPods(this.props.cluster);
+  }
+
   handleLabelSubmit({key, value}) {
-    return PodsActions.addPodLabel({pod: this.props.entity, cluster: this.props.cluster, key, value});
+    return PodsActions.addPodLabel({pod: this.props.pod, cluster: this.props.cluster, key, value});
   }
 
   handleLabelDelete(key) {
-    return PodsActions.deletePodLabel({pod: this.props.entity, cluster: this.props.cluster, key});
+    return PodsActions.deletePodLabel({pod: this.props.pod, cluster: this.props.cluster, key});
   }
 }

@@ -37,21 +37,21 @@ class ClustersApi {
   }
 
   static deletePod({cluster, pod}) {
-    return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster);
+    return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster, pod);
   }
 
   static addPodLabel({cluster, pod, key, value}) {
     const body = {metadata: {
-      labels: pod.getIn(['metadata', 'labels'], Immutable.Map()).set(key, value).toJS(),
+      labels: Immutable.Map([[key, value]]).toJS(),
     }};
-    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster);
+    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster, pod);
   }
 
   static deletePodLabel({cluster, pod, key}) {
     const body = {metadata: {
-      labels: pod.getIn(['metadata', 'labels'], Immutable.Map()).remove(key).toJS(),
+      labels: Immutable.Map([[key, null]]).toJS(),
     }};
-    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster);
+    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster, pod);
   }
 
   /* RC */

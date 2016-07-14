@@ -40,13 +40,13 @@ export default {
       renderScene(navigator) {
         return (
           <AltContainer stores={{
-            entity: () => {
+            pod: () => {
               return {
                 store: alt.stores.PodsStore,
                 value: alt.stores.PodsStore.get({podName: pod.getIn(['metadata', 'name']), cluster}),
               };
             }}}>
-            <PodsShow entity={pod} cluster={cluster} navigator={navigator} />
+            <PodsShow pod={pod} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

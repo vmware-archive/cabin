@@ -20,14 +20,13 @@ import SearchEntitiesStore from 'stores/SearchEntitiesStore';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
+import ScrollView from 'components/commons/ScrollView';
 
 const { PropTypes } = React;
 const {
   View,
   StyleSheet,
-  ScrollView,
   DeviceEventEmitter,
-  RefreshControl,
 } = ReactNative;
 
 
@@ -61,7 +60,6 @@ export default class Search extends Component {
     super();
     this.query = '';
     this.onChange = this.onChange.bind(this);
-    this.isRefreshing = false;
   }
 
   componentDidMount() {
@@ -89,14 +87,7 @@ export default class Search extends Component {
           contentContainerStyle={styles.listContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}
-          refreshControl={
-            <RefreshControl
-            refreshing={this.isRefreshing}
-            onRefresh={this.refresh.bind(this)}
-            colors={[Colors.BLUE, Colors.RED, Colors.ORANGE]}
-            progressBackgroundColor={Colors.WHITE}
-            />
-          }>
+          onRefresh={this.refresh.bind(this)}>
           {pods.size > 0 && <ListHeader title="Pods"/>}
           {pods}
           {services.size > 0 && <ListHeader title="Services"/>}
@@ -123,12 +114,10 @@ export default class Search extends Component {
   }
 
   onChange() {
-    this.isRefreshing = false;
     this.forceUpdate();
   }
 
   refresh() {
-    this.isRefreshing = true;
     ClustersActions.fetchClusterEntities(this.props.cluster);
   }
 
