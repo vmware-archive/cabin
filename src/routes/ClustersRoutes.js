@@ -23,17 +23,30 @@ import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
 import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
+import Colors from 'styles/Colors';
 
-const { DeviceEventEmitter } = ReactNative;
+const {
+  DeviceEventEmitter,
+  View,
+  Image,
+  Text,
+} = ReactNative;
 
 const ClustersRoutes = {
   getClustersIndexRoute() {
     return {
       name: 'ClustersIndex',
       statusBarStyle: 'light-content',
-      getTitle: () => 'Clusters',
       renderScene(navigator) {
         return <ClustersIndex navigator={navigator} />;
+      },
+      renderTitle: () => {
+        return (
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <Image style={{resizeMode: 'contain', width: 32, height: 32, tintColor: Colors.WHITE, marginRight: 6}} source={require('images/kubernetes.png')} />
+            <Text style={{fontSize: 24, fontWeight: '400', color: Colors.WHITE}}>Cabin</Text>
+          </View>
+        );
       },
       renderRightButton() {
         return (
