@@ -27,6 +27,7 @@ const {
   StyleSheet,
   ScrollView,
   DeviceEventEmitter,
+  RefreshControl,
 } = ReactNative;
 
 
@@ -60,13 +61,14 @@ export default class Search extends Component {
     super();
     this.query = '';
     this.onChange = this.onChange.bind(this);
+    this.isRefreshing = false;
   }
 
   componentDidMount() {
     this.searchListener = DeviceEventEmitter.addListener('search:change', this.handleSearch.bind(this));
     SearchEntitiesStore.listen(this.onChange);
-    ClustersActions.fetchClusterEntities(this.props.cluster);
-    SearchActions.searchEntities({cluster: this.props.cluster, query: ''});
+    this.refresh();
+    SearchActions.searchEntities({cluster: this.props.cluster, query: this.query});
   }
 
   componentWillUnmount() {
@@ -86,7 +88,15 @@ export default class Search extends Component {
           style={styles.list}
           contentContainerStyle={styles.listContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps={true}
+          refreshControl={
+            <RefreshControl
+            refreshing={this.isRefreshing}
+            onRefresh={this.refresh.bind(this)}
+            colors={[Colors.BLUE, Colors.RED, Colors.ORANGE]}
+            progressBackgroundColor={Colors.WHITE}
+            />
+          }>
           {pods.size > 0 && <ListHeader title="Pods"/>}
           {pods}
           {services.size > 0 && <ListHeader title="Services"/>}
@@ -113,7 +123,13 @@ export default class Search extends Component {
   }
 
   onChange() {
+    this.isRefreshing = false;
     this.forceUpdate();
+  }
+
+  refresh() {
+    this.isRefreshing = true;
+    ClustersActions.fetchClusterEntities(this.props.cluster);
   }
 
   handlePress(entity) {
