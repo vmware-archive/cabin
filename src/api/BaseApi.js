@@ -54,7 +54,11 @@ class BaseApi {
     }
 
     if (cluster) {
-      headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
+      if (cluster.get('token')) {
+        headers.Authorization = 'Bearer ' + cluster.get('token');
+      } else if (cluster.get('username')) {
+        headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
+      }
     }
 
     if (dataUrl) {

@@ -88,9 +88,9 @@ export default class ClustersNew extends Component {
             onChangeText={username => this.setState({username})}/>
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
             onChangeText={password => this.setState({password})} isLast={true}/>
-          {/* <ListHeader title="Or"/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Access Token"
-            onChangeText={token => this.setState({token})} isLast={true}/>*/}
+          <ListHeader title="Or"/>
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
+            onChangeText={token => this.setState({token})} isLast={true}/>
 
         </ScrollView>
       </View>
