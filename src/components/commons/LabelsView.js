@@ -16,13 +16,11 @@
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
+import TagInput from 'react-native-tag-input';
 
 const {
   View,
   StyleSheet,
-  Image,
-  TextInput,
-  TouchableOpacity,
   Alert,
 } = ReactNative;
 
@@ -53,7 +51,6 @@ export default class LabelsView extends Component {
 
   constructor() {
     super();
-    this.newLabel = '';
     this.input;
   }
 
@@ -61,44 +58,47 @@ export default class LabelsView extends Component {
     const { entity } = this.props;
 
     const labels = entity.getIn(['metadata', 'labels'], Immutable.List());
-    const labelItems = labels.map((value, key) => {
-      return (
-        <ListItem key={key} title={`${key}:${value}`}
-          renderDetail={() => {
-            return (
-              <TouchableOpacity style={styles.closeContainer} onPress={() => this.handleDelete(key)}>
-                <Image style={styles.close} source={require('images/close.png')}/>
-              </TouchableOpacity>
-            );
-          }}/>
-      );
+    const values = labels.map((value, key) => {
+      return `${key}:${value}`;
     }).toArray();
     return (
       <View style={styles.container}>
         <ListHeader title="Labels" />
-        {labels.size > 0 && labelItems}
-        <ListItem isLast={true} renderTitle={() => {
+        <ListItem isLast={true} style={{height: null}} renderTitle={() => {
           return (
-            <TextInput style={{flex: 1}} ref={(e) => {this.input = e;}}
+            <TagInput style={{flex: 1}} ref={(e) => {this.input = e;}}
               autoCapitalize="none" autoCorrect={false}
-              placeholder="key:value"
+              placeholder="Add new label"
               returnKeyType="done"
-              onSubmitEditing={this.handleSubmit.bind(this)}
-              onChangeText={text => { this.newLabel = text; }}/>
+              value={values}
+              regex={/^[a-z0-9]+:[a-z0-9]+$/}
+              onChange={(e) => {
+                if (e.length < values.length) {
+                  const deletedKey = '';
+                  values.forEach(v => {
+                    if (e.indexOf(v) === -1) {
+                      deletedKey = v.split(':')[0];
+                    }
+                  });
+                  this.handleDelete(deletedKey);
+                } else {
+                  this.handleSubmit(e[e.length - 1]);
+                }
+              }}/>
           );
         }}/>
       </View>
     );
   }
 
-  handleSubmit() {
-    const [key, value] = this.newLabel.split(':');
+  handleSubmit(newLabel) {
+    const [key, value] = newLabel.split(':');
     if (!key || !value) {
       Alert.alert('Invalid key:value pair', 'Separate key and value with ":" \n(ex: foo:bar)');
       return;
     }
     this.props.onSubmit && this.props.onSubmit({key, value}).then(() => {
-      this.input && this.input.setNativeProps({text: ''});
+      return true;
     }).catch(() => {
       Alert.alert('Invalid key:value pair', 'Separate key and value with ":" \n(ex: foo:bar)');
     });
