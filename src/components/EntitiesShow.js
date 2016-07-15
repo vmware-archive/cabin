@@ -61,6 +61,7 @@ export default class EntitiesShow extends Component {
         <ScrollView style={styles.list}>
           <View style={styles.section}>
             <ListItem title="Name" detailTitle={entity.getIn(['metadata', 'name'])}/>
+            <ListItem title="Namespace" detailTitle={entity.getIn(['metadata', 'namespace'])}/>
             {entity.getIn(['status', 'phase']) && <ListItem title="Status" detailTitle={entity.getIn(['status', 'phase'])}/>}
             <ListItem title="Version" detailTitle={`${entity.getIn(['metadata', 'resourceVersion'])}`}/>
             <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} isLast={true}/>

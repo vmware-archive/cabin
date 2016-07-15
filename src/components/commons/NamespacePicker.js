@@ -76,6 +76,7 @@ export default class NamespacePicker extends Component {
       cancelButtonIndex: 0,
     },
     (index) => {
+      if (index === 0 ) { return; }
       let namespace;
       if (index > 1) {
         namespace = namespaces.get(index - 2);

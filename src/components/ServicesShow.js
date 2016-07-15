@@ -50,13 +50,13 @@ export default class ServicesShow extends Component {
 
   render() {
     const { service } = this.props;
-    console.log('SERVICE', service.toJS());
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
           <View style={styles.section}>
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
+            <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
             <ListItem title="Type" detailTitle={service.getIn(['spec', 'type'])}/>
             <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>

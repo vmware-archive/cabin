@@ -25,6 +25,7 @@ const { PropTypes } = React;
 const iconPod = require('images/cube.png');
 const iconService = require('images/tool.png');
 const iconReplication = require('images/duplicate.png');
+const iconNodes = require('images/connection.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -62,6 +63,8 @@ export default class ListItem extends Component {
         return Colors.ORANGE;
       case 'replications':
         return Colors.PURPLE;
+      case 'nodes':
+        return Colors.BLUE;
       default:
         return Colors.GRAY;
     }
@@ -75,6 +78,8 @@ export default class ListItem extends Component {
         return iconService;
       case 'replications':
         return iconReplication;
+      case 'nodes':
+        return iconNodes;
       default:
         return iconPod;
     }

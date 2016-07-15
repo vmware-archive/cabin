@@ -62,6 +62,7 @@ export default class PodsShow extends Component {
           <View style={styles.section}>
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
+            <ListItem title="Namespace" detailTitle={pod.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Status" renderDetail={() => {
               return <StatusView status={pod.get('status')}/>;
             }}/>

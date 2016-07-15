@@ -7,15 +7,28 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     pods: {
       'test': [
-        {type: 'pods', metadata: {
-          name: 'Pod A',
-          resourceVersion: 99,
-          uid: '123456789',
-          labels: {
-            hostname: 'test',
-            env: 'prod',
+        { type: 'pods',
+          metadata: {
+            name: 'Pod A',
+            resourceVersion: 99,
+            uid: '123456789',
+            labels: {
+              hostname: 'test',
+              env: 'prod',
+            },
           },
-        }},
+          status: {
+            containerStatuses: [
+              { ready: true },
+              { ready: true },
+            ],
+          },
+          spec: {
+            containers: [
+              { name: 'Container 1', image: 'image-nginx-test' },
+            ],
+          },
+        },
       ],
     },
   },
@@ -23,9 +36,9 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     services: {
       'test': [
-        {type: 'services', metadata: { name: 'Service A', labels: {label: 'value'} }},
-        {type: 'services', metadata: { name: 'Service B' }},
-        {type: 'services', metadata: { name: 'Service C' }},
+        {type: 'services', metadata: { name: 'Service A', creationTimestamp: '2016-07-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
+        {type: 'services', metadata: { name: 'Service B', creationTimestamp: '2015-07-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
+        {type: 'services', metadata: { name: 'Service C', creationTimestamp: '2016-03-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
       ],
     },
   },
