@@ -37,12 +37,6 @@ export default class EnhancedScrollView extends Component {
     this._userPulledRefresh = false;
   }
 
-  shouldComponentUpdate(nextProps) {
-    return !Immutable.is(nextProps.list, this.props.list)
-      || nextProps.hasNextPage !== this.props.hasNextPage
-      || nextProps.scrollEnabled !== this.props.scrollEnabled;
-  }
-
   componentWillReceiveProps() {
     this._userPulledRefresh = false;
   }

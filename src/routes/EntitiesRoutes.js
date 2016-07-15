@@ -86,7 +86,7 @@ export default {
       renderScene(navigator) {
         return (
           <AltContainer stores={{
-            node: () => {
+            service: () => {
               return {
                 store: alt.stores.ServicesStore,
                 value: alt.stores.ServicesStore.get({serviceName: service.getIn(['metadata', 'name']), cluster}),
