@@ -20,6 +20,8 @@ import SettingsActions from 'actions/SettingsActions';
 
 const {
   View,
+  Switch,
+  Image,
   StyleSheet,
 } = ReactNative;
 
@@ -31,6 +33,11 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     paddingTop: 20,
+  },
+  orderIcon: {
+    width: 15, height: 15,
+    tintColor: Colors.GRAY,
+    marginLeft: 10,
   },
 });
 
@@ -68,7 +75,15 @@ export default class Settings extends Component {
       <DraggableItem
         style={entity.get('hidden') && {opacity: 0.4}}
         title={_.capitalize(entity.get('name'))}
-        detailTitle={entity.get('hidden') && 'Hidden'}
+        renderDetail={() => {
+          return (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Switch value={!entity.get('hidden')} onValueChange={() => this.handleOnPress({entity, key: row})} style={styles.switch}/>
+              <Image source={require('images/list.png')} style={styles.orderIcon} />
+            </View>
+          );
+        }}
+        isLast={row === this.state.order.last()}
         onDragStart={() => this.setState({scrollEnabled: false})}
         onPress={() => this.handleOnPress({entity, key: row})}
       />
