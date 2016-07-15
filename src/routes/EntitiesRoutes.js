@@ -15,6 +15,7 @@
 */
 import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/PodsShow';
+import NodesShow from 'components/NodesShow';
 import AltContainer from 'alt-container';
 
 export default {
@@ -62,13 +63,13 @@ export default {
       renderScene(navigator) {
         return (
           <AltContainer stores={{
-            entity: () => {
+            node: () => {
               return {
                 store: alt.stores.NodesStore,
                 value: alt.stores.NodesStore.get({nodeName: node.getIn(['metadata', 'name']), cluster}),
               };
             }}}>
-            <EntitiesShow entity={node} cluster={cluster} navigator={navigator} />
+            <NodesShow node={node} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

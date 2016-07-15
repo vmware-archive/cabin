@@ -86,7 +86,7 @@ export default class ClustersNew extends Component {
           <ListHeader title="Authentication" style={{marginTop: 30}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
             onChangeText={username => this.setState({username})}/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
+          <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
             onChangeText={password => this.setState({password})} isLast={true}/>
           {/* <ListHeader title="Or"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Access Token"

@@ -76,6 +76,7 @@ class LocalesUtils {
   static getLocalizedRelativeDate(date, options) {
     const lang = this.getLanguage();
     const formater = new IntlRelativeFormat(lang, options);
+    console.log('date: ', date, new Date());
     return formater.format(new Date(date), options);
   }
 
