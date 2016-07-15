@@ -69,7 +69,7 @@ export default class NamespacePicker extends Component {
   }
 
   handlePress() {
-    const namespaces = this.props.cluster.get('namespaces', Immutable.list());
+    const namespaces = this.props.cluster.get('namespaces', Immutable.List());
     const options = ['Cancel', 'All namespaces', ...namespaces.toJS()];
     this.refs.actionSheet.showActionSheetWithOptions({
       options,
