@@ -53,6 +53,28 @@ export default {
     };
   },
 
+  getNodesShowRoute({node, cluster}) {
+    return {
+      name: 'NodesShow',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => node.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            entity: () => {
+              return {
+                store: alt.stores.NodesStore,
+                value: alt.stores.NodesStore.get({nodeName: node.getIn(['metadata', 'name']), cluster}),
+              };
+            }}}>
+            <EntitiesShow entity={node} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
   getServicesShowRoute(service) {
     return {
       name: 'ServicesShow',

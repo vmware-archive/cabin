@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import PodsActions from 'actions/PodsActions';
+import NodesActions from 'actions/NodesActions';
 import ServicesActions from 'actions/ServicesActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
 
@@ -48,6 +49,7 @@ class ClustersActions {
 
   fetchClusterEntities(cluster) {
     PodsActions.fetchPods.defer(cluster);
+    NodesActions.fetchNodes.defer(cluster);
     ServicesActions.fetchServices.defer(cluster);
     ReplicationsActions.fetchReplications.defer(cluster);
   }

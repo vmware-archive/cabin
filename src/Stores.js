@@ -15,6 +15,7 @@
 */
 import 'stores/ClustersStore';
 import 'stores/PodsStore';
+import 'stores/NodesStore';
 import 'stores/ReplicationsStore';
 import 'stores/ServicesStore';
 import 'stores/SettingsStore';

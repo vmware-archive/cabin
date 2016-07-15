@@ -27,13 +27,12 @@ class SettingsStore {
     this.bindActions(InitActions);
     this.state = Immutable.fromJS({
       entitiesDisplay: {
-        order: [0, 1, 2, 3, 4],
+        order: [0, 1, 2, 3],
         entities: {
           0: {name: 'pods'},
           1: {name: 'services'},
           2: {name: 'replications'},
-          3: {name: 'nodes', hidden: true},
-          4: {name: 'secrets', hidden: true},
+          3: {name: 'nodes'},
         },
       },
     });
@@ -41,6 +40,7 @@ class SettingsStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
+      this.setState(this.state.merge(appState.get(this.displayName)));
       return true;
     }
     return false;

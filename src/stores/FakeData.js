@@ -38,4 +38,12 @@ export default Immutable.fromJS({
       ],
     },
   },
+  NodesStore: {
+    status: {'test': 'success'},
+    nodes: {
+      'test': [
+        {type: 'nodes', metadata: { name: 'Node-A' }},
+      ],
+    },
+  },
 });

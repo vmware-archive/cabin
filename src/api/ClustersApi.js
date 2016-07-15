@@ -29,6 +29,31 @@ class ClustersApi {
     });
   }
 
+  /* NOES */
+  static fetchNodes(cluster) {
+    return BaseApi.get('/api/v1/nodes', {}, cluster).then(response => {
+      return response.get('items');
+    });
+  }
+
+  static deleteNode({cluster, node}) {
+    return BaseApi.delete(`api/v1/nodes/${node.getIn(['metadata', 'name'])}`, {}, cluster, node);
+  }
+
+  static addNodeLabel({cluster, node, key, value}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, value]]).toJS(),
+    }};
+    return BaseApi.patch(`api/v1/nodes/${node.getIn(['metadata', 'name'])}`, body, cluster, node);
+  }
+
+  static deleteNodeLabel({cluster, node, key}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, null]]).toJS(),
+    }};
+    return BaseApi.patch(`api/v1/nodes/${node.getIn(['metadata', 'name'])}`, body, cluster, node);
+  }
+
   /* PODS */
   static fetchPods(cluster) {
     return BaseApi.get('/pods', {}, cluster).then(response => {

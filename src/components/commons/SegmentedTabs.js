@@ -178,10 +178,15 @@ export default class SegmentedTabs extends Component {
     this.counter--;
     this.layouts[index] = e.nativeEvent.layout;
     if (this.counter === 0) {
+      const windowWidth = Dimensions.get('window').width;
+      let shouldScroll = false;
       const fullWidth = this.layouts.reduce((sum, layout) => {
+        if (!shouldScroll && layout.width > windowWidth / this.layouts.length) {
+          shouldScroll = true;
+        }
         return sum + layout.width;
       }, 0);
-      if (fullWidth < Dimensions.get('window').width - 50) {
+      if (!shouldScroll || fullWidth < windowWidth - 50) {
         this.setState({isScrollable: false});
       } else {
         this.forceUpdate();
