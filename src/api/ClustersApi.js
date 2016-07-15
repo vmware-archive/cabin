@@ -29,7 +29,7 @@ class ClustersApi {
     });
   }
 
-  /* NOES */
+  /* NODES */
   static fetchNodes(cluster) {
     return BaseApi.get('/api/v1/nodes', {}, cluster).then(response => {
       return response.get('items');
@@ -92,6 +92,25 @@ class ClustersApi {
       return response.get('items');
     });
   }
+
+  static deleteService({cluster, service}) {
+    return BaseApi.delete(`/services/${service.getIn(['metadata', 'name'])}`, {}, cluster, service);
+  }
+
+  static addServiceLabel({cluster, service, key, value}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, value]]).toJS(),
+    }};
+    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
+  }
+
+  static deleteServiceLabel({cluster, service, key}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, null]]).toJS(),
+    }};
+    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
+  }
+
 
 }
 

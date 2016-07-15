@@ -16,6 +16,7 @@
 import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/PodsShow';
 import NodesShow from 'components/NodesShow';
+import ServicesShow from 'components/ServicesShow';
 import AltContainer from 'alt-container';
 
 export default {
@@ -76,14 +77,24 @@ export default {
     };
   },
 
-  getServicesShowRoute(service) {
+  getServicesShowRoute({service, cluster}) {
     return {
       name: 'ServicesShow',
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => service.getIn(['metadata', 'name']),
       renderScene(navigator) {
-        return <EntitiesShow entity={service} navigator={navigator} />;
+        return (
+          <AltContainer stores={{
+            node: () => {
+              return {
+                store: alt.stores.ServicesStore,
+                value: alt.stores.ServicesStore.get({serviceName: service.getIn(['metadata', 'name']), cluster}),
+              };
+            }}}>
+            <ServicesShow service={service} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
       },
     };
   },

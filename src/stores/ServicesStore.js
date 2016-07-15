@@ -59,12 +59,39 @@ class ServicesStore {
     this.setState(this.state.setIn(['status', cluster.get('url')], services.size === 0 ? 'failure' : 'success'));
   }
 
+  onAddServiceLabelStart({cluster, service, key, value}) {
+    const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['services', cluster.get('url'), index, 'metadata', 'labels', key], value));
+  }
+
+  onAddServiceLabelFailure({cluster, service, key}) {
+    const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['services', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
+  onDeleteServiceLabelStart({cluster, service, key}) {
+    const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['services', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
   static getServices(cluster) {
     return this.state.getIn(['services', cluster.get('url')], Immutable.List());
+  }
+
+  static get({serviceName, cluster}) {
+    return this.state.getIn(['services', cluster.get('url')]).find(e => {
+      return e.getIn(['metadata', 'name']) === serviceName;
+    });
   }
 
 }

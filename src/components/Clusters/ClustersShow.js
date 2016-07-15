@@ -119,7 +119,7 @@ export default class ClusterShow extends Component {
             listHeader="Services"
             status={alt.stores.ServicesStore.getStatus(cluster)}
             entities={alt.stores.ServicesStore.getServices(cluster)}
-            onPress={(service) => this.props.navigator.push(EntitiesRoutes.getServicesShowRoute(service))}
+            onPress={(service) => this.props.navigator.push(EntitiesRoutes.getServicesShowRoute({service, cluster}))}
             onRefresh={() => ServicesActions.fetchServices(cluster)}
           />
         </AltContainer>}

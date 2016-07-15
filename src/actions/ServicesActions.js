@@ -23,6 +23,15 @@ class ServicesActions {
       'fetchServicesStart',
       'fetchServicesSuccess',
       'fetchServicesFailure',
+      'deleteServiceStart',
+      'deleteServiceSuccess',
+      'deleteServiceFailure',
+      'addServiceLabelStart',
+      'addServiceLabelSuccess',
+      'addServiceLabelFailure',
+      'deleteServiceLabelStart',
+      'deleteServiceLabelSuccess',
+      'deleteServiceLabelFailure',
     );
   }
 
@@ -33,6 +42,33 @@ class ServicesActions {
     })
     .catch(() => {
       this.fetchServicesFailure(cluster);
+    });
+  }
+
+  deleteService({cluster, service}) {
+    this.deleteServiceStart({cluster, service});
+    return ClustersApi.deleteService({cluster, service}).then(() => {
+      this.deleteServiceSuccess({cluster, service});
+    }).catch(() => {
+      this.deleteServiceFailure({cluster, service});
+    });
+  }
+
+  addServiceLabel({cluster, service, key, value}) {
+    this.addServiceLabelStart({cluster, service, key, value});
+    return ClustersApi.addServiceLabel({cluster, service, key, value}).then(() => {
+      this.addServiceLabelSuccess({cluster, service, key, value});
+    }).catch(() => {
+      this.addServiceLabelFailure({cluster, service, key, value});
+    });
+  }
+
+  deleteServiceLabel({cluster, service, key}) {
+    this.deleteServiceLabelStart({cluster, service, key});
+    return ClustersApi.deleteServiceLabel({cluster, service, key}).then(() => {
+      this.deleteServiceLabelSuccess({cluster, service, key});
+    }).catch(() => {
+      this.deleteServiceLabelFailure({cluster, service, key});
     });
   }
 }

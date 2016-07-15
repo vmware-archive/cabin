@@ -42,7 +42,13 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     nodes: {
       'test': [
-        {type: 'nodes', metadata: { name: 'Node-A' }},
+        { type: 'nodes',
+          metadata: { name: 'Node-A', creationTimestamp: '2016-07-14T23:45:20Z'},
+          status: {
+            addresses: [{address: '10.11.12.13', type: 'InternalIP'}],
+            conditions: [{type: 'Ready', status: 'True'}],
+          },
+        },
       ],
     },
   },
