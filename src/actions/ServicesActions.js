@@ -32,6 +32,9 @@ class ServicesActions {
       'deleteServiceLabelStart',
       'deleteServiceLabelSuccess',
       'deleteServiceLabelFailure',
+      'updateServiceTypeStart',
+      'updateServiceTypeSuccess',
+      'updateServiceTypeFailure',
     );
   }
 
@@ -69,6 +72,15 @@ class ServicesActions {
       this.deleteServiceLabelSuccess({cluster, service, key});
     }).catch(() => {
       this.deleteServiceLabelFailure({cluster, service, key});
+    });
+  }
+
+  updateServiceType({cluster, service, type}) {
+    this.updateServiceTypeStart({cluster, service, type});
+    return ClustersApi.updateServiceType({cluster, service, type}).then(() => {
+      this.updateServiceTypeSuccess({cluster, service, type});
+    }).catch(() => {
+      this.updateServiceTypeFailure({cluster, service, type});
     });
   }
 }

@@ -19,10 +19,12 @@ import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import ServicesActions from 'actions/ServicesActions';
+import SegmentedControl from 'components/commons/SegmentedControl';
 
 const {
   View,
   StyleSheet,
+  Animated,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -58,7 +60,7 @@ export default class ServicesShow extends Component {
             <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="Type" detailTitle={service.getIn(['spec', 'type'])}/>
+            <ListItem title="Type" renderDetail={this.renderTypeDetail.bind(this)}/>
             <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>
           </View>
           <View style={styles.section}>
@@ -88,6 +90,25 @@ export default class ServicesShow extends Component {
       );
     });
     return items;
+  }
+
+  renderTypeDetail() {
+    const controls = ['ClusterIP', 'NodePort', 'LoadBalancer'];
+    const index = controls.indexOf(this.props.service.getIn(['spec', 'type']));
+    return (
+      <SegmentedControl
+        style={{width: 280, marginRight: -10, marginTop: -5}}
+        borderColor={Colors.BLUE}
+        activeColor={Colors.BLUE}
+        activeTextColor={Colors.WHITE}
+        inactiveTextColor={Colors.BLUE}
+        selectedIndex={new Animated.Value(index)}
+        controls={controls}
+        onPress={(i) => {
+          ServicesActions.updateServiceType({cluster: this.props.cluster, service: this.props.service, type: controls[i]});
+        }}
+      />
+    );
   }
 
   handleRefresh() {

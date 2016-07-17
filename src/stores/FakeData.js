@@ -36,9 +36,9 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     services: {
       'test': [
-        {type: 'services', metadata: { name: 'Service A', creationTimestamp: '2016-07-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
-        {type: 'services', metadata: { name: 'Service B', creationTimestamp: '2015-07-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
-        {type: 'services', metadata: { name: 'Service C', creationTimestamp: '2016-03-14T23:45:20Z' }, spec: { ports: [{name: 'https', port: '443'}]}},
+        {type: 'services', metadata: { name: 'Service A', creationTimestamp: '2016-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443'}]}},
+        {type: 'services', metadata: { name: 'Service B', creationTimestamp: '2015-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443'}]}},
+        {type: 'services', metadata: { name: 'Service C', creationTimestamp: '2016-03-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443'}]}},
       ],
     },
   },

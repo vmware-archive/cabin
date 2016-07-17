@@ -80,6 +80,13 @@ class ServicesStore {
     this.setState(this.state.removeIn(['services', cluster.get('url'), index, 'metadata', 'labels', key]));
   }
 
+  onUpdateServiceTypeStart({cluster, service, type}) {
+    const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['services', cluster.get('url'), index, 'spec', 'type'], type));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }

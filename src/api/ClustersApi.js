@@ -111,6 +111,11 @@ class ClustersApi {
     return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
   }
 
+  static updateServiceType({cluster, service, type}) {
+    const body = {spec: { type }};
+    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
+  }
+
 
 }
 
