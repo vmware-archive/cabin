@@ -59,6 +59,12 @@ class ReplicationsStore {
     this.setState(this.state.setIn(['status', cluster.get('url')], replications.size === 0 ? 'failure' : 'success'));
   }
 
+  onDeleteReplicationStart({cluster, replication}) {
+    this.setState(this.state.updateIn(['replications', cluster.get('url')], replications => {
+      return replications.filter(p => p.getIn(['metadata', 'name']) !== replication.getIn(['metadata', 'name']));
+    }));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }

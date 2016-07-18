@@ -121,6 +121,7 @@ export default class ClusterShow extends Component {
             entities={alt.stores.ServicesStore.getServices(cluster)}
             onPress={(service) => this.props.navigator.push(EntitiesRoutes.getServicesShowRoute({service, cluster}))}
             onRefresh={() => ServicesActions.fetchServices(cluster)}
+            onDelete={service => ServicesActions.deleteService({cluster, service})}
           />
         </AltContainer>}
 
@@ -144,6 +145,7 @@ export default class ClusterShow extends Component {
             entities={alt.stores.ReplicationsStore.getReplications(cluster)}
             onPress={(service) => this.props.navigator.push(EntitiesRoutes.getReplicationsShowRoute(service))}
             onRefresh={() => ReplicationsActions.fetchReplications(cluster)}
+            onDelete={replication => ReplicationsActions.deleteReplication({cluster, replication})}
           />
         </AltContainer>}
 

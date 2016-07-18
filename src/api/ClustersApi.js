@@ -86,6 +86,10 @@ class ClustersApi {
     });
   }
 
+  static deleteReplication({cluster, replication}) {
+    return BaseApi.delete(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, {}, cluster, replication);
+  }
+
   /* SERVICES */
   static fetchServices(cluster) {
     return BaseApi.get('/services', {}, cluster).then(response => {

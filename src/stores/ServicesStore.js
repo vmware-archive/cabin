@@ -59,6 +59,12 @@ class ServicesStore {
     this.setState(this.state.setIn(['status', cluster.get('url')], services.size === 0 ? 'failure' : 'success'));
   }
 
+  onDeleteServiceStart({cluster, service}) {
+    this.setState(this.state.updateIn(['services', cluster.get('url')], services => {
+      return services.filter(p => p.getIn(['metadata', 'name']) !== service.getIn(['metadata', 'name']));
+    }));
+  }
+
   onAddServiceLabelStart({cluster, service, key, value}) {
     const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
       return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);

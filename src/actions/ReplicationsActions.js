@@ -23,6 +23,9 @@ class ReplicationsActions {
       'fetchReplicationsStart',
       'fetchReplicationsSuccess',
       'fetchReplicationsFailure',
+      'deleteReplicationStart',
+      'deleteReplicationSuccess',
+      'deleteReplicationFailure',
     );
   }
 
@@ -33,6 +36,15 @@ class ReplicationsActions {
     })
     .catch(() => {
       this.fetchReplicationsFailure(cluster);
+    });
+  }
+
+  deleteReplication({cluster, replication}) {
+    this.deleteReplicationStart({cluster, replication});
+    return ClustersApi.deleteReplication({cluster, replication}).then(() => {
+      this.deleteReplicationSuccess({cluster, replication});
+    }).catch(() => {
+      this.deleteReplicationFailure({cluster, replication});
     });
   }
 }
