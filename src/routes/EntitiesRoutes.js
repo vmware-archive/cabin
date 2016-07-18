@@ -17,9 +17,25 @@ import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/PodsShow';
 import NodesShow from 'components/NodesShow';
 import ServicesShow from 'components/ServicesShow';
+import YamlView from 'components/YamlView';
+import NavbarButton from 'components/commons/NavbarButton';
 import AltContainer from 'alt-container';
+import YAML from 'yamljs';
+import Colors from 'styles/Colors';
 
-export default {
+const { Clipboard } = ReactNative;
+
+let EntitiesRoutes = {};
+
+const yamlRightButton = ({navigator, entity}) => {
+  return (
+    <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
+      onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute(entity))}
+    />
+  );
+};
+
+EntitiesRoutes = {
 
   getEntitiesShowRoute(entity) {
     return {
@@ -27,8 +43,29 @@ export default {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => entity.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity}); },
       renderScene(navigator) {
         return <EntitiesShow entity={entity} navigator={navigator} />;
+      },
+    };
+  },
+
+  getEntitiesYamlRoute(entity) {
+    return {
+      name: 'EntitiesYaml',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => entity.getIn(['metadata', 'name']),
+      renderScene(navigator) {
+        return <YamlView entity={entity} navigator={navigator} />;
+      },
+      renderRightButton() {
+        const yaml = YAML.stringify(entity.toJS(), 4);
+        return (
+          <NavbarButton title="Copy"
+            onPress={() => Clipboard.setString(yaml)}
+          />
+        );
       },
     };
   },
@@ -39,6 +76,7 @@ export default {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => pod.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity: pod}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -61,6 +99,7 @@ export default {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => node.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity: node}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -83,6 +122,7 @@ export default {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => service.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity: service}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -105,9 +145,12 @@ export default {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => replication.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity: replication}); },
       renderScene(navigator) {
         return <EntitiesShow entity={replication} navigator={navigator} />;
       },
     };
   },
 };
+
+export default EntitiesRoutes;

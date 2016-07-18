@@ -117,7 +117,7 @@ export default class ListItem extends Component {
     if (this.props.entity) {
       return (
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-          <EntityIcon type={this.props.entity.get('type')} />
+          <EntityIcon type={this.props.entity.get('kind')} />
           <Text style={{flex: 1, marginLeft: 10, fontSize: 16}} numberOfLines={1}>{this.props.entity.getIn(['metadata', 'name'])}</Text>
         </View>
       );
@@ -133,7 +133,7 @@ export default class ListItem extends Component {
   renderDetail() {
     if (this.props.renderDetail) { return this.props.renderDetail(); }
     const { entity } = this.props;
-    if (entity && entity.get('type') === 'pods') {
+    if (entity && entity.get('kind') === 'pods') {
       const status = entity.get('status');
       if (status) {
         return <StatusView status={status} />;
