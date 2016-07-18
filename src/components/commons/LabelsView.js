@@ -71,7 +71,7 @@ export default class LabelsView extends Component {
               placeholder="new:label"
               returnKeyType="done"
               value={values}
-              regex={/^[a-z0-9]+:[a-z0-9]+$/}
+              regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
               onChange={(e) => {
                 if (e.length < values.length) {
                   const deletedKey = '';

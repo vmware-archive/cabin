@@ -58,7 +58,6 @@ export default class NodesShow extends Component {
           <View style={styles.section}>
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
-            <ListItem title="Namespace" detailTitle={node.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
             <ListItem title="Status" detailTitle={ready ? 'Ready' : 'Not Ready'} isLast={true}/>
           </View>
