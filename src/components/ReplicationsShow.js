@@ -57,6 +57,14 @@ export default class ReplicationsShow extends Component {
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={replication.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={replication.getIn(['metadata', 'namespace'])}/>
+            <ListItem title="Age" detailTitle={intlrd(replication.getIn(['metadata', 'creationTimestamp']))} isLast={true}/>
+          </View>
+          <View style={styles.section}>
+            <ListHeader title="Replicas"/>
+            <ListItem title="Desired" detailTitle={replication.getIn(['spec', 'replicas'])}/>
+            <ListItem title="Current" detailTitle={replication.getIn(['status', 'replicas'])}/>
+            <ListItem title="Up to date" detailTitle={replication.getIn(['status', 'updatedReplicas'])}/>
+            <ListItem title="Available" detailTitle={replication.getIn(['status', 'availableReplicas'])} isLast={true}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={replication} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
