@@ -90,6 +90,20 @@ class ClustersApi {
     return BaseApi.delete(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, {}, cluster, replication);
   }
 
+  static addReplicationLabel({cluster, replication, key, value}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, value]]).toJS(),
+    }};
+    return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
+  }
+
+  static deleteReplicationLabel({cluster, replication, key}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, null]]).toJS(),
+    }};
+    return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
+  }
+
   /* SERVICES */
   static fetchServices(cluster) {
     return BaseApi.get('/services', {}, cluster).then(response => {

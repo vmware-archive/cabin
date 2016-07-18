@@ -54,7 +54,6 @@ export default class YamlView extends Component {
 
   render() {
     const yaml = YAML.stringify(this.props.entity.toJS(), 4).replace(/(-\n          )/g, '-');
-    console.log(yaml);
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <ParsedText style={styles.text}

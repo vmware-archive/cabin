@@ -26,6 +26,12 @@ class ReplicationsActions {
       'deleteReplicationStart',
       'deleteReplicationSuccess',
       'deleteReplicationFailure',
+      'addReplicationLabelStart',
+      'addReplicationLabelSuccess',
+      'addReplicationLabelFailure',
+      'deleteReplicationLabelStart',
+      'deleteReplicationLabelSuccess',
+      'deleteReplicationLabelFailure',
     );
   }
 
@@ -45,6 +51,24 @@ class ReplicationsActions {
       this.deleteReplicationSuccess({cluster, replication});
     }).catch(() => {
       this.deleteReplicationFailure({cluster, replication});
+    });
+  }
+
+  addReplicationLabel({cluster, replication, key, value}) {
+    this.addReplicationLabelStart({cluster, replication, key, value});
+    return ClustersApi.addReplicationLabel({cluster, replication, key, value}).then(() => {
+      this.addReplicationLabelSuccess({cluster, replication, key, value});
+    }).catch(() => {
+      this.addReplicationLabelFailure({cluster, replication, key, value});
+    });
+  }
+
+  deleteReplicationLabel({cluster, replication, key}) {
+    this.deleteReplicationLabelStart({cluster, replication, key});
+    return ClustersApi.deleteReplicationLabel({cluster, replication, key}).then(() => {
+      this.deleteReplicationLabelSuccess({cluster, replication, key});
+    }).catch(() => {
+      this.deleteReplicationLabelFailure({cluster, replication, key});
     });
   }
 }

@@ -68,7 +68,7 @@ export default class LabelsView extends Component {
           return (
             <TagInput style={{flex: 1}} ref={(e) => {this.input = e;}}
               autoCapitalize="none" autoCorrect={false}
-              placeholder="Add new label"
+              placeholder="new:label"
               returnKeyType="done"
               value={values}
               regex={/^[a-z0-9]+:[a-z0-9]+$/}

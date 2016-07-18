@@ -61,7 +61,7 @@
     "react-native-safari-view": "^1.0.0",
     "react-native-sortable-listview": "0.0.8",
     "react-native-swipeout": "git+https://github.com/kemcake/react-native-swipeout.git",
-    "react-native-tag-input": "0.0.10",
+    "react-native-tag-input": "git+https://github.com/kemcake/react-native-tag-input.git",
     "yamljs": "^0.2.8"
   },
   "devDependencies": {

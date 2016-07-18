@@ -65,12 +65,39 @@ class ReplicationsStore {
     }));
   }
 
+  onAddReplicationLabelStart({cluster, replication, key, value}) {
+    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key], value));
+  }
+
+  onAddReplicationLabelFailure({cluster, replication, key}) {
+    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
+  onDeleteReplicationLabelStart({cluster, replication, key}) {
+    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.removeIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key]));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
   static getReplications(cluster) {
     return this.state.getIn(['replications', cluster.get('url')], Immutable.List());
+  }
+
+  static get({replicationName, cluster}) {
+    return this.state.getIn(['replications', cluster.get('url')]).find(e => {
+      return e.getIn(['metadata', 'name']) === replicationName;
+    });
   }
 
 }

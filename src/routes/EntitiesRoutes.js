@@ -17,6 +17,7 @@ import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/PodsShow';
 import NodesShow from 'components/NodesShow';
 import ServicesShow from 'components/ServicesShow';
+import ReplicationsShow from 'components/ReplicationsShow';
 import YamlView from 'components/YamlView';
 import NavbarButton from 'components/commons/NavbarButton';
 import AltContainer from 'alt-container';
@@ -139,7 +140,7 @@ EntitiesRoutes = {
     };
   },
 
-  getReplicationsShowRoute(replication) {
+  getReplicationsShowRoute({replication, cluster}) {
     return {
       name: 'ReplicationsShow',
       statusBarStyle: 'light-content',
@@ -147,7 +148,17 @@ EntitiesRoutes = {
       getTitle: () => replication.getIn(['metadata', 'name']),
       renderRightButton(navigator) { return yamlRightButton({navigator, entity: replication}); },
       renderScene(navigator) {
-        return <EntitiesShow entity={replication} navigator={navigator} />;
+        return (
+          <AltContainer stores={{
+            replication: () => {
+              return {
+                store: alt.stores.ReplicationsStore,
+                value: alt.stores.ReplicationsStore.get({replicationName: replication.getIn(['metadata', 'name']), cluster}),
+              };
+            }}}>
+            <ReplicationsShow replication={replication} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
       },
     };
   },

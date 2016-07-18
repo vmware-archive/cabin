@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 export default class ListItem extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['pods', 'services', 'replications']).isRequired,
+    type: PropTypes.oneOf(['pods', 'services', 'replications', 'nodes']).isRequired,
   }
 
   render() {
