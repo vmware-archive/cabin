@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   image: {
     tintColor: Colors.WHITE,
     width: 20, height: 20,
+    resizeMode: 'contain',
   },
   text: {
     color: Colors.WHITE,

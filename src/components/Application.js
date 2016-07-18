@@ -16,26 +16,51 @@
 import Navigator from 'components/commons/Navigator';
 import TabBar from 'components/commons/TabBar';
 import InitActions from 'actions/InitActions';
+import ActionSheet from '@exponent/react-native-action-sheet';
+const { DeviceEventEmitter } = ReactNative;
 
 export default class Application extends Component {
 
+  constructor() {
+    super();
+  }
+
   componentDidMount() {
     InitActions.initializeApplication();
+    this.actionSheetListener = DeviceEventEmitter.addListener('actionSheet:show', this.onActionSheetShow.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.actionSheetListener.remove();
   }
 
   render() {
     return (
-      <Navigator
-        navigatorEvent="application:navigation"
-        showNavigationBar={false}
-        sceneStyle={{paddingTop: 0}}
-        initialRoute={{
-          statusBarStyle: 'light-content',
-          renderScene() {
-            return <TabBar />;
-          },
-        }}
-      />
+      <ActionSheet ref="actionSheet">
+        <Navigator
+          navigatorEvent="application:navigation"
+          showNavigationBar={false}
+          sceneStyle={{paddingTop: 0}}
+          initialRoute={{
+            statusBarStyle: 'light-content',
+            renderScene() {
+              return <TabBar />;
+            },
+          }}
+        />
+      </ActionSheet>
     );
+  }
+
+  onActionSheetShow(options) {
+    const titles = options.map(opt => opt.title);
+    this.refs.actionSheet.showActionSheetWithOptions({
+      options: titles,
+      cancelButtonIndex: 0,
+    },
+    (index) => {
+      const onPress = options[index].onPress;
+      onPress && onPress(index);
+    });
   }
 }

@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import ActionSheet from '@exponent/react-native-action-sheet';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersActions from 'actions/ClustersActions';
 
 const { PropTypes } = React;
@@ -56,27 +56,20 @@ export default class NamespacePicker extends Component {
   render() {
     const namespaceTitle = this.props.cluster.get('currentNamespace') || 'All namespaces';
     return (
-      <ActionSheet ref="actionSheet">
-        <View style={styles.container}>
-          <Text style={styles.text} onPress={this.handlePress.bind(this)}>
-            Namespace:
-            <Text style={styles.namespaceText}> {namespaceTitle}</Text>
-          </Text>
-          <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
-        </View>
-      </ActionSheet>
+      <View style={styles.container}>
+        <Text style={styles.text} onPress={this.handlePress.bind(this)}>
+          Namespace:
+          <Text style={styles.namespaceText}> {namespaceTitle}</Text>
+        </Text>
+        <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+      </View>
     );
   }
 
   handlePress() {
     const namespaces = this.props.cluster.get('namespaces', Immutable.List());
-    const options = ['Cancel', 'All namespaces', ...namespaces.toJS()];
-    this.refs.actionSheet.showActionSheetWithOptions({
-      options,
-      cancelButtonIndex: 0,
-    },
-    (index) => {
-      if (index === 0 ) { return; }
+
+    const onPress = (index) => {
       let namespace;
       if (index > 1) {
         namespace = namespaces.get(index - 2);
@@ -88,7 +81,12 @@ export default class NamespacePicker extends Component {
           cluster && ClustersActions.fetchClusterEntities(cluster);
         }, 500);
       }
-    });
+    };
+    const options = [
+      { title: intl('cancel') }, { title: 'All namespaces', onPress},
+      ...namespaces.map(n => { return {title: n, onPress};}),
+    ];
+    ActionSheetUtils.showActionSheetWithOptions(options);
   }
 
 }

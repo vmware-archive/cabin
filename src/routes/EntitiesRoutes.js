@@ -23,8 +23,9 @@ import NavbarButton from 'components/commons/NavbarButton';
 import AltContainer from 'alt-container';
 import YAML from 'yamljs';
 import Colors from 'styles/Colors';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
 
-const { Clipboard } = ReactNative;
+const { View, Clipboard } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -100,7 +101,6 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => node.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity: node}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -112,6 +112,22 @@ EntitiesRoutes = {
             }}}>
             <NodesShow node={node} cluster={cluster} navigator={navigator} />
           </AltContainer>
+        );
+      },
+      renderRightButton(navigator) {
+        const options = [
+          {title: intl('cancel')},
+          {title: 'Put in maintenance', onPress: () => console.log('GO MAINTENANCE')},
+        ];
+        return (
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
+            <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
+              onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute(node))}
+            />
+            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
+              onPress={() => ActionSheetUtils.showActionSheetWithOptions(options)}
+            />
+          </View>
         );
       },
     };
