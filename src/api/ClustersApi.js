@@ -131,6 +131,9 @@ class ClustersApi {
 
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};
+    if (type === 'ClusterIP') {
+      body.spec.ports = service.getIn(['spec', 'ports'], Immutable.List()).map(port => port.remove('nodePort'));
+    }
     return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
   }
 
