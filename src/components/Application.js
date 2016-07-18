@@ -53,10 +53,19 @@ export default class Application extends Component {
   }
 
   onActionSheetShow(options) {
-    const titles = options.map(opt => opt.title);
+    let cancelButtonIndex = 0;
+    let destructiveButtonIndex = null;
+    const titles = options.map((opt, i) => {
+      if (opt.cancel === true) {
+        cancelButtonIndex = i;
+      } else if (opt.destructive === true) {
+        destructiveButtonIndex = i;
+      }
+      return opt.title;
+    });
     this.refs.actionSheet.showActionSheetWithOptions({
       options: titles,
-      cancelButtonIndex: 0,
+      cancelButtonIndex, destructiveButtonIndex,
     },
     (index) => {
       const onPress = options[index].onPress;

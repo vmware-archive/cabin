@@ -20,11 +20,13 @@ import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
 
 const { PropTypes } = React;
 const {
   View,
   Text,
+  Image,
   Alert,
   TouchableOpacity,
   StyleSheet,
@@ -74,6 +76,14 @@ const styles = StyleSheet.create({
     color: Colors.GRAY,
     textAlign: 'center',
   },
+  moreIcon: {
+    tintColor: Colors.GRAY,
+    height: 20,
+    width: 20,
+    resizeMode: 'contain',
+    marginLeft: 10,
+    marginRight: -6,
+  },
 });
 
 class Counter extends Component {
@@ -102,7 +112,12 @@ export default class ClusterItem extends Component {
               <Text style={styles.title}>
                 {cluster.get('name')}
               </Text>
-              <StatusView status={cluster.get('status')} />
+              <View style={{flexDirection: 'row'}}>
+                <StatusView status={cluster.get('status')} />
+                <TouchableOpacity onPress={this.showActionSheet.bind(this)}>
+                  <Image source={require('images/more.png')} style={styles.moreIcon} />
+                </TouchableOpacity>
+              </View>
             </View>
             {cluster.get('currentNamespace') && <Text style={styles.namespace}>Namespace: {cluster.get('currentNamespace')}</Text>}
             <View style={styles.stats}>
@@ -141,7 +156,16 @@ export default class ClusterItem extends Component {
   }
 
   handleLongPress() {
-    this.refs.swipeOut.show();
+    this.showActionSheet();
+  }
+
+  showActionSheet() {
+    const options = [
+      {title: intl('cancel')},
+      {title: intl('edit'), onPress: this.handleEdit.bind(this)},
+      {title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true},
+    ];
+    ActionSheetUtils.showActionSheetWithOptions(options);
   }
 
   handleDelete() {
