@@ -104,6 +104,11 @@ class ClustersApi {
     return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
   }
 
+  static scaleReplication({cluster, replication, replicas}) {
+    const body = {spec: {replicas}};
+    return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
+  }
+
   /* SERVICES */
   static fetchServices(cluster) {
     return BaseApi.get('/services', {}, cluster).then(response => {

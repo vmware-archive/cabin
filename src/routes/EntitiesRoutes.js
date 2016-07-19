@@ -14,10 +14,10 @@
   limitations under the License.
 */
 import EntitiesShow from 'components/EntitiesShow';
-import PodsShow from 'components/PodsShow';
-import NodesShow from 'components/NodesShow';
-import ServicesShow from 'components/ServicesShow';
-import ReplicationsShow from 'components/ReplicationsShow';
+import PodsShow from 'components/Pods/PodsShow';
+import NodesShow from 'components/Nodes/NodesShow';
+import ServicesShow from 'components/Services/ServicesShow';
+import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import YamlView from 'components/YamlView';
 import NavbarButton from 'components/commons/NavbarButton';
 import AltContainer from 'alt-container';

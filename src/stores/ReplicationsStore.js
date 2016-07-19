@@ -86,6 +86,13 @@ class ReplicationsStore {
     this.setState(this.state.removeIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key]));
   }
 
+  scaleReplicationStart({cluster, replication, replicas}) {
+    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['replications', cluster.get('url'), index, 'spec', 'replicas'], replicas));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }

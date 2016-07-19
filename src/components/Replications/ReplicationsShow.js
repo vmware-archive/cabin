@@ -18,6 +18,7 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
+import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import ReplicationsActions from 'actions/ReplicationsActions';
 
 const {
@@ -48,6 +49,13 @@ export default class ReplicationsShow extends Component {
     cluster: PropTypes.instanceOf(Immutable.Map),
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      sliderValue: props.replication.getIn(['spec', 'replicas']),
+    };
+  }
+
   render() {
     const { replication } = this.props;
     return (
@@ -61,7 +69,7 @@ export default class ReplicationsShow extends Component {
           </View>
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
-            <ListItem title="Desired" detailTitle={replication.getIn(['spec', 'replicas'])}/>
+            <ReplicationsSlider replication={replication} onSubmit={this.handleReplicasComplete.bind(this)}/>
             <ListItem title="Current" detailTitle={replication.getIn(['status', 'replicas'])}/>
             <ListItem title="Up to date" detailTitle={replication.getIn(['status', 'updatedReplicas'])}/>
             <ListItem title="Available" detailTitle={replication.getIn(['status', 'availableReplicas'])} isLast={true}/>
@@ -84,5 +92,9 @@ export default class ReplicationsShow extends Component {
 
   handleLabelDelete(key) {
     return ReplicationsActions.deleteReplicationLabel({replication: this.props.replication, cluster: this.props.cluster, key});
+  }
+
+  handleReplicasComplete(value) {
+    return ReplicationsActions.scaleReplication({replication: this.props.replication, cluster: this.props.cluster, replicas: value});
   }
 }

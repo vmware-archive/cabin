@@ -46,8 +46,8 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     replications: {
       'test': [
-        {kind: 'replications', metadata: { name: 'Replication Controller A' }},
-        {kind: 'replications', metadata: { name: 'Replication Controller B' }},
+        {kind: 'replications', metadata: { name: 'Replication Controller A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
+        {kind: 'replications', metadata: { name: 'Replication Controller B', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 3}},
       ],
     },
   },
