@@ -96,7 +96,7 @@ EntitiesRoutes = {
     };
   },
 
-  getPodsLogsRoute({pod, cluster}) {
+  getPodsLogsRoute({pod, cluster, container}) {
     return {
       name: 'PodsLogs',
       statusBarStyle: 'light-content',
@@ -118,7 +118,7 @@ EntitiesRoutes = {
                 value: alt.stores.PodsStore.getLogs({pod, cluster}),
               };
             }}}>
-            <PodsLogs logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} cluster={cluster} navigator={navigator} />
+            <PodsLogs logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} container={container} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

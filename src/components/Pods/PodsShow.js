@@ -70,7 +70,7 @@ export default class PodsShow extends Component {
             <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
             <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
             <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
-            <ListItem title="Logs" showArrow={true} isLast={true} onPress={this.showLogs.bind(this)}/>
+            <ListItem title="Logs" showArrow={true} isLast={true} onPress={() => this.showLogs()}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -87,7 +87,11 @@ export default class PodsShow extends Component {
   renderContainers() {
     const containers = this.props.pod.getIn(['spec', 'containers']);
     const items = containers.map((container, i) => {
-      return <ListItem key={i} isLast={i === containers.size - 1} title={container.get('name')} subtitle={container.get('image')}/>;
+      return (
+        <ListItem key={i} showArrow={true} isLast={i === containers.size - 1} title={container.get('name')} subtitle={container.get('image')}
+          onPress={() => this.showLogs(container.get('name'))}
+        />
+      );
     });
     return items;
   }
@@ -104,8 +108,8 @@ export default class PodsShow extends Component {
     return PodsActions.deletePodLabel({pod: this.props.pod, cluster: this.props.cluster, key});
   }
 
-  showLogs() {
-    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster});
-    this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster}));
+  showLogs(container) {
+    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container});
+    this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
   }
 }

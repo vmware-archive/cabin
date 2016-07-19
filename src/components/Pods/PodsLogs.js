@@ -46,6 +46,7 @@ export default class PodsLogs extends Component {
 
   static propTypes = {
     logs: PropTypes.string,
+    container: PropTypes.string,
     pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
   }
@@ -63,6 +64,7 @@ export default class PodsLogs extends Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.refreshTimeout);
     this.refreshListener.remove();
   }
 
@@ -88,7 +90,7 @@ export default class PodsLogs extends Component {
 
   refresh() {
     clearTimeout(this.refreshTimeout);
-    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster});
+    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container: this.props.container});
     this.refreshTimeout = setTimeout(() => {
       this.refresh();
     }, 3000);
