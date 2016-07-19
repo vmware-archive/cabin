@@ -15,6 +15,7 @@
 */
 import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/Pods/PodsShow';
+import PodsLogs from 'components/Pods/PodsLogs';
 import NodesShow from 'components/Nodes/NodesShow';
 import ServicesShow from 'components/Services/ServicesShow';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
@@ -25,7 +26,7 @@ import YAML from 'yamljs';
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 
-const { View, Clipboard } = ReactNative;
+const { View, Clipboard, DeviceEventEmitter } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -85,10 +86,39 @@ EntitiesRoutes = {
             pod: () => {
               return {
                 store: alt.stores.PodsStore,
-                value: alt.stores.PodsStore.get({podName: pod.getIn(['metadata', 'name']), cluster}),
+                value: alt.stores.PodsStore.get({pod, cluster}),
               };
             }}}>
             <PodsShow pod={pod} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getPodsLogsRoute({pod, cluster}) {
+    return {
+      name: 'PodsLogs',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => 'Logs',
+      renderRightButton: () => {
+        return (
+          <NavbarButton source={require('images/refresh.png')} style={{tintColor: Colors.WHITE}}
+            onPress={() => DeviceEventEmitter.emit('logs:refresh')}
+          />
+        );
+      },
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            logs: () => {
+              return {
+                store: alt.stores.PodsStore,
+                value: alt.stores.PodsStore.getLogs({pod, cluster}),
+              };
+            }}}>
+            <PodsLogs logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

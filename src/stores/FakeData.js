@@ -6,10 +6,11 @@ export default Immutable.fromJS({
   PodsStore: {
     status: {'test': 'success'},
     pods: {
-      'test': [
-        { kind: 'pods',
+      'test': {
+        'Pod-A': {
+          kind: 'pods',
           metadata: {
-            name: 'Pod A',
+            name: 'Pod-A',
             resourceVersion: 99,
             uid: '123456789',
             labels: {
@@ -29,7 +30,7 @@ export default Immutable.fromJS({
             ],
           },
         },
-      ],
+      },
     },
   },
   ServicesStore: {

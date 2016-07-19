@@ -23,6 +23,9 @@ class PodsActions {
       'fetchPodsStart',
       'fetchPodsSuccess',
       'fetchPodsFailure',
+      'fetchPodLogsStart',
+      'fetchPodLogsSuccess',
+      'fetchPodLogsFailure',
       'deletePodStart',
       'deletePodSuccess',
       'deletePodFailure',
@@ -42,6 +45,19 @@ class PodsActions {
     })
     .catch(() => {
       this.fetchPodsFailure(cluster);
+    });
+  }
+
+  fetchPodLogs({cluster, pod, container}) {
+    if (!container && pod.getIn(['spec', 'containers']).size > 0) {
+      container = pod.getIn(['spec', 'containers', 0, 'name']);
+    }
+    this.fetchPodLogsStart({cluster, pod});
+    return ClustersApi.fetchPodLogs({cluster, pod, container}).then(logs => {
+      this.fetchPodLogsSuccess({cluster, pod, logs});
+    })
+    .catch(() => {
+      this.fetchPodLogsFailure({cluster, pod});
     });
   }
 
@@ -71,6 +87,7 @@ class PodsActions {
       this.deletePodLabelFailure({cluster, pod, key});
     });
   }
+
 }
 
 export default alt.createActions(PodsActions);

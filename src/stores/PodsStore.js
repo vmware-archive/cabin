@@ -17,7 +17,8 @@ import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
 import PodsActions from 'actions/PodsActions';
 import Immutable from 'immutable';
-import immutableUtil from 'alt-utils/lib/ImmutableUtil';
+import altImmutable from 'alt-utils/lib/ImmutableUtil';
+import ImmutableUtils from 'utils/ImmutableUtils';
 import FakeData from './FakeData';
 
 class PodsStore {
@@ -30,6 +31,7 @@ class PodsStore {
     } else {
       this.state = Immutable.fromJS({
         pods: {},
+        logs: {},
         status: {},
       });
     }
@@ -49,9 +51,14 @@ class PodsStore {
 
   onFetchPodsSuccess({cluster, pods}) {
     this.setState(
-      this.state.setIn(['pods', cluster.get('url')], pods.map(e => e.set('kind', 'pods')))
+      this.state.setIn(['pods', cluster.get('url')],
+        ImmutableUtils.entitiesToMap(pods.map(e => e.set('kind', 'pods'))))
       .setIn(['status', cluster.get('url')], 'success')
     );
+  }
+
+  onFetchPodLogsSuccess({cluster, pod, logs}) {
+    this.setState(this.state.setIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], logs));
   }
 
   onFetchPodsFailure(cluster) {
@@ -60,30 +67,19 @@ class PodsStore {
   }
 
   onDeletePodStart({cluster, pod}) {
-    this.setState(this.state.updateIn(['pods', cluster.get('url')], pods => {
-      return pods.filter(p => p.getIn(['metadata', 'name']) !== pod.getIn(['metadata', 'name']));
-    }));
+    this.setState(this.state.deleteIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name'])]));
   }
 
   onAddPodLabelStart({cluster, pod, key, value}) {
-    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.setIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key], value));
+    this.setState(this.state.setIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key], value));
   }
 
   onAddPodLabelFailure({cluster, pod, key}) {
-    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.removeIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key]));
+    this.setState(this.state.removeIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
   }
 
   onDeletePodLabelStart({cluster, pod, key}) {
-    const index = this.state.getIn(['pods', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === pod.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.removeIn(['pods', cluster.get('url'), index, 'metadata', 'labels', key]));
+    this.setState(this.state.removeIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
   }
 
   static getStatus(cluster) {
@@ -91,15 +87,20 @@ class PodsStore {
   }
 
   static getPods(cluster) {
-    return this.state.getIn(['pods', cluster.get('url')], Immutable.List());
+    return this.state.getIn(['pods', cluster.get('url')], Immutable.List()).toList();
   }
 
-  static get({podName, cluster}) {
-    return this.state.getIn(['pods', cluster.get('url')]).find(e => {
-      return e.getIn(['metadata', 'name']) === podName;
-    });
+  static getLogs({cluster, pod}) {
+    return this.state.getIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], Immutable.List());
+  }
+
+  static get({pod, cluster, podName}) {
+    if (!podName) {
+      podName = pod.getIn(['metadata', 'name']);
+    }
+    return this.state.getIn(['pods', cluster.get('url'), podName]);
   }
 
 }
 
-export default alt.createStore(immutableUtil(PodsStore), 'PodsStore');
+export default alt.createStore(altImmutable(PodsStore), 'PodsStore');

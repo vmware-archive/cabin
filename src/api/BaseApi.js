@@ -83,7 +83,7 @@ class BaseApi {
       if (typeof text !== 'string' || text.trim() === '') {
         return {};
       }
-      return JSON.parse(text);
+      return url.indexOf('log') !== -1 ? text : JSON.parse(text);
     }).then( (json) => {
       if (__DEV__ && APP_CONFIG.DEBUG_API) {
         console.log(`[BaseApi ${url}]`, json);

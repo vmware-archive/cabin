@@ -61,6 +61,10 @@ class ClustersApi {
     });
   }
 
+  static fetchPodLogs({cluster, pod, container}) {
+    return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container}, cluster, pod);
+  }
+
   static deletePod({cluster, pod}) {
     return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster, pod);
   }

@@ -47,6 +47,7 @@ export default class EnhancedScrollView extends Component {
     return (
       <ScrollView
         {...this.props}
+        ref="scrollView"
         refreshControl={
           this.props.onRefresh && <RefreshControl
           refreshing={isRefreshing}
@@ -61,6 +62,10 @@ export default class EnhancedScrollView extends Component {
   handleRefresh() {
     this._userPulledRefresh = true;
     this.props.onRefresh();
+  }
+
+  scrollTo(to) {
+    this.refs.scrollView.scrollTo(to);
   }
 
 }

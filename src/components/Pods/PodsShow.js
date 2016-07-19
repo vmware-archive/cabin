@@ -20,6 +20,7 @@ import StatusView from 'components/commons/StatusView';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
+import EntitiesRoutes from 'routes/EntitiesRoutes';
 
 const {
   View,
@@ -68,7 +69,8 @@ export default class PodsShow extends Component {
             }}/>
             <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
             <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
-            <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} isLast={true}/>
+            <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
+            <ListItem title="Logs" showArrow={true} isLast={true} onPress={this.showLogs.bind(this)}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -100,5 +102,10 @@ export default class PodsShow extends Component {
 
   handleLabelDelete(key) {
     return PodsActions.deletePodLabel({pod: this.props.pod, cluster: this.props.cluster, key});
+  }
+
+  showLogs() {
+    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster});
+    this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster}));
   }
 }
