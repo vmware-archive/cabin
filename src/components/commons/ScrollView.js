@@ -15,6 +15,7 @@
 */
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const {
   ScrollView,
@@ -28,6 +29,7 @@ export default class EnhancedScrollView extends Component {
 
   static propTypes = {
     ...ScrollView.propTypes,
+    ...KeyboardAwareScrollView.propTypes,
     // Call when pull to refresh is triggered
     onRefresh: PropTypes.func,
   };
@@ -45,8 +47,9 @@ export default class EnhancedScrollView extends Component {
     const isRefreshing = this._userPulledRefresh;
 
     return (
-      <ScrollView
+      <KeyboardAwareScrollView
         {...this.props}
+        extraHeight={100}
         ref="scrollView"
         refreshControl={
           this.props.onRefresh && <RefreshControl

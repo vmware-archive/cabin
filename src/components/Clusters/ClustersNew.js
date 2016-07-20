@@ -18,11 +18,12 @@ import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
-import { PropTypes } from 'react';
+import ScrollView from 'components/commons/ScrollView';
+
+const { PropTypes } = React;
 
 const {
   View,
-  ScrollView,
   StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
@@ -89,7 +90,7 @@ export default class ClustersNew extends Component {
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
             onChangeText={password => this.setState({password})} isLast={true}/>
           <ListHeader title="Or"/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
+          <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
             onChangeText={token => this.setState({token})} isLast={true}/>
 
         </ScrollView>
