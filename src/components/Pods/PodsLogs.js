@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
+import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
 import PodsActions from 'actions/PodsActions';
 import ParsedText from 'react-native-parsed-text';
 
@@ -51,8 +52,11 @@ export default class PodsLogs extends Component {
     cluster: PropTypes.instanceOf(Immutable.Map),
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      container: props.container || props.pod.getIn(['spec', 'containers', 0, 'name']),
+    };
     this.scrollViewHeight = Dimensions.get('window').height - 114;
   }
 
@@ -69,9 +73,11 @@ export default class PodsLogs extends Component {
   }
 
   render() {
-    const { logs } = this.props;
+    const { logs, pod, cluster } = this.props;
+    const { container } = this.state;
     return (
       <View style={styles.container}>
+        <PodsContainerPicker pod={pod} cluster={cluster} selectedContainer={container} onChangeContainer={this.handleContainerChange.bind(this)}/>
         <ScrollView ref="scrollView" style={styles.list} onRefresh={this.refresh.bind(this)}
           onLayout={(e) => { this.scrollViewHeight = e.nativeEvent.layout.height; }}
           onContentSizeChange={(width, height) => {
@@ -90,9 +96,14 @@ export default class PodsLogs extends Component {
 
   refresh() {
     clearTimeout(this.refreshTimeout);
-    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container: this.props.container});
+    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container: this.state.container});
     this.refreshTimeout = setTimeout(() => {
       this.refresh();
     }, 3000);
+  }
+
+  handleContainerChange(container) {
+    this.setState({container});
+    PodsActions.fetchPodLogs({cluster: this.props.cluster, pod: this.props.pod, container});
   }
 }

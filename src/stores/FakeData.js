@@ -5,6 +5,11 @@ export default Immutable.fromJS({
   },
   PodsStore: {
     status: {'test': 'success'},
+    logs: {
+      'test': {
+        'Pod-A': '2016-07-13 23:45:12: log Pod A',
+      },
+    },
     pods: {
       'test': {
         'Pod-A': {
@@ -26,7 +31,8 @@ export default Immutable.fromJS({
           },
           spec: {
             containers: [
-              { name: 'Container 1', image: 'image-nginx-test' },
+              { name: 'Container-1', image: 'image-nginx-test' },
+              { name: 'Container-2', image: 'image-nginx-test' },
             ],
           },
         },
