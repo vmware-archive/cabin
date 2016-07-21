@@ -35,7 +35,7 @@ class ClustersStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      this.setState(this.state.merge(appState.get(this.displayName)));
+      this.setState(this.state.merge(appState.get(this.displayName).filter((value, key) => key)));
       setTimeout(() => {
         this.state.map(cluster => {
           if (cluster.get('status') === Constants.Status.RUNNING) {

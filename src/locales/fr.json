@@ -8,6 +8,7 @@
   "pods": "Pods",
   "nodes": "Nodes",
   "replications": "Replication Controllers",
+  "replications_short": "RC",
   "deployments": "Deployments",
   "services": "Services",
 
