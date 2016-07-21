@@ -52,7 +52,7 @@ export default class Settings extends Component {
   }
 
   render() {
-    const entities = this.props.entities;
+    const {entities} = this.props;
     return (
       <View style={styles.container}>
           <SortableListView
@@ -74,7 +74,7 @@ export default class Settings extends Component {
     return (
       <DraggableItem
         style={entity.get('hidden') && {opacity: 0.4}}
-        title={_.capitalize(entity.get('name'))}
+        title={intl(entity.get('name'))}
         renderDetail={() => {
           return (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>

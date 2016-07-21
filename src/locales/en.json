@@ -5,6 +5,11 @@
   "no": "No",
   "edit": "Edit",
   "delete": "Delete",
+  "pods": "Pods",
+  "nodes": "Nodes",
+  "replications": "Replication Controllers",
+  "deployments": "Deployments",
+  "services": "Services",
 
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",

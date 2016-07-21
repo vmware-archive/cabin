@@ -58,6 +58,14 @@ export default Immutable.fromJS({
       ],
     },
   },
+  DeploymentsStore: {
+    status: {'test': 'success'},
+    deployments: {
+      'test': [
+        {kind: 'deployments', metadata: { name: 'Deployment-A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
+      ],
+    },
+  },
   NodesStore: {
     status: {'test': 'success'},
     nodes: {

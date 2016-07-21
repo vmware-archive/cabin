@@ -19,6 +19,7 @@ import PodsLogs from 'components/Pods/PodsLogs';
 import NodesShow from 'components/Nodes/NodesShow';
 import ServicesShow from 'components/Services/ServicesShow';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
+import DeploymentsShow from 'components/Deployments/DeploymentsShow';
 import YamlView from 'components/YamlView';
 import NavbarButton from 'components/commons/NavbarButton';
 import AltContainer from 'alt-container';
@@ -203,6 +204,29 @@ EntitiesRoutes = {
               };
             }}}>
             <ReplicationsShow replication={replication} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getDeploymentsShowRoute({deployment, cluster}) {
+    return {
+      name: 'DeploymentsShow',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => deployment.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({navigator, entity: deployment}); },
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            deployment: () => {
+              return {
+                store: alt.stores.DeploymentsStore,
+                value: alt.stores.DeploymentsStore.get({deploymentName: deployment.getIn(['metadata', 'name']), cluster}),
+              };
+            }}}>
+            <DeploymentsShow deployment={deployment} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

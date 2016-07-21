@@ -17,6 +17,7 @@ import 'stores/ClustersStore';
 import 'stores/PodsStore';
 import 'stores/NodesStore';
 import 'stores/ReplicationsStore';
+import 'stores/DeploymentsStore';
 import 'stores/ServicesStore';
 import 'stores/SettingsStore';
 export default {};

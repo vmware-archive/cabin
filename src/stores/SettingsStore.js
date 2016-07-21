@@ -28,12 +28,13 @@ class SettingsStore {
     this.state = Immutable.fromJS({
       maxReplicas: 40,
       entitiesDisplay: {
-        order: [0, 1, 2, 3],
+        order: [0, 1, 2, 3, 4],
         entities: {
           0: {name: 'pods'},
           1: {name: 'services'},
           2: {name: 'replications'},
           3: {name: 'nodes'},
+          4: {name: 'deployments'},
         },
       },
     });
@@ -41,7 +42,14 @@ class SettingsStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      this.setState(this.state.merge(appState.get(this.displayName)));
+      // /** Remove this before release
+      let state = this.state.merge(appState.get(this.displayName));
+      if (state.getIn(['entitiesDisplay', 'order']).size < this.state.getIn(['entitiesDisplay', 'order']).size) {
+        state = state.setIn(['entitiesDisplay', 'order'], this.state.getIn(['entitiesDisplay', 'order']))
+          .setIn(['entitiesDisplay', 'entities'], this.state.getIn(['entitiesDisplay', 'entities']));
+      }
+      // **/
+      this.setState(state);
       return true;
     }
     return false;
