@@ -21,6 +21,7 @@ import ParsedText from 'react-native-parsed-text';
 
 const {
   View,
+  ActivityIndicator,
   StyleSheet,
   Dimensions,
   DeviceEventEmitter,
@@ -55,16 +56,16 @@ export default class PodsLogs extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
+      statusBarLoading: false,
       container: props.container || props.pod.getIn(['spec', 'containers', 0, 'name']),
     };
     this.scrollViewHeight = Dimensions.get('window').height - 114;
   }
 
   componentDidMount() {
-    this.refreshListener = DeviceEventEmitter.addListener('logs:refresh', this.refresh.bind(this));
-    this.refreshTimeout = setTimeout(() => {
-      this.refresh();
-    }, 3000);
+    this.refreshListener = DeviceEventEmitter.addListener('logs:refresh', () => this.refresh(true));
+    this.refresh(false);
   }
 
   componentWillUnmount() {
@@ -77,33 +78,47 @@ export default class PodsLogs extends Component {
     const { container } = this.state;
     return (
       <View style={styles.container}>
-        <PodsContainerPicker pod={pod} cluster={cluster} selectedContainer={container} onChangeContainer={this.handleContainerChange.bind(this)}/>
-        <ScrollView ref="scrollView" style={styles.list} onRefresh={this.refresh.bind(this)}
-          onLayout={(e) => { this.scrollViewHeight = e.nativeEvent.layout.height; }}
-          onContentSizeChange={(width, height) => {
-            this.refs.scrollView.scrollTo({y: height - this.scrollViewHeight});
-          }}>
-          <ParsedText style={styles.logs}
-            parse={[
-              {pattern: /[0-9\/]{10} [0-9:]{8} [a-zA-Z0-9]+:/, style: styles.bold},
-            ]}>
-            {logs}
-          </ParsedText>
-        </ScrollView>
+        <PodsContainerPicker loading={this.state.statusBarLoading} pod={pod} cluster={cluster} selectedContainer={container} onChangeContainer={this.handleContainerChange.bind(this)}/>
+        {this.state.loading ?
+          <ActivityIndicator style={{flex: 1}}/> :
+          <ScrollView ref="scrollView" style={styles.list} onRefresh={this.refresh.bind(this)}
+            onLayout={(e) => { this.scrollViewHeight = e.nativeEvent.layout.height; }}
+            onContentSizeChange={(width, height) => {
+              if (height > this.scrollViewHeight) {
+                this.refs.scrollView.scrollTo({y: height - this.scrollViewHeight});
+              }
+            }}>
+            <ParsedText style={styles.logs}
+              parse={[
+                {pattern: /[0-9\/]{10} [0-9:]{8} [a-zA-Z0-9]+:/, style: styles.bold},
+              ]}>
+              {logs}
+            </ParsedText>
+          </ScrollView>
+        }
       </View>
     );
   }
 
-  refresh() {
+  launchTimeout() {
     clearTimeout(this.refreshTimeout);
-    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container: this.state.container});
     this.refreshTimeout = setTimeout(() => {
-      this.refresh();
-    }, 3000);
+      this.refresh(true);
+    }, 5000);
+  }
+
+  refresh(loading) {
+    loading && this.setState({statusBarLoading: true});
+    clearTimeout(this.refreshTimeout);
+    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container: this.state.container}).then(() => {
+      this.setState({loading: false, statusBarLoading: false});
+      this.launchTimeout();
+    });
   }
 
   handleContainerChange(container) {
-    this.setState({container});
-    PodsActions.fetchPodLogs({cluster: this.props.cluster, pod: this.props.pod, container});
+    this.setState({container, loading: true});
+    clearTimeout(this.refreshTimeout);
+    this.refresh(false);
   }
 }

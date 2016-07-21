@@ -20,6 +20,7 @@ const {
   View,
   Text,
   Image,
+  ActivityIndicator,
   StyleSheet,
 } = ReactNative;
 
@@ -45,6 +46,11 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     resizeMode: 'contain',
   },
+  loader: {
+    position: 'absolute',
+    right: 12,
+    top: 0,
+  },
 });
 
 export default class PodsContainerPicker extends Component {
@@ -54,6 +60,7 @@ export default class PodsContainerPicker extends Component {
     pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
     onChangeContainer: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
   }
 
   render() {
@@ -65,6 +72,7 @@ export default class PodsContainerPicker extends Component {
           <Text style={styles.containerText}> {container}</Text>
         </Text>
         <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+        {this.props.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE}/>}
       </View>
     );
   }

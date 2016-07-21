@@ -109,7 +109,6 @@ export default class PodsShow extends Component {
   }
 
   showLogs(container) {
-    PodsActions.fetchPodLogs({pod: this.props.pod, cluster: this.props.cluster, container});
     this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
   }
 }

@@ -67,8 +67,8 @@ export default class EnhancedScrollView extends Component {
     this.props.onRefresh();
   }
 
-  scrollTo(to) {
-    this.refs.scrollView.scrollTo(to);
+  scrollTo({x = 0, y = 0}) {
+    this.refs.scrollView.scrollToPosition(x, y, true);
   }
 
 }
