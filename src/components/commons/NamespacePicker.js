@@ -22,15 +22,19 @@ const {
   View,
   Text,
   Image,
+  TouchableOpacity,
   StyleSheet,
 } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.BLUE,
+  },
+  innerContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    backgroundColor: Colors.BLUE,
     flexDirection: 'row',
   },
   text: {
@@ -57,11 +61,13 @@ export default class NamespacePicker extends Component {
     const namespaceTitle = this.props.cluster.get('currentNamespace') || 'All namespaces';
     return (
       <View style={styles.container}>
-        <Text style={styles.text} onPress={this.handlePress.bind(this)}>
-          Namespace:
-          <Text style={styles.namespaceText}> {namespaceTitle}</Text>
-        </Text>
-        <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+        <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
+          <Text style={styles.text}>
+            Namespace:
+            <Text style={styles.namespaceText}> {namespaceTitle}</Text>
+          </Text>
+          <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+        </TouchableOpacity>
       </View>
     );
   }
