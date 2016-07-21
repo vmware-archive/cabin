@@ -20,6 +20,7 @@ const {
   View,
   Text,
   Image,
+  TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
 } = ReactNative;
@@ -28,10 +29,13 @@ const { PropTypes } = React;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.BLUE,
+  },
+  innerContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    backgroundColor: Colors.BLUE,
     flexDirection: 'row',
   },
   text: {
@@ -67,12 +71,14 @@ export default class PodsContainerPicker extends Component {
     const container = this.props.selectedContainer;
     return (
       <View style={styles.container}>
-        <Text style={styles.text} onPress={this.handlePress.bind(this)}>
-          Container:
-          <Text style={styles.containerText}> {container}</Text>
-        </Text>
-        <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
-        {this.props.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE}/>}
+        <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
+          <Text style={styles.text}>
+            Container:
+            <Text style={styles.containerText}> {container}</Text>
+          </Text>
+          <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+          {this.props.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE}/>}
+        </TouchableOpacity>
       </View>
     );
   }

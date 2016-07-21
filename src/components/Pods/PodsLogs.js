@@ -86,11 +86,15 @@ export default class PodsLogs extends Component {
             onContentSizeChange={(width, height) => {
               if (height > this.scrollViewHeight) {
                 this.refs.scrollView.scrollTo({y: height - this.scrollViewHeight});
+              } else {
+                this.refs.scrollView.scrollTo({y: 0});
               }
             }}>
             <ParsedText style={styles.logs}
               parse={[
+                {pattern: /[0-9A-Za-z\/]{5} [0-9.:]{15}    /, style: styles.bold},
                 {pattern: /[0-9\/]{10} [0-9:]{8} [a-zA-Z0-9]+:/, style: styles.bold},
+                {pattern: /[0-9\/\-]{10} [0-9:]{8}([.0-9]{7})? /, style: styles.bold},
               ]}>
               {logs}
             </ParsedText>
