@@ -66,6 +66,7 @@ export default class ReplicationsSlider extends Component {
 
   render() {
     const { replication } = this.props;
+    const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
       <ListItem style={styles.listItem} renderTitle={() => {
         return (
@@ -74,7 +75,7 @@ export default class ReplicationsSlider extends Component {
               <Text style={styles.title}>Desired</Text>
               <Text style={styles.detail}>{this.state.sliderValue}</Text>
             </View>
-            <Slider style={styles.slider} minimumValue={1} maximumValue={20} step={1} value={replication.getIn(['spec', 'replicas'])}
+            <Slider style={styles.slider} minimumValue={1} maximumValue={maxReplicas} step={1} value={replication.getIn(['spec', 'replicas'])}
               onValueChange={(sliderValue) => this.setState({sliderValue})}
               onSlidingComplete={this.props.onSubmit}/>
           </View>

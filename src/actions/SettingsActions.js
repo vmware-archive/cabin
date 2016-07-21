@@ -21,6 +21,7 @@ class SettingsActions {
     this.generateActions(
       'updateEntitiesOrder',
       'setEntityHidden',
+      'updateMaxReplicas',
     );
   }
 }

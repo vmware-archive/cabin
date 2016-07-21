@@ -17,13 +17,15 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import SettingsRoutes from 'routes/SettingsRoutes';
+import SettingsActions from 'actions/SettingsActions';
 import Linking from 'utils/Linking';
 
 const {
   View,
-  StyleSheet,
-  ScrollView,
   Image,
+  TextInput,
+  ScrollView,
+  StyleSheet,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -54,6 +56,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.BLUE,
   },
+  replicasInput: {
+    flex: 1,
+    width: 60,
+    textAlign: 'right',
+  },
 });
 
 export default class Settings extends Component {
@@ -66,12 +73,31 @@ export default class Settings extends Component {
   }
 
   render() {
+    const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list}>
           <ListHeader title="Customize"/>
-          <ListItem title="Object kind list" showArrow={true} isLast={true} onPress={() => {
+          <ListItem title="Object kind list" showArrow={true} onPress={() => {
             this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
+          }}/>
+          <ListItem title="Maximum number of replicas" isLast={true} onPress={() => {
+            this.replicasInput && this.replicasInput.focus();
+          }} renderDetail={() => {
+            return (
+              <TextInput ref={t => {this.replicasInput = t;}} style={styles.replicasInput}
+                defaultValue={`${maxReplicas}`}
+                onSubmitEditing={(e) => {
+                  const value = parseInt(e.nativeEvent.text, 10);
+                  if (!value || value <= 0) {
+                    this.replicasInput.setNativeProps({text: `${maxReplicas}`});
+                    return;
+                  }
+                  this.replicasInput.setNativeProps({text: `${value}`});
+                  SettingsActions.updateMaxReplicas(value);
+                }}
+              />
+            );
           }}/>
 
           <ListHeader style={{marginTop: 20}} title="About us"/>

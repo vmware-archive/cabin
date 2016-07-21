@@ -26,6 +26,7 @@ class SettingsStore {
     this.bindActions(SettingsActions);
     this.bindActions(InitActions);
     this.state = Immutable.fromJS({
+      maxReplicas: 40,
       entitiesDisplay: {
         order: [0, 1, 2, 3],
         entities: {
@@ -56,6 +57,11 @@ class SettingsStore {
     this.saveStore();
   }
 
+  onUpdateMaxReplicas(value) {
+    this.setState(this.state.set('maxReplicas', value));
+    this.saveStore();
+  }
+
   saveStore() {
     AsyncStorage.setItem(this.displayName, alt.takeSnapshot(this));
   }
@@ -78,6 +84,9 @@ class SettingsStore {
     }, Immutable.List());
   }
 
+  static getMaxReplicas() {
+    return this.state.get('maxReplicas', 40);
+  }
 }
 
 export default alt.createStore(immutableUtil(SettingsStore), 'SettingsStore');
