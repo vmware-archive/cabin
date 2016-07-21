@@ -74,7 +74,6 @@ export default class NamespacePicker extends Component {
 
   handlePress() {
     const namespaces = this.props.cluster.get('namespaces', Immutable.List());
-
     const onPress = (index) => {
       let namespace;
       if (index > 1) {

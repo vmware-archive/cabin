@@ -47,8 +47,12 @@ class BaseApi {
     if (cluster && url.indexOf('http') === -1) {
       let path = '';
       if (url.indexOf('api/v1') === -1) {
+        let api = '/api/v1';
+        if (url.indexOf('deployments') !== -1) {
+          api = '/apis/extensions/v1beta1';
+        }
         const namespace = entity ? entity.getIn(['metadata', 'namespace']) : cluster.get('currentNamespace');
-        path = namespace ? `/api/v1/namespaces/${namespace}` : '/api/v1';
+        path = namespace ? `${api}/namespaces/${namespace}` : api;
       }
       url = `${cluster.get('url')}${path}${url}`;
     }

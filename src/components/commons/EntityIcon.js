@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 export default class ListItem extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['pods', 'services', 'replications', 'nodes']).isRequired,
+    type: PropTypes.string.isRequired,
   }
 
   render() {
@@ -63,6 +63,8 @@ export default class ListItem extends Component {
         return Colors.ORANGE;
       case 'replications':
         return Colors.PURPLE;
+      case 'deployments':
+        return Colors.PURPLE;
       case 'nodes':
         return Colors.BLUE;
       default:
@@ -77,6 +79,8 @@ export default class ListItem extends Component {
       case 'services':
         return iconService;
       case 'replications':
+        return iconReplication;
+      case 'deployments':
         return iconReplication;
       case 'nodes':
         return iconNodes;

@@ -19,6 +19,7 @@ import PodsActions from 'actions/PodsActions';
 import NodesActions from 'actions/NodesActions';
 import ServicesActions from 'actions/ServicesActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
 
 class ClustersActions {
 
@@ -52,6 +53,7 @@ class ClustersActions {
     NodesActions.fetchNodes.defer(cluster);
     ServicesActions.fetchServices.defer(cluster);
     ReplicationsActions.fetchReplications.defer(cluster);
+    DeploymentsActions.fetchDeployments.defer(cluster);
   }
 
   fetchNamespaces(cluster) {

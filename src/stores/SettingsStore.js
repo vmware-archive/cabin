@@ -34,7 +34,7 @@ class SettingsStore {
           1: {name: 'services'},
           2: {name: 'replications'},
           3: {name: 'nodes'},
-          4: {name: 'deployments'},
+          4: {name: 'deployments', hidden: true},
         },
       },
     });

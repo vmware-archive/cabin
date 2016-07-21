@@ -70,9 +70,9 @@ export default class DeploymentsShow extends Component {
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
             <ReplicationsSlider replication={deployment} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={deployment.getIn(['status', 'replicas'])}/>
-            <ListItem title="Up to date" detailTitle={deployment.getIn(['status', 'updatedReplicas'])}/>
-            <ListItem title="Available" detailTitle={deployment.getIn(['status', 'availableReplicas'])} isLast={true}/>
+            <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'])}`}/>
+            <ListItem title="Up to date" detailTitle={`${deployment.getIn(['status', 'updatedReplicas'])}`}/>
+            <ListItem title="Available" detailTitle={`${deployment.getIn(['status', 'availableReplicas'])}`} isLast={true}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={deployment} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
