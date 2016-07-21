@@ -86,7 +86,7 @@ class SettingsStore {
     const entities = this.getEntities();
     return this.getEntitiesOrder().reduce((list, i) => {
       if (!entities.getIn([`${i}`, 'hidden'])) {
-        return list.push(_.capitalize(entities.getIn([`${i}`, 'name'])));
+        return list.push(entities.get(`${i}`));
       }
       return list;
     }, Immutable.List());

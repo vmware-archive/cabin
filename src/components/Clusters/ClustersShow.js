@@ -58,7 +58,7 @@ export default class ClusterShow extends Component {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
-    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay();
+    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay().map(e => intl(e.get('name')));
   }
 
   render() {

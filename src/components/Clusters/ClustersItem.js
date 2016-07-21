@@ -120,39 +120,46 @@ export default class ClusterItem extends Component {
               </View>
             </View>
             {cluster.get('currentNamespace') && <Text style={styles.namespace}>Namespace: {cluster.get('currentNamespace')}</Text>}
-            <View style={styles.stats}>
-              <AltContainer stores={{
-                value: () => {
-                  return {
-                    store: alt.stores.PodsStore,
-                    value: alt.stores.PodsStore.getPods(cluster).size + ' Pods',
-                  };
-                }}}>
-                <Counter value=".. Pods"/>
-              </AltContainer>
-              <AltContainer stores={{
-                value: () => {
-                  return {
-                    store: alt.stores.ServicesStore,
-                    value: alt.stores.ServicesStore.getServices(cluster).size + ' Services',
-                  };
-                }}}>
-                <Counter value=".. Services"/>
-              </AltContainer>
-              <AltContainer stores={{
-                value: () => {
-                  return {
-                    store: alt.stores.ReplicationsStore,
-                    value: alt.stores.ReplicationsStore.getReplications(cluster).size + ' Replications',
-                  };
-                }}}>
-                <Counter value=".. Replications"/>
-              </AltContainer>
-            </View>
+            {this.renderCounters()}
           </TouchableOpacity>
         </View>
       </SwipeOut>
     );
+  }
+
+  renderCounters() {
+    const entities = alt.stores.SettingsStore.getEntitiesToDisplay().take(3);
+    const counters = entities.map(entity => {
+      return (
+        <AltContainer key={entity.get('name')} stores={{
+          value: () => this.countForEntity(entity)}}>
+          <Counter value=".."/>
+        </AltContainer>
+      );
+    });
+    return <View style={styles.stats}>{counters}</View>;
+  }
+
+  countForEntity(entity) {
+    const { cluster } = this.props;
+    switch (entity.get('name')) {
+      case 'nodes':
+        return { store: alt.stores.NodesStore,
+          value: `${alt.stores.NodesStore.getNodes(cluster).size} ${intl('nodes')}`};
+      case 'services':
+        return { store: alt.stores.ServicesStore,
+          value: `${alt.stores.ServicesStore.getServices(cluster).size} ${intl('services')}`};
+      case 'replications':
+        return { store: alt.stores.ReplicationsStore,
+          value: `${alt.stores.ReplicationsStore.getReplications(cluster).size} ${intl('replications')}`};
+      case 'deployments':
+        return { store: alt.stores.DeploymentsStore,
+          value: `${alt.stores.DeploymentsStore.getDeployments(cluster).size} ${intl('deployments')}`};
+      case 'pods':
+      default:
+        return { store: alt.stores.PodsStore,
+          value: `${alt.stores.PodsStore.getPods(cluster).size} ${intl('pods')}`};
+    }
   }
 
   handleLongPress() {
