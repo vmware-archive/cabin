@@ -58,12 +58,12 @@ export default class ClusterShow extends Component {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
-    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay().map(e => intl(e.get('name')));
+    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay().map(e => e.get('name'));
   }
 
   render() {
     const { cluster } = this.props;
-    const active = this.controls.get(this.state.activePage).toLowerCase();
+    const active = this.controls.get(this.state.activePage);
     return (
       <View style={styles.flex}>
         <View style={styles.header}>
@@ -71,7 +71,7 @@ export default class ClusterShow extends Component {
           <SegmentedTabs
             isScrollable={true}
             selectedIndex={this.state.animatedIndex}
-            controls={this.controls.toJS()}
+            controls={this.controls.map(e => intl(e)).toJS()}
             onPress={(i) => {
               Animated.timing(this.state.animatedIndex, {toValue: i, duration: 300}).start();
               this.setState({activePage: i});

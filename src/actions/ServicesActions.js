@@ -88,7 +88,6 @@ class ServicesActions {
   }
 
   updateServicePorts({cluster, service, ports}) {
-    console.log('update ports', ports.toJS());
     this.updateServicePortsStart({cluster, service, ports});
     return ClustersApi.updateServicePorts({cluster, service, ports: ports.toJS()}).then(() => {
       this.updateServicePortsSuccess({cluster, service, ports});
