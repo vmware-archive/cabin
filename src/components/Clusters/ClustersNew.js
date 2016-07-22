@@ -108,7 +108,7 @@ export default class ClustersNew extends Component {
       const cluster = alt.stores.ClustersStore.get(this.state.url);
       cluster && ClustersActions.checkCluster(cluster);
     }, 1000);
-    NavigationActions.popRoute();
+    NavigationActions.pop();
   }
 
 }

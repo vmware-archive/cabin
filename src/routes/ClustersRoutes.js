@@ -51,7 +51,7 @@ const ClustersRoutes = {
       renderRightButton() {
         return (
           <NavbarButton source={require('images/add.png')}
-            onPress={() => NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute())}
+            onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
           />
         );
       },
@@ -120,7 +120,7 @@ const ClustersRoutes = {
               renderLeftButton() {
                 return (
                   <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.popRoute()}
+                    onPress={() => NavigationActions.pop()}
                   />
                 );
               },

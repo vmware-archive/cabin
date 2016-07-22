@@ -18,14 +18,17 @@ import PodsShow from 'components/Pods/PodsShow';
 import PodsLogs from 'components/Pods/PodsLogs';
 import NodesShow from 'components/Nodes/NodesShow';
 import ServicesShow from 'components/Services/ServicesShow';
+import ServicesEditPort from 'components/Services/ServicesEditPort';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import DeploymentsShow from 'components/Deployments/DeploymentsShow';
-import YamlView from 'components/YamlView';
+import Navigator from 'components/commons/Navigator';
 import NavbarButton from 'components/commons/NavbarButton';
-import AltContainer from 'alt-container';
-import YAML from 'yamljs';
+import YamlView from 'components/YamlView';
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import NavigationActions from 'actions/NavigationActions';
+import AltContainer from 'alt-container';
+import YAML from 'yamljs';
 
 const { View, Clipboard, DeviceEventEmitter } = ReactNative;
 
@@ -183,6 +186,42 @@ EntitiesRoutes = {
             <ServicesShow service={service} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
+      },
+    };
+  },
+
+  getServicesEditPortRoute({cluster, service, port}) {
+    return {
+      name: 'ServicesEditPort',
+      statusBarStyle: 'light-content',
+      renderScene() {
+        return (
+          <Navigator
+            initialRoute={{
+              getTitle: () => 'Edit Port',
+              renderScene(navigator) {
+                return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
+              },
+              renderLeftButton() {
+                return (
+                  <NavbarButton title={intl('cancel')}
+                    onPress={() => NavigationActions.pop()}
+                  />
+                );
+              },
+              renderRightButton() {
+                return (
+                  <NavbarButton title={intl('done')}
+                    onPress={() => DeviceEventEmitter.emit('ServicesEditPort:submit')}
+                  />
+                );
+              },
+            }}
+          />
+        );
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
   },

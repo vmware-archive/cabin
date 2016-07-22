@@ -189,7 +189,7 @@ export default class ClusterItem extends Component {
   }
 
   handleEdit() {
-    NavigationActions.pushRoute(ClustersRoutes.getClustersNewRoute(this.props.cluster));
+    NavigationActions.push(ClustersRoutes.getClustersNewRoute(this.props.cluster));
   }
 
 }

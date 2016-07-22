@@ -176,6 +176,11 @@ class ClustersApi {
     return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
   }
 
+  static updateServicePorts({cluster, service, ports}) {
+    const body = {spec: { ports }};
+    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
+  }
+
 
 }
 

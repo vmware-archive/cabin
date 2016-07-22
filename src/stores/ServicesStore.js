@@ -93,6 +93,13 @@ class ServicesStore {
     this.setState(this.state.setIn(['services', cluster.get('url'), index, 'spec', 'type'], type));
   }
 
+  onUpdateServicePortsStart({cluster, service, ports}) {
+    const index = this.state.getIn(['services', cluster.get('url')]).findIndex(e => {
+      return e.getIn(['metadata', 'name']) === service.getIn(['metadata', 'name']);
+    });
+    this.setState(this.state.setIn(['services', cluster.get('url'), index, 'spec', 'ports'], ports));
+  }
+
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
   }

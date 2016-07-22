@@ -18,8 +18,10 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
-import ServicesActions from 'actions/ServicesActions';
 import SegmentedControl from 'components/commons/SegmentedControl';
+import ServicesActions from 'actions/ServicesActions';
+import NavigationActions from 'actions/NavigationActions';
+import EntitiesRoutes from 'routes/EntitiesRoutes';
 
 const {
   View,
@@ -64,7 +66,10 @@ export default class ServicesShow extends Component {
             <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>
           </View>
           <View style={styles.section}>
-            <LabelsView entity={service} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
+            <LabelsView
+              entity={service}
+              onSubmit={this.handleLabelSubmit.bind(this)}
+              onDelete={this.handleLabelDelete.bind(this)} />
           </View>
           <View style={styles.section}>
             <ListHeader title="Ports"/>
@@ -86,6 +91,8 @@ export default class ServicesShow extends Component {
           title={title ? title : subtitle}
           subtitle={title ? subtitle : null}
           detailTitle={port.get('protocol')}
+          showArrow={true}
+          onPress={() => this.handlePressPort(port)}
         />
       );
     });
@@ -121,5 +128,9 @@ export default class ServicesShow extends Component {
 
   handleLabelDelete(key) {
     return ServicesActions.deleteServiceLabel({service: this.props.service, cluster: this.props.cluster, key});
+  }
+
+  handlePressPort(port) {
+    NavigationActions.push(EntitiesRoutes.getServicesEditPortRoute({service: this.props.service, cluster: this.props.cluster, port}));
   }
 }

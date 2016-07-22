@@ -76,6 +76,7 @@ class BaseApi {
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (!response.ok) {
+        console.log('!ok', response, url, body);
         return this.handleError(response, url);
       }
       // avoid error when the server doesn't return json

@@ -18,13 +18,13 @@ const { DeviceEventEmitter } = ReactNative;
 
 class NavigationActions {
 
-  pushRoute(route) {
+  push(route) {
     DeviceEventEmitter.emit('application:navigation', {
       type: 'push', route,
     });
   }
 
-  popRoute(route) {
+  pop(route) {
     DeviceEventEmitter.emit('application:navigation', {
       type: 'pop', route,
     });

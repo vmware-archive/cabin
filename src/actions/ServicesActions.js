@@ -35,6 +35,9 @@ class ServicesActions {
       'updateServiceTypeStart',
       'updateServiceTypeSuccess',
       'updateServiceTypeFailure',
+      'updateServicePortsStart',
+      'updateServicePortsSuccess',
+      'updateServicePortsFailure',
     );
   }
 
@@ -81,6 +84,16 @@ class ServicesActions {
       this.updateServiceTypeSuccess({cluster, service, type});
     }).catch(() => {
       this.updateServiceTypeFailure({cluster, service, type});
+    });
+  }
+
+  updateServicePorts({cluster, service, ports}) {
+    console.log('update ports', ports.toJS());
+    this.updateServicePortsStart({cluster, service, ports});
+    return ClustersApi.updateServicePorts({cluster, service, ports: ports.toJS()}).then(() => {
+      this.updateServicePortsSuccess({cluster, service, ports});
+    }).catch(() => {
+      this.updateServicePortsFailure({cluster, service, ports});
     });
   }
 }
