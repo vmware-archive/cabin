@@ -741,7 +741,7 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = skippbox;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Skippbox-Bridging-Header.h";
@@ -755,8 +755,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -784,9 +784,9 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = skippbox;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "bd97b223-4d35-4ab7-b5c1-95fe93cc8269";
 				SWIFT_OBJC_BRIDGING_HEADER = "Skippbox-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
