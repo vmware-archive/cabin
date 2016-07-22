@@ -50,6 +50,7 @@ export default class ClusterShow extends Component {
 
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
+    entitiesToDisplay: PropTypes.instanceOf(Immutable.List).isRequired,
   }
 
   constructor() {
@@ -58,12 +59,12 @@ export default class ClusterShow extends Component {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
-    this.controls = alt.stores.SettingsStore.getEntitiesToDisplay().map(e => e.get('name'));
   }
 
   render() {
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
     const { cluster } = this.props;
-    const active = this.controls.get(this.state.activePage);
+    const active = entitiesToDisplay.get(this.state.activePage);
     return (
       <View style={styles.flex}>
         <View style={styles.header}>
@@ -71,7 +72,7 @@ export default class ClusterShow extends Component {
           <SegmentedTabs
             isScrollable={true}
             selectedIndex={this.state.animatedIndex}
-            controls={this.controls.map(e => intl(e)).toJS()}
+            controls={entitiesToDisplay.map(e => intl(e))}
             onPress={(i) => {
               Animated.timing(this.state.animatedIndex, {toValue: i, duration: 300}).start();
               this.setState({activePage: i});

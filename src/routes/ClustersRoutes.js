@@ -73,7 +73,7 @@ const ClustersRoutes = {
                 value: alt.stores.ClustersStore.get(cluster.get('url')),
               };
             }}}>
-            <ClustersNavbarTitle cluster={cluster} />
+            <ClustersNavbarTitle cluster={cluster}/>
           </AltContainer>
         );
       },
@@ -94,9 +94,16 @@ const ClustersRoutes = {
                 store: alt.stores.ClustersStore,
                 value: alt.stores.ClustersStore.get(cluster.get('url')),
               };
+            },
+            entitiesToDisplay: () => {
+              return {
+                store: alt.stores.SettingsStore,
+                value: alt.stores.SettingsStore.getEntitiesToDisplay(),
+              };
             }}}>
             <ClusterShow
               navigator={navigator}
+              entitiesToDisplay={alt.stores.SettingsStore.getEntitiesToDisplay()}
               cluster={alt.stores.ClustersStore.get(cluster.get('url'))}
             />
           </AltContainer>

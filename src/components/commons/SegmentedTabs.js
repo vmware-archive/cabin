@@ -69,7 +69,7 @@ const styles = PStyleSheet.create({
 export default class SegmentedTabs extends Component {
 
   static propTypes = {
-    controls: PropTypes.arrayOf(PropTypes.string).isRequired,
+    controls: PropTypes.instanceOf(Immutable.List).isRequired,
     onPress: PropTypes.func.isRequired,
     selectedIndex: PropTypes.instanceOf(Animated.Value).isRequired,
     activeColor: PropTypes.string,
@@ -92,18 +92,33 @@ export default class SegmentedTabs extends Component {
     };
     this.layouts = [];
     this.scrollValue = 0;
-    this.counter = props.controls.length;
+    this.counter = props.controls.size;
+  }
+
+  componentWillUpdate(nextProps) {
+    if (!Immutable.is(nextProps.controls, this.props.controls)) {
+      const changed = nextProps.controls.count((control, i) => {
+        return this.props.controls.get(i) !== control;
+      });
+      this.counter = changed;
+      if (this.props.isScrollable) {
+        this.setState({isScrollable: true});
+      }
+      if (nextProps.controls.size !== this.props.controls.size) {
+        this.handlePress(0);
+      }
+    }
   }
 
   render() {
     const { activeColor, activeTextColor, inactiveTextColor, controls, selectedIndex } = this.props;
     const { isScrollable } = this.state;
-    if (controls.length === 1) { return this.renderOneItem(); }
-    const controlsCount = controls.length;
+    const controlsCount = controls.size;
+    if (controlsCount === 1) { return this.renderOneItem(); }
     const windowWidth = Dimensions.get('window').width;
     const defaultWidth = windowWidth / controlsCount;
     const containerPadding = isScrollable ? 10 : 0;
-    const widths = isScrollable && this.layouts.length > 0 ? this.layouts.map(l => l.width) : controls.map(() => defaultWidth);
+    const widths = isScrollable && this.counter === 0 ? this.layouts.slice(0, controlsCount).map(l => l.width) : controls.map(() => defaultWidth).toJS();
 
     const inputRange = _.range(controlsCount);
     const animatedWidth = selectedIndex.interpolate({
@@ -160,7 +175,7 @@ export default class SegmentedTabs extends Component {
 
   renderOneItem() {
     const { controls, activeTextColor, activeColor } = this.props;
-    const first = controls[0];
+    const first = controls.first();
     return (
       <View key={`tab${0}`} style={styles.controlContainer}>
         <Touchable
@@ -206,7 +221,7 @@ export default class SegmentedTabs extends Component {
         this.refs.scrollView.scrollTo({x: this.scrollValue, y: 0});
       } else if ((layout.x + layout.width) - this.scrollValue > windowWidth) {
         this.scrollValue = layout.x + layout.width - windowWidth;
-        if (index < this.props.controls.length - 1) {
+        if (index < this.props.controls.size - 1) {
           this.scrollValue += 30;
         }
         this.refs.scrollView.scrollTo({x: this.scrollValue, y: 0});
