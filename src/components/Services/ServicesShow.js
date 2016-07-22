@@ -81,10 +81,14 @@ export default class ServicesShow extends Component {
   }
 
   renderPorts() {
-    const ports = this.props.service.getIn(['spec', 'ports']);
+    const { service } = this.props;
+    const ports = service.getIn(['spec', 'ports']);
     const items = ports.map((port, i) => {
       const title = port.get('name') ? `${port.get('name')}` : '';
-      const subtitle = `Port: ${port.get('port')} - Target: ${port.get('targetPort')}`;
+      let subtitle = `Port: ${port.get('port')} - Target: ${port.get('targetPort')}`;
+      if (service.getIn(['spec', 'type']) === 'NodePort') {
+        subtitle += ` - NodePort: ${port.get('nodePort')}`;
+      }
       return (
         <ListItem
           key={i} isLast={i === ports.size - 1}

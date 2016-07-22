@@ -59,6 +59,7 @@ export default class ServicesEditPort extends Component {
         port: 8080,
         targetPort: 8080,
         protocol: '',
+        nodePort: 33000,
       };
     }
   }
@@ -85,6 +86,7 @@ export default class ServicesEditPort extends Component {
             onChangeText={port => this.setState({port: parseInt(port, 10)})}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.targetPort.toString()} placeholder="Target Port"
             onChangeText={targetPort => this.setState({targetPort: parseInt(targetPort, 10)})} isLast={true}/>
+          {this.state.nodePort && <ListInputItem defaultValue={this.state.nodePort.toString()} placeholder="NodePort" editable={false}/>}
 
         </ScrollView>
       </View>
