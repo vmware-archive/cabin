@@ -180,7 +180,7 @@ EntitiesRoutes = {
             service: () => {
               return {
                 store: alt.stores.ServicesStore,
-                value: alt.stores.ServicesStore.get({serviceName: service.getIn(['metadata', 'name']), cluster}),
+                value: alt.stores.ServicesStore.get({entity: service, cluster}),
               };
             }}}>
             <ServicesShow service={service} cluster={cluster} navigator={navigator} />

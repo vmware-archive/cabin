@@ -41,6 +41,7 @@ export default Immutable.fromJS({
     },
   },
   ServicesStore: {
+    entityType: 'services',
     status: {'test': 'success'},
     services: {
       'test': [

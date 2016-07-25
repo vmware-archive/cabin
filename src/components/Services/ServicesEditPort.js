@@ -85,8 +85,8 @@ export default class ServicesEditPort extends Component {
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.port.toString()} placeholder="Port"
             onChangeText={port => this.setState({port: parseInt(port, 10)})}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.targetPort.toString()} placeholder="Target Port"
-            onChangeText={targetPort => this.setState({targetPort: parseInt(targetPort, 10)})} isLast={true}/>
-          {this.state.nodePort && <ListInputItem defaultValue={this.state.nodePort.toString()} placeholder="NodePort" editable={false}/>}
+            onChangeText={targetPort => this.setState({targetPort: parseInt(targetPort, 10)})}/>
+          {this.state.nodePort && <ListInputItem defaultValue={this.state.nodePort.toString()} placeholder="NodePort" editable={false} isLast={true}/>}
 
         </ScrollView>
       </View>
