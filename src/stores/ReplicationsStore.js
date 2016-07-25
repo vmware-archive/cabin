@@ -14,97 +14,19 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-import InitActions from 'actions/InitActions';
 import ReplicationsActions from 'actions/ReplicationsActions';
-import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
-import FakeData from './FakeData';
+import BaseEntitiesStore from './BaseEntitiesStore';
 
-class ReplicationsStore {
+class ReplicationsStore extends BaseEntitiesStore {
 
   constructor() {
-    this.bindActions(InitActions);
+    super({entityType: 'replications', persistent: true});
     this.bindActions(ReplicationsActions);
-    if (__DEV__ && FakeData.get(this.displayName)) {
-      this.state = FakeData.get(this.displayName);
-    } else {
-      this.state = Immutable.fromJS({
-        replications: {},
-        status: {},
-      });
-    }
-  }
-
-  onInitAppSuccess(appState) {
-    if (appState.get(this.displayName)) {
-      this.setState(this.state.mergeDeep(appState.get(this.displayName)));
-      return true;
-    }
-    return false;
-  }
-
-  onFetchReplicationsStart(cluster) {
-    this.setState(this.state.setIn(['status', cluster.get('url')], 'loading'));
-  }
-
-  onFetchReplicationsSuccess({cluster, replications}) {
-    this.setState(
-      this.state.setIn(['replications', cluster.get('url')], replications.map(e => e.set('kind', 'replications')))
-      .setIn(['status', cluster.get('url')], 'success')
-    );
-  }
-
-  onFetchReplicationsFailure(cluster) {
-    const replications = alt.stores.ReplicationsStore.getReplications(cluster);
-    this.setState(this.state.setIn(['status', cluster.get('url')], replications.size === 0 ? 'failure' : 'success'));
-  }
-
-  onDeleteReplicationStart({cluster, replication}) {
-    this.setState(this.state.updateIn(['replications', cluster.get('url')], replications => {
-      return replications.filter(p => p.getIn(['metadata', 'name']) !== replication.getIn(['metadata', 'name']));
-    }));
-  }
-
-  onAddReplicationLabelStart({cluster, replication, key, value}) {
-    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.setIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key], value));
-  }
-
-  onAddReplicationLabelFailure({cluster, replication, key}) {
-    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.removeIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key]));
-  }
-
-  onDeleteReplicationLabelStart({cluster, replication, key}) {
-    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.removeIn(['replications', cluster.get('url'), index, 'metadata', 'labels', key]));
   }
 
   scaleReplicationStart({cluster, replication, replicas}) {
-    const index = this.state.getIn(['replications', cluster.get('url')]).findIndex(e => {
-      return e.getIn(['metadata', 'name']) === replication.getIn(['metadata', 'name']);
-    });
-    this.setState(this.state.setIn(['replications', cluster.get('url'), index, 'spec', 'replicas'], replicas));
-  }
-
-  static getStatus(cluster) {
-    return this.state.getIn(['status', cluster.get('url')], 'success');
-  }
-
-  static getReplications(cluster) {
-    return this.state.getIn(['replications', cluster.get('url')], Immutable.List());
-  }
-
-  static get({replicationName, cluster}) {
-    return this.state.getIn(['replications', cluster.get('url')]).find(e => {
-      return e.getIn(['metadata', 'name']) === replicationName;
-    });
+    this.setState(this.state.setIn(['replications', cluster.get('url'), replication.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
   }
 
 }

@@ -239,7 +239,7 @@ EntitiesRoutes = {
             replication: () => {
               return {
                 store: alt.stores.ReplicationsStore,
-                value: alt.stores.ReplicationsStore.get({replicationName: replication.getIn(['metadata', 'name']), cluster}),
+                value: alt.stores.ReplicationsStore.get({entity: replication, cluster}),
               };
             }}}>
             <ReplicationsShow replication={replication} cluster={cluster} navigator={navigator} />

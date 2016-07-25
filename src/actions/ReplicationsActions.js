@@ -15,23 +15,12 @@
 */
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
+import EntitiesActions from 'actions/EntitiesActions';
 
 class ReplicationsActions {
 
   constructor() {
     this.generateActions(
-      'fetchReplicationsStart',
-      'fetchReplicationsSuccess',
-      'fetchReplicationsFailure',
-      'deleteReplicationStart',
-      'deleteReplicationSuccess',
-      'deleteReplicationFailure',
-      'addReplicationLabelStart',
-      'addReplicationLabelSuccess',
-      'addReplicationLabelFailure',
-      'deleteReplicationLabelStart',
-      'deleteReplicationLabelSuccess',
-      'deleteReplicationLabelFailure',
       'scaleReplicationStart',
       'scaleReplicationSuccess',
       'scaleReplicationFailure',
@@ -39,39 +28,39 @@ class ReplicationsActions {
   }
 
   fetchReplications(cluster) {
-    this.fetchReplicationsStart(cluster);
-    return ClustersApi.fetchReplications(cluster).then(replications => {
-      this.fetchReplicationsSuccess({cluster, replications});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'replications'});
+    return ClustersApi.fetchReplications(cluster).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType: 'replications', entities});
     })
     .catch(() => {
-      this.fetchReplicationsFailure(cluster);
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'replications'});
     });
   }
 
   deleteReplication({cluster, replication}) {
-    this.deleteReplicationStart({cluster, replication});
+    EntitiesActions.deleteEntityStart({cluster, entity: replication, entityType: 'replications'});
     return ClustersApi.deleteReplication({cluster, replication}).then(() => {
-      this.deleteReplicationSuccess({cluster, replication});
+      EntitiesActions.deleteEntitySuccess({cluster, entity: replication, entityType: 'replications'});
     }).catch(() => {
-      this.deleteReplicationFailure({cluster, replication});
+      EntitiesActions.deleteEntityFailure({cluster, entity: replication, entityType: 'replications'});
     });
   }
 
   addReplicationLabel({cluster, replication, key, value}) {
-    this.addReplicationLabelStart({cluster, replication, key, value});
+    EntitiesActions.addEntityLabelStart({cluster, entity: replication, entityType: 'replications', key, value});
     return ClustersApi.addReplicationLabel({cluster, replication, key, value}).then(() => {
-      this.addReplicationLabelSuccess({cluster, replication, key, value});
+      EntitiesActions.addEntityLabelSuccess({cluster, entity: replication, entityType: 'replications', key, value});
     }).catch(() => {
-      this.addReplicationLabelFailure({cluster, replication, key, value});
+      EntitiesActions.addEntityLabelFailure({cluster, entity: replication, entityType: 'replications', key, value});
     });
   }
 
   deleteReplicationLabel({cluster, replication, key}) {
-    this.deleteReplicationLabelStart({cluster, replication, key});
+    EntitiesActions.deleteEntityLabelStart({cluster, entity: replication, entityType: 'replications', key});
     return ClustersApi.deleteReplicationLabel({cluster, replication, key}).then(() => {
-      this.deleteReplicationLabelSuccess({cluster, replication, key});
+      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: replication, entityType: 'replications', key});
     }).catch(() => {
-      this.deleteReplicationLabelFailure({cluster, replication, key});
+      EntitiesActions.deleteEntityLabelFailure({cluster, entity: replication, entityType: 'replications', key});
     });
   }
 

@@ -50,12 +50,13 @@ export default Immutable.fromJS({
     },
   },
   ReplicationsStore: {
+    entityType: 'replications',
     status: {'test': 'success'},
     replications: {
-      'test': [
-        {kind: 'replications', metadata: { name: 'Replication Controller A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
-        {kind: 'replications', metadata: { name: 'Replication Controller B', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 3}},
-      ],
+      'test': {
+        'RC-A': {kind: 'replications', metadata: { name: 'RC-A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
+        'RC-B': {kind: 'replications', metadata: { name: 'RC-B', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 3}},
+      },
     },
   },
   DeploymentsStore: {
