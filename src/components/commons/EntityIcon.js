@@ -45,7 +45,7 @@ export default class EntityIcon extends Component {
 
   static propTypes = {
     type: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
+    status: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   }
 
   render() {
