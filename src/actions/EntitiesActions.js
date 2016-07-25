@@ -25,6 +25,12 @@ class EntitiesActions {
       'deleteEntityStart',
       'deleteEntitySuccess',
       'deleteEntityFailure',
+      'addEntityLabelStart',
+      'addEntityLabelSuccess',
+      'addEntityLabelFailure',
+      'deleteEntityLabelStart',
+      'deleteEntityLabelSuccess',
+      'deleteEntityLabelFailure',
     );
   }
 

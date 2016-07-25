@@ -84,6 +84,24 @@ export default class BaseEntitiesStore {
     }
   }
 
+  onAddEntityLabelStart({cluster, entity, entityType, key, value}) {
+    if (entityType === this.getEntityType()) {
+      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key], value));
+    }
+  }
+
+  onAddEntityLabelFailure({cluster, entity, entityType, key}) {
+    if (entityType === this.getEntityType()) {
+      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
+    }
+  }
+
+  onDeleteEntityLabelStart({cluster, entity, entityType, key}) {
+    if (entityType === this.getEntityType()) {
+      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
+    }
+  }
+
   // Public methods
   getEntityType() {
     return this.state.get('entityType');

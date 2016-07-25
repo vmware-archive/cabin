@@ -31,18 +31,6 @@ class PodsStore extends BaseEntitiesStore {
     this.setState(this.state.setIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], logs));
   }
 
-  onAddPodLabelStart({cluster, pod, key, value}) {
-    this.setState(this.state.setIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key], value));
-  }
-
-  onAddPodLabelFailure({cluster, pod, key}) {
-    this.setState(this.state.removeIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
-  }
-
-  onDeletePodLabelStart({cluster, pod, key}) {
-    this.setState(this.state.removeIn(['pods', cluster.get('url'), pod.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
-  }
-
   static getLogs({cluster, pod}) {
     return this.state.getIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], Immutable.List());
   }
