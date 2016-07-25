@@ -26,6 +26,7 @@ const iconPod = require('images/cube.png');
 const iconService = require('images/tool.png');
 const iconReplication = require('images/duplicate.png');
 const iconNodes = require('images/connection.png');
+const iconObjects = require('images/shape.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -40,25 +41,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ListItem extends Component {
+export default class EntityIcon extends Component {
 
   static propTypes = {
     type: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
   }
 
   render() {
     const { type } = this.props;
+    let { status } = this.props;
+    if (typeof status === 'object' && status.get('phase')) {
+      status = status.get('phase').toUpperCase();
+    }
     return (
-      <View style={[styles.container, {backgroundColor: this.colorForType(type)}]}>
+      <View style={[styles.container, {backgroundColor: this.colorForType({type, status})}]}>
         <Image style={styles.icon} source={this.iconForType(type)}/>
       </View>
     );
   }
 
-  colorForType(type) {
+  colorForType({type, status}) {
     switch (type) {
       case 'pods':
-        return Colors.GREEN;
+        if (status === Constants.Status.RUNNING) { return Colors.GREEN; }
+        if (status === Constants.Status.DOWN) { return Colors.RED; }
+        return Colors.GRAY;
       case 'services':
         return Colors.ORANGE;
       case 'replicationcontrollers':
@@ -85,7 +93,7 @@ export default class ListItem extends Component {
       case 'nodes':
         return iconNodes;
       default:
-        return iconPod;
+        return iconObjects;
     }
   }
 

@@ -114,11 +114,12 @@ export default class ListItem extends Component {
 
   renderTitle() {
     if (this.props.renderTitle) { return this.props.renderTitle(); }
-    if (this.props.entity) {
+    const { entity } = this.props;
+    if (entity) {
       return (
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-          <EntityIcon type={this.props.entity.get('kind')} />
-          <Text style={{flex: 1, marginLeft: 10, fontSize: 16}} numberOfLines={1}>{this.props.entity.getIn(['metadata', 'name'])}</Text>
+          <EntityIcon type={entity.get('kind')} status={entity.get('status')}/>
+          <Text style={{flex: 1, marginLeft: 10, fontSize: 16}} numberOfLines={1}>{entity.getIn(['metadata', 'name'])}</Text>
         </View>
       );
     }
