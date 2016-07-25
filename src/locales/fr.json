@@ -15,6 +15,7 @@
   "serviceaccounts": "Service Accounts",
   "persistentvolumes": "Volumes",
   "persistentvolumeclaims": "Volume Claims",
+  "ingresses": "Ingress rules",
 
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",

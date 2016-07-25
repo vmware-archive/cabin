@@ -13,16 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ClustersStore';
-import 'stores/DeploymentsStore';
-import 'stores/IngressesStore';
-import 'stores/NodesStore';
-import 'stores/PodsStore';
-import 'stores/ReplicationsStore';
-import 'stores/SecretsStore';
-import 'stores/ServiceAccountsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-import 'stores/VolumesStore';
-import 'stores/VolumeClaimsStore';
-export default {};
+import alt from 'src/alt';
+import immutableUtil from 'alt-utils/lib/ImmutableUtil';
+import BaseEntitiesStore from './BaseEntitiesStore';
+
+class IngressesStore extends BaseEntitiesStore {
+
+  constructor() {
+    super({entityType: 'ingresses', persistent: true});
+  }
+
+}
+
+export default alt.createStore(immutableUtil(IngressesStore), 'IngressesStore');
