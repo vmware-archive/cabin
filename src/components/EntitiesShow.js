@@ -15,7 +15,6 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-import LabelsView from 'components/commons/LabelsView';
 
 const {
   View,
@@ -66,7 +65,6 @@ export default class EntitiesShow extends Component {
             <ListItem title="Version" detailTitle={`${entity.getIn(['metadata', 'resourceVersion'])}`}/>
             <ListItem title="UID" subtitle={entity.getIn(['metadata', 'uid'])} isLast={true}/>
           </View>
-          <LabelsView entity={entity}/>
         </ScrollView>
       </View>
     );

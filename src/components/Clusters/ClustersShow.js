@@ -16,11 +16,6 @@
 import { PropTypes } from 'react';
 import EntitiesList from 'components/EntitiesList';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
-import PodsActions from 'actions/PodsActions';
-import NodesActions from 'actions/NodesActions';
-import ServicesActions from 'actions/ServicesActions';
-import ReplicationsActions from 'actions/ReplicationsActions';
-import DeploymentsActions from 'actions/DeploymentsActions';
 import EntitiesActions from 'actions/EntitiesActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
@@ -81,125 +76,6 @@ export default class ClusterShow extends Component {
             }}
           />
         </View>
-        {active === 'pods' && <AltContainer stores={{
-          entities: () => {
-            return {
-              store: alt.stores.PodsStore,
-              value: alt.stores.PodsStore.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store: alt.stores.PodsStore,
-              value: alt.stores.PodsStore.getStatus(cluster),
-            };
-          }}}>
-          <EntitiesList
-            navigator={this.props.navigator}
-            listHeader={intl('pods')}
-            status={alt.stores.PodsStore.getStatus(cluster)}
-            entities={alt.stores.PodsStore.getAll(cluster)}
-            onPress={pod => this.props.navigator.push(EntitiesRoutes.getPodsShowRoute({pod, cluster}))}
-            onRefresh={() => PodsActions.fetchPods(cluster)}
-            onDelete={pod => PodsActions.deletePod({cluster, pod})}
-          />
-        </AltContainer>}
-
-        {active === 'services' && <AltContainer stores={{
-          entities: () => {
-            return {
-              store: alt.stores.ServicesStore,
-              value: alt.stores.ServicesStore.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store: alt.stores.ServicesStore,
-              value: alt.stores.ServicesStore.getStatus(cluster),
-            };
-          }}}>
-          <EntitiesList
-            navigator={this.props.navigator}
-            listHeader={intl('services')}
-            status={alt.stores.ServicesStore.getStatus(cluster)}
-            entities={alt.stores.ServicesStore.getAll(cluster)}
-            onPress={(service) => this.props.navigator.push(EntitiesRoutes.getServicesShowRoute({service, cluster}))}
-            onRefresh={() => ServicesActions.fetchServices(cluster)}
-            onDelete={service => ServicesActions.deleteService({cluster, service})}
-          />
-        </AltContainer>}
-
-        {active === 'replicationcontrollers' && <AltContainer stores={{
-          entities: () => {
-            return {
-              store: alt.stores.ReplicationsStore,
-              value: alt.stores.ReplicationsStore.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store: alt.stores.ReplicationsStore,
-              value: alt.stores.ReplicationsStore.getStatus(cluster),
-            };
-          }}}>
-          <EntitiesList
-            navigator={this.props.navigator}
-            listHeader={intl('replicationcontrollers')}
-            status={alt.stores.ReplicationsStore.getStatus(cluster)}
-            entities={alt.stores.ReplicationsStore.getAll(cluster)}
-            onPress={(replication) => this.props.navigator.push(EntitiesRoutes.getReplicationsShowRoute({replication, cluster}))}
-            onRefresh={() => ReplicationsActions.fetchReplications(cluster)}
-            onDelete={replication => ReplicationsActions.deleteReplication({cluster, replication})}
-          />
-        </AltContainer>}
-
-        {active === 'deployments' && <AltContainer stores={{
-          entities: () => {
-            return {
-              store: alt.stores.DeploymentsStore,
-              value: alt.stores.DeploymentsStore.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store: alt.stores.DeploymentsStore,
-              value: alt.stores.DeploymentsStore.getStatus(cluster),
-            };
-          }}}>
-          <EntitiesList
-            navigator={this.props.navigator}
-            listHeader={intl('deployments')}
-            status={alt.stores.DeploymentsStore.getStatus(cluster)}
-            entities={alt.stores.DeploymentsStore.getAll(cluster)}
-            onPress={(deployment) => this.props.navigator.push(EntitiesRoutes.getDeploymentsShowRoute({deployment, cluster}))}
-            onRefresh={() => DeploymentsActions.fetchDeployments(cluster)}
-            onDelete={deployment => DeploymentsActions.deleteDeployment({cluster, deployment})}
-          />
-        </AltContainer>}
-
-        {active === 'nodes' && <AltContainer stores={{
-          entities: () => {
-            return {
-              store: alt.stores.NodesStore,
-              value: alt.stores.NodesStore.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store: alt.stores.NodesStore,
-              value: alt.stores.NodesStore.getStatus(cluster),
-            };
-          }}}>
-          <EntitiesList
-            navigator={this.props.navigator}
-            listHeader={intl('nodes')}
-            status={alt.stores.NodesStore.getStatus(cluster)}
-            entities={alt.stores.NodesStore.getAll(cluster)}
-            onPress={node => this.props.navigator.push(EntitiesRoutes.getNodesShowRoute({node, cluster}))}
-            onRefresh={() => NodesActions.fetchNodes(cluster)}
-            onDelete={node => NodesActions.deleteNode({cluster, node})}
-          />
-        </AltContainer>}
         {this.renderGeneralEntities(active)}
       </View>
     );
@@ -207,7 +83,8 @@ export default class ClusterShow extends Component {
 
   renderGeneralEntities(active) {
     const { cluster } = this.props;
-    return ['secrets', 'serviceaccounts'].map(entityType => {
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
+    return entitiesToDisplay.map(entityType => {
       if (active !== entityType) { return false; }
       const store = EntitiesUtils.storeForType(entityType);
       return (
@@ -229,7 +106,7 @@ export default class ClusterShow extends Component {
             listHeader={intl(entityType)}
             status={store.getStatus(cluster)}
             entities={store.getAll(cluster)}
-            onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster}))}
+            onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster, entityType}))}
             onRefresh={() => EntitiesActions.fetchEntities({cluster, entityType})}
             onDelete={entity => EntitiesActions.deleteEntity({cluster, entity, entityType})}
           />

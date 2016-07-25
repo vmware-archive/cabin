@@ -44,17 +44,25 @@ const yamlRightButton = ({navigator, entity}) => {
 
 EntitiesRoutes = {
 
-  getEntitiesShowRoute(entity) {
-    return {
-      name: 'EntitiesShow',
-      statusBarStyle: 'light-content',
-      getBackButtonTitle: () => '',
-      getTitle: () => entity.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity}); },
-      renderScene(navigator) {
-        return <EntitiesShow entity={entity} navigator={navigator} />;
-      },
-    };
+  getEntitiesShowRoute({entity, entityType, cluster}) {
+    switch (entityType) {
+      case 'pods': return EntitiesRoutes.getPodsShowRoute({pod: entity, cluster});
+      case 'nodes': return EntitiesRoutes.getNodesShowRoute({node: entity, cluster});
+      case 'services': return EntitiesRoutes.getServicesShowRoute({service: entity, cluster});
+      case 'replicationcontrollers': return EntitiesRoutes.getReplicationsShowRoute({replication: entity, cluster});
+      case 'deployments': return EntitiesRoutes.getDeploymentsShowRoute({deployment: entity, cluster});
+      default:
+        return {
+          name: 'EntitiesShow',
+          statusBarStyle: 'light-content',
+          getBackButtonTitle: () => '',
+          getTitle: () => entity.getIn(['metadata', 'name']),
+          renderRightButton(navigator) { return yamlRightButton({navigator, entity}); },
+          renderScene(navigator) {
+            return <EntitiesShow entity={entity} cluster={cluster} navigator={navigator} />;
+          },
+        };
+    }
   },
 
   getEntitiesYamlRoute(entity) {
