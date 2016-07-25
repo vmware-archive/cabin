@@ -145,7 +145,7 @@ export default class ClusterItem extends Component {
     switch (entity.get('name')) {
       case 'nodes':
         return { store: alt.stores.NodesStore,
-          value: `${alt.stores.NodesStore.getNodes(cluster).size} ${intl('nodes')}`};
+          value: `${alt.stores.NodesStore.getAll(cluster).size} ${intl('nodes')}`};
       case 'services':
         return { store: alt.stores.ServicesStore,
           value: `${alt.stores.ServicesStore.getServices(cluster).size} ${intl('services')}`};

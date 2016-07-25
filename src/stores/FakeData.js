@@ -4,8 +4,8 @@ export default Immutable.fromJS({
     'test': { url: 'test', name: 'Test Cluster', username: 'foo', password: 'bar', status: 'RUNNING', namespaces: ['default', 'custom-namespace'] },
   },
   PodsStore: {
-    status: {'test': 'success'},
     entityType: 'pods',
+    status: {'test': 'success'},
     logs: {
       'test': {
         'Pod-A': '2016-07-13 23:45:12: log Pod A',
@@ -67,17 +67,18 @@ export default Immutable.fromJS({
     },
   },
   NodesStore: {
+    entityType: 'nodes',
     status: {'test': 'success'},
     nodes: {
-      'test': [
-        { kind: 'nodes',
+      'test': {
+        'Node-A': { kind: 'nodes',
           metadata: { name: 'Node-A', creationTimestamp: '2016-07-14T23:45:20Z'},
           status: {
             addresses: [{address: '10.11.12.13', type: 'InternalIP'}],
             conditions: [{type: 'Ready', status: 'True'}],
           },
         },
-      ],
+      },
     },
   },
 });

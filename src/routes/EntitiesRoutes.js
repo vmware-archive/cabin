@@ -141,7 +141,7 @@ EntitiesRoutes = {
             node: () => {
               return {
                 store: alt.stores.NodesStore,
-                value: alt.stores.NodesStore.get({nodeName: node.getIn(['metadata', 'name']), cluster}),
+                value: alt.stores.NodesStore.get({entity: node, cluster}),
               };
             }}}>
             <NodesShow node={node} cluster={cluster} navigator={navigator} />

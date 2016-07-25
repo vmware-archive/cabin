@@ -15,60 +15,50 @@
 */
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
+import EntitiesActions from 'actions/EntitiesActions';
 
 class NodesActions {
 
   constructor() {
     this.generateActions(
-      'fetchNodesStart',
-      'fetchNodesSuccess',
-      'fetchNodesFailure',
-      'deleteNodeStart',
-      'deleteNodeSuccess',
-      'deleteNodeFailure',
-      'addNodeLabelStart',
-      'addNodeLabelSuccess',
-      'addNodeLabelFailure',
-      'deleteNodeLabelStart',
-      'deleteNodeLabelSuccess',
-      'deleteNodeLabelFailure',
+
     );
   }
 
   fetchNodes(cluster) {
-    this.fetchNodesStart(cluster);
-    return ClustersApi.fetchNodes(cluster).then(nodes => {
-      this.fetchNodesSuccess({cluster, nodes});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'nodes'});
+    return ClustersApi.fetchNodes(cluster).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType: 'nodes', entities});
     })
     .catch(() => {
-      this.fetchNodesFailure(cluster);
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'nodes'});
     });
   }
 
   deleteNode({cluster, node}) {
-    this.deleteNodeStart({cluster, node});
+    EntitiesActions.deleteEntityStart({cluster, entity: node, entityType: 'nodes'});
     return ClustersApi.deleteNode({cluster, node}).then(() => {
-      this.deleteNodeSuccess({cluster, node});
+      EntitiesActions.deleteEntitySuccess({cluster, entity: node, entityType: 'nodes'});
     }).catch(() => {
-      this.deleteNodeFailure({cluster, node});
+      EntitiesActions.deleteEntityFailure({cluster, entity: node, entityType: 'nodes'});
     });
   }
 
   addNodeLabel({cluster, node, key, value}) {
-    this.addNodeLabelStart({cluster, node, key, value});
+    EntitiesActions.addEntityLabelStart({cluster, entity: node, entityType: 'nodes', key, value});
     return ClustersApi.addNodeLabel({cluster, node, key, value}).then(() => {
-      this.addNodeLabelSuccess({cluster, node, key, value});
+      EntitiesActions.addEntityLabelSuccess({cluster, entity: node, entityType: 'nodes', key, value});
     }).catch(() => {
-      this.addNodeLabelFailure({cluster, node, key, value});
+      EntitiesActions.addEntityLabelFailure({cluster, entity: node, entityType: 'nodes', key, value});
     });
   }
 
   deleteNodeLabel({cluster, node, key}) {
-    this.deleteNodeLabelStart({cluster, node, key});
+    EntitiesActions.deleteEntityLabelStart({cluster, entity: node, entityType: 'nodes', key});
     return ClustersApi.deleteNodeLabel({cluster, node, key}).then(() => {
-      this.deleteNodeLabelSuccess({cluster, node, key});
+      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: node, entityType: 'nodes', key});
     }).catch(() => {
-      this.deleteNodeLabelFailure({cluster, node, key});
+      EntitiesActions.deleteEntityLabelFailure({cluster, entity: node, entityType: 'nodes', key});
     });
   }
 }
