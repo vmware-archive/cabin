@@ -83,7 +83,7 @@ export default class ClusterShow extends Component {
           entities: () => {
             return {
               store: alt.stores.PodsStore,
-              value: alt.stores.PodsStore.getPods(cluster),
+              value: alt.stores.PodsStore.getAll(cluster),
             };
           },
           status: () => {
@@ -96,7 +96,7 @@ export default class ClusterShow extends Component {
             navigator={this.props.navigator}
             listHeader={intl('pods')}
             status={alt.stores.PodsStore.getStatus(cluster)}
-            entities={alt.stores.PodsStore.getPods(cluster)}
+            entities={alt.stores.PodsStore.getAll(cluster)}
             onPress={pod => this.props.navigator.push(EntitiesRoutes.getPodsShowRoute({pod, cluster}))}
             onRefresh={() => PodsActions.fetchPods(cluster)}
             onDelete={pod => PodsActions.deletePod({cluster, pod})}

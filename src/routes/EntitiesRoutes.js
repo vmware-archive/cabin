@@ -90,7 +90,7 @@ EntitiesRoutes = {
             pod: () => {
               return {
                 store: alt.stores.PodsStore,
-                value: alt.stores.PodsStore.get({pod, cluster}),
+                value: alt.stores.PodsStore.get({entity: pod, cluster}),
               };
             }}}>
             <PodsShow pod={pod} cluster={cluster} navigator={navigator} />

@@ -5,6 +5,7 @@ export default Immutable.fromJS({
   },
   PodsStore: {
     status: {'test': 'success'},
+    entityType: 'pods',
     logs: {
       'test': {
         'Pod-A': '2016-07-13 23:45:12: log Pod A',

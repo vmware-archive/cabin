@@ -15,20 +15,15 @@
 */
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
+import EntitiesActions from 'actions/EntitiesActions';
 
 class PodsActions {
 
   constructor() {
     this.generateActions(
-      'fetchPodsStart',
-      'fetchPodsSuccess',
-      'fetchPodsFailure',
       'fetchPodLogsStart',
       'fetchPodLogsSuccess',
       'fetchPodLogsFailure',
-      'deletePodStart',
-      'deletePodSuccess',
-      'deletePodFailure',
       'addPodLabelStart',
       'addPodLabelSuccess',
       'addPodLabelFailure',
@@ -39,12 +34,12 @@ class PodsActions {
   }
 
   fetchPods(cluster) {
-    this.fetchPodsStart(cluster);
-    return ClustersApi.fetchPods(cluster).then(pods => {
-      this.fetchPodsSuccess({cluster, pods});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'pods'});
+    return ClustersApi.fetchPods(cluster).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType: 'pods', entities});
     })
     .catch(() => {
-      this.fetchPodsFailure(cluster);
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'pods'});
     });
   }
 
@@ -62,11 +57,11 @@ class PodsActions {
   }
 
   deletePod({cluster, pod}) {
-    this.deletePodStart({cluster, pod});
+    EntitiesActions.deleteEntityStart({cluster, entity: pod, entityType: 'pods'});
     return ClustersApi.deletePod({cluster, pod}).then(() => {
-      this.deletePodSuccess({cluster, pod});
+      EntitiesActions.deleteEntitySuccess({cluster, entity: pod, entityType: 'pods'});
     }).catch(() => {
-      this.deletePodFailure({cluster, pod});
+      EntitiesActions.deleteEntityFailure({cluster, entity: pod, entityType: 'pods'});
     });
   }
 

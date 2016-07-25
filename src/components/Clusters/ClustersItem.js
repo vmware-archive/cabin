@@ -158,7 +158,7 @@ export default class ClusterItem extends Component {
       case 'pods':
       default:
         return { store: alt.stores.PodsStore,
-          value: `${alt.stores.PodsStore.getPods(cluster).size} ${intl('pods')}`};
+          value: `${alt.stores.PodsStore.getAll(cluster).size} ${intl('pods')}`};
     }
   }
 
