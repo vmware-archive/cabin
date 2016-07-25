@@ -70,9 +70,7 @@ export default class ReplicationsShow extends Component {
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
             <ReplicationsSlider replication={replication} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'])}`}/>
-            <ListItem title="Up to date" detailTitle={`${replication.getIn(['status', 'updatedReplicas'])}`}/>
-            <ListItem title="Available" detailTitle={`${replication.getIn(['status', 'availableReplicas'])}`} isLast={true}/>
+            <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'])}`} isLast={true}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={replication} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />

@@ -262,7 +262,7 @@ EntitiesRoutes = {
             deployment: () => {
               return {
                 store: alt.stores.DeploymentsStore,
-                value: alt.stores.DeploymentsStore.get({deploymentName: deployment.getIn(['metadata', 'name']), cluster}),
+                value: alt.stores.DeploymentsStore.get({entity: deployment, cluster}),
               };
             }}}>
             <DeploymentsShow deployment={deployment} cluster={cluster} navigator={navigator} />

@@ -61,6 +61,7 @@ export default Immutable.fromJS({
     },
   },
   DeploymentsStore: {
+    entityType: 'deployments',
     status: {'test': 'success'},
     deployments: {
       'test': [

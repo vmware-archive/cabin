@@ -155,7 +155,7 @@ export default class ClusterShow extends Component {
           entities: () => {
             return {
               store: alt.stores.DeploymentsStore,
-              value: alt.stores.DeploymentsStore.getDeployments(cluster),
+              value: alt.stores.DeploymentsStore.getAll(cluster),
             };
           },
           status: () => {
@@ -168,7 +168,7 @@ export default class ClusterShow extends Component {
             navigator={this.props.navigator}
             listHeader={intl('deployments')}
             status={alt.stores.DeploymentsStore.getStatus(cluster)}
-            entities={alt.stores.DeploymentsStore.getDeployments(cluster)}
+            entities={alt.stores.DeploymentsStore.getAll(cluster)}
             onPress={(deployment) => this.props.navigator.push(EntitiesRoutes.getDeploymentsShowRoute({deployment, cluster}))}
             onRefresh={() => DeploymentsActions.fetchDeployments(cluster)}
             onDelete={deployment => DeploymentsActions.deleteDeployment({cluster, deployment})}
