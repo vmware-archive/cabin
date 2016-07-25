@@ -21,12 +21,12 @@ import BaseEntitiesStore from './BaseEntitiesStore';
 class ReplicationsStore extends BaseEntitiesStore {
 
   constructor() {
-    super({entityType: 'replications', persistent: true});
+    super({entityType: 'replicationcontrollers', persistent: true});
     this.bindActions(ReplicationsActions);
   }
 
   scaleReplicationStart({cluster, replication, replicas}) {
-    this.setState(this.state.setIn(['replications', cluster.get('url'), replication.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
+    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
   }
 
 }

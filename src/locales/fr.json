@@ -7,10 +7,11 @@
   "delete": "Supprimer",
   "pods": "Pods",
   "nodes": "Nodes",
-  "replications": "Replication Controllers",
-  "replications_short": "RC",
+  "replicationcontrollers": "Replication Controllers",
+  "replicationcontrollers_short": "RC",
   "deployments": "Deployments",
   "services": "Services",
+  "secrets": "Secrets",
 
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",

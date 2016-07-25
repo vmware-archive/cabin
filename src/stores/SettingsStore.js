@@ -28,13 +28,14 @@ class SettingsStore {
     this.state = Immutable.fromJS({
       maxReplicas: 40,
       entitiesDisplay: {
-        order: [0, 1, 2, 3, 4],
+        order: [0, 1, 2, 3, 4, 5],
         entities: {
           0: {name: 'pods'},
           1: {name: 'services'},
-          2: {name: 'replications'},
+          2: {name: 'replicationcontrollers'},
           3: {name: 'nodes'},
           4: {name: 'deployments', hidden: true},
+          5: {name: 'secrets', hidden: true},
         },
       },
     });

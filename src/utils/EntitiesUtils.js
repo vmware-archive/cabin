@@ -13,12 +13,20 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ClustersStore';
-import 'stores/DeploymentsStore';
-import 'stores/NodesStore';
-import 'stores/PodsStore';
-import 'stores/ReplicationsStore';
-import 'stores/SecretsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-export default {};
+
+export default class EntitiesUtils {
+
+  static storeForType(entityType) {
+    let find;
+    for (const key in alt.stores) {
+      if (alt.stores.hasOwnProperty(key)) {
+        const store = alt.stores[key];
+        if (store.getEntityType && store.getEntityType() === entityType) {
+          find = store;
+        }
+      }
+    }
+    return find;
+  }
+
+}

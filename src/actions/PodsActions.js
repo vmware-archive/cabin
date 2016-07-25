@@ -17,6 +17,8 @@ import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
 
+const entityType = 'pods';
+
 class PodsActions {
 
   constructor() {
@@ -28,12 +30,12 @@ class PodsActions {
   }
 
   fetchPods(cluster) {
-    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'pods'});
-    return ClustersApi.fetchPods(cluster).then(entities => {
-      EntitiesActions.dispatchEntities({cluster, entityType: 'pods', entities});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType});
+    return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType, entities});
     })
     .catch(() => {
-      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'pods'});
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType});
     });
   }
 
@@ -51,29 +53,29 @@ class PodsActions {
   }
 
   deletePod({cluster, pod}) {
-    EntitiesActions.deleteEntityStart({cluster, entity: pod, entityType: 'pods'});
-    return ClustersApi.deletePod({cluster, pod}).then(() => {
-      EntitiesActions.deleteEntitySuccess({cluster, entity: pod, entityType: 'pods'});
+    EntitiesActions.deleteEntityStart({cluster, entity: pod, entityType});
+    return ClustersApi.deleteEntity({cluster, entity: pod, entityType}).then(() => {
+      EntitiesActions.deleteEntitySuccess({cluster, entity: pod, entityType});
     }).catch(() => {
-      EntitiesActions.deleteEntityFailure({cluster, entity: pod, entityType: 'pods'});
+      EntitiesActions.deleteEntityFailure({cluster, entity: pod, entityType});
     });
   }
 
   addPodLabel({cluster, pod, key, value}) {
-    EntitiesActions.addEntityLabelStart({cluster, entity: pod, entityType: 'pods', key, value});
-    return ClustersApi.addPodLabel({cluster, pod, key, value}).then(() => {
-      EntitiesActions.addEntityLabelSuccess({cluster, entity: pod, entityType: 'pods', key, value});
+    EntitiesActions.addEntityLabelStart({cluster, entity: pod, entityType, key, value});
+    return ClustersApi.addEntityLabel({cluster, entity: pod, entityType, key, value}).then(() => {
+      EntitiesActions.addEntityLabelSuccess({cluster, entity: pod, entityType, key, value});
     }).catch(() => {
-      EntitiesActions.addEntityLabelFailure({cluster, entity: pod, entityType: 'pods', key, value});
+      EntitiesActions.addEntityLabelFailure({cluster, entity: pod, entityType, key, value});
     });
   }
 
   deletePodLabel({cluster, pod, key}) {
-    EntitiesActions.deleteEntityLabelStart({cluster, entity: pod, entityType: 'pods', key});
-    return ClustersApi.deletePodLabel({cluster, pod, key}).then(() => {
-      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: pod, entityType: 'pods', key});
+    EntitiesActions.deleteEntityLabelStart({cluster, entity: pod, entityType, key});
+    return ClustersApi.deleteEntityLabel({cluster, entity: pod, entityType, key}).then(() => {
+      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: pod, entityType, key});
     }).catch(() => {
-      EntitiesActions.deleteEntityLabelFailure({cluster, entity: pod, entityType: 'pods', key});
+      EntitiesActions.deleteEntityLabelFailure({cluster, entity: pod, entityType, key});
     });
   }
 

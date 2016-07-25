@@ -38,9 +38,11 @@ class SearchActions {
       return match;
     };
     const pods = alt.stores.PodsStore.getAll(cluster).take(5).filter(filter);
+    const nodes = alt.stores.NodesStore.getAll(cluster).take(5).filter(filter);
     const services = alt.stores.ServicesStore.getAll(cluster).take(5).filter(filter);
     const replications = alt.stores.ReplicationsStore.getAll(cluster).take(5).filter(filter);
-    return {cluster, query, result: Immutable.fromJS({pods, services, replications})};
+    const deployments = alt.stores.DeploymentsStore.getAll(cluster).take(5).filter(filter);
+    return {cluster, query, result: Immutable.fromJS({pods, nodes, services, replications, deployments})};
   }
 }
 

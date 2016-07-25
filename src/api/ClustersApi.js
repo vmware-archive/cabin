@@ -55,119 +55,23 @@ class ClustersApi {
   }
 
   /* PODS */
-  static fetchPods(cluster) {
-    return BaseApi.get('/pods', {}, cluster).then(response => {
-      return response.get('items');
-    });
-  }
-
   static fetchPodLogs({cluster, pod, container}) {
     return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container, tailLines: 100}, cluster, pod);
   }
 
-  static deletePod({cluster, pod}) {
-    return BaseApi.delete(`/pods/${pod.getIn(['metadata', 'name'])}`, {}, cluster, pod);
-  }
-
-  static addPodLabel({cluster, pod, key, value}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, value]]).toJS(),
-    }};
-    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster, pod);
-  }
-
-  static deletePodLabel({cluster, pod, key}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, null]]).toJS(),
-    }};
-    return BaseApi.patch(`/pods/${pod.getIn(['metadata', 'name'])}`, body, cluster, pod);
-  }
-
   /* RC */
-  static fetchReplications(cluster) {
-    return BaseApi.get('/replicationcontrollers', {}, cluster).then(response => {
-      return response.get('items');
-    });
-  }
-
-  static deleteReplication({cluster, replication}) {
-    return BaseApi.delete(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, {}, cluster, replication);
-  }
-
-  static addReplicationLabel({cluster, replication, key, value}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, value]]).toJS(),
-    }};
-    return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
-  }
-
-  static deleteReplicationLabel({cluster, replication, key}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, null]]).toJS(),
-    }};
-    return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
-  }
-
   static scaleReplication({cluster, replication, replicas}) {
     const body = {spec: {replicas}};
     return BaseApi.patch(`/replicationcontrollers/${replication.getIn(['metadata', 'name'])}`, body, cluster, replication);
   }
 
   /* DEPLOYMENTS */
-  static fetchDeployments(cluster) {
-    return BaseApi.get('/deployments', {}, cluster).then(response => {
-      return response.get('items');
-    });
-  }
-
-  static deleteDeployment({cluster, deployment}) {
-    return BaseApi.delete(`/deployments/${deployment.getIn(['metadata', 'name'])}`, {}, cluster, deployment);
-  }
-
-  static addDeploymentLabel({cluster, deployment, key, value}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, value]]).toJS(),
-    }};
-    return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
-  }
-
-  static deleteDeploymentLabel({cluster, deployment, key}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, null]]).toJS(),
-    }};
-    return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
-  }
-
   static scaleDeployment({cluster, deployment, replicas}) {
     const body = {spec: {replicas}};
     return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
   }
 
   /* SERVICES */
-  static fetchServices(cluster) {
-    return BaseApi.get('/services', {}, cluster).then(response => {
-      return response.get('items');
-    });
-  }
-
-  static deleteService({cluster, service}) {
-    return BaseApi.delete(`/services/${service.getIn(['metadata', 'name'])}`, {}, cluster, service);
-  }
-
-  static addServiceLabel({cluster, service, key, value}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, value]]).toJS(),
-    }};
-    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
-  }
-
-  static deleteServiceLabel({cluster, service, key}) {
-    const body = {metadata: {
-      labels: Immutable.Map([[key, null]]).toJS(),
-    }};
-    return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
-  }
-
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};
     if (type === 'ClusterIP') {
@@ -181,6 +85,30 @@ class ClustersApi {
     return BaseApi.patch(`/services/${service.getIn(['metadata', 'name'])}`, body, cluster, service);
   }
 
+  /* GENERAL ENTITIES */
+  static fetchEntities({cluster, entityType}) {
+    return BaseApi.get(`/${entityType}`, {}, cluster).then(response => {
+      return response.get('items');
+    });
+  }
+
+  static deleteEntity({cluster, entity, entityType}) {
+    return BaseApi.delete(`/${entityType}/${entity.getIn(['metadata', 'name'])}`, {}, cluster, entity);
+  }
+
+  static addEntityLabel({cluster, entity, entityType, key, value}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, value]]).toJS(),
+    }};
+    return BaseApi.patch(`/${entityType}/${entity.getIn(['metadata', 'name'])}`, body, cluster, entity);
+  }
+
+  static deleteEntityLabel({cluster, entity, entityType, key}) {
+    const body = {metadata: {
+      labels: Immutable.Map([[key, null]]).toJS(),
+    }};
+    return BaseApi.patch(`/${entityType}/${entity.getIn(['metadata', 'name'])}`, body, cluster, entity);
+  }
 
 }
 

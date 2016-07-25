@@ -79,7 +79,9 @@ export default class Search extends Component {
     const renderItems = (e, i, list) => this.renderItem(e, i, list);
     const services = result.get('services', Immutable.List()).map(renderItems);
     const pods = result.get('pods', Immutable.List()).map(renderItems);
-    const replications = result.get('replications', Immutable.List()).map(renderItems);
+    const nodes = result.get('nodes', Immutable.List()).map(renderItems);
+    const replications = result.get('replicationcontrollers', Immutable.List()).map(renderItems);
+    const deployments = result.get('deployments', Immutable.List()).map(renderItems);
     return (
       <View style={styles.container}>
         <ScrollView
@@ -88,12 +90,16 @@ export default class Search extends Component {
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}
           onRefresh={this.refresh.bind(this)}>
-          {pods.size > 0 && <ListHeader title="Pods"/>}
+          {pods.size > 0 && <ListHeader title={intl('pods')}/>}
           {pods}
-          {services.size > 0 && <ListHeader title="Services"/>}
+          {nodes.size > 0 && <ListHeader title={intl('nodes')}/>}
+          {nodes}
+          {services.size > 0 && <ListHeader title={intl('services')}/>}
           {services}
-          {replications.size > 0 && <ListHeader title="Replication Controllers"/>}
+          {replications.size > 0 && <ListHeader title={intl('replicationcontrollers')}/>}
           {replications}
+          {deployments.size > 0 && <ListHeader title={intl('deployments')}/>}
+          {deployments}
         </ScrollView>
       </View>
     );

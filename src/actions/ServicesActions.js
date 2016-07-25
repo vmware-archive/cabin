@@ -17,6 +17,8 @@ import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
 
+const entityType = 'services';
+
 class ServicesActions {
 
   constructor() {
@@ -31,39 +33,39 @@ class ServicesActions {
   }
 
   fetchServices(cluster) {
-    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'services'});
-    return ClustersApi.fetchServices(cluster).then(entities => {
-      EntitiesActions.dispatchEntities({cluster, entityType: 'services', entities});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType});
+    return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType, entities});
     })
     .catch(() => {
-      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'services'});
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType});
     });
   }
 
   deleteService({cluster, service}) {
-    EntitiesActions.deleteEntityStart({cluster, entity: service, entityType: 'services'});
-    return ClustersApi.deleteService({cluster, service}).then(() => {
-      EntitiesActions.deleteEntitySuccess({cluster, entity: service, entityType: 'services'});
+    EntitiesActions.deleteEntityStart({cluster, entity: service, entityType});
+    return ClustersApi.deleteEntity({cluster, entity: service, entityType}).then(() => {
+      EntitiesActions.deleteEntitySuccess({cluster, entity: service, entityType});
     }).catch(() => {
-      EntitiesActions.deleteEntityFailure({cluster, entity: service, entityType: 'services'});
+      EntitiesActions.deleteEntityFailure({cluster, entity: service, entityType});
     });
   }
 
   addServiceLabel({cluster, service, key, value}) {
-    EntitiesActions.addEntityLabelStart({cluster, entity: service, entityType: 'services', key, value});
-    return ClustersApi.addServiceLabel({cluster, service, key, value}).then(() => {
-      EntitiesActions.addEntityLabelSuccess({cluster, entity: service, entityType: 'services', key, value});
+    EntitiesActions.addEntityLabelStart({cluster, entity: service, entityType, key, value});
+    return ClustersApi.addEntityLabel({cluster, entity: service, entityType, key, value}).then(() => {
+      EntitiesActions.addEntityLabelSuccess({cluster, entity: service, entityType, key, value});
     }).catch(() => {
-      EntitiesActions.addEntityLabelFailure({cluster, entity: service, entityType: 'services', key, value});
+      EntitiesActions.addEntityLabelFailure({cluster, entity: service, entityType, key, value});
     });
   }
 
   deleteServiceLabel({cluster, service, key}) {
-    EntitiesActions.deleteEntityLabelStart({cluster, entity: service, entityType: 'services', key});
-    return ClustersApi.deleteServiceLabel({cluster, service, key}).then(() => {
-      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: service, entityType: 'services', key});
+    EntitiesActions.deleteEntityLabelStart({cluster, entity: service, entityType, key});
+    return ClustersApi.deleteEntityLabel({cluster, entity: service, entityType, key}).then(() => {
+      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: service, entityType, key});
     }).catch(() => {
-      EntitiesActions.deleteEntityLabelFailure({cluster, entity: service, entityType: 'services', key});
+      EntitiesActions.deleteEntityLabelFailure({cluster, entity: service, entityType, key});
     });
   }
 

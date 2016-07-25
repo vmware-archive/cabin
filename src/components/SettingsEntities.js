@@ -17,6 +17,7 @@ import Colors from 'styles/Colors';
 import DraggableItem from 'components/commons/DraggableItem';
 import SortableListView from 'react-native-sortable-listview';
 import SettingsActions from 'actions/SettingsActions';
+import ClustersActions from 'actions/ClustersActions';
 
 const {
   View,
@@ -102,6 +103,11 @@ export default class Settings extends Component {
   handleOnPress({entity, key}) {
     if (entity.get('hidden') || alt.stores.SettingsStore.getEntitiesToDisplay().size > 1) {
       SettingsActions.setEntityHidden({key, hidden: !entity.get('hidden')});
+      setTimeout(() => {
+        if (entity.get('hidden')) {
+          ClustersActions.fetchAllClustersEntities.defer();
+        }
+      }, 1000);
     }
   }
 }

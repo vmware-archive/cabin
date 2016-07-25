@@ -21,6 +21,7 @@ import NavigationActions from 'actions/NavigationActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const { PropTypes } = React;
 const {
@@ -149,16 +150,19 @@ export default class ClusterItem extends Component {
       case 'services':
         return { store: alt.stores.ServicesStore,
           value: `${alt.stores.ServicesStore.getAll(cluster).size} ${intl('services')}`};
-      case 'replications':
+      case 'replicationcontrollers':
         return { store: alt.stores.ReplicationsStore,
-          value: `${alt.stores.ReplicationsStore.getAll(cluster).size} ${intl('replications_short')}`};
+          value: `${alt.stores.ReplicationsStore.getAll(cluster).size} ${intl('replicationcontrollers_short')}`};
       case 'deployments':
         return { store: alt.stores.DeploymentsStore,
           value: `${alt.stores.DeploymentsStore.getAll(cluster).size} ${intl('deployments')}`};
       case 'pods':
-      default:
         return { store: alt.stores.PodsStore,
           value: `${alt.stores.PodsStore.getAll(cluster).size} ${intl('pods')}`};
+      default:
+        const store = EntitiesUtils.storeForType(entity.get('name'));
+        return { store,
+          value: `${store.getAll(cluster).size} ${intl(entity.get('name'))}`};
     }
   }
 

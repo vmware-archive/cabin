@@ -17,6 +17,8 @@ import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
 
+const entityType = 'deployments';
+
 class DeploymentsActions {
 
   constructor() {
@@ -28,39 +30,39 @@ class DeploymentsActions {
   }
 
   fetchDeployments(cluster) {
-    EntitiesActions.fetchEntitiesStart({cluster, entityType: 'deployments'});
-    return ClustersApi.fetchDeployments(cluster).then(entities => {
-      EntitiesActions.dispatchEntities({cluster, entityType: 'deployments', entities});
+    EntitiesActions.fetchEntitiesStart({cluster, entityType});
+    return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
+      EntitiesActions.dispatchEntities({cluster, entityType, entities});
     })
     .catch(() => {
-      EntitiesActions.fetchEntitiesFailure({cluster, entityType: 'deployments'});
+      EntitiesActions.fetchEntitiesFailure({cluster, entityType});
     });
   }
 
   deleteDeployment({cluster, deployment}) {
-    EntitiesActions.deleteEntityStart({cluster, entity: deployment, entityType: 'deployments'});
-    return ClustersApi.deleteDeployment({cluster, deployment}).then(() => {
-      EntitiesActions.deleteEntitySuccess({cluster, entity: deployment, entityType: 'deployments'});
+    EntitiesActions.deleteEntityStart({cluster, entity: deployment, entityType});
+    return ClustersApi.deleteEntity({cluster, entity: deployment, entityType}).then(() => {
+      EntitiesActions.deleteEntitySuccess({cluster, entity: deployment, entityType});
     }).catch(() => {
-      EntitiesActions.deleteEntityFailure({cluster, entity: deployment, entityType: 'deployments'});
+      EntitiesActions.deleteEntityFailure({cluster, entity: deployment, entityType});
     });
   }
 
   addDeploymentLabel({cluster, deployment, key, value}) {
-    EntitiesActions.addEntityLabelStart({cluster, entity: deployment, entityType: 'deployments', key, value});
-    return ClustersApi.addDeploymentLabel({cluster, deployment, key, value}).then(() => {
-      EntitiesActions.addEntityLabelSuccess({cluster, entity: deployment, entityType: 'deployments', key, value});
+    EntitiesActions.addEntityLabelStart({cluster, entity: deployment, entityType, key, value});
+    return ClustersApi.addEntityLabel({cluster, entity: deployment, entityType, key, value}).then(() => {
+      EntitiesActions.addEntityLabelSuccess({cluster, entity: deployment, entityType, key, value});
     }).catch(() => {
-      EntitiesActions.addEntityLabelFailure({cluster, entity: deployment, entityType: 'deployments', key, value});
+      EntitiesActions.addEntityLabelFailure({cluster, entity: deployment, entityType, key, value});
     });
   }
 
   deleteDeploymentLabel({cluster, deployment, key}) {
-    EntitiesActions.deleteEntityLabelStart({cluster, entity: deployment, entityType: 'deployments', key});
-    return ClustersApi.deleteDeploymentLabel({cluster, deployment, key}).then(() => {
-      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: deployment, entityType: 'deployments', key});
+    EntitiesActions.deleteEntityLabelStart({cluster, entity: deployment, entityType, key});
+    return ClustersApi.deleteEntityLabel({cluster, entity: deployment, entityType, key}).then(() => {
+      EntitiesActions.deleteEntityLabelSuccess({cluster, entity: deployment, entityType, key});
     }).catch(() => {
-      EntitiesActions.deleteEntityLabelFailure({cluster, entity: deployment, entityType: 'deployments', key});
+      EntitiesActions.deleteEntityLabelFailure({cluster, entity: deployment, entityType, key});
     });
   }
 

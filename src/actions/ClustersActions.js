@@ -15,11 +15,7 @@
 */
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
-import PodsActions from 'actions/PodsActions';
-import NodesActions from 'actions/NodesActions';
-import ServicesActions from 'actions/ServicesActions';
-import ReplicationsActions from 'actions/ReplicationsActions';
-import DeploymentsActions from 'actions/DeploymentsActions';
+import EntitiesActions from 'actions/EntitiesActions';
 
 class ClustersActions {
 
@@ -48,12 +44,16 @@ class ClustersActions {
     });
   }
 
+  fetchAllClustersEntities() {
+    return Promise.all(alt.stores.ClustersStore.getClusters().map(cluster => {
+      return this.fetchClusterEntities(cluster);
+    }));
+  }
+
   fetchClusterEntities(cluster) {
-    PodsActions.fetchPods.defer(cluster);
-    NodesActions.fetchNodes.defer(cluster);
-    ServicesActions.fetchServices.defer(cluster);
-    ReplicationsActions.fetchReplications.defer(cluster);
-    DeploymentsActions.fetchDeployments.defer(cluster);
+    alt.stores.SettingsStore.getEntitiesToDisplay().map(entity => {
+      EntitiesActions.fetchEntities.defer({cluster, entityType: entity.get('name')});
+    });
   }
 
   fetchNamespaces(cluster) {

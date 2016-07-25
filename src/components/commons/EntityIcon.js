@@ -61,7 +61,7 @@ export default class ListItem extends Component {
         return Colors.GREEN;
       case 'services':
         return Colors.ORANGE;
-      case 'replications':
+      case 'replicationcontrollers':
         return Colors.PURPLE;
       case 'deployments':
         return Colors.PURPLE;
@@ -78,7 +78,7 @@ export default class ListItem extends Component {
         return iconPod;
       case 'services':
         return iconService;
-      case 'replications':
+      case 'replicationcontrollers':
         return iconReplication;
       case 'deployments':
         return iconReplication;
