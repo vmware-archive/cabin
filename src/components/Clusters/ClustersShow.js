@@ -207,7 +207,7 @@ export default class ClusterShow extends Component {
 
   renderGeneralEntities(active) {
     const { cluster } = this.props;
-    return ['secrets'].map(entityType => {
+    return ['secrets', 'serviceaccounts'].map(entityType => {
       if (active !== entityType) { return false; }
       const store = EntitiesUtils.storeForType(entityType);
       return (
