@@ -71,8 +71,8 @@ class ServicesActions {
 
   updateServiceType({cluster, service, type}) {
     this.updateServiceTypeStart({cluster, service, type});
-    return ClustersApi.updateServiceType({cluster, service, type}).then(() => {
-      this.updateServiceTypeSuccess({cluster, service, type});
+    return ClustersApi.updateServiceType({cluster, service, type}).then((svc) => {
+      this.updateServiceTypeSuccess({cluster, service: svc, type});
     }).catch(() => {
       this.updateServiceTypeFailure({cluster, service, type});
     });

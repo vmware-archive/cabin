@@ -29,6 +29,10 @@ class ServicesStore extends BaseEntitiesStore {
     this.setState(this.state.setIn(['services', cluster.get('url'), service.getIn(['metadata', 'name']), 'spec', 'type'], type));
   }
 
+  onUpdateServiceTypeSuccess({cluster, service}) {
+    this.setState(this.state.mergeIn(['services', cluster.get('url'), service.getIn(['metadata', 'name'])], service));
+  }
+
   onUpdateServicePortsStart({cluster, service, ports}) {
     this.setState(this.state.setIn(['services', cluster.get('url'), service.getIn(['metadata', 'name']), 'spec', 'ports'], ports));
   }
