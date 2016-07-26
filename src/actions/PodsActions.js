@@ -26,6 +26,9 @@ class PodsActions {
       'fetchPodLogsStart',
       'fetchPodLogsSuccess',
       'fetchPodLogsFailure',
+      'execPodCommandStart',
+      'execPodCommandSuccess',
+      'execPodCommandFailure',
     );
   }
 
@@ -36,19 +39,6 @@ class PodsActions {
     })
     .catch(() => {
       EntitiesActions.fetchEntitiesFailure({cluster, entityType});
-    });
-  }
-
-  fetchPodLogs({cluster, pod, container}) {
-    if (!container && pod.getIn(['spec', 'containers']).size > 0) {
-      container = pod.getIn(['spec', 'containers', 0, 'name']);
-    }
-    this.fetchPodLogsStart({cluster, pod});
-    return ClustersApi.fetchPodLogs({cluster, pod, container}).then(logs => {
-      this.fetchPodLogsSuccess({cluster, pod, logs});
-    })
-    .catch(() => {
-      this.fetchPodLogsFailure({cluster, pod});
     });
   }
 
@@ -76,6 +66,33 @@ class PodsActions {
       EntitiesActions.deleteEntityLabelSuccess({cluster, entity: pod, entityType, key});
     }).catch(() => {
       EntitiesActions.deleteEntityLabelFailure({cluster, entity: pod, entityType, key});
+    });
+  }
+
+  fetchPodLogs({cluster, pod, container}) {
+    if (!container && pod.getIn(['spec', 'containers']).size > 0) {
+      container = pod.getIn(['spec', 'containers', 0, 'name']);
+    }
+    this.fetchPodLogsStart({cluster, pod});
+    return ClustersApi.fetchPodLogs({cluster, pod, container}).then(logs => {
+      this.fetchPodLogsSuccess({cluster, pod, logs});
+    })
+    .catch(() => {
+      this.fetchPodLogsFailure({cluster, pod});
+    });
+  }
+
+  execPodCommand({cluster, pod, container, command}) {
+    if (!container && pod.getIn(['spec', 'containers']).size > 0) {
+      container = pod.getIn(['spec', 'containers', 0, 'name']);
+    }
+    this.execPodCommandStart({cluster, pod});
+    return ClustersApi.execPodCommand({cluster, pod, command, container}).then(result => {
+      console.log('RESULT', result);
+      this.execPodCommandSuccess({cluster, pod, result});
+    })
+    .catch(() => {
+      this.execPodCommandFailure({cluster, pod});
     });
   }
 

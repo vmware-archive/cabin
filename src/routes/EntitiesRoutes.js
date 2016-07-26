@@ -16,6 +16,7 @@
 import EntitiesShow from 'components/EntitiesShow';
 import PodsShow from 'components/Pods/PodsShow';
 import PodsLogs from 'components/Pods/PodsLogs';
+import PodsExec from 'components/Pods/PodsExec';
 import NodesShow from 'components/Nodes/NodesShow';
 import ServicesShow from 'components/Services/ServicesShow';
 import ServicesEditPort from 'components/Services/ServicesEditPort';
@@ -131,6 +132,28 @@ EntitiesRoutes = {
               };
             }}}>
             <PodsLogs logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} container={container} cluster={cluster} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getPodsExecRoute({pod, cluster, container}) {
+    return {
+      name: 'PodsExec',
+      statusBarStyle: 'light-content',
+      getBackButtonTitle: () => '',
+      getTitle: () => 'Exec',
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            logs: () => {
+              return {
+                store: alt.stores.PodsStore,
+                value: alt.stores.PodsStore.getLogs({pod, cluster}),
+              };
+            }}}>
+            <PodsExec logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} container={container} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

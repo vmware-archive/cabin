@@ -38,15 +38,25 @@ class BaseApi {
 
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
-    const headers = {
+    let headers = {
       'X-Requested-With': 'XMLHttpRequest',
       'Accept': 'application/json',
       'Content-Type': method === 'patch' ? 'application/strategic-merge-patch+json' : 'application/json',
     };
 
+    if (url.indexOf('/exec') !== -1 ) {
+      headers = {...headers,
+        'Connection': 'Upgrade',
+        'Upgrade': 'SPDY/3.1',
+        // 'X-Stream-Protocol-Version': 'v2.channel.k8s.io',
+        'X-Stream-Protocol-Version': 'channel.k8s.io',
+        'Accept': '*/*',
+        'Content-Type': '*/*',
+      };
+    }
     if (cluster && url.indexOf('http') === -1) {
       let path = '';
-      if (url.indexOf('/api/v1') === -1 || url.indexOf('/apis/extensions') === -1) {
+      if (url.indexOf('/api/v1') === -1 && url.indexOf('/apis/extensions') === -1) {
         let api = '/api/v1';
         if (url.indexOf('/deployments') === 0 || url.indexOf('/ingresses') === 0) {
           api = '/apis/extensions/v1beta1';

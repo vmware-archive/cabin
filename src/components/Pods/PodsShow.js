@@ -70,7 +70,8 @@ export default class PodsShow extends Component {
             <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
             <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
             <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
-            <ListItem title="Logs" showArrow={true} isLast={true} onPress={() => this.showLogs()}/>
+            <ListItem title="Logs" showArrow={true} onPress={() => this.showLogs()} isLast={true}/>
+            {/* <ListItem title="Exec" showArrow={true} isLast={true} onPress={() => this.showExec()}/> */}
           </View>
           <View style={styles.section}>
             <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -110,5 +111,9 @@ export default class PodsShow extends Component {
 
   showLogs(container) {
     this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
+  }
+
+  showExec(container) {
+    this.props.navigator.push(EntitiesRoutes.getPodsExecRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
   }
 }

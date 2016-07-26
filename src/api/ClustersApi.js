@@ -59,6 +59,10 @@ class ClustersApi {
     return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container, tailLines: 100}, cluster, pod);
   }
 
+  static execPodCommand({cluster, pod, command, container}) {
+    return BaseApi.post(`/pods/${pod.getIn(['metadata', 'name'])}/exec`, {container, command}, cluster, pod);
+  }
+
   /* RC */
   static scaleReplication({cluster, replication, replicas}) {
     const body = {spec: {replicas}};
@@ -113,3 +117,7 @@ class ClustersApi {
 }
 
 export default ClustersApi;
+
+
+// https://185.19.30.238:443/api/v1/namespaces/default/pods/ghost-3378155678-81hth/exec?command=date&container=ghost&container=ghost&stderr=true&stdout=true
+// https://185.19.30.238:443/api/v1/namespaces/default/pods/ghost-3378155678-81hth/exec?container=ghost&command=date&stderr=true&stdout=true
