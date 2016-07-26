@@ -70,6 +70,7 @@ export default class LabelsView extends Component {
               autoCapitalize="none" autoCorrect={false}
               placeholder="new:label"
               returnKeyType="done"
+              keyboardType="ascii-capable"
               value={values}
               regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
               onChange={(e) => {
