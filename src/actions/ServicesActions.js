@@ -57,6 +57,7 @@ class ServicesActions {
       EntitiesActions.addEntityLabelSuccess({cluster, entity: service, entityType, key, value});
     }).catch(() => {
       EntitiesActions.addEntityLabelFailure({cluster, entity: service, entityType, key, value});
+      return Promise.reject();
     });
   }
 

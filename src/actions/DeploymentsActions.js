@@ -54,6 +54,7 @@ class DeploymentsActions {
       EntitiesActions.addEntityLabelSuccess({cluster, entity: deployment, entityType, key, value});
     }).catch(() => {
       EntitiesActions.addEntityLabelFailure({cluster, entity: deployment, entityType, key, value});
+      return Promise.reject();
     });
   }
 

@@ -17,11 +17,11 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import TagInput from 'react-native-tag-input';
+import AlertUtils from 'utils/AlertUtils';
 
 const {
   View,
   StyleSheet,
-  Alert,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -95,18 +95,25 @@ export default class LabelsView extends Component {
   handleSubmit(newLabel) {
     const [key, value] = newLabel.split(':');
     if (!key || !value) {
-      Alert.alert('Invalid key:value pair', 'Separate key and value with ":" \n(ex: foo:bar)');
+      this.showError();
       return;
     }
     this.props.onSubmit && this.props.onSubmit({key, value}).then(() => {
       return true;
     }).catch(() => {
-      Alert.alert('Invalid key:value pair', 'Separate key and value with ":" \n(ex: foo:bar)');
+      this.showError();
     });
   }
 
   handleDelete(key) {
     this.props.onDelete && this.props.onDelete(key);
+  }
+
+  showError() {
+    AlertUtils.showWarning({
+      title: 'Invalid key:value pair',
+      message: 'Separate key and value with ":" \n(ex: foo:bar)',
+    });
   }
 
 }

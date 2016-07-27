@@ -54,6 +54,7 @@ class ReplicationsActions {
       EntitiesActions.addEntityLabelSuccess({cluster, entity: replication, entityType, key, value});
     }).catch(() => {
       EntitiesActions.addEntityLabelFailure({cluster, entity: replication, entityType, key, value});
+      return Promise.reject();
     });
   }
 

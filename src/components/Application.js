@@ -17,7 +17,9 @@ import Navigator from 'components/commons/Navigator';
 import TabBar from 'components/commons/TabBar';
 import InitActions from 'actions/InitActions';
 import ActionSheet from '@exponent/react-native-action-sheet';
-const { DeviceEventEmitter } = ReactNative;
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+
+const { View, DeviceEventEmitter } = ReactNative;
 
 export default class Application extends Component {
 
@@ -28,26 +30,31 @@ export default class Application extends Component {
   componentDidMount() {
     InitActions.initializeApplication();
     this.actionSheetListener = DeviceEventEmitter.addListener('actionSheet:show', this.onActionSheetShow.bind(this));
+    MessageBarManager.registerMessageBar(this.refs.messageBar);
   }
 
   componentWillUnmount() {
     this.actionSheetListener.remove();
+    MessageBarManager.unregisterMessageBar();
   }
 
   render() {
     return (
       <ActionSheet ref="actionSheet">
-        <Navigator
-          navigatorEvent="application:navigation"
-          showNavigationBar={false}
-          sceneStyle={{paddingTop: 0}}
-          initialRoute={{
-            statusBarStyle: 'light-content',
-            renderScene() {
-              return <TabBar />;
-            },
-          }}
-        />
+        <View style={{flex: 1}}>
+          <Navigator
+            navigatorEvent="application:navigation"
+            showNavigationBar={false}
+            sceneStyle={{paddingTop: 0}}
+            initialRoute={{
+              statusBarStyle: 'light-content',
+              renderScene() {
+                return <TabBar />;
+              },
+            }}
+          />
+          <MessageBar ref="messageBar"/>
+        </View>
       </ActionSheet>
     );
   }

@@ -60,6 +60,7 @@ class EntitiesActions {
       this.addEntityLabelSuccess({cluster, entity: entity, entityType, key, value});
     }).catch(() => {
       this.addEntityLabelFailure({cluster, entity: entity, entityType, key, value});
+      return Promise.reject();
     });
   }
 

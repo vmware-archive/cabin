@@ -57,6 +57,7 @@ class PodsActions {
       EntitiesActions.addEntityLabelSuccess({cluster, entity: pod, entityType, key, value});
     }).catch(() => {
       EntitiesActions.addEntityLabelFailure({cluster, entity: pod, entityType, key, value});
+      return Promise.reject();
     });
   }
 
@@ -66,6 +67,7 @@ class PodsActions {
       EntitiesActions.deleteEntityLabelSuccess({cluster, entity: pod, entityType, key});
     }).catch(() => {
       EntitiesActions.deleteEntityLabelFailure({cluster, entity: pod, entityType, key});
+      return Promise.reject();
     });
   }
 
@@ -79,6 +81,7 @@ class PodsActions {
     })
     .catch(() => {
       this.fetchPodLogsFailure({cluster, pod});
+      return Promise.reject();
     });
   }
 
@@ -88,11 +91,11 @@ class PodsActions {
     }
     this.execPodCommandStart({cluster, pod});
     return ClustersApi.execPodCommand({cluster, pod, command, container}).then(result => {
-      console.log('RESULT', result);
       this.execPodCommandSuccess({cluster, pod, result});
     })
     .catch(() => {
       this.execPodCommandFailure({cluster, pod});
+      return Promise.reject();
     });
   }
 
