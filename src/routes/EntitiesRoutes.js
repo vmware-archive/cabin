@@ -25,20 +25,20 @@ import DeploymentsShow from 'components/Deployments/DeploymentsShow';
 import Navigator from 'components/commons/Navigator';
 import NavbarButton from 'components/commons/NavbarButton';
 import YamlView from 'components/YamlView';
+import YamlNavbarButton from 'components/YamlNavbarButton';
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
-import YAML from 'yamljs';
 
-const { View, Clipboard, DeviceEventEmitter } = ReactNative;
+const { View, DeviceEventEmitter } = ReactNative;
 
 let EntitiesRoutes = {};
 
-const yamlRightButton = ({navigator, entity}) => {
+const yamlRightButton = ({navigator, cluster, entity, editable}) => {
   return (
     <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
-      onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute(entity))}
+      onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute({cluster, entity, editable}))}
     />
   );
 };
@@ -58,7 +58,7 @@ EntitiesRoutes = {
           statusBarStyle: 'light-content',
           getBackButtonTitle: () => '',
           getTitle: () => entity.getIn(['metadata', 'name']),
-          renderRightButton(navigator) { return yamlRightButton({navigator, entity}); },
+          renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity}); },
           renderScene(navigator) {
             return <EntitiesShow entity={entity} cluster={cluster} navigator={navigator} />;
           },
@@ -66,23 +66,16 @@ EntitiesRoutes = {
     }
   },
 
-  getEntitiesYamlRoute(entity) {
+  getEntitiesYamlRoute({cluster, entity, editable = false}) {
     return {
       name: 'EntitiesYaml',
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => entity.getIn(['metadata', 'name']),
       renderScene(navigator) {
-        return <YamlView entity={entity} navigator={navigator} />;
+        return <YamlView cluster={cluster} entity={entity} navigator={navigator} />;
       },
-      renderRightButton() {
-        const yaml = YAML.stringify(entity.toJS(), 4);
-        return (
-          <NavbarButton title="Copy"
-            onPress={() => Clipboard.setString(yaml)}
-          />
-        );
-      },
+      renderRightButton: () => <YamlNavbarButton entity={entity} editable={editable} />,
     };
   },
 
@@ -92,7 +85,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => pod.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity: pod}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: pod}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -187,7 +180,7 @@ EntitiesRoutes = {
         return (
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
             <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
-              onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute(node))}
+              onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute({entity: node}))}
             />
             <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
               onPress={() => ActionSheetUtils.showActionSheetWithOptions(options)}
@@ -204,7 +197,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => service.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity: service}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: service}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -263,7 +256,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => replication.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity: replication}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: replication}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -286,7 +279,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => deployment.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({navigator, entity: deployment}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: deployment}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{

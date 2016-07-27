@@ -19,8 +19,11 @@ import ParsedText from 'react-native-parsed-text';
 
 const { PropTypes } = React;
 const {
+  Dimensions,
   ScrollView,
   StyleSheet,
+  TextInput,
+  DeviceEventEmitter,
 } = ReactNative;
 
 
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   text: {
+    flex: 1,
     fontSize: 14,
     color: Colors.BLACK,
     lineHeight: 18,
@@ -40,20 +44,56 @@ const styles = StyleSheet.create({
   key: {
     fontWeight: '600',
   },
+  textinput: {
+    flex: 1,
+    padding: 16,
+    fontSize: 14,
+    color: Colors.BLACK,
+    lineHeight: 18,
+    backgroundColor: 'transparent',
+  },
 });
 
 export default class YamlView extends Component {
 
   static propTypes = {
+    cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     entity: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   constructor() {
     super();
+    this.state = {
+      editing: false,
+      textHeight: Dimensions.get('window').height - (64 + 50),
+    };
+  }
+
+  componentDidMount() {
+    this.editListener = DeviceEventEmitter.addListener('yaml:toggleEdit', this.toggleEdit.bind(this));
+    this.doneListener = DeviceEventEmitter.addListener('yaml:doneEdit', this.doneEdit.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.editListener.remove();
+    this.doneListener.remove();
   }
 
   render() {
-    const yaml = YAML.stringify(this.props.entity.toJS(), 8).replace(/(-\n[ ]*)/g, '-');
+    const yaml = YAML.stringify(this.props.entity.remove('kind').toJS(), 8).replace(/(-\n[ ]*)/g, '-');
+    if (this.state.editing) {
+      return (
+        <ScrollView style={styles.container}>
+          <TextInput style={[styles.textinput, {height: this.state.textHeight}]} multiline={true}
+            defaultValue={yaml}
+            onChange={(e) => {
+              this.editedYaml = e.nativeEvent.text;
+              this.setState({textHeight: e.nativeEvent.contentSize.height});
+            }}
+          />
+        </ScrollView>
+      );
+    }
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <ParsedText style={styles.text}
@@ -64,5 +104,14 @@ export default class YamlView extends Component {
         </ParsedText>
       </ScrollView>
     );
+  }
+
+  toggleEdit() {
+    this.setState({editing: !this.state.editing});
+  }
+
+  doneEdit() {
+    console.log('editedYaml', this.editedYaml);
+    // EntitiesActions.editYaml({...this.props, yaml});
   }
 }

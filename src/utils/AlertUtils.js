@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import { MessageBarManager } from 'react-native-message-bar';
+import Colors from 'styles/Colors';
 
 class AlertUtils {
 
@@ -24,10 +25,23 @@ class AlertUtils {
     });
   }
 
+  static showInfo(options) {
+    AlertUtils.showAlert({
+      alertType: 'info',
+      ...options,
+    });
+  }
+
   static showAlert(options) {
     MessageBarManager.showAlert({
       duration: 5000,
       viewTopOffset: 64,
+      viewBottomOffset: 50,
+      stylesheetInfo: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},
+      stylesheetSuccess: {backgroundColor: Colors.GREEN, strokeColor: 'transparent'},
+      stylesheetWarning: {backgroundColor: Colors.ORANGE, strokeColor: 'transparent'},
+      stylesheetError: {backgroundColor: Colors.RED, strokeColor: 'transparent'},
+      stylesheetExtra: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},
       ...options,
     });
   }
