@@ -61,6 +61,13 @@ class ClustersApi {
     return BaseApi.patch(`/api/v1/nodes/${node.getIn(['metadata', 'name'])}`, body, cluster, node);
   }
 
+  static getNodePods({cluster, node}) {
+    const body = {
+      fieldSelector: `spec.nodeName=${node.getIn(['metadata', 'name'])}`,
+    };
+    return BaseApi.get('/api/v1/pods', body, cluster);
+  }
+
   /* PODS */
   static fetchPodLogs({cluster, pod, container}) {
     return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container, tailLines: 100}, cluster, pod);

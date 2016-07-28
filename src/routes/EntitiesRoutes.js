@@ -29,6 +29,7 @@ import YamlNavbarButton from 'components/YamlNavbarButton';
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import NavigationActions from 'actions/NavigationActions';
+import NodesActions from 'actions/NodesActions';
 import AltContainer from 'alt-container';
 
 const { View, DeviceEventEmitter } = ReactNative;
@@ -175,7 +176,7 @@ EntitiesRoutes = {
       renderRightButton(navigator) {
         const options = [
           {title: intl('cancel')},
-          {title: 'Put in maintenance', onPress: () => console.log('GO MAINTENANCE')},
+          {title: 'Put in maintenance', onPress: () => NodesActions.putInMaintenance({cluster, node})},
         ];
         return (
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>

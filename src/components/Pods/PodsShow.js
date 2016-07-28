@@ -53,7 +53,7 @@ export default class PodsShow extends Component {
   render() {
     const { pod } = this.props;
     let ready = 0;
-    const containerStatuses = pod.getIn(['status', 'containerStatuses']).map(status => {
+    const containerStatuses = pod.getIn(['status', 'containerStatuses'], Immutable.List()).map(status => {
       if (status.get('ready')) { ready++; }
       return status;
     });

@@ -26,6 +26,9 @@ class NodesActions {
       'setSchedulableStart',
       'setSchedulableSuccess',
       'setSchedulableFailure',
+      'putInMaintenanceStart',
+      'putInMaintenanceSuccess',
+      'putInMaintenanceFailure',
     );
   }
 
@@ -72,6 +75,17 @@ class NodesActions {
       this.setSchedulableSuccess({cluster, node, schedulable});
     }).catch(() => {
       this.setSchedulableFailure({cluster, node, schedulable});
+    });
+  }
+
+  putInMaintenance({cluster, node}) {
+    return this.setSchedulable({cluster, node, schedulable: false}).then(() => {
+      this.putInMaintenanceStart({cluster, node});
+      return ClustersApi.getNodePods({cluster, node});
+    }).then((pods) => {
+      this.putInMaintenanceSuccess({cluster, node, pods});
+    }).catch(() => {
+      this.putInMaintenanceFailure({cluster, node});
     });
   }
 }
