@@ -54,7 +54,7 @@ export default class NodesShow extends Component {
 
   render() {
     const { node } = this.props;
-    const conditionReady = node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready');
+    const conditionReady = node.getIn(['status', 'conditions'], Immutable.List()).find(c => c.get('type') === 'Ready');
     const ready = conditionReady ? conditionReady.get('status') === 'True' : false;
     const unschedulable = node.getIn(['spec', 'unschedulable']);
     return (
@@ -86,7 +86,7 @@ export default class NodesShow extends Component {
   }
 
   renderAddresses() {
-    const addresses = this.props.node.getIn(['status', 'addresses']);
+    const addresses = this.props.node.getIn(['status', 'addresses'], Immutable.List());
     const items = addresses.map((address, i) => {
       return <ListItem key={i} isLast={i === addresses.size - 1} title={address.get('address')} detailTitle={address.get('type')}/>;
     });
