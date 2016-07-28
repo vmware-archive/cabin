@@ -104,4 +104,4 @@ class ClustersStore {
   }
 }
 
-export default alt.createStore(immutableUtil(ClustersStore), 'ClustersStore');
+export default alt.stores.ClustersStore || alt.createStore(immutableUtil(ClustersStore), 'ClustersStore');
