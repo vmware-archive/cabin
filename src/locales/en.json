@@ -24,4 +24,6 @@
   "status_down": "Down",
   "status_checking": "Checking..",
   "status_pending": "Pending..",
+
+  "alert_error": "Something went wrong, try again later",
 }

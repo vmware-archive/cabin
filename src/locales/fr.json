@@ -24,4 +24,6 @@
   "status_down": "Éteint",
   "status_checking": "Verification..",
   "status_pending": "En attente..",
+
+  "alert_error": "Une erreur s'est produite, réessayez plus tard",
 }

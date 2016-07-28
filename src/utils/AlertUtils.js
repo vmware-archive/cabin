@@ -32,6 +32,16 @@ class AlertUtils {
     });
   }
 
+  static showError(options) {
+    if (!options) {
+      options = { message: intl('alert_error') };
+    }
+    AlertUtils.showAlert({
+      alertType: 'error',
+      ...options,
+    });
+  }
+
   static showAlert(options) {
     MessageBarManager.showAlert({
       duration: 5000,

@@ -54,6 +54,13 @@ class ClustersApi {
     return BaseApi.patch(`/api/v1/nodes/${node.getIn(['metadata', 'name'])}`, body, cluster, node);
   }
 
+  static setSchedulable({cluster, node, schedulable}) {
+    const body = {spec: {
+      unschedulable: !schedulable,
+    }};
+    return BaseApi.patch(`/api/v1/nodes/${node.getIn(['metadata', 'name'])}`, body, cluster, node);
+  }
+
   /* PODS */
   static fetchPodLogs({cluster, pod, container}) {
     return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container, tailLines: 100}, cluster, pod);

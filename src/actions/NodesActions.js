@@ -23,7 +23,9 @@ class NodesActions {
 
   constructor() {
     this.generateActions(
-
+      'setSchedulableStart',
+      'setSchedulableSuccess',
+      'setSchedulableFailure',
     );
   }
 
@@ -61,6 +63,15 @@ class NodesActions {
       EntitiesActions.deleteEntityLabelSuccess({cluster, entity: node, entityType, key});
     }).catch(() => {
       EntitiesActions.deleteEntityLabelFailure({cluster, entity: node, entityType, key});
+    });
+  }
+
+  setSchedulable({cluster, node, schedulable}) {
+    this.setSchedulableStart({cluster, node, schedulable});
+    return ClustersApi.setSchedulable({cluster, node, schedulable}).then(() => {
+      this.setSchedulableSuccess({cluster, node, schedulable});
+    }).catch(() => {
+      this.setSchedulableFailure({cluster, node, schedulable});
     });
   }
 }

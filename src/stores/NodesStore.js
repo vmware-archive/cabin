@@ -17,12 +17,22 @@ import alt from 'src/alt';
 import NodesActions from 'actions/NodesActions';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import BaseEntitiesStore from './BaseEntitiesStore';
+import AlertUtils from 'utils/AlertUtils';
 
 class NodesStore extends BaseEntitiesStore {
 
   constructor() {
     super({entityType: 'nodes', persistent: true});
     this.bindActions(NodesActions);
+  }
+
+  onSetSchedulableStart({cluster, node, schedulable}) {
+    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'name']), 'spec', 'unschedulable'], !schedulable));
+  }
+
+  onSetSchedulableFailure({cluster, node, schedulable}) {
+    AlertUtils.showError();
+    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'name']), 'spec', 'unschedulable'], schedulable));
   }
 
 }

@@ -22,6 +22,7 @@ import NodesActions from 'actions/NodesActions';
 
 const {
   View,
+  Switch,
   StyleSheet,
 } = ReactNative;
 
@@ -39,6 +40,9 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 20,
   },
+  switch: {
+    alignSelf: 'center',
+  },
 });
 
 export default class NodesShow extends Component {
@@ -52,6 +56,7 @@ export default class NodesShow extends Component {
     const { node } = this.props;
     const conditionReady = node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready');
     const ready = conditionReady ? conditionReady.get('status') === 'True' : false;
+    const unschedulable = node.getIn(['spec', 'unschedulable']);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
@@ -59,7 +64,14 @@ export default class NodesShow extends Component {
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
             <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="Status" detailTitle={ready ? 'Ready' : 'Not Ready'} isLast={true}/>
+            <ListItem title="Status" detailTitle={ready ? 'Ready' : 'Not Ready'}/>
+
+            <ListItem title="Schedulable"
+              isLast={true}
+              renderDetail={() => {
+                return <Switch value={!unschedulable} onValueChange={(value) => this.setSchedulable(value)} style={styles.switch}/>;
+              }}
+            />
           </View>
           <View style={styles.section}>
             <LabelsView entity={node} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -91,5 +103,9 @@ export default class NodesShow extends Component {
 
   handleLabelDelete(key) {
     return NodesActions.deleteNodeLabel({node: this.props.node, cluster: this.props.cluster, key});
+  }
+
+  setSchedulable(schedulable) {
+    return NodesActions.setSchedulable({node: this.props.node, cluster: this.props.cluster, schedulable});
   }
 }
