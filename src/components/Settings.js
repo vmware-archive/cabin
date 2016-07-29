@@ -65,13 +65,6 @@ const styles = StyleSheet.create({
 
 export default class Settings extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      scrollEnabled: true,
-    };
-  }
-
   render() {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (

@@ -131,7 +131,3 @@ class ClustersApi {
 }
 
 export default ClustersApi;
-
-
-// https://185.19.30.238:443/api/v1/namespaces/default/pods/ghost-3378155678-81hth/exec?command=date&container=ghost&container=ghost&stderr=true&stdout=true
-// https://185.19.30.238:443/api/v1/namespaces/default/pods/ghost-3378155678-81hth/exec?container=ghost&command=date&stderr=true&stdout=true

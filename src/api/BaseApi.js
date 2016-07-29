@@ -17,6 +17,7 @@ import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
 import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager } from 'react-native';
+import YAML from 'yamljs';
 
 let REQUESTS_COUNT = 0;
 
@@ -97,7 +98,13 @@ class BaseApi {
       if (typeof text !== 'string' || text.trim() === '') {
         return {};
       }
-      return url.indexOf('log') !== -1 ? text : JSON.parse(text);
+      if (url.indexOf('/log?') !== -1) { return text; }
+
+      const json = BaseApi.parseJSON(text);
+      if (json) { return json; }
+      const yaml = YAML.parse(text);
+      if (yaml) { return yaml; }
+      return text;
     }).then( (json) => {
       if (__DEV__ && APP_CONFIG.DEBUG_API) {
         console.log(`[BaseApi ${url}]`, json);
@@ -109,11 +116,27 @@ class BaseApi {
         });
       });
     }).catch((error) => {
-      if (cluster.get('url') === 'test') {
+      if (cluster && cluster.get('url') === 'test') {
         return Promise.resolve();
       }
       return this.handleError(error, url);
     });
+  }
+
+  static parseJSON(text) {
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static parseYAML(text) {
+    try {
+      return YAML.parse(text);
+    } catch (e) {
+      return null;
+    }
   }
 
   static handleError(error) {

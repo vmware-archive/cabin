@@ -13,17 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ChartsStore';
-import 'stores/ClustersStore';
-import 'stores/DeploymentsStore';
-import 'stores/IngressesStore';
-import 'stores/NodesStore';
-import 'stores/PodsStore';
-import 'stores/ReplicationsStore';
-import 'stores/SecretsStore';
-import 'stores/ServiceAccountsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-import 'stores/VolumesStore';
-import 'stores/VolumeClaimsStore';
-export default {};
+import BaseApi from './BaseApi';
+
+export default class ChartsApi {
+
+  static fetchCharts(url) {
+    return BaseApi.get(url, {});
+  }
+}

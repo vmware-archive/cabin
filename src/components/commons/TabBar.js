@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import ClustersRoutes from 'routes/ClustersRoutes';
+import DeployRoutes from 'routes/DeployRoutes';
 import SettingsRoutes from 'routes/SettingsRoutes';
 import Navigator from 'components/commons/Navigator';
 import Colors from 'styles/Colors';
@@ -21,7 +22,6 @@ import Colors from 'styles/Colors';
 const {
   TabBarIOS,
   StyleSheet,
-  View, Text,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -57,12 +57,14 @@ export default class TabBar extends Component {
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Deploy"
-          icon={require('images/deploy.png')}
+          icon={require('images/upload.png')}
           selected={this.state.activeTab === 1}
           onPress={() => this.setState({activeTab: 1})}>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.BACKGROUND}}>
-              <Text>Coming soon</Text>
-            </View>
+            <Navigator
+              sceneStyle={styles.sceneStyle}
+              navigatorEvent="deploy:navigation"
+              initialRoute={DeployRoutes.getDeployIndexRoute()}
+            />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Settings"
