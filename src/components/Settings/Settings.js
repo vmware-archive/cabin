@@ -69,7 +69,7 @@ export default class Settings extends Component {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list}>
+        <ScrollView style={styles.list} keyboardDismissMode="interactive">
           <ListHeader title="Customize"/>
           <ListItem title="Object kind list" showArrow={true} onPress={() => {
             this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());

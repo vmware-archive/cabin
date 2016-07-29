@@ -57,7 +57,7 @@
     "qs": "6.2.0",
     "react": "^15.2.0",
     "react-native": "git+https://github.com/kemcake/react-native.git#https-support",
-    "react-native-keyboard-aware-scroll-view": "git+https://github.com/josephDev/react-native-keyboard-aware-scroll-view.git#ancestor_check",
+    "react-native-keyboard-aware-scroll-view": "git+https://github.com/APSL/react-native-keyboard-aware-scroll-view.git",
     "react-native-message-bar": "^1.6.0",
     "react-native-parsed-text": "0.0.15",
     "react-native-safari-view": "^1.0.0",

@@ -29,7 +29,6 @@ const {
   DeviceEventEmitter,
   View,
   Image,
-  Text,
 } = ReactNative;
 
 const ClustersRoutes = {
@@ -44,7 +43,7 @@ const ClustersRoutes = {
         return (
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
             <Image style={{resizeMode: 'contain', width: 32, height: 32, tintColor: Colors.WHITE, marginRight: 6}} source={require('images/kubernetes.png')} />
-            <Text style={{fontSize: 24, fontWeight: '400', color: Colors.WHITE}}>Cabin</Text>
+            <Image style={{resizeMode: 'contain', width: 60, tintColor: Colors.WHITE}} source={require('images/cabin.png')}/>
           </View>
         );
       },

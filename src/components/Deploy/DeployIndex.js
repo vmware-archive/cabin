@@ -40,6 +40,10 @@ export default class DeployIndex extends Component {
     charts: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
+  componentDidMount() {
+    ChartsActions.fetchCharts.defer();
+  }
+
   render() {
     const charts = this.props.charts.map((chart, key) => {
       return <ChartItem key={key} chart={chart} />;
