@@ -22,6 +22,8 @@ class SettingsActions {
       'updateEntitiesOrder',
       'setEntityHidden',
       'updateMaxReplicas',
+      'addChartsUrl',
+      'removeChartsUrl',
     );
   }
 }

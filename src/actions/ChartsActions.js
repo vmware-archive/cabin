@@ -28,11 +28,13 @@ class ClustersActions {
 
   fetchCharts() {
     this.fetchChartsStart();
-    const url = 'http://storage.googleapis.com/kubernetes-charts/index.yaml';
-    return ChartsApi.fetchCharts(url).then(charts => {
-      charts = ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
-      this.dispatchCharts(charts);
+    const promises = alt.stores.SettingsStore.getChartsUrls().map(url => {
+      return ChartsApi.fetchCharts(url).then(charts => {
+        charts = ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
+        this.dispatchCharts(charts);
+      });
     });
+    return Promise.all(promises);
   }
 
 }

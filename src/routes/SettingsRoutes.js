@@ -13,8 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Settings from 'components/Settings';
-import SettingsEntities from 'components/SettingsEntities';
+import Settings from 'components/Settings/Settings';
+import SettingsEntities from 'components/Settings/SettingsEntities';
+import SettingsChartsUrls from 'components/Settings/SettingsChartsUrls';
 import AltContainer from 'alt-container';
 
 export default {
@@ -44,6 +45,27 @@ export default {
               };
             }}}>
             <SettingsEntities navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getSettingsChartsUrlsRoute() {
+    return {
+      name: 'SettingsChartsUrls',
+      statusBarStyle: 'light-content',
+      getTitle: () => 'Charts Repositories',
+      renderScene() {
+        return (
+          <AltContainer stores={{
+            chartsUrls: () => {
+              return {
+                store: alt.stores.SettingsStore,
+                value: alt.stores.SettingsStore.getChartsUrls(),
+              };
+            }}}>
+            <SettingsChartsUrls chartsUrls={alt.stores.SettingsStore.getChartsUrls()} />
           </AltContainer>
         );
       },

@@ -41,8 +41,8 @@ export default class DeployIndex extends Component {
   }
 
   render() {
-    const charts = this.props.charts.map(chart => {
-      return <ChartItem chart={chart} />;
+    const charts = this.props.charts.map((chart, key) => {
+      return <ChartItem key={key} chart={chart} />;
     }).toArray();
     return (
       <View style={styles.container}>

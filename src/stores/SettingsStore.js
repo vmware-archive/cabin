@@ -27,6 +27,9 @@ class SettingsStore {
     this.bindActions(InitActions);
     this.state = Immutable.fromJS({
       maxReplicas: 40,
+      chartsUrls: [
+        'http://storage.googleapis.com/kubernetes-charts/index.yaml',
+      ],
       entitiesDisplay: {
         order: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         entities: {
@@ -75,6 +78,20 @@ class SettingsStore {
     this.saveStore();
   }
 
+  onAddChartsUrl(url) {
+    this.setState(this.state.updateIn(['chartsUrls'], chartsUrls => {
+      return chartsUrls.push(url);
+    }));
+    this.saveStore();
+  }
+
+  onRemoveChartsUrl(url) {
+    this.setState(this.state.updateIn(['chartsUrls'], chartsUrls => {
+      return chartsUrls.filter(chartsUrl => chartsUrl !== url);
+    }));
+    this.saveStore();
+  }
+
   saveStore() {
     AsyncStorage.setItem(this.displayName, alt.takeSnapshot(this));
   }
@@ -99,6 +116,10 @@ class SettingsStore {
 
   static getMaxReplicas() {
     return this.state.get('maxReplicas', 40);
+  }
+
+  static getChartsUrls() {
+    return this.state.get('chartsUrls');
   }
 }
 
