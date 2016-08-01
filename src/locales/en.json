@@ -1,6 +1,7 @@
 {
   "cancel": "Cancel",
   "done": "Done",
+  "ok": "Ok",
   "yes": "Yes",
   "no": "No",
   "edit": "Edit",
@@ -24,6 +25,12 @@
   "status_down": "Down",
   "status_checking": "Checking..",
   "status_pending": "Pending..",
+  "status_creating": "Creating..",
+  "status_terminating": "Terminating..",
 
   "alert_error": "Something went wrong, try again later",
+  "rolling_update_alert": "New image",
+  "rolling_update_alert_subtitle": "Current image: ",
+  "rolling_update_start": "Update",
+  "rolling_update_multiple_containers": "Can't perform rolling update with multiple containers",
 }

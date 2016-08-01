@@ -30,9 +30,10 @@ import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import NavigationActions from 'actions/NavigationActions';
 import NodesActions from 'actions/NodesActions';
+import ReplicationsActions from 'actions/ReplicationsActions';
 import AltContainer from 'alt-container';
 
-const { View, DeviceEventEmitter } = ReactNative;
+const { View, DeviceEventEmitter, Alert, AlertIOS } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -257,7 +258,6 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => replication.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: replication}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -269,6 +269,35 @@ EntitiesRoutes = {
             }}}>
             <ReplicationsShow replication={replication} cluster={cluster} navigator={navigator} />
           </AltContainer>
+        );
+      },
+      renderRightButton(navigator) {
+        const options = [
+          {title: intl('cancel')},
+          {title: 'Rolling update', onPress: () => {
+            const containers = replication.getIn(['spec', 'template', 'spec', 'containers'], Immutable.List());
+            if (containers.size !== 1) {
+              Alert.alert(null, intl('rolling_update_multiple_containers'), {text: intl('ok')});
+              return;
+            }
+            AlertIOS.prompt(
+              intl('rolling_update_alert'),
+              `${intl('rolling_update_alert_subtitle')} ${containers.first().get('image')}`,
+              [{text: intl('cancel')},
+               {text: intl('rolling_update_start'), onPress: text => {
+                 ReplicationsActions.startRollingUpdate({cluster, replication, image: text});
+               }},
+             ],
+            );
+          }},
+        ];
+        return (
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
+            {yamlRightButton({cluster, navigator, entity: replication})}
+            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
+              onPress={() => ActionSheetUtils.showActionSheetWithOptions(options)}
+            />
+          </View>
         );
       },
     };

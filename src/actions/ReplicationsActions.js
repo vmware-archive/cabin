@@ -75,6 +75,10 @@ class ReplicationsActions {
       this.scaleReplicationFailure({cluster, replication, replicas});
     });
   }
+
+  startRollingUpdate() { // {cluster, replication, image}) {
+    console.log('Rolling update');
+  }
 }
 
 export default alt.createActions(ReplicationsActions);

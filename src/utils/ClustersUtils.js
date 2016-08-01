@@ -37,6 +37,10 @@ export default class ClustersUtils {
         return intl('status_down');
       case Status.PENDING:
         return intl('status_pending');
+      case Status.TERMINATING:
+        return intl('status_terminating');
+      case Status.CONTAINERCREATING:
+        return intl('status_creating');
       default:
         return intl('status_checking');
     }
