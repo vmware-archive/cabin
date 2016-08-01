@@ -21,7 +21,7 @@ import BaseEntitiesStore from './BaseEntitiesStore';
 class ServicesStore extends BaseEntitiesStore {
 
   constructor() {
-    super({entityType: 'nodes', persistent: true});
+    super({entityType: 'services', persistent: true});
     this.bindActions(ServicesActions);
   }
 
