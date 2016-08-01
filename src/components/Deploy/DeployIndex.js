@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
   },
+  content: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    paddingHorizontal: 10,
+  },
 });
 
 export default class DeployIndex extends Component {
@@ -50,7 +56,7 @@ export default class DeployIndex extends Component {
     }).toArray();
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={() => ChartsActions.fetchCharts()}>
+        <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
           {charts}
         </ScrollView>
       </View>

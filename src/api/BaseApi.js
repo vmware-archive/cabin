@@ -102,7 +102,7 @@ class BaseApi {
 
       const json = BaseApi.parseJSON(text);
       if (json) { return json; }
-      const yaml = YAML.parse(text);
+      const yaml = BaseApi.parseYAML(text);
       if (yaml) { return yaml; }
       return text;
     }).then( (json) => {
@@ -133,6 +133,7 @@ class BaseApi {
 
   static parseYAML(text) {
     try {
+      text = text.replace('  platforms.', '');// FIXME: Remove this
       return YAML.parse(text);
     } catch (e) {
       return null;

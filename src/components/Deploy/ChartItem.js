@@ -14,22 +14,27 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import ChartsUtils from 'utils/ChartsUtils';
 
 const { PropTypes } = React;
 const {
   View,
   Text,
   Image,
+  TouchableOpacity,
   StyleSheet,
   Dimensions,
 } = ReactNative;
 
 const styles = StyleSheet.create({
   chart: {
-    width: Dimensions.get('window').width / 2,
-    paddingHorizontal: 10,
+    width: (Dimensions.get('window').width - 20) / 2,
+    height: 130,
+    paddingHorizontal: 5,
+    paddingBottom: 10,
   },
   chartInner: {
+    flex: 1,
     backgroundColor: Colors.WHITE,
     borderRadius: 5,
     padding: 10,
@@ -39,17 +44,25 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowRadius: 2,
   },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   chartIcon: {
-    width: 30, height: 30,
-    tintColor: Colors.BLUE,
+    width: 40, height: 40,
     alignSelf: 'center',
   },
   chartTitle: {
-    marginTop: 5,
-    fontSize: 18,
+    flex: 1,
+    marginLeft: 2,
+    fontSize: 16,
     fontWeight: '600',
+    backgroundColor: 'transparent',
   },
   chartSubtitle: {
+    flex: 1,
+    marginTop: 2,
     fontSize: 12,
   },
 });
@@ -63,13 +76,16 @@ export default class ChartItem extends Component {
   render() {
     const { chart } = this.props;
     const file = chart.get('chartfile');
+    const titleLength = file.get('name').length;
     return (
       <View style={styles.chart}>
-        <View style={styles.chartInner}>
-          <Image style={styles.chartIcon} source={require('images/kubernetes.png')}/>
-          <Text style={styles.chartTitle}>{file.get('name')}</Text>
-          <Text style={styles.chartSubtitle}>{file.get('description')}</Text>
-        </View>
+        <TouchableOpacity style={styles.chartInner} onPress={this.props.onPress}>
+          <View style={styles.row}>
+            <Image style={styles.chartIcon} source={ChartsUtils.iconForChart(file.get('name'))}/>
+            <Text style={styles.chartTitle} numberOfLines={2}>{file.get('name')}</Text>
+          </View>
+          {titleLength < 18 && <Text style={styles.chartSubtitle} numberOfLines={3}>{file.get('description')}</Text>}
+        </TouchableOpacity>
       </View>
     );
   }
