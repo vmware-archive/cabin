@@ -74,8 +74,8 @@ export default class Settings extends Component {
           <ListItem title="Object kind list" showArrow={true} onPress={() => {
             this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
           }}/>
-          <ListItem title="Charts repositories" showArrow={true} onPress={() => {
-            this.props.navigator.push(SettingsRoutes.getSettingsChartsUrlsRoute());
+          <ListItem title="Charts stores" showArrow={true} onPress={() => {
+            this.props.navigator.push(SettingsRoutes.getSettingsChartsStoresRoute());
           }}/>
           <ListItem title="Maximum number of replicas" isLast={true} onPress={() => {
             this.replicasInput && this.replicasInput.focus();

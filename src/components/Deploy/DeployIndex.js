@@ -15,9 +15,12 @@
 */
 import Colors from 'styles/Colors';
 import ChartsActions from 'actions/ChartsActions';
+import SettingsActions from 'actions/SettingsActions';
 import DeployRoutes from 'routes/DeployRoutes';
 import ScrollView from 'components/commons/ScrollView';
+import HeaderPicker from 'components/commons/HeaderPicker';
 import ChartItem from './ChartItem';
+import AltContainer from 'alt-container';
 
 const { PropTypes } = React;
 const {
@@ -57,6 +60,27 @@ export default class DeployIndex extends Component {
     }).toArray();
     return (
       <View style={styles.container}>
+      <AltContainer stores={{
+        choices: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')),
+          };
+        },
+        selectedIndex: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getSelectedChartsStoreIndex(),
+          };
+        }}}>
+          <HeaderPicker
+            choices={alt.stores.SettingsStore.getChartsStores().map(s => s.get('name'))}
+            selectedIndex={alt.stores.SettingsStore.getSelectedChartsStoreIndex()}
+            onChange={(index) => {
+              SettingsActions.updateSelectedChartsStoreIndex(index);
+              ChartsActions.fetchCharts();
+            }}/>
+        </AltContainer>
         <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
           {charts}
         </ScrollView>

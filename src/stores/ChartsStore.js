@@ -30,10 +30,18 @@ class ChartsStore {
     } else {
       this.state = Immutable.Map();
     }
+    this.previousUrl;
   }
 
-  onDispatchCharts(charts) {
-    return this.setState(this.state.merge(charts));
+  onFetchChartsStart(url) {
+    if (this.previousUrl !== url) {
+      this.previousUrl = url;
+      this.setState(Immutable.Map());
+    }
+  }
+
+  onFetchChartsSuccess(charts) {
+    return this.setState(charts);
   }
 
   static getAll() {

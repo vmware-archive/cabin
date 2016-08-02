@@ -24,6 +24,10 @@
 
   "deploy_choose_cluster": "Choose a cluster",
 
+  "settings_repo_url_placeholder": "Add new deploy store",
+  "settings_repo_name_placeholder": "Give this store a short name",
+  "settings_repo_add_alert": "Please fill both url and name fields",
+
   "status_up": "Running",
   "status_down": "Down",
   "status_checking": "Checking..",

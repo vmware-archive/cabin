@@ -22,19 +22,17 @@ class ClustersActions {
   constructor() {
     this.generateActions(
       'fetchChartsStart',
-      'dispatchCharts',
+      'fetchChartsSuccess',
     );
   }
 
   fetchCharts() {
-    this.fetchChartsStart();
-    const promises = alt.stores.SettingsStore.getChartsUrls().map(url => {
-      return ChartsApi.fetchCharts(url).then(charts => {
-        charts = ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
-        this.dispatchCharts(charts);
-      });
+    const url = alt.stores.SettingsStore.getChartsStores().getIn([alt.stores.SettingsStore.getSelectedChartsStoreIndex(), 'url']);
+    this.fetchChartsStart(url);
+    return ChartsApi.fetchCharts(url).then(charts => {
+      charts = ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
+      this.fetchChartsSuccess(charts);
     });
-    return Promise.all(promises);
   }
 
 }

@@ -15,7 +15,7 @@
 */
 import Settings from 'components/Settings/Settings';
 import SettingsEntities from 'components/Settings/SettingsEntities';
-import SettingsChartsUrls from 'components/Settings/SettingsChartsUrls';
+import SettingsChartsStores from 'components/Settings/SettingsChartsStores';
 import AltContainer from 'alt-container';
 
 export default {
@@ -51,21 +51,21 @@ export default {
     };
   },
 
-  getSettingsChartsUrlsRoute() {
+  getSettingsChartsStoresRoute() {
     return {
-      name: 'SettingsChartsUrls',
+      name: 'SettingsChartsStores',
       statusBarStyle: 'light-content',
-      getTitle: () => 'Charts Repositories',
+      getTitle: () => 'Charts Stores',
       renderScene() {
         return (
           <AltContainer stores={{
-            chartsUrls: () => {
+            chartsStores: () => {
               return {
                 store: alt.stores.SettingsStore,
-                value: alt.stores.SettingsStore.getChartsUrls(),
+                value: alt.stores.SettingsStore.getChartsStores(),
               };
             }}}>
-            <SettingsChartsUrls chartsUrls={alt.stores.SettingsStore.getChartsUrls()} />
+            <SettingsChartsStores chartsStores={alt.stores.SettingsStore.getChartsStores()} />
           </AltContainer>
         );
       },

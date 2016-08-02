@@ -27,9 +27,10 @@ class SettingsStore {
     this.bindActions(InitActions);
     this.state = Immutable.fromJS({
       maxReplicas: 40,
-      chartsUrls: [
-        'http://storage.googleapis.com/kubernetes-charts/index.yaml',
+      chartsStores: [
+        { url: 'http://storage.googleapis.com/kubernetes-charts/index.yaml', name: 'Default store' },
       ],
+      selectedChartsStoreIndex: 0,
       entitiesDisplay: {
         order: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         entities: {
@@ -78,17 +79,22 @@ class SettingsStore {
     this.saveStore();
   }
 
-  onAddChartsUrl(url) {
-    this.setState(this.state.updateIn(['chartsUrls'], chartsUrls => {
-      return chartsUrls.push(url);
+  onAddChartsStore({url, name}) {
+    this.setState(this.state.updateIn(['chartsStores'], chartsStores => {
+      return chartsStores.push(Immutable.fromJS({url, name}));
     }));
     this.saveStore();
   }
 
-  onRemoveChartsUrl(url) {
-    this.setState(this.state.updateIn(['chartsUrls'], chartsUrls => {
-      return chartsUrls.filter(chartsUrl => chartsUrl !== url);
+  onRemoveChartsStore(url) {
+    this.setState(this.state.updateIn(['chartsStores'], stores => {
+      return stores.filter(store => store.get('url') !== url);
     }));
+    this.saveStore();
+  }
+
+  onUpdateSelectedChartsStoreIndex(index) {
+    this.setState(this.state.set('selectedChartsStoreIndex', index));
     this.saveStore();
   }
 
@@ -118,8 +124,12 @@ class SettingsStore {
     return this.state.get('maxReplicas', 40);
   }
 
-  static getChartsUrls() {
-    return this.state.get('chartsUrls');
+  static getChartsStores() {
+    return this.state.get('chartsStores');
+  }
+
+  static getSelectedChartsStoreIndex() {
+    return this.state.get('selectedChartsStoreIndex');
   }
 }
 
