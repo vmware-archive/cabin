@@ -16,13 +16,15 @@
 import Colors from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
-import ChartItem from './ChartItem';
+import ListHeader from 'components/commons/ListHeader';
+import ChartsUtils from 'utils/ChartsUtils';
 
 const { PropTypes } = React;
 const {
   View,
+  Text,
+  Image,
   StyleSheet,
-  Dimensions,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -36,6 +38,33 @@ const styles = StyleSheet.create({
   content: {
     paddingTop: 20,
   },
+  chart: {
+    backgroundColor: Colors.WHITE,
+    borderColor: Colors.BORDER,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  chartIcon: {
+    width: 45, height: 45,
+    alignSelf: 'center',
+  },
+  chartTexts: {
+    flex: 1,
+    flexDirection: 'column',
+    marginLeft: 8,
+  },
+  chartTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    backgroundColor: 'transparent',
+  },
+  chartSubtitle: {
+    marginTop: 2,
+    fontSize: 12,
+  },
 });
 
 export default class DeployClusters extends Component {
@@ -46,10 +75,20 @@ export default class DeployClusters extends Component {
   }
 
   render() {
+    const { chart } = this.props;
+    const file = chart.get('chartfile');
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} contentContainerStyle={styles.content}>
-          <ChartItem chart={this.props.chart} style={{width: Dimensions.get('window').width, paddingHorizontal: 10}}/>
+          <ListHeader title={intl('chart')} />
+          <View style={styles.chart}>
+            <Image style={styles.chartIcon} source={ChartsUtils.iconForChart(file.get('name'))}/>
+            <View style={styles.chartTexts}>
+              <Text style={styles.chartTitle} numberOfLines={2}>{file.get('name')}</Text>
+              <Text style={styles.chartSubtitle} numberOfLines={2}>{file.get('description')}</Text>
+            </View>
+          </View>
+          <ListHeader title={intl('deploy_choose_cluster')} />
           {this.renderClusters()}
         </ScrollView>
       </View>
@@ -57,8 +96,20 @@ export default class DeployClusters extends Component {
   }
 
   renderClusters() {
-    return this.props.clusters.map(cluster => {
-      return <ListItem title={cluster.get('name')} subtitle={cluster.get('url')} />;
+    const { clusters } = this.props;
+    return clusters.map((cluster, i) => {
+      return (
+        <ListItem
+          title={cluster.get('name')}
+          subtitle={cluster.get('url')}
+          showArrow={true}
+          onPress={() => this.chooseCluster(cluster)}
+          isLast={i === clusters.size - 1}/>
+      );
     });
+  }
+
+  chooseCluster(cluster) {
+    console.log('-> Next step in deploy process', cluster);
   }
 }

@@ -17,6 +17,7 @@
   "persistentvolumes": "Volumes",
   "persistentvolumeclaims": "Volume Claims",
   "ingresses": "Ingress rules",
+  "chart": "Chart",
 
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
