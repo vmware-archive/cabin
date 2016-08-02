@@ -78,7 +78,7 @@ export default class ChartItem extends Component {
     const file = chart.get('chartfile');
     const titleLength = file.get('name').length;
     return (
-      <View style={styles.chart}>
+      <View style={[styles.chart, this.props.style]}>
         <TouchableOpacity style={styles.chartInner} onPress={this.props.onPress}>
           <View style={styles.row}>
             <Image style={styles.chartIcon} source={ChartsUtils.iconForChart(file.get('name'))}/>

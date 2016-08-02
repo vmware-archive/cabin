@@ -14,15 +14,15 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import ChartsActions from 'actions/ChartsActions';
-import DeployRoutes from 'routes/DeployRoutes';
 import ScrollView from 'components/commons/ScrollView';
+import ListItem from 'components/commons/ListItem';
 import ChartItem from './ChartItem';
 
 const { PropTypes } = React;
 const {
   View,
   StyleSheet,
+  Dimensions,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -34,37 +34,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    paddingHorizontal: 10,
+    paddingTop: 20,
   },
 });
 
-export default class DeployIndex extends Component {
+export default class DeployClusters extends Component {
 
   static propTypes = {
-    charts: PropTypes.instanceOf(Immutable.Map).isRequired,
-  }
-
-  componentDidMount() {
-    ChartsActions.fetchCharts.defer();
+    chart: PropTypes.instanceOf(Immutable.Map).isRequired,
+    clusters: PropTypes.instanceOf(Immutable.List).isRequired,
   }
 
   render() {
-    const charts = this.props.charts.map((chart, key) => {
-      return <ChartItem key={key} chart={chart} onPress={() => this.handleSelectChart(chart)} />;
-    }).toArray();
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
-          {charts}
+        <ScrollView style={styles.list} contentContainerStyle={styles.content}>
+          <ChartItem chart={this.props.chart} style={{width: Dimensions.get('window').width, paddingHorizontal: 10}}/>
+          {this.renderClusters()}
         </ScrollView>
       </View>
     );
   }
 
-  handleSelectChart(chart) {
-    this.props.navigator.push(DeployRoutes.getDeployClustersRoute(chart));
+  renderClusters() {
+    return this.props.clusters.map(cluster => {
+      return <ListItem title={cluster.get('name')} subtitle={cluster.get('url')} />;
+    });
   }
 }

@@ -21,6 +21,8 @@
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",
 
+  "deploy_choose_cluster": "Choose a cluster",
+
   "status_up": "Running",
   "status_down": "Down",
   "status_checking": "Checking..",

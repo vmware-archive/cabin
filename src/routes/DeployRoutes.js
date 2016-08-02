@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import DeployIndex from 'components/Deploy/DeployIndex';
+import DeployClusters from 'components/Deploy/DeployClusters';
 import AltContainer from 'alt-container';
 
 export default {
@@ -32,6 +33,27 @@ export default {
               };
             }}}>
             <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getDeployClustersRoute(chart) {
+    return {
+      name: 'DeployClusters',
+      statusBarStyle: 'light-content',
+      getTitle: () => intl('deploy_choose_cluster'),
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            clusters: () => {
+              return {
+                store: alt.stores.ClustersStore,
+                value: alt.stores.ClustersStore.getClusters(),
+              };
+            }}}>
+            <DeployClusters chart={chart} clusters={alt.stores.ClustersStore.getClusters()} navigator={navigator} />
           </AltContainer>
         );
       },
