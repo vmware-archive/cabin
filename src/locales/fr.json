@@ -23,6 +23,9 @@
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
 
   "deploy_choose_cluster": "Choisissez un cluster",
+  "deploy_no_tiller_alert_title": "Aucun Tiller RC",
+  "deploy_no_tiller_alert_subtitle": "Nous n'avons pas trouvé de Tiller replication controller, voulez-vous que nous le créions pour vous ?",
+  "deploy_no_pod_alert_subtitle": "Nous n'vons pas trouvé le Pod Tiller, verifiez votre connexion et votre configuration puis réessayez",
 
   "settings_repo_url_placeholder": "Ajouter un nouveau store",
   "settings_repo_name_placeholder": "Donner un surnom à ce store",

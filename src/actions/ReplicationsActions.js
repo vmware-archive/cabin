@@ -33,8 +33,8 @@ class ReplicationsActions {
     EntitiesActions.fetchEntitiesStart({cluster, entityType});
     return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
       EntitiesActions.dispatchEntities({cluster, entityType, entities});
-    })
-    .catch(() => {
+      return entities;
+    }).catch(() => {
       EntitiesActions.fetchEntitiesFailure({cluster, entityType});
     });
   }

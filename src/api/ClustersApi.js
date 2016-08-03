@@ -68,6 +68,15 @@ class ClustersApi {
     return BaseApi.get('/api/v1/pods', body, cluster);
   }
 
+  static getTillerPod(cluster) {
+    const body = {
+      labelSelector: 'app=helm,name=tiller',
+    };
+    return BaseApi.get('/api/v1/pods', body, cluster).then(pods => {
+      return pods.get('items').first();
+    });
+  }
+
   /* PODS */
   static fetchPodLogs({cluster, pod, container}) {
     return BaseApi.get(`/pods/${pod.getIn(['metadata', 'name'])}/log`, {container, tailLines: 100}, cluster, pod);

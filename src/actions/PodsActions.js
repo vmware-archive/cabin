@@ -99,6 +99,10 @@ class PodsActions {
     });
   }
 
+  getTillerPod(cluster) {
+    return ClustersApi.getTillerPod(cluster);
+  }
+
 }
 
 export default alt.createActions(PodsActions);

@@ -18,6 +18,8 @@ import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ChartsUtils from 'utils/ChartsUtils';
+import ReplicationsActions from 'actions/ReplicationsActions';
+import PodsActions from 'actions/PodsActions';
 
 const { PropTypes } = React;
 const {
@@ -25,6 +27,8 @@ const {
   Text,
   Image,
   StyleSheet,
+  ActivityIndicator,
+  Alert,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -65,6 +69,11 @@ const styles = StyleSheet.create({
     marginTop: 2,
     fontSize: 12,
   },
+  loader: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
 });
 
 export default class DeployClusters extends Component {
@@ -72,6 +81,13 @@ export default class DeployClusters extends Component {
   static propTypes = {
     chart: PropTypes.instanceOf(Immutable.Map).isRequired,
     clusters: PropTypes.instanceOf(Immutable.List).isRequired,
+  }
+
+  constructor() {
+    super();
+    this.state = {
+      loading: false,
+    };
   }
 
   render() {
@@ -91,6 +107,11 @@ export default class DeployClusters extends Component {
           <ListHeader title={intl('deploy_choose_cluster')} />
           {this.renderClusters()}
         </ScrollView>
+        {this.state.loading &&
+          <View style={styles.loader}>
+            <ActivityIndicator style={{flex: 1}}/>
+          </View>
+        }
       </View>
     );
   }
@@ -100,6 +121,7 @@ export default class DeployClusters extends Component {
     return clusters.map((cluster, i) => {
       return (
         <ListItem
+          key={i}
           title={cluster.get('name')}
           subtitle={cluster.get('url')}
           showArrow={true}
@@ -110,6 +132,26 @@ export default class DeployClusters extends Component {
   }
 
   chooseCluster(cluster) {
-    console.log('-> Next step in deploy process', cluster);
+    this.setState({loading: true});
+    ReplicationsActions.fetchReplications(cluster).then((rcs) => {
+      this.setState({loading: false});
+      const tillerRC = rcs && rcs.find(rc => rc.getIn(['metadata', 'name']) === 'tiller-rc');
+      if (!tillerRC) {
+        Alert.alert(intl('deploy_no_tiller_alert_title'), intl('deploy_no_tiller_alert_subtitle'),
+        [{text: intl('cancel')}, {text: intl('ok'), onPress: () => this.createTillerRC(cluster)}]);
+        return;
+      }
+      PodsActions.getTillerPod(cluster).then(pod => {
+        if (!pod) {
+          Alert.alert(null, intl('deploy_no_pod_alert_subtitle'));
+          return;
+        }
+        console.log('POD to deploy - ', pod.toJS());
+      });
+    });
+  }
+
+  createTillerRC(cluster) {
+    console.log('Need to create a tiller-rc', cluster);
   }
 }

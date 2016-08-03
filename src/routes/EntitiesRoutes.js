@@ -277,7 +277,7 @@ EntitiesRoutes = {
           {title: 'Rolling update', onPress: () => {
             const containers = replication.getIn(['spec', 'template', 'spec', 'containers'], Immutable.List());
             if (containers.size !== 1) {
-              Alert.alert(null, intl('rolling_update_multiple_containers'), {text: intl('ok')});
+              Alert.alert(null, intl('rolling_update_multiple_containers'));
               return;
             }
             AlertIOS.prompt(

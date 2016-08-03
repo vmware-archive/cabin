@@ -129,7 +129,8 @@ class SettingsStore {
   }
 
   static getSelectedChartsStoreIndex() {
-    return this.state.get('selectedChartsStoreIndex');
+    const index = this.state.get('selectedChartsStoreIndex');
+    return index < this.getChartsStores().size ? index : 0;
   }
 }
 
