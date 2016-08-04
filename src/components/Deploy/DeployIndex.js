@@ -25,6 +25,7 @@ import AltContainer from 'alt-container';
 const { PropTypes } = React;
 const {
   View,
+  ActivityIndicator,
   StyleSheet,
 } = ReactNative;
 
@@ -42,6 +43,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingHorizontal: 10,
   },
+  loader: {
+    position: 'absolute',
+    left: 0, bottom: 0, right: 0, top: 0,
+  },
 });
 
 export default class DeployIndex extends Component {
@@ -50,8 +55,15 @@ export default class DeployIndex extends Component {
     charts: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+    };
+  }
+
   componentDidMount() {
-    ChartsActions.fetchCharts.defer();
+    ChartsActions.fetchCharts().then(() => this.setState({loading: false}));
   }
 
   render() {
@@ -78,9 +90,15 @@ export default class DeployIndex extends Component {
             selectedIndex={alt.stores.SettingsStore.getSelectedChartsStoreIndex()}
             onChange={(index) => {
               SettingsActions.updateSelectedChartsStoreIndex(index);
-              ChartsActions.fetchCharts();
+              this.setState({loading: true});
+              ChartsActions.fetchCharts().then(() => this.setState({loading: false}));
             }}/>
         </AltContainer>
+        {this.state.loading &&
+          <View style={styles.loader}>
+            <ActivityIndicator style={{flex: 1}} />
+          </View>
+        }
         <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
           {charts}
         </ScrollView>
