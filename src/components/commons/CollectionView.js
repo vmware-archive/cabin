@@ -89,9 +89,11 @@ class CollectionView extends Component {
 
   render() {
     const isRefreshing = this._userPulledRefresh;
+    if (this.props.renderEmpty && this.props.list.size === 0 && !isRefreshing) {
+      return this.props.renderEmpty();
+    }
     const list = this.props.list.toArray();
     const dataSource = this.state.dataSource.cloneWithRows(list);
-
     return (
       <ListView
         {...this.props}
