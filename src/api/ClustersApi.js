@@ -98,6 +98,11 @@ class ClustersApi {
     return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
   }
 
+  static createDeployment({cluster, params}) {
+    const namespace = cluster.get('currentNamespace') || 'default';
+    return BaseApi.post(`/apis/extensions/v1beta1/namespaces/${namespace}/deployments`, params.toJS(), cluster);
+  }
+
   /* SERVICES */
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};

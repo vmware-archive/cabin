@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const entityType = 'deployments';
 
@@ -26,6 +27,9 @@ class DeploymentsActions {
       'scaleDeploymentStart',
       'scaleDeploymentSuccess',
       'scaleDeploymentFailure',
+      'createDeploymentStart',
+      'createDeploymentSuccess',
+      'createDeploymentFailure',
     );
   }
 
@@ -45,6 +49,16 @@ class DeploymentsActions {
       EntitiesActions.deleteEntitySuccess({cluster, entity: deployment, entityType});
     }).catch(() => {
       EntitiesActions.deleteEntityFailure({cluster, entity: deployment, entityType});
+    });
+  }
+
+  createDeployment({cluster, name, image}) {
+    const params = EntitiesUtils.newDeploymentParams({name, image});
+    this.createDeploymentStart({cluster, name, params});
+    return ClustersApi.createDeployment({cluster, params}).then((deployment) => {
+      this.createDeploymentSuccess({cluster, deployment: deployment.set('kind', 'deployments'), entityType});
+    }).catch(() => {
+      this.createDeploymentFailure({cluster, name, params});
     });
   }
 

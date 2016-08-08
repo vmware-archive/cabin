@@ -25,6 +25,9 @@
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",
 
+  "deployment_new": "New deployment",
+  "deployment_new_empty_image": "You need to specify an image",
+
   "deploy_index_failed_title": "Can't fetch this store, verify your connection or try another url",
   "deploy_index_failed_action": "Try again",
   "deploy_choose_cluster": "Choose a cluster",

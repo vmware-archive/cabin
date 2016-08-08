@@ -17,6 +17,7 @@ import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
+import ActionButton from 'react-native-action-button';
 
 const {
   View,
@@ -62,6 +63,13 @@ export default class EntitiesList extends Component {
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
             renderHeader={this.props.listHeader && (() => <ListHeader title={this.props.listHeader} />)}
+          />
+        }
+        {this.props.onCreate &&
+          <ActionButton
+            buttonColor={this.props.actionColor || Colors.BLUE}
+            offsetY={20} offsetX={20}
+            onPress={this.props.onCreate}
           />
         }
       </View>

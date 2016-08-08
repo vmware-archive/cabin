@@ -17,6 +17,7 @@ import { PropTypes } from 'react';
 import EntitiesList from 'components/EntitiesList';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import EntitiesActions from 'actions/EntitiesActions';
+import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
@@ -109,10 +110,16 @@ export default class ClusterShow extends Component {
             onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster, entityType}))}
             onRefresh={() => EntitiesActions.fetchEntities({cluster, entityType})}
             onDelete={entity => EntitiesActions.deleteEntity({cluster, entity, entityType})}
+            onCreate={entityType === 'deployments' && this.showDeploymentNew.bind(this)}
+            actionColor={Colors.PURPLE}
           />
         </AltContainer>
       );
     });
+  }
+
+  showDeploymentNew() {
+    NavigationActions.push(EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster));
   }
 
 }

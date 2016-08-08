@@ -22,6 +22,7 @@ import ServicesShow from 'components/Services/ServicesShow';
 import ServicesEditPort from 'components/Services/ServicesEditPort';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import DeploymentsShow from 'components/Deployments/DeploymentsShow';
+import DeploymentsNew from 'components/Deployments/DeploymentsNew';
 import Navigator from 'components/commons/Navigator';
 import NavbarButton from 'components/commons/NavbarButton';
 import YamlView from 'components/YamlView';
@@ -322,6 +323,42 @@ EntitiesRoutes = {
             <DeploymentsShow deployment={deployment} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
+      },
+    };
+  },
+
+  getDeploymentsNewRoute(cluster) {
+    return {
+      name: 'DeploymentsNew',
+      statusBarStyle: 'light-content',
+      renderScene() {
+        return (
+          <Navigator
+            initialRoute={{
+              getTitle: () => intl('deployment_new'),
+              renderScene(navigator) {
+                return <DeploymentsNew cluster={cluster} navigator={navigator} />;
+              },
+              renderLeftButton() {
+                return (
+                  <NavbarButton title={intl('cancel')}
+                    onPress={() => NavigationActions.pop()}
+                  />
+                );
+              },
+              renderRightButton() {
+                return (
+                  <NavbarButton title={intl('done')}
+                    onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')}
+                  />
+                );
+              },
+            }}
+          />
+        );
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
