@@ -65,7 +65,7 @@ class ClustersApi {
     const body = {
       fieldSelector: `spec.nodeName=${node.getIn(['metadata', 'name'])}`,
     };
-    return BaseApi.get('/api/v1/pods', body, cluster);
+    return BaseApi.get('/api/v1/pods', body, cluster).then(r => r.get('items'));
   }
 
   static getTillerPod(cluster) {

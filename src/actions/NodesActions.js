@@ -16,6 +16,8 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import PodsActions from 'actions/PodsActions';
+import AlertUtils from 'utils/AlertUtils';
 
 const entityType = 'nodes';
 
@@ -83,8 +85,11 @@ class NodesActions {
       this.putInMaintenanceStart({cluster, node});
       return ClustersApi.getNodePods({cluster, node});
     }).then((pods) => {
-      this.putInMaintenanceSuccess({cluster, node, pods});
+      return Promise.all(pods.map(pod => PodsActions.deletePod({cluster, pod})));
+    }).then(() => {
+      this.putInMaintenanceSuccess({cluster, node});
     }).catch(() => {
+      AlertUtils.showError();
       this.putInMaintenanceFailure({cluster, node});
     });
   }
