@@ -134,6 +134,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-orientation')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':RNMaterialKit')
     compile project(':react-native-code-push')

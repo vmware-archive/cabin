@@ -18,12 +18,14 @@ import ExNavigator from '@exponent/react-native-navigator';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import TextInputState from 'TextInputState';
+import Orientation from 'react-native-orientation';
 
 const {
   View,
   DeviceEventEmitter,
   StatusBar,
   StyleSheet,
+  Dimensions,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -65,6 +67,14 @@ class Navigator extends Component {
     navigatorEvent: PropTypes.string,
   };
 
+  constructor() {
+    super();
+    this.state = {
+      orientation: Orientation.getInitialOrientation(),
+    };
+    this.onOrientationDidChange = this.onOrientationDidChange.bind(this);
+  }
+
   componentDidMount() {
     this.navigationEventListener = DeviceEventEmitter.addListener(this.props.navigatorEvent, this.handleNavigationChange.bind(this));
     this.navigationContextListener = this.refs.Navigator.navigationContext.addListener('willfocus', (event) => {
@@ -80,21 +90,25 @@ class Navigator extends Component {
     this.navigationContextListener = this.refs.Navigator.navigationContext.addListener('didblur', (event) => {
       event.data.route.onDidBlur && event.data.route.onDidBlur();
     });
+    Orientation.addOrientationListener(this.onOrientationDidChange);
+    this.windowHeight = Dimensions.get('window').height;
   }
 
   componentWillUnmount() {
     this.navigationEventListener.remove();
     this.navigationContextListener.remove();
+    Orientation.removeOrientationListener(this.onOrientationDidChange);
   }
 
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.orientation !== this.state.orientation;
   }
 
   render() {
     const navigationBarStyle = this.props.navigationBarStyle || styles.navigationBarStyle;
+    const iPhoneLandscape = this.state.orientation === 'LANDSCAPE' && Dimensions.get('window').height < 480;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, iPhoneLandscape && {marginTop: -10}]}>
         <ExNavigator
           ref="Navigator"
           barButtonIconStyle={styles.barButtonIconStyle}
@@ -112,6 +126,10 @@ class Navigator extends Component {
     if (ReactNative.Platform.OS === 'ios') {
       StatusBar.setBarStyle(statusBarStyle, true);
     }
+  }
+
+  onOrientationDidChange(orientation) {
+    this.setState({orientation});
   }
 
   handleNavigationChange({type, route}) {

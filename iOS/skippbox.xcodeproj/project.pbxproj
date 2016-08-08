@@ -19,6 +19,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA17D08BF2A415C8576E351 /* libRCTOrientation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8E5BABED1BB02D8E00D0FDEF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEC1BB02D8E00D0FDEF /* Security.framework */; };
 		8E5BABEF1BB02DBD00D0FDEF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */; };
@@ -124,6 +125,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTPushNotification;
 		};
+		A59A172F1D587FD400B94091 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTOrientation;
+		};
 		A5B2F1111BD62DAC00CF6A12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */;
@@ -195,6 +203,8 @@
 		A5C6FD781BF9FB260057C13B /* RNClipboard.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNClipboard.xcodeproj; path = "../node_modules/react-native-clipboard/RNClipboard.xcodeproj"; sourceTree = "<group>"; };
 		A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A5E428451C57A86100C5B9EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AAA17D08BF2A415C8576E351 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
+		E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +231,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +356,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
+				E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -390,6 +402,14 @@
 			isa = PBXGroup;
 			children = (
 				A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A59A17261D587FD400B94091 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A59A17301D587FD400B94091 /* libRCTOrientation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -502,6 +522,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = A59A17261D587FD400B94091 /* Products */;
+					ProjectRef = E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */;
 				},
 				{
 					ProductGroup = A579E65D1BD5420500CD8E2C /* Products */;
@@ -639,6 +663,13 @@
 			remoteRef = A579E6601BD5420500CD8E2C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A59A17301D587FD400B94091 /* libRCTOrientation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOrientation.a;
+			remoteRef = A59A172F1D587FD400B94091 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -727,6 +758,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/**",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = skippbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -734,6 +766,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 				);
 				OTHER_LDFLAGS = (
@@ -769,6 +802,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/**",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				INFOPLIST_FILE = skippbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -776,6 +810,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -832,6 +867,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-user-defaults",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -874,6 +910,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-user-defaults",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

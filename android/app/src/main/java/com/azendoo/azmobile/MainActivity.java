@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactActivity;
+import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.Arguments;
@@ -65,6 +66,7 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.asList(
                 new MainReactPackage(),
+            new OrientationPackage(this),
                 new CookieManagerPackage(),
                 new ReactAzendooPackage(),
                 new ReactMaterialKitPackage(),
