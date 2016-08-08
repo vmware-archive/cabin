@@ -39,6 +39,8 @@
 
   "status_up": "Running",
   "status_down": "Down",
+  "status_ready": "Ready",
+  "status_notready": "Not Ready",
   "status_checking": "Checking..",
   "status_pending": "Pending..",
   "status_creating": "Creating..",

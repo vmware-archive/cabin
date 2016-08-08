@@ -15,7 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
-
+const { Status } = Constants;
 const {
   View,
   Text,
@@ -48,8 +48,13 @@ export default class StatusView extends Component {
 
   render() {
     let { status } = this.props;
-    if (typeof status === 'object' && status.get('phase')) {
-      status = status.get('phase').toUpperCase();
+    if (typeof status === 'object') {
+      if (status.get('phase')) {
+        status = status.get('phase').toUpperCase();
+      } else if (status.get('conditions')) {
+        const condition = status.get('conditions').find(c => c.get('type') === 'Ready');
+        status = condition.get('status') === 'True' ? Status.READY : Status.NOTREADY;
+      }
     }
     if (typeof status !== 'string') { return false; }
     return (

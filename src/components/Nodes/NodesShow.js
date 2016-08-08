@@ -19,6 +19,7 @@ import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import NodesActions from 'actions/NodesActions';
+import StatusView from 'components/commons/StatusView';
 
 const {
   View,
@@ -54,8 +55,6 @@ export default class NodesShow extends Component {
 
   render() {
     const { node } = this.props;
-    const conditionReady = node.getIn(['status', 'conditions'], Immutable.List()).find(c => c.get('type') === 'Ready');
-    const ready = conditionReady ? conditionReady.get('status') === 'True' : false;
     const unschedulable = node.getIn(['spec', 'unschedulable']);
     return (
       <View style={styles.container}>
@@ -64,8 +63,9 @@ export default class NodesShow extends Component {
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
             <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="Status" detailTitle={ready ? 'Ready' : 'Not Ready'}/>
-
+            <ListItem title="Status" renderDetail={() => {
+              return <StatusView status={node.get('status')}/>;
+            }}/>
             <ListItem title="Schedulable"
               isLast={true}
               renderDetail={() => {

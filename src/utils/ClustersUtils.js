@@ -21,8 +21,10 @@ export default class ClustersUtils {
   static colorForStatus(status) {
     switch (status) {
       case Status.RUNNING:
+      case Status.READY:
         return Colors.GREEN;
       case Status.DOWN:
+      case Status.NOTREADY:
         return Colors.RED;
       default:
         return Colors.GRAY;
@@ -33,6 +35,10 @@ export default class ClustersUtils {
     switch (status) {
       case Status.RUNNING || 'Running':
         return intl('status_up');
+      case Status.READY:
+        return intl('status_ready');
+      case Status.NOTREADY:
+        return intl('status_notready');
       case Status.DOWN:
         return intl('status_down');
       case Status.PENDING:

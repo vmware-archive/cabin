@@ -134,7 +134,7 @@ export default class ListItem extends Component {
   renderDetail() {
     if (this.props.renderDetail) { return this.props.renderDetail(); }
     const { entity } = this.props;
-    if (entity && entity.get('kind') === 'pods') {
+    if (entity && (entity.get('kind') === 'pods' || entity.get('kind') === 'nodes')) {
       const status = entity.get('status');
       if (status) {
         return <StatusView status={status} />;
