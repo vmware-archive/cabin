@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -51,24 +51,40 @@
                         <constraint firstAttribute="height" constant="49" id="xmv-83-RuZ"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cabin" translatesAutoresizingMaskIntoConstraints="NO" id="pmS-3g-MAv">
-                    <rect key="frame" x="195" y="90" width="90" height="300"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="skippbox" translatesAutoresizingMaskIntoConstraints="NO" id="pmS-3g-MAv">
+                    <rect key="frame" x="195" y="128" width="90" height="98"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="90" id="A4K-Og-k5i"/>
-                        <constraint firstAttribute="height" constant="300" id="IBp-Sd-JBF"/>
+                        <constraint firstAttribute="height" constant="98" id="IBp-Sd-JBF"/>
                     </constraints>
                 </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Manage Kubernetes applications" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JfR-eq-rXj">
+                    <rect key="frame" x="114" y="290" width="253" height="24"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cabin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Miq-2T-Jbg">
+                    <rect key="frame" x="192" y="238" width="97" height="44"/>
+                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="34"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803915" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="pmS-3g-MAv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="9ne-Ne-uf5"/>
+                <constraint firstItem="Miq-2T-Jbg" firstAttribute="top" secondItem="pmS-3g-MAv" secondAttribute="bottom" constant="12" id="3th-nV-7jN"/>
+                <constraint firstItem="JfR-eq-rXj" firstAttribute="top" secondItem="Miq-2T-Jbg" secondAttribute="bottom" constant="8" id="7zp-1s-4Tw"/>
+                <constraint firstItem="Miq-2T-Jbg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="20" id="8fQ-ql-hDr"/>
                 <constraint firstAttribute="trailing" secondItem="hya-Ft-5MA" secondAttribute="trailing" id="AVZ-A6-jiw"/>
                 <constraint firstItem="iM7-xT-b1R" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="D0O-jM-Khu"/>
                 <constraint firstAttribute="bottom" secondItem="hya-Ft-5MA" secondAttribute="bottom" id="GYB-fJ-m7B"/>
                 <constraint firstItem="iM7-xT-b1R" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JFX-ey-Rkx"/>
                 <constraint firstAttribute="trailing" secondItem="iM7-xT-b1R" secondAttribute="trailing" id="Pcp-fK-vcN"/>
                 <constraint firstItem="pmS-3g-MAv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="VEI-f6-Hds"/>
+                <constraint firstItem="JfR-eq-rXj" firstAttribute="centerX" secondItem="Miq-2T-Jbg" secondAttribute="centerX" id="lxL-Bg-UnL"/>
                 <constraint firstItem="hya-Ft-5MA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="uCn-O5-7iA"/>
+                <constraint firstItem="Miq-2T-Jbg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="uXP-aa-VUG"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -76,6 +92,6 @@
         </view>
     </objects>
     <resources>
-        <image name="cabin" width="300" height="93"/>
+        <image name="skippbox" width="218" height="212"/>
     </resources>
 </document>

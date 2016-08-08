@@ -19,8 +19,8 @@
   "ingresses": "Ingress rules",
   "chart": "Chart",
 
-  "clusters_empty_title": "Welcome in the cabin",
-  "clusters_empty_subtitle": "It looks like you don't have any cluster to manage yet, let's get started!",
+  "clusters_empty_title": "Welcome in the Cabin",
+  "clusters_empty_subtitle": "Looks like you don't have any clusters to use, let's add one",
   "clusters_empty_action": "Add a cluster",
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",
