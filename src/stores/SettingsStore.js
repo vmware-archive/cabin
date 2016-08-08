@@ -79,11 +79,17 @@ class SettingsStore {
     this.saveStore();
   }
 
-  onAddChartsStore({url, name}) {
+  onAddChartsStoreSuccess({url, name}) {
     this.setState(this.state.updateIn(['chartsStores'], chartsStores => {
       return chartsStores.push(Immutable.fromJS({url, name}));
     }));
     this.saveStore();
+  }
+
+  onAddChartsStoreFailure({url}) {
+    this.setState(this.state.updateIn(['chartsStores'], chartsStores => {
+      return chartsStores.filter(store => store.get('url') !== url);
+    }));
   }
 
   onRemoveChartsStore(url) {

@@ -25,6 +25,8 @@
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",
 
+  "deploy_index_failed_title": "Can't fetch this store, verify your connection or try another url",
+  "deploy_index_failed_action": "Try again",
   "deploy_choose_cluster": "Choose a cluster",
   "deploy_no_tiller_alert_title": "No Tiller RC",
   "deploy_no_tiller_alert_subtitle": "We didn't find a Tiller replication controller in this cluster, do you want that we create one for you?",
@@ -33,6 +35,7 @@
   "settings_repo_url_placeholder": "Add new deploy store",
   "settings_repo_name_placeholder": "Give this store a short name",
   "settings_repo_add_alert": "Please fill both url and name fields",
+  "settings_repo_failed": "Can't fetch this store url, try again with another one",
 
   "status_up": "Running",
   "status_down": "Down",

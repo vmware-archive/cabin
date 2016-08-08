@@ -25,6 +25,8 @@
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
 
+  "deploy_index_failed_title": "Impossible de récupérer les données, verifiez votre connexion ou essayez une autre url",
+  "deploy_index_failed_action": "Réessayer",
   "deploy_choose_cluster": "Choisissez un cluster",
   "deploy_no_tiller_alert_title": "Aucun Tiller RC",
   "deploy_no_tiller_alert_subtitle": "Nous n'avons pas trouvé de Tiller replication controller, voulez-vous que nous le créions pour vous ?",
@@ -33,6 +35,7 @@
   "settings_repo_url_placeholder": "Ajouter un nouveau store",
   "settings_repo_name_placeholder": "Donner un surnom à ce store",
   "settings_repo_add_alert": "Please fill both url and name fields",
+  "settings_repo_failed": "Impossible de récupérer les données de cette url, réessayez avec une autre url",
 
   "status_up": "Actif",
   "status_down": "Éteint",

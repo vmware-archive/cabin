@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import alt from 'src/alt';
+import ChartsApi from 'api/ChartsApi';
 
 class SettingsActions {
 
@@ -22,10 +23,30 @@ class SettingsActions {
       'updateEntitiesOrder',
       'setEntityHidden',
       'updateMaxReplicas',
-      'addChartsStore',
+      'addChartsStoreStart',
+      'addChartsStoreSuccess',
+      'addChartsStoreFailure',
       'removeChartsStore',
       'updateSelectedChartsStoreIndex',
     );
+  }
+
+  addChartsStore({url, name}) {
+    if (url.slice(-1) === '/') {
+      url = url + 'index.yaml';
+    }
+    this.addChartsStoreStart({url, name});
+    return ChartsApi.fetchCharts(url).then(charts => {
+      if (charts.size > 0) {
+        this.addChartsStoreSuccess({url, name});
+        return Promise.resolve();
+      }
+      this.addChartsStoreFailure({url, name});
+      return Promise.reject();
+    }).catch(() => {
+      this.addChartsStoreFailure({url, name});
+      return Promise.reject();
+    });
   }
 }
 

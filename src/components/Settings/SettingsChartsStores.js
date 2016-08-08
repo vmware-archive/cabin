@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
+import AlertUtils from 'utils/AlertUtils';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ScrollView from 'components/commons/ScrollView';
@@ -25,6 +26,7 @@ const {
   TextInput,
   StyleSheet,
   Alert,
+  ActivityIndicator,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -42,6 +44,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 30,
   },
+  checking: {
+    position: 'absolute',
+    left: 0, right: 0, top: 0, bottom: 0,
+  },
 });
 
 export default class SettingsChartsStores extends Component {
@@ -54,6 +60,7 @@ export default class SettingsChartsStores extends Component {
     super();
     this.state = {
       focused: false,
+      checking: false,
     };
   }
 
@@ -79,30 +86,34 @@ export default class SettingsChartsStores extends Component {
         contentContainerStyle={styles.contentContainer}>
         <ListHeader title="" />
         {items}
-        <ListItem isLast={true} style={{height: null}} renderTitle={() => {
+        <ListItem isLast={true} style={[{height: null}, this.state.checking && {backgroundColor: Colors.BACKGROUND}]}
+        renderTitle={() => {
           return (
             <View style={{flexDirection: 'column', paddingBottom: 10}}>
               <TextInput
                 ref={e => { this.urlInput = e; }}
-                style={styles.input}
+                style={[styles.input, this.state.checking && {opacity: 0.4}]}
                 placeholder={intl('settings_repo_url_placeholder')}
                 clearButtonMode="while-editing"
                 autoCapitalize="none" autoCorrect={false}
                 returnKeyType="done"
+                enabled={!this.state.checking}
                 onChangeText={text => {this.url = text;}}
                 onSubmitEditing={this.handleSubmit.bind(this)}
                 onFocus={() => this.setState({focused: true})}
               />
               {this.state.focused && <TextInput
                 ref={e => { this.nameInput = e; }}
-                style={styles.input}
+                style={[styles.input, this.state.checking && {opacity: 0.4}]}
                 placeholder={intl('settings_repo_name_placeholder')}
                 clearButtonMode="while-editing"
                 autoCapitalize="none" autoCorrect={false}
                 returnKeyType="done"
+                enabled={!this.state.checking}
                 onChangeText={text => {this.name = text;}}
                 onSubmitEditing={this.handleSubmit.bind(this)}
               />}
+              {this.state.checking && <ActivityIndicator style={styles.checking} color={Colors.GRAY} animating={this.state.checking}/>}
             </View>
           );
         }}
@@ -116,8 +127,14 @@ export default class SettingsChartsStores extends Component {
       Alert.alert(intl('settings_repo_add_alert'));
       return;
     }
-    SettingsActions.addChartsStore({url: this.url, name: this.name});
-    this.urlInput.setNativeProps({text: ''});
-    this.nameInput.setNativeProps({text: ''});
+    this.setState({checking: true});
+    SettingsActions.addChartsStore({url: this.url, name: this.name}).then(() => {
+      this.urlInput.setNativeProps({text: ''});
+      this.nameInput.setNativeProps({text: ''});
+      this.setState({checking: false, focus: false});
+    }).catch(() => {
+      AlertUtils.showWarning({message: intl('settings_repo_failed')});
+      this.setState({checking: false});
+    });
   }
 }
