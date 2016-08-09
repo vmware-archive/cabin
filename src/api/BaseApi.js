@@ -171,22 +171,11 @@ class BaseApi {
   }
 
   static updateParams({url, method, dataUrl, cluster, entity}) {
-    let headers = {
+    const headers = {
       'X-Requested-With': 'XMLHttpRequest',
       'Accept': 'application/json',
       'Content-Type': method === 'patch' ? 'application/strategic-merge-patch+json' : 'application/json',
     };
-
-    if (url.indexOf('/exec') !== -1 ) {
-      headers = {...headers,
-        'Connection': 'Upgrade',
-        'Upgrade': 'SPDY/3.1',
-        'X-Stream-Protocol-Version': 'v2.channel.k8s.io',
-        // 'X-Stream-Protocol-Version': 'channel.k8s.io',
-        'Accept': '*/*',
-        'Content-Type': '*/*',
-      };
-    }
     if (cluster && url.indexOf('http') === -1) {
       let path = '';
       if (url.indexOf('/api/v1') === -1 && url.indexOf('/apis/extensions') === -1) {
@@ -209,7 +198,7 @@ class BaseApi {
     }
 
     if (dataUrl) {
-      const params = Qs.stringify(dataUrl, {arrayFormat: 'brackets'});
+      const params = Qs.stringify(dataUrl, {arrayFormat: 'repeat'});
       url = `${url}?${params}`;
     }
     return {url, headers};
