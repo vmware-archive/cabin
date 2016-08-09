@@ -36,9 +36,9 @@ class SettingsStore {
         entities: {
           0: {name: 'pods'},
           1: {name: 'services'},
-          2: {name: 'replicationcontrollers'},
-          3: {name: 'nodes'},
-          4: {name: 'deployments', hidden: true},
+          2: {name: 'nodes'},
+          3: {name: 'deployments'},
+          4: {name: 'replicationcontrollers', hidden: true},
           5: {name: 'secrets', hidden: true},
           6: {name: 'serviceaccounts', hidden: true},
           7: {name: 'persistentvolumes', hidden: true},
