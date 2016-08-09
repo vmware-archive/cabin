@@ -17,7 +17,6 @@ import Colors from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
 import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
 import PodsActions from 'actions/PodsActions';
-import ParsedText from 'react-native-parsed-text';
 
 const {
   View,
@@ -48,6 +47,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  input2: {
+    color: Colors.WHITE,
+    flex: 1,
+    height: 40,
+  },
   input: {
     flex: 1,
     borderWidth: 1,
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
 export default class PodsExec extends Component {
 
   static propTypes = {
-    logs: PropTypes.string,
+    messages: PropTypes.instanceOf(Immutable.List),
     container: PropTypes.string,
     pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
@@ -84,8 +88,14 @@ export default class PodsExec extends Component {
   }
 
   render() {
-    const { logs, pod, cluster } = this.props;
+    const { pod, cluster } = this.props;
     const { container } = this.state;
+    const messages = this.props.messages.map(msg => {
+      if (!msg.slice(-1).match(/\n/)) {
+        return msg + '\n';
+      }
+      return msg;
+    }).join('');
     return (
       <View style={styles.container}>
         <PodsContainerPicker pod={pod} cluster={cluster} selectedContainer={container} onChangeContainer={this.handleContainerChange.bind(this)}/>
@@ -98,17 +108,12 @@ export default class PodsExec extends Component {
               this.refs.scrollView.scrollTo({y: 0});
             }
           }}>
-          <ParsedText style={styles.logs}
-            parse={[
-              {pattern: /[0-9A-Za-z\/]{5} [0-9.:]{15}    /, style: styles.bold},
-              {pattern: /[0-9\/]{10} [0-9:]{8} [a-zA-Z0-9]+:/, style: styles.bold},
-              {pattern: /[0-9\/\-]{10} [0-9:]{8}([.0-9]{7})? /, style: styles.bold},
-            ]}>
-            {logs}
-          </ParsedText>
+          <Text style={styles.logs}>{messages}</Text>
         </ScrollView>
         <View style={styles.inputContainer}>
           <TextInput style={styles.input}
+            ref="input"
+            autoCapitalize="none" autoCorrect={false}
             placeholder="command to execute"
             onChangeText={text => {this.command = text;}}
             onSubmitEditing={this.execCommand.bind(this)}/>
@@ -123,6 +128,8 @@ export default class PodsExec extends Component {
   }
 
   execCommand() {
-    PodsActions.execPodCommand({cluster: this.props.cluster, pod: this.props.pod, command: this.command, container: this.state.container});
+    PodsActions.execPodCommand({cluster: this.props.cluster, pod: this.props.pod, command: this.command, container: this.state.container}).then(() => {
+      this.refs.input.setNativeProps({text: ''});
+    });
   }
 }

@@ -37,50 +37,38 @@ class BaseApi {
     }
   }
 
+  static websocket({url, method, body, dataUrl, cluster, entity}) {
+    this.showNetworkActivityIndicator();
+    const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
+    return new Promise((resolve) => {
+      let messages = Immutable.List();
+      const ws = new WebSocket(URL, null, {Authorization: headers.Authorization});
+      ws.onopen = () => {};
+      ws.onmessage = (e) => {
+        messages = messages.push(BaseApi.readData(e.data));
+      };
+      ws.onerror = () => {};
+      ws.onclose = () => {
+        this.hideNetworkActivityIndicator();
+        resolve(messages);
+      };
+    });
+  }
+
+  static readData(data) {
+    const buffer = data;
+    const arr = new Uint8Array(buffer);
+    const str = String.fromCharCode.apply(String, arr);
+    if (/[\u0080-\uffff]/.test(str)) {
+      throw new Error('this string seems to contain (still encoded) multibytes');
+    }
+    return str;
+  }
+
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
-    let headers = {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Accept': 'application/json',
-      'Content-Type': method === 'patch' ? 'application/strategic-merge-patch+json' : 'application/json',
-    };
-
-    if (url.indexOf('/exec') !== -1 ) {
-      headers = {...headers,
-        'Connection': 'Upgrade',
-        'Upgrade': 'SPDY/3.1',
-        // 'X-Stream-Protocol-Version': 'v2.channel.k8s.io',
-        'X-Stream-Protocol-Version': 'channel.k8s.io',
-        'Accept': '*/*',
-        'Content-Type': '*/*',
-      };
-    }
-    if (cluster && url.indexOf('http') === -1) {
-      let path = '';
-      if (url.indexOf('/api/v1') === -1 && url.indexOf('/apis/extensions') === -1) {
-        let api = '/api/v1';
-        if (url.indexOf('/deployments') === 0 || url.indexOf('/ingresses') === 0) {
-          api = '/apis/extensions/v1beta1';
-        }
-        const namespace = entity ? entity.getIn(['metadata', 'namespace']) : cluster.get('currentNamespace');
-        path = namespace ? `${api}/namespaces/${namespace}` : api;
-      }
-      url = `${cluster.get('url')}${path}${url}`;
-    }
-
-    if (cluster) {
-      if (cluster.get('token')) {
-        headers.Authorization = 'Bearer ' + cluster.get('token');
-      } else if (cluster.get('username')) {
-        headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
-      }
-    }
-
-    if (dataUrl) {
-      const params = Qs.stringify(dataUrl, {arrayFormat: 'brackets'});
-      url = `${url}?${params}`;
-    }
-    return fetch(`${url}`, {
+    const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
+    return fetch(`${URL}`, {
       method,
       headers,
       body: JSON.stringify(body),
@@ -180,6 +168,51 @@ class BaseApi {
         status = 'failure';
     }
     return status;
+  }
+
+  static updateParams({url, method, dataUrl, cluster, entity}) {
+    let headers = {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Accept': 'application/json',
+      'Content-Type': method === 'patch' ? 'application/strategic-merge-patch+json' : 'application/json',
+    };
+
+    if (url.indexOf('/exec') !== -1 ) {
+      headers = {...headers,
+        'Connection': 'Upgrade',
+        'Upgrade': 'SPDY/3.1',
+        'X-Stream-Protocol-Version': 'v2.channel.k8s.io',
+        // 'X-Stream-Protocol-Version': 'channel.k8s.io',
+        'Accept': '*/*',
+        'Content-Type': '*/*',
+      };
+    }
+    if (cluster && url.indexOf('http') === -1) {
+      let path = '';
+      if (url.indexOf('/api/v1') === -1 && url.indexOf('/apis/extensions') === -1) {
+        let api = '/api/v1';
+        if (url.indexOf('/deployments') === 0 || url.indexOf('/ingresses') === 0) {
+          api = '/apis/extensions/v1beta1';
+        }
+        const namespace = entity ? entity.getIn(['metadata', 'namespace']) : cluster.get('currentNamespace');
+        path = namespace ? `${api}/namespaces/${namespace}` : api;
+      }
+      url = `${cluster.get('url')}${path}${url}`;
+    }
+
+    if (cluster) {
+      if (cluster.get('token')) {
+        headers.Authorization = 'Bearer ' + cluster.get('token');
+      } else if (cluster.get('username')) {
+        headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
+      }
+    }
+
+    if (dataUrl) {
+      const params = Qs.stringify(dataUrl, {arrayFormat: 'brackets'});
+      url = `${url}?${params}`;
+    }
+    return {url, headers};
   }
 
 }

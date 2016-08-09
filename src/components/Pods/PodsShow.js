@@ -71,7 +71,7 @@ export default class PodsShow extends Component {
             <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
             <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
             <ListItem title="Logs" showArrow={true} onPress={() => this.showLogs()} isLast={true}/>
-            {/* <ListItem title="Exec" showArrow={true} isLast={true} onPress={() => this.showExec()}/> */}
+            <ListItem title="Exec" showArrow={true} isLast={true} onPress={() => this.showExec()}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />

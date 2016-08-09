@@ -90,12 +90,8 @@ class PodsActions {
       container = pod.getIn(['spec', 'containers', 0, 'name']);
     }
     this.execPodCommandStart({cluster, pod});
-    return ClustersApi.execPodCommand({cluster, pod, command, container}).then(result => {
-      this.execPodCommandSuccess({cluster, pod, result});
-    })
-    .catch(() => {
-      this.execPodCommandFailure({cluster, pod});
-      return Promise.reject();
+    return ClustersApi.execPodCommand({cluster, pod, command, container}).then(messages => {
+      this.execPodCommandSuccess({cluster, pod, messages});
     });
   }
 

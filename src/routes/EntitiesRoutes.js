@@ -143,13 +143,13 @@ EntitiesRoutes = {
       renderScene(navigator) {
         return (
           <AltContainer stores={{
-            logs: () => {
+            messages: () => {
               return {
                 store: alt.stores.PodsStore,
-                value: alt.stores.PodsStore.getLogs({pod, cluster}),
+                value: alt.stores.PodsStore.getExecMessages({pod, cluster}),
               };
             }}}>
-            <PodsExec logs={alt.stores.PodsStore.getLogs({pod, cluster})} pod={pod} container={container} cluster={cluster} navigator={navigator} />
+            <PodsExec messages={alt.stores.PodsStore.getExecMessages({pod, cluster})} pod={pod} container={container} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
       },

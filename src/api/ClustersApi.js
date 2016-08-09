@@ -83,7 +83,7 @@ class ClustersApi {
   }
 
   static execPodCommand({cluster, pod, command, container}) {
-    return BaseApi.post(`/pods/${pod.getIn(['metadata', 'name'])}/exec`, {container, command}, cluster, pod);
+    return BaseApi.websocket({url: `/pods/${pod.getIn(['metadata', 'name'])}/exec`, dataUrl: {container, command}, cluster, entity: pod});
   }
 
   /* RC */
