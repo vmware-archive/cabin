@@ -60,7 +60,7 @@ export default class ListInputItem extends Component {
         return (
           <View style={styles.inputContainer}>
             {!this.state.emptyText && <Text style={styles.label}>{this.props.placeholder}</Text>}
-            <TextInput {...this.props} style={styles.input} onChangeText={t => {
+            <TextInput {...this.props} ref={e => {this.input = e;}} style={styles.input} onChangeText={t => {
               this.setState({emptyText: t === ''});
               this.props.onChangeText && this.props.onChangeText(t);
             }}/>
@@ -68,5 +68,9 @@ export default class ListInputItem extends Component {
         );
       }}/>
     );
+  }
+
+  setText(text) {
+    this.input.setNativeProps({text});
   }
 }

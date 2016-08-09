@@ -35,6 +35,9 @@
   "deploy_no_tiller_alert_subtitle": "We didn't find a Tiller replication controller in this cluster, do you want that we create one for you?",
   "deploy_no_pod_alert_subtitle": "We can't find the Tiller pod, verifiy your connection and your setup and try again",
 
+  "service_new": "New Service",
+  "service_new_description": "You need to choose a deployment to expose and a port",
+
   "settings_repo_url_placeholder": "Add new deploy store",
   "settings_repo_name_placeholder": "Give this store a short name",
   "settings_repo_add_alert": "Please fill both url and name fields",

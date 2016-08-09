@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const entityType = 'services';
 
@@ -49,6 +50,11 @@ class ServicesActions {
     }).catch(() => {
       EntitiesActions.deleteEntityFailure({cluster, entity: service, entityType});
     });
+  }
+
+  createService({cluster, deployment, port, name}) {
+    const params = EntitiesUtils.newServiceParams({deployment, port, name});
+    return EntitiesActions.createEntity({cluster, entityType, params, namespace: deployment.getIn(['metadata', 'namespace'])});
   }
 
   addServiceLabel({cluster, service, key, value}) {
@@ -87,6 +93,7 @@ class ServicesActions {
       this.updateServicePortsFailure({cluster, service, ports});
     });
   }
+
 }
 
 export default alt.createActions(ServicesActions);

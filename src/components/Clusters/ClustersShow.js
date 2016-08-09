@@ -88,6 +88,9 @@ export default class ClusterShow extends Component {
     return entitiesToDisplay.map(entityType => {
       if (active !== entityType) { return false; }
       const store = EntitiesUtils.storeForType(entityType);
+      let onCreate; let actionColor;
+      if (entityType === 'deployments') { onCreate = this.showDeploymentsNew.bind(this); actionColor = Colors.PURPLE;}
+      if (entityType === 'services') { onCreate = this.showServicesNew.bind(this); actionColor = Colors.ORANGE; }
       return (
         <AltContainer key={entityType} stores={{
           entities: () => {
@@ -110,16 +113,20 @@ export default class ClusterShow extends Component {
             onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster, entityType}))}
             onRefresh={() => EntitiesActions.fetchEntities({cluster, entityType})}
             onDelete={entity => EntitiesActions.deleteEntity({cluster, entity, entityType})}
-            onCreate={entityType === 'deployments' && this.showDeploymentNew.bind(this)}
-            actionColor={Colors.PURPLE}
+            onCreate={onCreate}
+            actionColor={actionColor}
           />
         </AltContainer>
       );
     });
   }
 
-  showDeploymentNew() {
+  showDeploymentsNew() {
     NavigationActions.push(EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster));
+  }
+
+  showServicesNew() {
+    NavigationActions.push(EntitiesRoutes.getServicesNewRoute({cluster: this.props.cluster}));
   }
 
 }

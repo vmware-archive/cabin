@@ -96,7 +96,7 @@ export default class PodsContainerPicker extends Component {
       { title: intl('cancel'), cancel: true},
       ...containers.map(c => { return {title: c.get('name'), onPress};}),
     ];
-    ActionSheetUtils.showActionSheetWithOptions(options);
+    ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
 }

@@ -59,7 +59,7 @@ export default class Application extends Component {
     );
   }
 
-  onActionSheetShow(options) {
+  onActionSheetShow({options, title}) {
     let cancelButtonIndex = 0;
     let destructiveButtonIndex;
     const titles = options.map((opt, i) => {
@@ -71,6 +71,7 @@ export default class Application extends Component {
       return opt.title;
     });
     this.refs.actionSheet.showActionSheetWithOptions({
+      title,
       options: titles,
       cancelButtonIndex, destructiveButtonIndex,
     },

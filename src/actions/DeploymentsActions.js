@@ -27,9 +27,6 @@ class DeploymentsActions {
       'scaleDeploymentStart',
       'scaleDeploymentSuccess',
       'scaleDeploymentFailure',
-      'createDeploymentStart',
-      'createDeploymentSuccess',
-      'createDeploymentFailure',
     );
   }
 
@@ -54,12 +51,7 @@ class DeploymentsActions {
 
   createDeployment({cluster, name, image}) {
     const params = EntitiesUtils.newDeploymentParams({name, image});
-    this.createDeploymentStart({cluster, name, params});
-    return ClustersApi.createDeployment({cluster, params}).then((deployment) => {
-      this.createDeploymentSuccess({cluster, deployment: deployment.set('kind', 'deployments'), entityType});
-    }).catch(() => {
-      this.createDeploymentFailure({cluster, name, params});
-    });
+    return EntitiesActions.createEntity({cluster, params, entityType});
   }
 
   addDeploymentLabel({cluster, deployment, key, value}) {

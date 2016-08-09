@@ -75,7 +75,9 @@ class BaseApi {
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (!response.ok) {
-        return this.handleError(response, url);
+        return response.text().then(t => {
+          return this.handleError(BaseApi.parseJSON(t));
+        });
       }
       // avoid error when the server doesn't return json
       if (response.status === StatusCodes.NO_CONTENT) {

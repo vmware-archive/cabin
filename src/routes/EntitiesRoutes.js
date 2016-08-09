@@ -19,6 +19,7 @@ import PodsLogs from 'components/Pods/PodsLogs';
 import PodsExec from 'components/Pods/PodsExec';
 import NodesShow from 'components/Nodes/NodesShow';
 import ServicesShow from 'components/Services/ServicesShow';
+import ServicesNew from 'components/Services/ServicesNew';
 import ServicesEditPort from 'components/Services/ServicesEditPort';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import DeploymentsShow from 'components/Deployments/DeploymentsShow';
@@ -186,7 +187,7 @@ EntitiesRoutes = {
               onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute({entity: node}))}
             />
             <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
-              onPress={() => ActionSheetUtils.showActionSheetWithOptions(options)}
+              onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
             />
           </View>
         );
@@ -213,6 +214,37 @@ EntitiesRoutes = {
             <ServicesShow service={service} cluster={cluster} navigator={navigator} />
           </AltContainer>
         );
+      },
+    };
+  },
+
+  getServicesNewRoute({cluster, deployment}) {
+    if (!deployment) {
+      deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
+    }
+    return {
+      name: 'ServicesNew',
+      statusBarStyle: 'light-content',
+      renderScene() {
+        return (
+          <Navigator
+            initialRoute={{
+              getTitle: () => intl('service_new'),
+              renderScene(navigator) {
+                return <ServicesNew cluster={cluster} defaultDeployment={deployment} navigator={navigator} />;
+              },
+              renderLeftButton() {
+                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
+              },
+              renderRightButton() {
+                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
+              },
+            }}
+          />
+        );
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
@@ -296,7 +328,7 @@ EntitiesRoutes = {
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
             {yamlRightButton({cluster, navigator, entity: replication})}
             <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
-              onPress={() => ActionSheetUtils.showActionSheetWithOptions(options)}
+              onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
             />
           </View>
         );
@@ -340,18 +372,10 @@ EntitiesRoutes = {
                 return <DeploymentsNew cluster={cluster} navigator={navigator} />;
               },
               renderLeftButton() {
-                return (
-                  <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.pop()}
-                  />
-                );
+                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
               },
               renderRightButton() {
-                return (
-                  <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')}
-                  />
-                );
+                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
               },
             }}
           />

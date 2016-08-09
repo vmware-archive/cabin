@@ -99,11 +99,6 @@ class ClustersApi {
     return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
   }
 
-  static createDeployment({cluster, params}) {
-    const namespace = cluster.get('currentNamespace') || 'default';
-    return BaseApi.post(`/apis/extensions/v1beta1/namespaces/${namespace}/deployments`, params.toJS(), cluster);
-  }
-
   /* SERVICES */
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};
@@ -123,6 +118,10 @@ class ClustersApi {
     return BaseApi.get(`/${entityType}`, {}, cluster).then(response => {
       return response.get('items');
     });
+  }
+
+  static createEntity({cluster, params, entity, entityType}) {
+    return BaseApi.post(`/${entityType}`, params.toJS(), cluster, entity);
   }
 
   static deleteEntity({cluster, entity, entityType}) {

@@ -85,7 +85,7 @@ export default class HeaderPicker extends Component {
       { title: intl('cancel') },
       ...choices.map(n => { return {title: n, onPress};}),
     ];
-    ActionSheetUtils.showActionSheetWithOptions(options);
+    ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
 }

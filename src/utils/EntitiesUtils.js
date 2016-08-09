@@ -49,4 +49,19 @@ export default class EntitiesUtils {
     });
   }
 
+  static newServiceParams({deployment, port, name}) {
+    const deploymentName = deployment.getIn(['metadata', 'name']);
+    port = parseInt(port, 10);
+    return Immutable.fromJS({
+      kind: 'Service',
+      apiVersion: 'v1',
+      metadata: {name, labels: {run: deploymentName}},
+      spec: {
+        ports: [{protocol: 'TCP', port, targetPort: port}],
+        selector: {run: deploymentName},
+      },
+      status: {loadBalancer: {}},
+    });
+  }
+
 }

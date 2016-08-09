@@ -18,8 +18,8 @@ const { DeviceEventEmitter } = ReactNative;
 
 class ActionSheetUtils {
 
-  static showActionSheetWithOptions(options) {
-    DeviceEventEmitter.emit('actionSheet:show', options);
+  static showActionSheetWithOptions({options, title}) {
+    DeviceEventEmitter.emit('actionSheet:show', {options, title});
   }
 }
 

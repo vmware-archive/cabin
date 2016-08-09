@@ -176,7 +176,7 @@ export default class ClusterItem extends Component {
       {title: intl('edit'), onPress: this.handleEdit.bind(this)},
       {title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true},
     ];
-    ActionSheetUtils.showActionSheetWithOptions(options);
+    ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
   handleDelete() {

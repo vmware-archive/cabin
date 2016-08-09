@@ -91,7 +91,7 @@ export default class NamespacePicker extends Component {
       { title: intl('cancel') }, { title: 'All namespaces', onPress},
       ...namespaces.map(n => { return {title: n, onPress};}),
     ];
-    ActionSheetUtils.showActionSheetWithOptions(options);
+    ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
 }
