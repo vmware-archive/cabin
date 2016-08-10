@@ -22,6 +22,9 @@ import SegmentedControl from 'components/commons/SegmentedControl';
 import ServicesActions from 'actions/ServicesActions';
 import NavigationActions from 'actions/NavigationActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
+import AlertUtils from 'utils/AlertUtils';
+import Linking from 'utils/Linking';
 
 const {
   View,
@@ -135,6 +138,32 @@ export default class ServicesShow extends Component {
   }
 
   handlePressPort(port) {
+    if (this.props.service.getIn(['spec', 'type']) === 'NodePort') {
+      const options = [
+        {title: intl('cancel')},
+        {title: intl('edit'), onPress: () => this.handleEdit(port)},
+        {title: intl('open_in_browser'), onPress: () => this.handleOpenPort(port)},
+      ];
+      ActionSheetUtils.showActionSheetWithOptions({options});
+      return;
+    }
+    this.handleEdit(port);
+  }
+
+  handleEdit(port) {
     NavigationActions.push(EntitiesRoutes.getServicesEditPortRoute({service: this.props.service, cluster: this.props.cluster, port}));
+  }
+
+  handleOpenPort(port) {
+    const nodes = alt.stores.NodesStore.getAll(this.props.cluster);
+    const ready = nodes.find(node => {
+      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+    });
+    if (!ready) {
+      AlertUtils.showError({message: intl('service_open_browser_no_node')});
+      return;
+    }
+    const url = `http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`;
+    Linking.openURL(url);
   }
 }

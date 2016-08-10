@@ -18,6 +18,7 @@
   "persistentvolumeclaims": "Volume Claims",
   "ingresses": "Ingress rules",
   "chart": "Chart",
+  "open_in_browser": "Open in browser",
 
   "clusters_empty_title": "Welcome in the Cabin",
   "clusters_empty_subtitle": "Looks like you don't have any clusters to use, let's add one",
@@ -38,6 +39,7 @@
 
   "service_new": "New Service",
   "service_new_description": "You need to choose a deployment to expose and a port",
+  "service_open_browser_no_node": "We can't find a node ready to open this service",
 
   "settings_repo_url_placeholder": "Add new deploy store",
   "settings_repo_name_placeholder": "Give this store a short name",

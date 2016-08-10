@@ -18,6 +18,7 @@
   "persistentvolumeclaims": "Volume Claims",
   "ingresses": "Ingress rules",
   "chart": "Chart",
+  "open_in_browser": "Ouvrir dans un navigateur",
 
   "clusters_empty_title": "Bienvenue dans la Cabin",
   "clusters_empty_subtitle": "Vous n'avez aucun cluster à gérer, commençons par en ajouter un!",
@@ -38,6 +39,7 @@
 
   "service_new": "Nouveau Service",
   "service_new_description": "Vous devez choisir un deployment à exposer ainsi qu'un port",
+  "service_open_browser_no_node": "Nous ne trouvons pas de node prêt pour afficher ce service",
 
   "settings_repo_url_placeholder": "Ajouter un nouveau store",
   "settings_repo_name_placeholder": "Donner un surnom à ce store",
