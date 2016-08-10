@@ -70,7 +70,7 @@ export default class ReplicationsShow extends Component {
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
             <ReplicationsSlider replication={replication} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'])}`} isLast={true}/>
+            <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'], 0)}`} isLast={true}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={replication} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -93,6 +93,10 @@ export default class ReplicationsShow extends Component {
   }
 
   handleReplicasComplete(value) {
-    return ReplicationsActions.scaleReplication({replication: this.props.replication, cluster: this.props.cluster, replicas: value});
+    return ReplicationsActions.scaleReplication({replication: this.props.replication, cluster: this.props.cluster, replicas: value}).then(() => {
+      setTimeout(() => {
+        this.handleRefresh();
+      }, 2000);
+    });
   }
 }

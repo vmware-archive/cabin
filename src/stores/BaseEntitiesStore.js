@@ -72,7 +72,7 @@ export default class BaseEntitiesStore {
   }
 
   onCreateEntitySuccess({cluster, entity, entityType}) {
-    if (entityType === this.getEntityType()) {
+    if (entityType === this.getEntityType() && entity) {
       this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name'])], entity.set('kind', entityType)));
     }
   }

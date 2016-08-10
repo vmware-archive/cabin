@@ -32,17 +32,20 @@ import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import NavigationActions from 'actions/NavigationActions';
 import NodesActions from 'actions/NodesActions';
-import ReplicationsActions from 'actions/ReplicationsActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
 import AltContainer from 'alt-container';
 
 const { View, DeviceEventEmitter, Alert, AlertIOS } = ReactNative;
 
 let EntitiesRoutes = {};
 
-const yamlRightButton = ({navigator, cluster, entity, editable}) => {
+const yamlRightButton = ({navigator, cluster, entity, store, editable}) => {
   return (
     <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
-      onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute({cluster, entity, editable}))}
+      onPress={() => {
+        if (store) { entity = store.get({cluster, entity}); }
+        navigator.push(EntitiesRoutes.getEntitiesYamlRoute({cluster, entity, editable}));
+      }}
     />
   );
 };
@@ -291,6 +294,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => replication.getIn(['metadata', 'name']),
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: replication}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -304,35 +308,6 @@ EntitiesRoutes = {
           </AltContainer>
         );
       },
-      renderRightButton(navigator) {
-        const options = [
-          {title: intl('cancel')},
-          {title: 'Rolling update', onPress: () => {
-            const containers = replication.getIn(['spec', 'template', 'spec', 'containers'], Immutable.List());
-            if (containers.size !== 1) {
-              Alert.alert(null, intl('rolling_update_multiple_containers'));
-              return;
-            }
-            AlertIOS.prompt(
-              intl('rolling_update_alert'),
-              `${intl('rolling_update_alert_subtitle')} ${containers.first().get('image')}`,
-              [{text: intl('cancel')},
-               {text: intl('rolling_update_start'), onPress: text => {
-                 ReplicationsActions.startRollingUpdate({cluster, replication, image: text});
-               }},
-             ],
-            );
-          }},
-        ];
-        return (
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
-            {yamlRightButton({cluster, navigator, entity: replication})}
-            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
-              onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
-            />
-          </View>
-        );
-      },
     };
   },
 
@@ -342,7 +317,6 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => deployment.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: deployment}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -354,6 +328,35 @@ EntitiesRoutes = {
             }}}>
             <DeploymentsShow deployment={deployment} cluster={cluster} navigator={navigator} />
           </AltContainer>
+        );
+      },
+      renderRightButton(navigator) {
+        const options = [
+          {title: intl('cancel')},
+          {title: intl('deployment_rolling_update_action'), onPress: () => {
+            const containers = deployment.getIn(['spec', 'template', 'spec', 'containers'], Immutable.List());
+            if (containers.size !== 1) {
+              Alert.alert(null, intl('rolling_update_multiple_containers'));
+              return;
+            }
+            AlertIOS.prompt(
+              intl('rolling_update_alert'),
+              `${intl('rolling_update_alert_subtitle')} ${containers.first().get('image')}`,
+              [{text: intl('cancel')},
+               {text: intl('rolling_update_start'), onPress: text => {
+                 DeploymentsActions.rollingUpdate({cluster, deployment, image: text});
+               }},
+             ],
+            );
+          }},
+        ];
+        return (
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
+            {yamlRightButton({cluster, navigator, entity: deployment, store: alt.stores.DeploymentsStore})}
+            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
+              onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
+            />
+          </View>
         );
       },
     };

@@ -27,6 +27,7 @@
 
   "deployment_new": "Nouveau deployment",
   "deployment_new_empty_image": "Veuillez spécifier une image",
+  "deployment_rolling_update_action": "Changer l'image",
 
   "deploy_index_failed_title": "Impossible de récupérer les données, verifiez votre connexion ou essayez une autre url",
   "deploy_index_failed_action": "Réessayer",

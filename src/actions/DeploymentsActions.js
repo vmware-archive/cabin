@@ -27,6 +27,9 @@ class DeploymentsActions {
       'scaleDeploymentStart',
       'scaleDeploymentSuccess',
       'scaleDeploymentFailure',
+      'rollingUpdateStart',
+      'rollingUpdateSuccess',
+      'rollingUpdateFailure',
     );
   }
 
@@ -75,10 +78,19 @@ class DeploymentsActions {
 
   scaleDeployment({cluster, deployment, replicas}) {
     this.scaleDeploymentStart({cluster, deployment, replicas});
-    return ClustersApi.scaleDeployment({cluster, deployment, replicas}).then(() => {
-      this.scaleDeploymentSuccess({cluster, deployment, replicas});
+    return ClustersApi.scaleDeployment({cluster, deployment, replicas}).then((depl) => {
+      this.scaleDeploymentSuccess({cluster, deployment: depl, replicas});
     }).catch(() => {
       this.scaleDeploymentFailure({cluster, deployment, replicas});
+    });
+  }
+
+  rollingUpdate({cluster, deployment, image}) {
+    this.rollingUpdateStart({cluster, deployment, image});
+    return ClustersApi.rollingUpdate({cluster, deployment, image}).then((dep) => {
+      this.rollingUpdateSuccess({cluster, deployment: dep, image});
+    }).catch(() => {
+      this.rollingUpdateFailure({cluster, deployment, image});
     });
   }
 }

@@ -125,8 +125,8 @@ export default class ListItem extends Component {
     }
     return (
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{this.props.title}</Text>
-        {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
+        <Text style={styles.title}>{this.props.title.replace('undefined', '?')}</Text>
+        {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle.replace('undefined', '?')}</Text>}
       </View>
     );
   }
@@ -140,6 +140,6 @@ export default class ListItem extends Component {
         return <StatusView status={status} />;
       }
     }
-    return this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle}</Text>;
+    return this.props.detailTitle && <Text style={styles.detailTitle}>{this.props.detailTitle.replace('undefined', '?')}</Text>;
   }
 }

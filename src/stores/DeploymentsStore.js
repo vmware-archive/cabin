@@ -18,15 +18,29 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import BaseEntitiesStore from './BaseEntitiesStore';
 
+const entityType = 'deployments';
+
 class DeploymentsStore extends BaseEntitiesStore {
 
   constructor() {
-    super({entityType: 'deployments', persistent: true});
+    super({entityType, persistent: true});
     this.bindActions(DeploymentsActions);
   }
 
-  scaleDeploymentStart({cluster, deployment, replicas}) {
+  onScaleDeploymentStart({cluster, deployment, replicas}) {
     this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
+  }
+
+  onScaleDeploymentSuccess({cluster, deployment}) {
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name'])], deployment.set('kind', entityType)));
+  }
+
+  onRollingUpdateStart({cluster, deployment, image}) {
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name']), 'spec', 'template', 'spec', 'containers', 0, 'image'], image));
+  }
+
+  onRollingUpdateSuccess({cluster, deployment}) {
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name'])], deployment));
   }
 
 }

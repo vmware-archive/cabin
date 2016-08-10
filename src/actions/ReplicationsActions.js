@@ -69,8 +69,8 @@ class ReplicationsActions {
 
   scaleReplication({cluster, replication, replicas}) {
     this.scaleReplicationStart({cluster, replication, replicas});
-    return ClustersApi.scaleReplication({cluster, replication, replicas}).then(() => {
-      this.scaleReplicationSuccess({cluster, replication, replicas});
+    return ClustersApi.scaleReplication({cluster, replication, replicas}).then((repl) => {
+      this.scaleReplicationSuccess({cluster, replication: repl, replicas});
     }).catch(() => {
       this.scaleReplicationFailure({cluster, replication, replicas});
     });

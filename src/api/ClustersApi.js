@@ -99,6 +99,14 @@ class ClustersApi {
     return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
   }
 
+  static rollingUpdate({cluster, deployment, image}) {
+    const container = deployment.getIn(['spec', 'template', 'spec', 'containers'], Immutable.List()).first();
+    const body = {spec: { template: { spec: { containers: [
+      { image, name: container.get('name') },
+    ]}}}};
+    return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
+  }
+
   /* SERVICES */
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};

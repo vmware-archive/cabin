@@ -18,15 +18,21 @@ import ReplicationsActions from 'actions/ReplicationsActions';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import BaseEntitiesStore from './BaseEntitiesStore';
 
+const entityType = 'replicationcontrollers';
+
 class ReplicationsStore extends BaseEntitiesStore {
 
   constructor() {
-    super({entityType: 'replicationcontrollers', persistent: true});
+    super({entityType, persistent: true});
     this.bindActions(ReplicationsActions);
   }
 
-  scaleReplicationStart({cluster, replication, replicas}) {
+  onScaleReplicationStart({cluster, replication, replicas}) {
     this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
+  }
+
+  onScaleReplicationSuccess({cluster, replication}) {
+    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'name'])], replication.set('kind', entityType)));
   }
 
 }

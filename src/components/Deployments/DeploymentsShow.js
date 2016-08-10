@@ -70,9 +70,9 @@ export default class DeploymentsShow extends Component {
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
             <ReplicationsSlider replication={deployment} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'])}`}/>
-            <ListItem title="Up to date" detailTitle={`${deployment.getIn(['status', 'updatedReplicas'])}`}/>
-            <ListItem title="Available" detailTitle={`${deployment.getIn(['status', 'availableReplicas'])}`} isLast={true}/>
+            <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'], 0)}`}/>
+            <ListItem title="Up to date" detailTitle={`${deployment.getIn(['status', 'updatedReplicas'], 0)}`}/>
+            <ListItem title="Available" detailTitle={`${deployment.getIn(['status', 'availableReplicas'], 0)}`} isLast={true}/>
           </View>
           <View style={styles.section}>
             <LabelsView entity={deployment} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
@@ -95,6 +95,10 @@ export default class DeploymentsShow extends Component {
   }
 
   handleReplicasComplete(value) {
-    return DeploymentsActions.scaleDeployment({deployment: this.props.deployment, cluster: this.props.cluster, replicas: value});
+    return DeploymentsActions.scaleDeployment({deployment: this.props.deployment, cluster: this.props.cluster, replicas: value}).then(() => {
+      setTimeout(() => {
+        this.handleRefresh();
+      }, 2000);
+    });
   }
 }
