@@ -16,6 +16,7 @@
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersActions from 'actions/ClustersActions';
+import AlertUtils from 'utils/AlertUtils';
 
 const { PropTypes } = React;
 const {
@@ -24,6 +25,7 @@ const {
   Image,
   TouchableOpacity,
   StyleSheet,
+  AlertIOS,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -58,7 +60,7 @@ export default class NamespacePicker extends Component {
   }
 
   render() {
-    const namespaceTitle = this.props.cluster.get('currentNamespace') || 'All namespaces';
+    const namespaceTitle = this.props.cluster.get('currentNamespace') || intl('namespaces_all');
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
@@ -80,18 +82,37 @@ export default class NamespacePicker extends Component {
         namespace = namespaces.get(index - 2);
       }
       if (namespace !== this.props.cluster.get('currentNamespace')) {
-        ClustersActions.setCurrentNamespace({cluster: this.props.cluster, namespace});
-        setTimeout(() => {
-          const cluster = alt.stores.ClustersStore.get(this.props.cluster.get('url'));
-          cluster && ClustersActions.fetchClusterEntities(cluster);
-        }, 500);
+        this.switchNamespace(namespace);
       }
     };
     const options = [
-      { title: intl('cancel') }, { title: 'All namespaces', onPress},
+      { title: intl('cancel') }, { title: intl('namespaces_all'), onPress},
       ...namespaces.map(n => { return {title: n, onPress};}),
+      { title: intl('namespaces_create'), destructive: true, onPress: this.handleCreateNamespace.bind(this)},
     ];
     ActionSheetUtils.showActionSheetWithOptions({options});
+  }
+
+  handleCreateNamespace() {
+    AlertIOS.prompt(
+      intl('namespaces_create'),
+      null,
+      [{text: intl('cancel')},
+        {text: intl('create'), onPress: text => {
+          ClustersActions.createNamespace({cluster: this.props.cluster, namespace: text})
+          .then(() => this.switchNamespace(text))
+          .catch(e => AlertUtils.showError({message: e.message}));
+        }},
+      ]
+    );
+  }
+
+  switchNamespace(namespace) {
+    ClustersActions.setCurrentNamespace({cluster: this.props.cluster, namespace});
+    setTimeout(() => {
+      const cluster = alt.stores.ClustersStore.get(this.props.cluster.get('url'));
+      cluster && ClustersActions.fetchClusterEntities(cluster);
+    }, 500);
   }
 
 }

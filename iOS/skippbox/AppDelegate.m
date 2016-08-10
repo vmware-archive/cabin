@@ -48,7 +48,8 @@
 
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  self.window.tintColor = [UIColor colorWithRed:0.258824F green:0.541176F blue:0.749020F alpha:1.0F];
+  UIColor *blue = [UIColor colorWithRed:0.258824F green:0.541176F blue:0.749020F alpha:1.0F];
+  self.window.tintColor = blue;
   UIViewController *rootViewController = [[UIViewController alloc] init];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;

@@ -28,6 +28,9 @@ class ClustersActions {
       'removeCluster',
       'setCurrentNamespace',
       'fetchNamespacesSuccess',
+      'createNamespaceStart',
+      'createNamespaceSuccess',
+      'createNamespaceFailure',
     );
   }
 
@@ -57,11 +60,20 @@ class ClustersActions {
   }
 
   fetchNamespaces(cluster) {
-    ClustersApi.fetchNamespaces(cluster).then(namespaces => {
+    return ClustersApi.fetchNamespaces(cluster).then(namespaces => {
       this.fetchNamespacesSuccess({cluster, namespaces});
     });
   }
 
+  createNamespace({cluster, namespace}) {
+    this.createNamespaceStart({cluster, namespace});
+    return ClustersApi.createNamespace({cluster, namespace}).then(() => {
+      this.createNamespaceSuccess({cluster, namespace});
+    }).catch(e => {
+      this.createNamespaceFailure({cluster, e});
+      return Promise.reject(e);
+    });
+  }
 }
 
 export default alt.createActions(ClustersActions);

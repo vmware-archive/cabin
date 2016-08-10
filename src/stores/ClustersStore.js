@@ -91,6 +91,13 @@ class ClustersStore {
     this.saveStore();
   }
 
+  onCreateNamespaceSuccess({cluster, namespace}) {
+    this.setState(this.state.updateIn([cluster.get('url'), 'namespaces'], namespaces => {
+      return namespaces.push(namespace);
+    }));
+    this.saveStore();
+  }
+
   saveStore() {
     AsyncStorage.setItem(this.displayName, alt.takeSnapshot(this));
   }

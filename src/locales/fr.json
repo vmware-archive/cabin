@@ -1,6 +1,7 @@
 {
   "cancel": "Annuler",
   "done": "Terminer",
+  "create": "Créer",
   "ok": "Ok",
   "yes": "Oui",
   "no": "Non",
@@ -25,6 +26,8 @@
   "clusters_empty_action": "Ajouter un cluster",
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
+  "namespaces_all": "Tous les namespaces",
+  "namespaces_create": "Créer un namespace",
 
   "deployment_new": "Nouveau deployment",
   "deployment_new_empty_image": "Veuillez spécifier une image",

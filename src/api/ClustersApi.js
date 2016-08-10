@@ -29,6 +29,14 @@ class ClustersApi {
     });
   }
 
+  static createNamespace({cluster, namespace}) {
+    const params = {kind: 'Namespace', apiVersion: 'v1', 'metadata': {name: namespace}};
+    return BaseApi.post('/api/v1/namespaces', params, cluster).then(response => {
+      console.log('rrr', response.toJS());
+      return response;
+    });
+  }
+
   /* NODES */
   static fetchNodes(cluster) {
     return BaseApi.get('/api/v1/nodes', {}, cluster).then(response => {
