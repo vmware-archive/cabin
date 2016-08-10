@@ -102,11 +102,12 @@ export default class ServicesNew extends Component {
     const options = [
       {title: intl('cancel')},
       ...deployments.map(deployment => {
+        const name = deployment.getIn(['metadata', 'name']);
         return {
-          title: deployment.getIn(['metadata', 'name']),
+          title: name,
           onPress: () => {
-            this.setState({deployment});
-            this.refs.nameInput.setText(deployment.getIn(['metadata', 'name']));
+            this.setState({deployment, name});
+            this.refs.nameInput.setText(name);
           },
         };
       }).toJS(),
