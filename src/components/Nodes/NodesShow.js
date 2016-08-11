@@ -18,8 +18,9 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
-import NodesActions from 'actions/NodesActions';
 import StatusView from 'components/commons/StatusView';
+import NodesActions from 'actions/NodesActions';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const {
   View,
@@ -64,7 +65,7 @@ export default class NodesShow extends Component {
             <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
             <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
             <ListItem title="Status" renderDetail={() => {
-              return <StatusView status={node.get('status')}/>;
+              return <StatusView status={EntitiesUtils.statusForEntity(node)}/>;
             }}/>
             <ListItem title="Schedulable"
               isLast={true}

@@ -64,4 +64,20 @@ export default class EntitiesUtils {
     });
   }
 
+  static statusForEntity(entity) {
+    const { Status } = Constants;
+    let status = entity.get('status');
+    if (typeof status === 'object') {
+      if (status.get('phase')) {
+        status = status.get('phase').toUpperCase();
+      } else if (status.get('conditions')) {
+        const condition = status.get('conditions').find(c => c.get('type') === 'Ready');
+        status = condition.get('status') === 'True' ? Status.READY : Status.NOTREADY;
+        if (status === Status.READY && entity.get('kind') === 'nodes' && entity.getIn(['spec', 'unschedulable'])) {
+          status = Status.READY_UNSCHEDULABLE;
+        }
+      }
+    }
+    return status;
+  }
 }

@@ -55,6 +55,7 @@
   "status_up": "Running",
   "status_down": "Down",
   "status_ready": "Ready",
+  "status_ready_unschedulable": "Ready, Unschedulable",
   "status_notready": "Not Ready",
   "status_checking": "Checking..",
   "status_pending": "Pending..",

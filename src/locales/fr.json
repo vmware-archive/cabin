@@ -55,6 +55,7 @@
   "status_up": "Actif",
   "status_down": "Éteint",
   "status_ready": "Prêt",
+  "status_ready_unschedulable": "Prêt, Unschedulable",
   "status_notready": "Pas Prêt",
   "status_checking": "Verification..",
   "status_pending": "En attente..",

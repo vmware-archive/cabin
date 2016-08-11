@@ -27,6 +27,7 @@ export default class ClustersUtils {
     switch (status) {
       case Status.RUNNING:
       case Status.READY:
+      case Status.READY_UNSCHEDULABLE:
         return Colors.GREEN;
       case Status.DOWN:
       case Status.NOTREADY:
@@ -42,6 +43,8 @@ export default class ClustersUtils {
         return intl('status_up');
       case Status.READY:
         return intl('status_ready');
+      case Status.READY_UNSCHEDULABLE:
+        return intl('status_ready_unschedulable');
       case Status.NOTREADY:
         return intl('status_notready');
       case Status.DOWN:

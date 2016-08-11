@@ -21,6 +21,7 @@ import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const {
   View,
@@ -65,7 +66,7 @@ export default class PodsShow extends Component {
             <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={pod.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Status" renderDetail={() => {
-              return <StatusView status={pod.get('status')}/>;
+              return <StatusView status={EntitiesUtils.statusForEntity(pod)}/>;
             }}/>
             <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
             <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>

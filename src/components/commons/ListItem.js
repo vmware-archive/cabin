@@ -17,6 +17,7 @@ import Colors from 'styles/Colors';
 import SwipeOut from 'react-native-swipeout';
 import EntityIcon from 'components/commons/EntityIcon';
 import StatusView from 'components/commons/StatusView';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const {
   Text,
@@ -135,7 +136,7 @@ export default class ListItem extends Component {
     if (this.props.renderDetail) { return this.props.renderDetail(); }
     const { entity } = this.props;
     if (entity && (entity.get('kind') === 'pods' || entity.get('kind') === 'nodes')) {
-      const status = entity.get('status');
+      const status = EntitiesUtils.statusForEntity(entity);
       if (status) {
         return <StatusView status={status} />;
       }

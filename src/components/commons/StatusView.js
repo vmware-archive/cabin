@@ -15,7 +15,6 @@
 */
 import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
-const { Status } = Constants;
 const {
   View,
   Text,
@@ -43,19 +42,11 @@ const styles = StyleSheet.create({
 export default class StatusView extends Component {
 
   static propTypes = {
-    status: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    status: PropTypes.string.isRequired,
   }
 
   render() {
-    let { status } = this.props;
-    if (typeof status === 'object') {
-      if (status.get('phase')) {
-        status = status.get('phase').toUpperCase();
-      } else if (status.get('conditions')) {
-        const condition = status.get('conditions').find(c => c.get('type') === 'Ready');
-        status = condition.get('status') === 'True' ? Status.READY : Status.NOTREADY;
-      }
-    }
+    const { status } = this.props;
     if (typeof status !== 'string') { return false; }
     return (
       <View style={[styles.status, this.props.style]}>
