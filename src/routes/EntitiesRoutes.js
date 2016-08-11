@@ -33,6 +33,7 @@ import ActionSheetUtils from 'utils/ActionSheetUtils';
 import NavigationActions from 'actions/NavigationActions';
 import NodesActions from 'actions/NodesActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
+import EntitiesUtils from 'utils/EntitiesUtils';
 import AltContainer from 'alt-container';
 
 const { View, DeviceEventEmitter, Alert, AlertIOS } = ReactNative;
@@ -60,12 +61,13 @@ EntitiesRoutes = {
       case 'replicationcontrollers': return EntitiesRoutes.getReplicationsShowRoute({replication: entity, cluster});
       case 'deployments': return EntitiesRoutes.getDeploymentsShowRoute({deployment: entity, cluster});
       default:
+        const store = EntitiesUtils.storeForType(entityType);
         return {
           name: 'EntitiesShow',
           statusBarStyle: 'light-content',
           getBackButtonTitle: () => '',
           getTitle: () => entity.getIn(['metadata', 'name']),
-          renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity}); },
+          renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity, store}); },
           renderScene(navigator) {
             return <EntitiesShow entity={entity} cluster={cluster} navigator={navigator} />;
           },
@@ -92,7 +94,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => pod.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: pod}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: pod, store: alt.stores.PodsStore}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -204,7 +206,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => service.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: service}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: service, store: alt.stores.ServicesStore}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
@@ -294,7 +296,7 @@ EntitiesRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       getTitle: () => replication.getIn(['metadata', 'name']),
-      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: replication}); },
+      renderRightButton(navigator) { return yamlRightButton({cluster, navigator, entity: replication, store: alt.stores.ReplicationsStore}); },
       renderScene(navigator) {
         return (
           <AltContainer stores={{
