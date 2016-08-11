@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
   },
+  contentContainer: {
+    paddingBottom: 20,
+  },
   orderIcon: {
     width: 15, height: 15,
     tintColor: Colors.GRAY,
@@ -58,6 +61,7 @@ export default class Settings extends Component {
       <View style={styles.container}>
           <SortableListView
             style={styles.list}
+            contentContainerStyle={styles.contentContainer}
             scrollEnabled={this.state.scrollEnabled}
             data={entities.toObject()}
             order={this.state.order.toJS()}
@@ -72,9 +76,10 @@ export default class Settings extends Component {
   }
 
   renderRow(entity, section, row) {
+    const isLast = row === this.state.order.last();
     return (
       <DraggableItem
-        style={entity.get('hidden') && {opacity: 0.4}}
+        style={entity.get('hidden') && {backgroundColor: Colors.BACKGROUND}}
         title={intl(entity.get('name'))}
         renderDetail={() => {
           return (
@@ -84,7 +89,7 @@ export default class Settings extends Component {
             </View>
           );
         }}
-        isLast={row === this.state.order.last()}
+        isLast={isLast}
         onDragStart={() => this.setState({scrollEnabled: false})}
         onPress={() => this.handleOnPress({entity, key: row})}
       />
