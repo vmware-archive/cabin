@@ -56,6 +56,7 @@ export default class HeaderPicker extends Component {
   static propTypes = {
     choices: PropTypes.instanceOf(Immutable.List),
     selectedIndex: PropTypes.number.isRequired,
+    destructiveIndex: PropTypes.number,
     prefix: PropTypes.string,
     onChange: PropTypes.func.isRequired,
   }
@@ -83,7 +84,9 @@ export default class HeaderPicker extends Component {
     };
     const options = [
       { title: intl('cancel') },
-      ...choices.map(n => { return {title: n, onPress};}),
+      ...choices.map((n, index) => {
+        return {title: n, onPress, destructive: index === this.props.destructiveIndex};
+      }),
     ];
     ActionSheetUtils.showActionSheetWithOptions({options});
   }

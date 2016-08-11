@@ -17,6 +17,7 @@ import Colors from 'styles/Colors';
 import ChartsActions from 'actions/ChartsActions';
 import SettingsActions from 'actions/SettingsActions';
 import DeployRoutes from 'routes/DeployRoutes';
+import SettingsRoutes from 'routes/SettingsRoutes';
 import ScrollView from 'components/commons/ScrollView';
 import HeaderPicker from 'components/commons/HeaderPicker';
 import ChartItem from './ChartItem';
@@ -99,14 +100,18 @@ export default class DeployIndex extends Component {
     const charts = this.props.charts.map((chart, key) => {
       return <ChartItem key={key} chart={chart} onPress={() => this.handleSelectChart(chart)} />;
     }).toArray();
+    const choices = alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder'));
     return (
       <View style={styles.container}>
       <AltContainer stores={{
         choices: () => {
           return {
             store: alt.stores.SettingsStore,
-            value: alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')),
+            value: alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder')),
           };
+        },
+        destructiveIndex: () => {
+          return {store: alt.stores.SettingsStore, value: alt.stores.SettingsStore.getChartsStores().size};
         },
         selectedIndex: () => {
           return {
@@ -115,9 +120,14 @@ export default class DeployIndex extends Component {
           };
         }}}>
           <HeaderPicker
-            choices={alt.stores.SettingsStore.getChartsStores().map(s => s.get('name'))}
+            choices={choices}
             selectedIndex={alt.stores.SettingsStore.getSelectedChartsStoreIndex()}
+            destructiveIndex={choices.size}
             onChange={(index) => {
+              if (index === alt.stores.SettingsStore.getChartsStores().size) {
+                this.props.navigator.push(SettingsRoutes.getSettingsChartsStoresRoute());
+                return;
+              }
               SettingsActions.updateSelectedChartsStoreIndex(index);
               this.setState({loading: true});
               this.fetchCharts();
