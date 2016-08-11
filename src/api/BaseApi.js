@@ -182,7 +182,7 @@ class BaseApi {
       let path = '';
       if (url.indexOf('/api/v1') === -1 && url.indexOf('/apis/extensions') === -1) {
         let api = '/api/v1';
-        if (url.indexOf('/deployments') === 0 || url.indexOf('/ingresses') === 0) {
+        if (url.indexOf('/deployments') === 0 || url.indexOf('/ingresses') === 0 || url.indexOf('/replicasets') === 0) {
           api = '/apis/extensions/v1beta1';
         }
         const namespace = entity ? entity.getIn(['metadata', 'namespace']) : cluster.get('currentNamespace');

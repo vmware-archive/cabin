@@ -32,7 +32,7 @@ class SettingsStore {
       ],
       selectedChartsStoreIndex: 0,
       entitiesDisplay: {
-        order: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        order: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         entities: {
           0: {name: 'pods'},
           1: {name: 'services'},
@@ -44,6 +44,7 @@ class SettingsStore {
           7: {name: 'persistentvolumes', hidden: true},
           8: {name: 'persistentvolumeclaims', hidden: true},
           9: {name: 'ingresses', hidden: true},
+          10: {name: 'replicasets', hidden: true},
         },
       },
     });

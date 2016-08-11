@@ -17,7 +17,8 @@
   "serviceaccounts": "Service Accounts",
   "persistentvolumes": "Volumes",
   "persistentvolumeclaims": "Volume Claims",
-  "ingresses": "Ingress rules",
+  "ingresses": "Ingress Rules",
+  "replicasets": "Replica Sets",
   "chart": "Chart",
   "open_in_browser": "Ouvrir dans un navigateur",
 
