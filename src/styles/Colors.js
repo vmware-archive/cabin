@@ -22,10 +22,15 @@ const Colors = {
   GRAY: '#929292',
   RED: '#FF475E',
   GREEN: '#27AE60',
+  GREEN2: '#2ECC71',
   ORANGE: '#E67E22',
   YELLOW: '#FFD600',
+  YELLOW2: '#F5AB35',
   PURPLE: '#8E44AD',
   BLUE: '#428ABF',
+  BLUE2: '#52B3D9',
+  TURQUOISE: '#36D7B7',
+  PINK: '#D2527F',
   DARK_BLUE: '#003253',
 };
 export default Object.freeze(Colors);

@@ -27,6 +27,9 @@ const iconService = require('images/tool.png');
 const iconReplication = require('images/duplicate.png');
 const iconNodes = require('images/connection.png');
 const iconObjects = require('images/shape.png');
+const iconLock = require('images/lock.png');
+const iconDisk = require('images/disk.png');
+const iconAccount = require('images/account.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -66,7 +69,8 @@ export default class EntityIcon extends Component {
       case 'pods':
         if (status === Constants.Status.RUNNING) { return Colors.GREEN; }
         if (status === Constants.Status.DOWN) { return Colors.RED; }
-        return Colors.GRAY;
+        if (status === Constants.Status.PENDING) { return Colors.GRAY; }
+        return Colors.GREEN;
       case 'services':
         return Colors.ORANGE;
       case 'replicationcontrollers':
@@ -75,8 +79,19 @@ export default class EntityIcon extends Component {
         return Colors.PURPLE;
       case 'nodes':
         return Colors.BLUE;
+      case 'secrets':
+        return Colors.BLUE2;
+      case 'serviceaccounts':
+        return Colors.TURQUOISE;
+      case 'persistentvolumes':
+      case 'persistentvolumeclaims':
+        return Colors.PINK;
+      case 'ingresses':
+        return Colors.GREEN2;
+      case 'replicasets':
+        return Colors.YELLOW2;
       default:
-        return Colors.GRAY;
+        return Colors.BLUE;
     }
   }
 
@@ -92,6 +107,17 @@ export default class EntityIcon extends Component {
         return iconReplication;
       case 'nodes':
         return iconNodes;
+      case 'secrets':
+        return iconLock;
+      case 'serviceaccounts':
+        return iconAccount;
+      case 'persistentvolumes':
+      case 'persistentvolumeclaims':
+        return iconDisk;
+      case 'ingresses':
+        return iconObjects;
+      case 'replicasets':
+        return iconReplication;
       default:
         return iconObjects;
     }

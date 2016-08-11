@@ -15,12 +15,14 @@
 */
 import Colors from 'styles/Colors';
 import DraggableItem from 'components/commons/DraggableItem';
+import EntityIcon from 'components/commons/EntityIcon';
 import SortableListView from 'react-native-sortable-listview';
 import SettingsActions from 'actions/SettingsActions';
 import ClustersActions from 'actions/ClustersActions';
 
 const {
   View,
+  Text,
   Switch,
   Image,
   StyleSheet,
@@ -41,6 +43,10 @@ const styles = StyleSheet.create({
   orderIcon: {
     width: 15, height: 15,
     tintColor: Colors.GRAY,
+    marginLeft: 10,
+  },
+  title: {
+    fontSize: 16,
     marginLeft: 10,
   },
 });
@@ -80,7 +86,14 @@ export default class Settings extends Component {
     return (
       <DraggableItem
         style={entity.get('hidden') && {backgroundColor: Colors.BACKGROUND}}
-        title={intl(entity.get('name'))}
+        renderTitle={() => {
+          return (
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+              <EntityIcon type={entity.get('name')} />
+              <Text style={styles.title}>{intl(entity.get('name'))}</Text>
+            </View>
+          );
+        }}
         renderDetail={() => {
           return (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
