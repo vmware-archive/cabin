@@ -54,7 +54,7 @@ export default class ClustersNew extends Component {
       this.state = cluster.toJS();
     } else {
       this.state = {
-        url: 'http://',
+        url: 'https://',
         name: '',
         username: '',
         password: '',
