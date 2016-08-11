@@ -116,6 +116,7 @@ export default class ServicesNew extends Component {
   }
 
   onSubmit() {
+    if (this.state.loading) { return; }
     this.setState({loading: true});
     ServicesActions.createService({
       cluster: this.props.cluster,

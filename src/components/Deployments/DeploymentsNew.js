@@ -15,10 +15,13 @@
 */
 import Colors from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
+import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import NavigationActions from 'actions/NavigationActions';
+import ClustersActions from 'actions/ClustersActions';
 import AlertUtils from 'utils/AlertUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 import ScrollView from 'components/commons/ScrollView';
 
 const { PropTypes } = React;
@@ -58,6 +61,7 @@ export default class DeploymentsNew extends Component {
     this.state = {
       name: '',
       image: '',
+      namespace: props.cluster.get('currentNamespace') || 'default',
       loading: false,
     };
   }
@@ -81,14 +85,26 @@ export default class DeploymentsNew extends Component {
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.name} placeholder="Optional name"
           onChangeText={name => this.setState({name})}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.image} placeholder="Image"
-            onChangeText={image => this.setState({image})} isLast={true}/>
+            onChangeText={image => this.setState({image})}/>
+          <ListItem title={intl('namespace')}
+            detailTitle={this.state.namespace}
+            onPress={this.switchNamespace.bind(this)}
+            showArrow={true} isLast={true}/>
         </ScrollView>
         {this.state.loading && <ActivityIndicator animating={this.state.loading} style={styles.loader}/>}
       </View>
     );
   }
 
+  switchNamespace() {
+    ClustersActions.fetchNamespaces(this.props.cluster);
+    ClustersUtils.showNamespaceActionSheet({cluster: this.props.cluster, all: false, create: true}).then(namespace => {
+      this.setState({namespace});
+    });
+  }
+
   onSubmit() {
+    if (this.state.loading) { return; }
     if (!this.state.image) {
       AlertUtils.showWarning({message: intl('deployment_new_empty_image')});
       return;
@@ -98,6 +114,7 @@ export default class DeploymentsNew extends Component {
       cluster: this.props.cluster,
       name: (this.state.name || this.state.image).toLowerCase(),
       image: this.state.image,
+      namespace: this.state.namespace,
     }).then(() => NavigationActions.pop());
   }
 

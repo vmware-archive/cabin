@@ -14,6 +14,11 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
+import AlertUtils from 'utils/AlertUtils';
+import ClustersActions from 'actions/ClustersActions';
+const { AlertIOS } = ReactNative;
+
 const { Status } = Constants;
 
 export default class ClustersUtils {
@@ -50,6 +55,35 @@ export default class ClustersUtils {
       default:
         return intl('status_checking');
     }
+  }
+
+  static showNamespaceActionSheet({cluster, all = true, create = false}) {
+    return new Promise(resolve => {
+      const handleCreateNamespace = () => {
+        AlertIOS.prompt(
+          intl('namespaces_create'),
+          null,
+          [{text: intl('cancel')},
+          {text: intl('create'), onPress: text => {
+            ClustersActions.createNamespace({cluster, namespace: text})
+            .then(() => resolve(text))
+            .catch(e => AlertUtils.showError({message: e.message}));
+          }},
+          ]
+        );
+      };
+      const namespaces = alt.stores.ClustersStore.get(cluster.get('url')).get('namespaces', Immutable.List());
+      const onPress = (index) => {
+        let namespace;
+        if (!all || index > 1) { namespace = namespaces.get(index - (all ? 2 : 1)); } // 1 == all namespaces
+        resolve(namespace);
+      };
+      const options = [{ title: intl('cancel') }];
+      all && options.push({ title: intl('namespaces_all'), onPress});
+      options.push(...namespaces.map(n => { return {title: n, onPress};}));
+      create && options.push({ title: intl('namespaces_create'), destructive: true, onPress: handleCreateNamespace});
+      ActionSheetUtils.showActionSheetWithOptions({options});
+    });
   }
 
 }

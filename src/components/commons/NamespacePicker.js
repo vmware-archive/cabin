@@ -14,9 +14,8 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import ActionSheetUtils from 'utils/ActionSheetUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 import ClustersActions from 'actions/ClustersActions';
-import AlertUtils from 'utils/AlertUtils';
 
 const { PropTypes } = React;
 const {
@@ -25,7 +24,6 @@ const {
   Image,
   TouchableOpacity,
   StyleSheet,
-  AlertIOS,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -65,7 +63,7 @@ export default class NamespacePicker extends Component {
       <View style={styles.container}>
         <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
           <Text style={styles.text}>
-            Namespace:
+            {intl('namespace')}:
             <Text style={styles.namespaceText}> {namespaceTitle}</Text>
           </Text>
           <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
@@ -76,36 +74,11 @@ export default class NamespacePicker extends Component {
 
   handlePress() {
     ClustersActions.fetchNamespaces(this.props.cluster);
-    const namespaces = this.props.cluster.get('namespaces', Immutable.List());
-    const onPress = (index) => {
-      let namespace;
-      if (index > 1) {
-        namespace = namespaces.get(index - 2);
-      }
+    ClustersUtils.showNamespaceActionSheet({cluster: this.props.cluster, create: true}).then(namespace => {
       if (namespace !== this.props.cluster.get('currentNamespace')) {
         this.switchNamespace(namespace);
       }
-    };
-    const options = [
-      { title: intl('cancel') }, { title: intl('namespaces_all'), onPress},
-      ...namespaces.map(n => { return {title: n, onPress};}),
-      { title: intl('namespaces_create'), destructive: true, onPress: this.handleCreateNamespace.bind(this)},
-    ];
-    ActionSheetUtils.showActionSheetWithOptions({options});
-  }
-
-  handleCreateNamespace() {
-    AlertIOS.prompt(
-      intl('namespaces_create'),
-      null,
-      [{text: intl('cancel')},
-        {text: intl('create'), onPress: text => {
-          ClustersActions.createNamespace({cluster: this.props.cluster, namespace: text})
-          .then(() => this.switchNamespace(text))
-          .catch(e => AlertUtils.showError({message: e.message}));
-        }},
-      ]
-    );
+    });
   }
 
   switchNamespace(namespace) {

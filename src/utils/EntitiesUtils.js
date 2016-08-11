@@ -29,11 +29,11 @@ export default class EntitiesUtils {
     return find;
   }
 
-  static newDeploymentParams({name, image}) {
+  static newDeploymentParams({name, image, namespace = 'default'}) {
     return Immutable.fromJS({
       kind: 'Deployment',
       apiVersion: 'extensions/v1beta1',
-      metadata: { name, labels: {run: name} },
+      metadata: { name, namespace, labels: {run: name} },
       spec: {
         replicas: 1,
         selector: { matchLabels: {run: name}},

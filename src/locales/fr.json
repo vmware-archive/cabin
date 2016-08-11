@@ -26,6 +26,8 @@
   "clusters_empty_action": "Ajouter un cluster",
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
+
+  "namespace": "Namespace",
   "namespaces_all": "Tous les namespaces",
   "namespaces_create": "Créer un namespace",
 
