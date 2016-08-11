@@ -138,7 +138,8 @@ export default class ServicesShow extends Component {
   }
 
   handlePressPort(port) {
-    if (this.props.service.getIn(['spec', 'type']) === 'NodePort') {
+    const { service } = this.props;
+    if (service.getIn(['spec', 'type']) === 'NodePort' || (service.getIn(['spec', 'type']) === 'LoadBalancer' && service.getIn(['status', 'loadBalancer', 'ingress'], Immutable.List()).size > 0)) {
       const options = [
         {title: intl('cancel')},
         {title: intl('edit'), onPress: () => this.handleEdit(port)},
@@ -155,15 +156,22 @@ export default class ServicesShow extends Component {
   }
 
   handleOpenPort(port) {
-    const nodes = alt.stores.NodesStore.getAll(this.props.cluster);
-    const ready = nodes.find(node => {
-      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
-    });
-    if (!ready) {
-      AlertUtils.showError({message: intl('service_open_browser_no_node')});
-      return;
+    let url;
+    const { service } = this.props;
+    if (service.getIn(['spec', 'type']) === 'NodePort') {
+      const nodes = alt.stores.NodesStore.getAll(this.props.cluster);
+      const ready = nodes.find(node => {
+        return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+      });
+      if (!ready) {
+        AlertUtils.showError({message: intl('service_open_browser_no_node')});
+        return;
+      }
+      url = `http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`;
+    } else if (service.getIn(['spec', 'type']) === 'LoadBalancer' && service.getIn(['status', 'loadBalancer', 'ingress'], Immutable.List()).size > 0) {
+      const ip = service.getIn(['status', 'loadBalancer', 'ingress', 0, 'ip']);
+      url = `http://${ip}:${port.get('targetPort')}`;
     }
-    const url = `http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`;
-    Linking.openURL(url);
+    url && Linking.openURL(url);
   }
 }
