@@ -35,7 +35,7 @@ class ClustersStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      this.setState(this.state.merge(appState.get(this.displayName).filter((value, key) => key)));
+      this.setState(this.state.merge(appState.get(this.displayName).filter((value, key) => key && value.get('url'))));
       setTimeout(() => {
         this.state.map(cluster => {
           if (cluster.get('status') === Constants.Status.RUNNING) {
@@ -49,7 +49,7 @@ class ClustersStore {
   }
 
   onCheckClusterStart(cluster) {
-    if (!this.state.getIn([cluster.get('url'), 'status'])) {
+    if (this.state.get(cluster.get('url')) && !this.state.getIn([cluster.get('url'), 'status'])) {
       this.setState(this.state.setIn([cluster.get('url'), 'status'], Constants.Status.CHECKING));
     }
   }
@@ -59,7 +59,9 @@ class ClustersStore {
     if (up && previousStatus !== Constants.Status.RUNNING) {
       ClustersActions.fetchClusterEntities(cluster);
     }
-    this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.RUNNING : Constants.Status.DOWN));
+    if (this.state.get(cluster.get('url'))) {
+      this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.RUNNING : Constants.Status.DOWN));
+    }
     this.saveStore();
   }
 
