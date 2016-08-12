@@ -37,6 +37,7 @@ class ServicesActions {
     EntitiesActions.fetchEntitiesStart({cluster, entityType});
     return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
       EntitiesActions.dispatchEntities({cluster, entityType, entities});
+      return entities;
     })
     .catch(() => {
       EntitiesActions.fetchEntitiesFailure({cluster, entityType});
@@ -52,8 +53,8 @@ class ServicesActions {
     });
   }
 
-  createService({cluster, deployment, port, name}) {
-    const params = EntitiesUtils.newServiceParams({deployment, port, name});
+  createService({cluster, deployment, port, name, type}) {
+    const params = EntitiesUtils.newServiceParams({deployment, port, name, type});
     return EntitiesActions.createEntity({cluster, entityType, params, namespace: deployment.getIn(['metadata', 'namespace'])});
   }
 

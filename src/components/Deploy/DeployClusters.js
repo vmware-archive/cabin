@@ -18,8 +18,8 @@ import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ChartsUtils from 'utils/ChartsUtils';
-import ReplicationsActions from 'actions/ReplicationsActions';
-import PodsActions from 'actions/PodsActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
+import ServicesActions from 'actions/ServicesActions';
 
 const { PropTypes } = React;
 const {
@@ -132,26 +132,58 @@ export default class DeployClusters extends Component {
   }
 
   chooseCluster(cluster) {
+    if (!__DEV__) {
+      Alert.alert(intl('deploy_coming_soon'), intl('deploy_coming_soon_subtitle'));
+      return;
+    }
     this.setState({loading: true});
-    ReplicationsActions.fetchReplications(cluster).then((rcs) => {
-      this.setState({loading: false});
-      const tillerRC = rcs && rcs.find(rc => rc.getIn(['metadata', 'name']) === 'tiller-rc');
-      if (!tillerRC) {
-        Alert.alert(intl('deploy_no_tiller_alert_title'), intl('deploy_no_tiller_alert_subtitle'),
-        [{text: intl('cancel')}, {text: intl('ok'), onPress: () => this.createTillerRC(cluster)}]);
-        return;
+    DeploymentsActions.fetchDeployments(cluster).then(dps => {
+      const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
+      if (!tillerDP) {
+        this.setState({loading: false});
+        return new Promise(resolve => {
+          Alert.alert(intl('deploy_no_tiller_dp_alert_title'), intl('deploy_no_tiller_dp_alert_subtitle'),
+          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => {
+            this.createTillerDeploy(cluster).then(deployment => {
+              return this.createTillerSVC({cluster, deployment});
+            }).then(service => resolve(service));
+          }}]);
+        });
       }
-      PodsActions.getTillerPod(cluster).then(pod => {
-        if (!pod) {
-          Alert.alert(null, intl('deploy_no_pod_alert_subtitle'));
-          return;
-        }
-        console.log('POD to deploy - ', pod.toJS());
-      });
+      return this.findService({cluster, deployment: tillerDP});
+    }).then(service => {
+      this.setState({loading: false});
+      console.log('Service to use: ', service.toJS());
+      Alert.alert('', 'Everything is setup for deploy. Deployment and Service ready √');
     });
   }
 
-  createTillerRC(cluster) {
-    console.log('Need to create a tiller-rc', cluster);
+  findService({cluster, deployment}) {
+    return ServicesActions.fetchServices(cluster).then(svcs => {
+      const tillerSVC = svcs && svcs.find(svc => svc.getIn(['metadata', 'labels', 'run']) === deployment.getIn(['metadata', 'name']));
+      if (!tillerSVC) {
+        this.setState({loading: false});
+        return new Promise(resolve => {
+          Alert.alert(intl('deploy_no_tiller_svc_alert_title'), intl('deploy_no_tiller_svc_alert_subtitle'),
+          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => this.createTillerSVC({cluster, deployment}).then(service => resolve(service))}]);
+        });
+      }
+      return tillerSVC;
+    });
+  }
+
+  createTillerDeploy(cluster) {
+    this.setState({loading: true});
+    return DeploymentsActions.createDeployment({
+      cluster,
+      name: 'tiller-deploy',
+      image: 'gcr.io/kubernetes-helm/tiller:canary',
+      namespace: 'default',
+    });
+  }
+
+  createTillerSVC({cluster, deployment}) {
+    this.setState({loading: true});
+    return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
   }
 }

@@ -126,7 +126,7 @@ export default class ListItem extends Component {
     }
     return (
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{this.props.title.replace('undefined', '?')}</Text>
+        <Text style={styles.title}>{this.props.title && this.props.title.replace('undefined', '?')}</Text>
         {this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle.replace('undefined', '?')}</Text>}
       </View>
     );

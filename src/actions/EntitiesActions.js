@@ -42,6 +42,7 @@ class EntitiesActions {
     this.fetchEntitiesStart({cluster, entityType});
     return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
       this.dispatchEntities({cluster, entityType, entities});
+      return entities;
     })
     .catch(() => {
       this.fetchEntitiesFailure({cluster, entityType});
@@ -54,6 +55,7 @@ class EntitiesActions {
       entity: Immutable.fromJS({metadata: {namespace}})})
     .then((entity) => {
       this.createEntitySuccess({cluster, entity, entityType});
+      return entity;
     }).catch((e) => {
       this.createEntityFailure({cluster, params, entityType});
       return Promise.reject(e);

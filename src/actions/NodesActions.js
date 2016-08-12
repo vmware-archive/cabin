@@ -38,6 +38,7 @@ class NodesActions {
     EntitiesActions.fetchEntitiesStart({cluster, entityType});
     return ClustersApi.fetchNodes(cluster).then(entities => {
       EntitiesActions.dispatchEntities({cluster, entityType, entities});
+      return entities;
     })
     .catch(() => {
       EntitiesActions.fetchEntitiesFailure({cluster, entityType});

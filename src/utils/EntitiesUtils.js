@@ -49,7 +49,7 @@ export default class EntitiesUtils {
     });
   }
 
-  static newServiceParams({deployment, port, name}) {
+  static newServiceParams({deployment, port, name, type = 'ClusterIP'}) {
     const deploymentName = deployment.getIn(['metadata', 'name']);
     port = parseInt(port, 10);
     return Immutable.fromJS({
@@ -57,8 +57,9 @@ export default class EntitiesUtils {
       apiVersion: 'v1',
       metadata: {name, labels: {run: deploymentName}},
       spec: {
-        ports: [{protocol: 'TCP', port, targetPort: port}],
+        ports: port ? [{protocol: 'TCP', port, targetPort: port}] : [],
         selector: {run: deploymentName},
+        type,
       },
       status: {loadBalancer: {}},
     });
