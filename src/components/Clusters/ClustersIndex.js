@@ -49,9 +49,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   emptyImage: {
-    height: 200,
+    height: 140,
+    width: 140,
     resizeMode: 'contain',
-    marginTop: -50,
+    marginTop: -30,
+    marginBottom: 20,
   },
   emptyTitle: {
     fontSize: 20,
@@ -126,7 +128,7 @@ export default class ClustersIndex extends Component {
   renderEmptyState() {
     return (
       <View style={styles.emptyContainer}>
-        <Image style={styles.emptyImage} source={require('images/empty_character.png')} />
+        <Image style={styles.emptyImage} source={require('images/cubes.png')} />
         <Text style={styles.emptyTitle}>{intl('clusters_empty_title')}</Text>
         <Text style={styles.emptySubtitle}>{intl('clusters_empty_subtitle')}</Text>
         <TouchableOpacity style={styles.emptyButton} onPress={() => {

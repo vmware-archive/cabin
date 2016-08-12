@@ -53,9 +53,13 @@ const styles = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
   },
   failedImage: {
-    height: 180,
+    height: 130,
+    width: 130,
     resizeMode: 'contain',
-    marginTop: -50,
+    marginTop: -30,
+    marginBottom: 20,
+    tintColor: Colors.GRAY,
+    opacity: 0.6,
   },
   failedTitle: {
     fontSize: 18,
@@ -143,7 +147,7 @@ export default class DeployIndex extends Component {
         </ScrollView>
         {this.state.failed && !this.state.loading &&
           <View style={styles.absolute}>
-            <Image style={styles.failedImage} source={require('images/lost_character.png')} />
+            <Image style={styles.failedImage} source={require('images/cubes.png')} />
             <Text style={styles.failedTitle}>{intl('deploy_index_failed_title')}</Text>
             <TouchableOpacity style={styles.failedButton} onPress={() => {
               this.setState({loading: true});
