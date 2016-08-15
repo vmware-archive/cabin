@@ -88,10 +88,12 @@ class ServicesActions {
 
   updateServicePorts({cluster, service, ports}) {
     this.updateServicePortsStart({cluster, service, ports});
-    return ClustersApi.updateServicePorts({cluster, service, ports: ports.toJS()}).then(() => {
-      this.updateServicePortsSuccess({cluster, service, ports});
-    }).catch(() => {
+    return ClustersApi.updateServicePorts({cluster, service, ports: ports.toJS()}).then(entity => {
+      this.updateServicePortsSuccess({cluster, service: entity.set('kind', 'services')});
+      return entity;
+    }).catch(e => {
       this.updateServicePortsFailure({cluster, service, ports});
+      return Promise.reject(e);
     });
   }
 
