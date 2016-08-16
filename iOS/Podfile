@@ -1,0 +1,7 @@
+
+platform :ios, '8.0'
+
+target 'skippbox' do
+  pod 'gRPC', '~> 1.0.0-pre1'
+  pod 'Helm', :path => '.'
+end

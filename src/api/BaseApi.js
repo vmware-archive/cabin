@@ -16,12 +16,20 @@
 import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
 import base64 from 'base-64';
+import ReactNative from 'react-native';
 import { StatusBar, Platform, InteractionManager } from 'react-native';
 import YAML from 'yamljs';
+const grpc = ReactNative.NativeModules.GRPCManager;
 
 let REQUESTS_COUNT = 0;
 
 class BaseApi {
+
+  static callGRPC(host) {
+    grpc.listReleases(host).then(response => {
+      console.log('RELEASES:', response);
+    });
+  }
 
   static showNetworkActivityIndicator() {
     REQUESTS_COUNT++;

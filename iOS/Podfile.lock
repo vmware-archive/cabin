@@ -1,0 +1,62 @@
+PODS:
+  - "!ProtoCompiler (3.0.0)":
+    - Protobuf (~> 3.0)
+  - "!ProtoCompiler-gRPCPlugin (1.0.0-pre1.2)":
+    - "!ProtoCompiler (= 3.0.0)"
+    - gRPC-ProtoRPC (= 1.0.0-pre1)
+  - BoringSSL (5.0):
+    - BoringSSL/Implementation (= 5.0)
+    - BoringSSL/Interface (= 5.0)
+  - BoringSSL/Implementation (5.0):
+    - BoringSSL/Interface (= 5.0)
+  - BoringSSL/Interface (5.0)
+  - gRPC (1.0.0-pre1):
+    - gRPC-Core (= 1.0.0-pre1)
+    - gRPC-RxLibrary (= 1.0.0-pre1)
+  - gRPC-Core (1.0.0-pre1):
+    - gRPC-Core/Implementation (= 1.0.0-pre1)
+    - gRPC-Core/Interface (= 1.0.0-pre1)
+  - gRPC-Core/Implementation (1.0.0-pre1):
+    - BoringSSL (~> 5.0)
+    - gRPC-Core/Interface (= 1.0.0-pre1)
+  - gRPC-Core/Interface (1.0.0-pre1)
+  - gRPC-ProtoRPC (1.0.0-pre1):
+    - gRPC (= 1.0.0-pre1)
+    - gRPC-RxLibrary (= 1.0.0-pre1)
+    - Protobuf (~> 3.0.0-beta-3.1)
+  - gRPC-RxLibrary (1.0.0-pre1)
+  - Helm (0.0.1):
+    - "!ProtoCompiler-gRPCPlugin (~> 1.0.0-pre1.2)"
+    - Helm/Messages (= 0.0.1)
+    - Helm/Services (= 0.0.1)
+  - Helm/Messages (0.0.1):
+    - "!ProtoCompiler-gRPCPlugin (~> 1.0.0-pre1.2)"
+    - Protobuf
+  - Helm/Services (0.0.1):
+    - "!ProtoCompiler-gRPCPlugin (~> 1.0.0-pre1.2)"
+    - gRPC-ProtoRPC
+    - Helm/Messages
+  - Protobuf (3.0.0)
+
+DEPENDENCIES:
+  - gRPC (~> 1.0.0-pre1)
+  - Helm (from `.`)
+
+EXTERNAL SOURCES:
+  Helm:
+    :path: "."
+
+SPEC CHECKSUMS:
+  "!ProtoCompiler": b2bedbd8cbdafca8f73c2c52abfcc1a5ce0f5ff7
+  "!ProtoCompiler-gRPCPlugin": fae5a7f4296d84a712c87d561aa07e8a4b75447f
+  BoringSSL: 92bfd6e0c0914dd4d898b5fc2fca01cf6dedebeb
+  gRPC: 68ce9f9f7453bf4ce18aeab0681aa3ff44401cae
+  gRPC-Core: 87a599cf81bd2534d74496198074a9fb09b3c1f8
+  gRPC-ProtoRPC: d7de5cfb271c2d047f3eace618c4ed3168cb60cf
+  gRPC-RxLibrary: d319234ca32e39a42de4aa3a06d4bd67640d3d4e
+  Helm: 9e12991e91ed3dda4a7c1bd6f99acec2803e5620
+  Protobuf: c032ce1bdf7a266acfd640fbfd8bdb166127c7f5
+
+PODFILE CHECKSUM: 0f5fc851f94a97e0a67422cb72cc3cf33d013bd8
+
+COCOAPODS: 1.0.1
