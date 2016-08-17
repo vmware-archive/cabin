@@ -2,6 +2,9 @@
 platform :ios, '8.0'
 
 target 'skippbox' do
+  pod 'AFNetworking', '~> 3.0'
   pod 'gRPC', '~> 1.0.0-pre1'
   pod 'Helm', :path => '.'
+  pod 'NVHTarGzip'
+  pod 'YAMLThatWorks'
 end

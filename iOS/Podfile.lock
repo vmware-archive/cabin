@@ -4,6 +4,21 @@ PODS:
   - "!ProtoCompiler-gRPCPlugin (1.0.0-pre1.2)":
     - "!ProtoCompiler (= 3.0.0)"
     - gRPC-ProtoRPC (= 1.0.0-pre1)
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - BoringSSL (5.0):
     - BoringSSL/Implementation (= 5.0)
     - BoringSSL/Interface (= 5.0)
@@ -36,11 +51,16 @@ PODS:
     - "!ProtoCompiler-gRPCPlugin (~> 1.0.0-pre1.2)"
     - gRPC-ProtoRPC
     - Helm/Messages
+  - NVHTarGzip (1.0.1)
   - Protobuf (3.0.0)
+  - YAMLThatWorks (0.0.5)
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.0)
   - gRPC (~> 1.0.0-pre1)
   - Helm (from `.`)
+  - NVHTarGzip
+  - YAMLThatWorks
 
 EXTERNAL SOURCES:
   Helm:
@@ -49,14 +69,17 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   "!ProtoCompiler": b2bedbd8cbdafca8f73c2c52abfcc1a5ce0f5ff7
   "!ProtoCompiler-gRPCPlugin": fae5a7f4296d84a712c87d561aa07e8a4b75447f
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BoringSSL: 92bfd6e0c0914dd4d898b5fc2fca01cf6dedebeb
   gRPC: 68ce9f9f7453bf4ce18aeab0681aa3ff44401cae
   gRPC-Core: 87a599cf81bd2534d74496198074a9fb09b3c1f8
   gRPC-ProtoRPC: d7de5cfb271c2d047f3eace618c4ed3168cb60cf
   gRPC-RxLibrary: d319234ca32e39a42de4aa3a06d4bd67640d3d4e
-  Helm: 9e12991e91ed3dda4a7c1bd6f99acec2803e5620
+  Helm: d3e1ccef47542f1b0dcd5c37d9084129edf2707a
+  NVHTarGzip: 74cc227b902e5725900d37eb6d79b57e93005a73
   Protobuf: c032ce1bdf7a266acfd640fbfd8bdb166127c7f5
+  YAMLThatWorks: 85985c56a4e071b5557b51cc264303821f2f76de
 
-PODFILE CHECKSUM: 0f5fc851f94a97e0a67422cb72cc3cf33d013bd8
+PODFILE CHECKSUM: f99c5c6ec97f32ac422c429be021145fc3df278a
 
 COCOAPODS: 1.0.1

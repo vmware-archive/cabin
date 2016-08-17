@@ -24,6 +24,7 @@ import Navigator from 'components/commons/Navigator';
 import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
+// import BaseApi from 'api/BaseApi';
 
 const {
   DeviceEventEmitter,
@@ -50,6 +51,7 @@ const ClustersRoutes = {
       renderRightButton() {
         return (
           <NavbarButton source={require('images/add.png')}
+            // onPress={() => BaseApi.callGRPC('test')}
             onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
           />
         );
