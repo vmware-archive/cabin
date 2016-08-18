@@ -26,7 +26,6 @@ import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
 import Linking from 'utils/Linking';
-import BaseApi from 'api/BaseApi';
 
 const {
   View,
@@ -67,15 +66,6 @@ export default class ServicesShow extends Component {
             <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
-            {service.getIn(['metadata', 'name']) === 'tiller-deploy' &&
-              <ListItem title="Test gRPC Call" onPress={() => {
-                const nodes = alt.stores.NodesStore.getAll(this.props.cluster);
-                const ready = nodes.find(node => {
-                  return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
-                });
-                BaseApi.callGRPC(`${ready.getIn(['spec', 'externalID'])}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`);
-              }}/>
-            }
             <ListItem title="Type" renderDetail={this.renderTypeDetail.bind(this)}/>
             <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>
           </View>

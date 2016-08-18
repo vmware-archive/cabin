@@ -18,8 +18,10 @@ import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ChartsUtils from 'utils/ChartsUtils';
+import AlertUtils from 'utils/AlertUtils';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import ServicesActions from 'actions/ServicesActions';
+import BaseApi from 'api/BaseApi';
 
 const { PropTypes } = React;
 const {
@@ -72,7 +74,27 @@ const styles = StyleSheet.create({
   loader: {
     position: 'absolute',
     top: 0, left: 0, bottom: 0, right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  loaderText: {
+    color: Colors.WHITE,
+    marginTop: 20,
+  },
+  deployed: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  deployedImage: {
+    width: 50, height: 50,
+    resizeMode: 'contain',
+    tintColor: Colors.GREEN,
+    marginBottom: 20,
+  },
+  deployedTitle: {
+    color: Colors.GRAY,
+    fontSize: 20,
   },
 });
 
@@ -87,7 +109,15 @@ export default class DeployClusters extends Component {
     super();
     this.state = {
       loading: false,
+      deployed: false,
+      loadingMessage: '',
     };
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (!nextState.loading && this.state.loadingMessage) {
+      this.setState({loadingMessage: ''});
+    }
   }
 
   render() {
@@ -104,12 +134,14 @@ export default class DeployClusters extends Component {
               <Text style={styles.chartSubtitle} numberOfLines={2}>{file.get('description')}</Text>
             </View>
           </View>
-          <ListHeader title={intl('deploy_choose_cluster')} />
+          {!this.state.deployed && <ListHeader title={intl('deploy_choose_cluster')} />}
           {this.renderClusters()}
+          {this.renderDeploySuccess()}
         </ScrollView>
         {this.state.loading &&
           <View style={styles.loader}>
-            <ActivityIndicator style={{flex: 1}}/>
+            <ActivityIndicator color={Colors.WHITE} size="large"/>
+            <Text style={styles.loaderText}>{this.state.loadingMessage}</Text>
           </View>
         }
       </View>
@@ -117,6 +149,7 @@ export default class DeployClusters extends Component {
   }
 
   renderClusters() {
+    if (this.state.deployed) { return false; }
     const { clusters } = this.props;
     return clusters.map((cluster, i) => {
       return (
@@ -131,8 +164,18 @@ export default class DeployClusters extends Component {
     });
   }
 
+  renderDeploySuccess() {
+    if (!this.state.deployed) { return false; }
+    return (
+      <View style={styles.deployed}>
+        <Image style={styles.deployedImage} source={require('images/done_circle.png')}/>
+        <Text style={styles.deployedTitle}>{intl('deploy_success_title')}</Text>
+      </View>
+    );
+  }
+
   chooseCluster(cluster) {
-    this.setState({loading: true});
+    this.setState({loading: true, loadingMessage: intl('deploy_loading_deployments')});
     DeploymentsActions.fetchDeployments(cluster).then(dps => {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
       if (!tillerDP) {
@@ -148,17 +191,17 @@ export default class DeployClusters extends Component {
       }
       return this.findService({cluster, deployment: tillerDP});
     }).then(service => {
-      this.setState({loading: false});
-      if (!__DEV__) {
-        Alert.alert(intl('deploy_coming_soon'), intl('deploy_coming_soon_subtitle'));
-        return;
-      }
-      console.log('Service to use: ', service.toJS());
-      Alert.alert('', 'Everything is setup for deploy. Deployment and Service ready √');
-    });
+      this.setState({loading: true, loadingMessage: intl('deploy_loading_deploy_chart')});
+      return BaseApi.deployChart({chart: this.props.chart, service, cluster});
+    }).then(() => {
+      this.setState({deployed: true});
+    }).catch(e => {
+      AlertUtils.showError({message: e.message});
+    }).finally(() => this.setState({loading: false}));
   }
 
   findService({cluster, deployment}) {
+    this.setState({loading: true, loadingMessage: intl('deploy_loading_service')});
     return ServicesActions.fetchServices(cluster).then(svcs => {
       const tillerSVC = svcs && svcs.find(svc => svc.getIn(['metadata', 'labels', 'run']) === deployment.getIn(['metadata', 'name']));
       if (!tillerSVC) {
@@ -173,7 +216,7 @@ export default class DeployClusters extends Component {
   }
 
   createTillerDeploy(cluster) {
-    this.setState({loading: true});
+    this.setState({loading: true, loadingMessage: intl('deploy_loading_create_deploy')});
     return DeploymentsActions.createDeployment({
       cluster,
       name: 'tiller-deploy',
@@ -183,7 +226,7 @@ export default class DeployClusters extends Component {
   }
 
   createTillerSVC({cluster, deployment}) {
-    this.setState({loading: true});
+    this.setState({loading: true, loadingMessage: intl('deploy_loading_create_service')});
     return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
   }
 }

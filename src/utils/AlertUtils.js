@@ -47,6 +47,7 @@ class AlertUtils {
       duration: 5000,
       viewTopOffset: 64,
       viewBottomOffset: 50,
+      messageNumberOfLines: 0,
       stylesheetInfo: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},
       stylesheetSuccess: {backgroundColor: Colors.GREEN, strokeColor: 'transparent'},
       stylesheetWarning: {backgroundColor: Colors.ORANGE, strokeColor: 'transparent'},
