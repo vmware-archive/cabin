@@ -112,10 +112,13 @@ export default class DeploymentsNew extends Component {
     this.setState({loading: true});
     DeploymentsActions.createDeployment({
       cluster: this.props.cluster,
-      name: (this.state.name || this.state.image).toLowerCase(),
+      name: (this.state.name || this.state.image).toLowerCase().replace(/[^a-z0-9.]/g, '-'),
       image: this.state.image,
       namespace: this.state.namespace,
-    }).then(() => NavigationActions.pop());
+    })
+    .then(() => NavigationActions.pop())
+    .catch(e => AlertUtils.showError({message: e.message}))
+    .finally(() => this.setState({loading: false}));
   }
 
 }
