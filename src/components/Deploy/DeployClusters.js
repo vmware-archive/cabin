@@ -149,7 +149,7 @@ export default class DeployClusters extends Component {
       return this.findService({cluster, deployment: tillerDP});
     }).then(service => {
       this.setState({loading: false});
-      if (__DEV__) {
+      if (!__DEV__) {
         Alert.alert(intl('deploy_coming_soon'), intl('deploy_coming_soon_subtitle'));
         return;
       }
