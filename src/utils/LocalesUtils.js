@@ -65,12 +65,16 @@ class LocalesUtils {
     return this.lang;
   }
 
-  // TODO: Add better fallback? (es-ES -> es -> en)
   static getLocalizedString(id, values) {
-    const lang = this.getLanguage();
-    const locale = this.locales[id] || this.defaultLocales[id];
-    const formater = new IntlMessageFormat(locale, lang);
-    return formater.format(values);
+    try {
+      const lang = this.getLanguage();
+      const locale = this.locales[id] || this.defaultLocales[id];
+      const formater = new IntlMessageFormat(locale, lang);
+      return formater.format(values);
+    } catch (e) {
+      console.error(`Localized string error for key: ${id} n`);
+      return '';
+    }
   }
 
   static getLocalizedRelativeDate(date, options) {

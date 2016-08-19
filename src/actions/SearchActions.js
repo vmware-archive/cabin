@@ -40,9 +40,18 @@ class SearchActions {
     const pods = alt.stores.PodsStore.getAll(cluster).take(5).filter(filter);
     const nodes = alt.stores.NodesStore.getAll(cluster).take(5).filter(filter);
     const services = alt.stores.ServicesStore.getAll(cluster).take(5).filter(filter);
-    const replications = alt.stores.ReplicationsStore.getAll(cluster).take(5).filter(filter);
+    const replicationcontrollers = alt.stores.ReplicationsStore.getAll(cluster).take(5).filter(filter);
     const deployments = alt.stores.DeploymentsStore.getAll(cluster).take(5).filter(filter);
-    return {cluster, query, result: Immutable.fromJS({pods, nodes, services, replications, deployments})};
+    const ingresses = alt.stores.IngressesStore.getAll(cluster).take(5).filter(filter);
+    const replicasets = alt.stores.ReplicaSetsStore.getAll(cluster).take(5).filter(filter);
+    const secrets = alt.stores.SecretsStore.getAll(cluster).take(5).filter(filter);
+    const serviceaccounts = alt.stores.ServiceAccountsStore.getAll(cluster).take(5).filter(filter);
+    const volumeclaims = alt.stores.VolumeClaimsStore.getAll(cluster).take(5).filter(filter);
+    const volumes = alt.stores.VolumesStore.getAll(cluster).take(5).filter(filter);
+    return {cluster, query, result: Immutable.fromJS({
+      pods, nodes, services, replicationcontrollers, deployments,
+      ingresses, replicasets, secrets, serviceaccounts, volumeclaims, volumes,
+    })};
   }
 }
 
