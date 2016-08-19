@@ -44,8 +44,8 @@
   "deploy_no_tiller_svc_alert_title": "Aucune service tiller-deploy",
   "deploy_no_tiller_svc_alert_subtitle": "Nous n'avons pas trouvé de deployment tiller-deploy, voulez-vous que nous le créions pour vous ?",
   "deploy_no_pod_alert_subtitle": "Nous n'vons pas trouvé le Pod Tiller, verifiez votre connexion et votre configuration puis réessayez",
-  "deploy_coming_soon": "Bientôt disponible",
-  "deploy_coming_soon_subtitle": "Cette fonctionnalité n'est pas encore disponible, vous pourrez bientôt deployer cette image très simplement.",
+  "deploy_coming_soon": "Alpha feature",
+  "deploy_coming_soon_subtitle": "This is an Alpha Feature made available for testing. Tiller will be deployed but you will not be able to deploy Charts via Cabin, use your local Helm client.",
 
   "service_new": "Nouveau Service",
   "service_new_description": "Vous devez choisir un deployment à exposer ainsi qu'un port",

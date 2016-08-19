@@ -132,10 +132,6 @@ export default class DeployClusters extends Component {
   }
 
   chooseCluster(cluster) {
-    if (!__DEV__) {
-      Alert.alert(intl('deploy_coming_soon'), intl('deploy_coming_soon_subtitle'));
-      return;
-    }
     this.setState({loading: true});
     DeploymentsActions.fetchDeployments(cluster).then(dps => {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
@@ -153,6 +149,10 @@ export default class DeployClusters extends Component {
       return this.findService({cluster, deployment: tillerDP});
     }).then(service => {
       this.setState({loading: false});
+      if (__DEV__) {
+        Alert.alert(intl('deploy_coming_soon'), intl('deploy_coming_soon_subtitle'));
+        return;
+      }
       console.log('Service to use: ', service.toJS());
       Alert.alert('', 'Everything is setup for deploy. Deployment and Service ready √');
     });
