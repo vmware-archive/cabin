@@ -97,13 +97,12 @@ export default class ServicesEditPort extends Component {
   onSubmit() {
     const { cluster, service, port: previousPort } = this.props;
     const newPort = Immutable.fromJS(this.state);
-    newPort.set('name', newPort.get('name', '').toLowerCase());
-    const ports = service.getIn(['spec', 'ports']).map(port => {
-      if (Immutable.is(port, previousPort)) {
-        return newPort;
-      }
-      return port;
-    });
+    newPort.get('name') && newPort.set('name', newPort.get('name').toLowerCase());
+    let ports = Immutable.List();
+    if (previousPort.get('port') !== newPort.get('port')) {
+      ports = ports.push(Immutable.fromJS({'$patch': 'delete', 'port': previousPort.get('port')}));
+    }
+    ports = ports.push(newPort);
     ServicesActions.updateServicePorts({cluster, service, ports}).then(() => {
       NavigationActions.pop();
     }).catch((e) => {
