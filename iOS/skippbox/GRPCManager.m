@@ -70,7 +70,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
       Template *template = [[Template alloc] init];
       template.name = templatePath;
       NSDictionary *templateDic = [YATWSerialization YAMLObjectWithData:[NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]] options:0 error:nil];
-      template.data_p = [NSJSONSerialization dataWithJSONObject:templateDic options:0 error:nil];
+      template.data_p = [self dictionnaryToData:templateDic];
       [templates addObject:template];
     }
     [chart setTemplatesArray:templates];
@@ -92,6 +92,20 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.lastPathComponent == %@", lastPath];
   NSArray *matchingPaths = [[[NSFileManager defaultManager] subpathsAtPath:directory] filteredArrayUsingPredicate:predicate];
   return [directory stringByAppendingPathComponent:matchingPaths.firstObject];
+}
+
+
+-(NSData*)dictionnaryToData:(NSDictionary *)params
+{
+  NSError * err;
+  NSData *jsonData =[NSJSONSerialization dataWithJSONObject:params options:0 error:&err];
+  
+  NSString *jsonStr1 = [NSString stringWithUTF8String:[jsonData bytes]];
+  jsonStr1 = [jsonStr1 stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+  
+  NSData *jsonData2 =[jsonStr1 dataUsingEncoding:NSUTF8StringEncoding];
+  
+  return jsonData2 != nil ? jsonData2 : jsonData;
 }
 
 - (void)downloadFileAtUrl:(NSString*)url completion:(void (^)(NSURL *filePath))completion
