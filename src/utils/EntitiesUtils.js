@@ -81,4 +81,12 @@ export default class EntitiesUtils {
     }
     return status;
   }
+
+  static nodeUrlForCluster(cluster) {
+    const nodes = alt.stores.NodesStore.getAll(cluster);
+    const ready = nodes.find(node => {
+      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+    });
+    return ready ? ready.getIn(['spec', 'externalID']) : cluster.get('url').split(':')[0];
+  }
 }

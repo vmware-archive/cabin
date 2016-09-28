@@ -25,12 +25,15 @@
 		8E5BABEF1BB02DBD00D0FDEF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */; };
 		8E5BABF11BB02DC600D0FDEF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */; };
 		8E5BABF51BB02F5400D0FDEF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF41BB02F5400D0FDEF /* libz.tbd */; };
+		A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A56399791D48F5A9000C7C24 /* GRPCManager.m */; };
 		A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A56492E41D351C6500C1DF4F /* libSafariViewManager.a */; };
 		A579E6681BD5451100CD8E2C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */; };
+		A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A597EF391D629817009298F5 /* libHelm.a */; };
 		A5B2F11E1BD62E0100CF6A12 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */; };
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428451C57A86100C5B9EC /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5EF5CCA1BD62590002D794B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		DEE46A2D4C7AA0A45A26B1D5 /* libPods-skippbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8E5F70A05097343062ABF58 /* libPods-skippbox.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,10 +196,14 @@
 		8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8E5BABF41BB02F5400D0FDEF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skippbox.release.xcconfig"; path = "Pods/Target Support Files/Pods-skippbox/Pods-skippbox.release.xcconfig"; sourceTree = "<group>"; };
 		A557E0F31CB29D2300C7193B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		A56399781D48F5A9000C7C24 /* GRPCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRPCManager.h; sourceTree = "<group>"; };
+		A56399791D48F5A9000C7C24 /* GRPCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRPCManager.m; sourceTree = "<group>"; };
 		A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SafariViewManager.xcodeproj; path = "../node_modules/react-native-safari-view/SafariViewManager.xcodeproj"; sourceTree = "<group>"; };
 		A56B11E51CB3F11D008CD1B3 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
 		A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		A597EF391D629817009298F5 /* libHelm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHelm.a; path = "Pods/../build/Debug-iphoneos/Helm/libHelm.a"; sourceTree = "<group>"; };
 		A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A5B2F11F1BD62F7600CF6A12 /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
 		A5C444681BCBE2EF00DEBEFF /* Skippbox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Skippbox-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -204,6 +211,8 @@
 		A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A5E428451C57A86100C5B9EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AAA17D08BF2A415C8576E351 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
+		B48C0EB48F4EF42345A4D37A /* Pods-skippbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skippbox.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skippbox/Pods-skippbox.debug.xcconfig"; sourceTree = "<group>"; };
+		B8E5F70A05097343062ABF58 /* libPods-skippbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-skippbox.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -212,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */,
 				A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */,
 				A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */,
 				A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */,
@@ -232,6 +242,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */,
+				DEE46A2D4C7AA0A45A26B1D5 /* libPods-skippbox.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +310,8 @@
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				A56399781D48F5A9000C7C24 /* GRPCManager.h */,
+				A56399791D48F5A9000C7C24 /* GRPCManager.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -319,6 +332,7 @@
 		4804E8612B2AE9B345684110 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A597EF391D629817009298F5 /* libHelm.a */,
 				A56B11E51CB3F11D008CD1B3 /* libz.1.dylib */,
 				A5E428451C57A86100C5B9EC /* UIKit.framework */,
 				A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */,
@@ -327,8 +341,18 @@
 				8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */,
 				8E5BABEC1BB02D8E00D0FDEF /* Security.framework */,
 				A557E0F31CB29D2300C7193B /* NotificationCenter.framework */,
+				B8E5F70A05097343062ABF58 /* libPods-skippbox.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6158A353A993F578746AC456 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B48C0EB48F4EF42345A4D37A /* Pods-skippbox.debug.xcconfig */,
+				99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -376,6 +400,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				4804E8612B2AE9B345684110 /* Frameworks */,
+				6158A353A993F578746AC456 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -445,12 +470,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "skippbox" */;
 			buildPhases = (
+				68D5A4FE0ED77FBEFC3D2885 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				A579E66E1BD5451E00CD8E2C /* Embed Frameworks */,
 				8E7D82931BF2A2E9009C0CA2 /* Bundle React Native code and images */,
 				A5E71D4D1CB4F72400EEA745 /* Embed App Extensions */,
+				11E510AD3F59F36A6ACB8E7E /* [CP] Embed Pods Frameworks */,
+				1CBC72BF88C90C5CD64C2278 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -699,6 +727,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11E510AD3F59F36A6ACB8E7E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-skippbox/Pods-skippbox-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1CBC72BF88C90C5CD64C2278 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-skippbox/Pods-skippbox-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68D5A4FE0ED77FBEFC3D2885 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		8E7D82931BF2A2E9009C0CA2 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -720,6 +793,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				A5EF5CCA1BD62590002D794B /* main.m in Sources */,
 			);
@@ -741,6 +815,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B48C0EB48F4EF42345A4D37A /* Pods-skippbox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
@@ -768,6 +843,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -784,6 +860,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
@@ -812,6 +889,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

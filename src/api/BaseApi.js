@@ -16,12 +16,25 @@
 import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
 import base64 from 'base-64';
+import ReactNative from 'react-native';
 import { StatusBar, Platform, InteractionManager } from 'react-native';
 import YAML from 'yamljs';
+import EntitiesUtils from 'utils/EntitiesUtils';
+const grpc = ReactNative.NativeModules.GRPCManager;
 
 let REQUESTS_COUNT = 0;
 
 class BaseApi {
+
+  static deployChart({chart, service, cluster}) {
+    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    return grpc.deployChartAtURL(chart.get('url'), host).then(response => {
+      console.log('DONE ? :', response);
+    }).catch(e => {
+      console.log('ERROR', e);
+      return Promise.reject(e);
+    });
+  }
 
   static showNetworkActivityIndicator() {
     REQUESTS_COUNT++;
