@@ -28,6 +28,7 @@
 		A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A56399791D48F5A9000C7C24 /* GRPCManager.m */; };
 		A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A56492E41D351C6500C1DF4F /* libSafariViewManager.a */; };
 		A579E6681BD5451100CD8E2C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */; };
+		A5839BD61D9C0D6C00A932EB /* SKPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */; };
 		A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A597EF391D629817009298F5 /* libHelm.a */; };
 		A5B2F11E1BD62E0100CF6A12 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */; };
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -203,6 +204,8 @@
 		A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SafariViewManager.xcodeproj; path = "../node_modules/react-native-safari-view/SafariViewManager.xcodeproj"; sourceTree = "<group>"; };
 		A56B11E51CB3F11D008CD1B3 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = ../../../../../usr/lib/libz.1.dylib; sourceTree = "<group>"; };
 		A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
+		A5839BD41D9C0D6C00A932EB /* SKPNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPNetwork.h; sourceTree = "<group>"; };
+		A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPNetwork.m; sourceTree = "<group>"; };
 		A597EF391D629817009298F5 /* libHelm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHelm.a; path = "Pods/../build/Debug-iphoneos/Helm/libHelm.a"; sourceTree = "<group>"; };
 		A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A5B2F11F1BD62F7600CF6A12 /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				A5839BD41D9C0D6C00A932EB /* SKPNetwork.h */,
+				A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */,
 				A56399781D48F5A9000C7C24 /* GRPCManager.h */,
 				A56399791D48F5A9000C7C24 /* GRPCManager.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -796,6 +801,7 @@
 				A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				A5EF5CCA1BD62590002D794B /* main.m in Sources */,
+				A5839BD61D9C0D6C00A932EB /* SKPNetwork.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

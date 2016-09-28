@@ -36,7 +36,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     BOOL untared = [[NVHTarGzip sharedInstance] unTarGzipFileAtPath:filePath.path toPath:toPath.path error:&error];
     if (error) {
       error ? NSLog(@"ERROR %@", [error description]) : NSLog(@"failed");
-      reject([@(error.code) stringValue], [error description], error);
+      reject([@(error.code) stringValue], [error localizedDescription], error);
       return;
     }
     if (!untared) {
@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 
 -(NSData*)dictionnaryToData:(NSDictionary *)params
 {
-  NSError * err;
+  NSError *err;
   NSData *jsonData =[NSJSONSerialization dataWithJSONObject:params options:0 error:&err];
   
   NSString *jsonStr1 = [NSString stringWithUTF8String:[jsonData bytes]];
