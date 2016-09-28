@@ -31,10 +31,7 @@ class ClustersApi {
 
   static createNamespace({cluster, namespace}) {
     const params = {kind: 'Namespace', apiVersion: 'v1', 'metadata': {name: namespace}};
-    return BaseApi.post('/api/v1/namespaces', params, cluster).then(response => {
-      console.log('rrr', response.toJS());
-      return response;
-    });
+    return BaseApi.post('/api/v1/namespaces', params, cluster);
   }
 
   /* NODES */

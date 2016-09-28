@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
 import ServicesActions from 'actions/ServicesActions';
 import NavigationActions from 'actions/NavigationActions';
+import NodesActions from 'actions/NodesActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
@@ -156,22 +157,31 @@ export default class ServicesShow extends Component {
   }
 
   handleOpenPort(port) {
-    let url;
-    const { service } = this.props;
+    const { service, cluster } = this.props;
     if (service.getIn(['spec', 'type']) === 'NodePort') {
-      const nodes = alt.stores.NodesStore.getAll(this.props.cluster);
-      const ready = nodes.find(node => {
-        return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
-      });
-      if (!ready) {
-        AlertUtils.showError({message: intl('service_open_browser_no_node')});
-        return;
+      const nodes = alt.stores.NodesStore.getAll(cluster);
+      if (!this.openServiceWithNodes({nodes, port})) {
+        NodesActions.fetchNodes(this.props.cluster).then(entities => {
+          const succeed = this.openServiceWithNodes({nodes: entities, port});
+          if (!succeed) {
+            AlertUtils.showError({message: intl('service_open_browser_no_node')});
+          }
+        });
       }
-      url = `http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`;
     } else if (service.getIn(['spec', 'type']) === 'LoadBalancer' && service.getIn(['status', 'loadBalancer', 'ingress'], Immutable.List()).size > 0) {
       const ip = service.getIn(['status', 'loadBalancer', 'ingress', 0, 'ip']);
-      url = `http://${ip}:${port.get('targetPort')}`;
+      Linking.openURL(`http://${ip}:${port.get('targetPort')}`);
     }
-    url && Linking.openURL(url);
+  }
+
+  openServiceWithNodes({port, nodes}) {
+    const ready = nodes.find(node => {
+      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+    });
+    if (!ready) {
+      return false;
+    }
+    Linking.openURL(`http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`);
+    return true;
   }
 }
