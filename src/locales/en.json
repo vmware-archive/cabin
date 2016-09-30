@@ -57,7 +57,7 @@
   "service_new_description": "You need to choose a deployment to expose and a port",
   "service_open_browser_no_node": "We can't find a node ready to open this service",
 
-  "settings_repo_url_placeholder": "Add new deploy store",
+  "settings_repo_url_placeholder": "Add new deploy store URL",
   "settings_repo_name_placeholder": "Give this store a short name",
   "settings_repo_add_alert": "Please fill both url and name fields",
   "settings_repo_failed": "Can't fetch this store url, try again with another one",

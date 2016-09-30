@@ -57,7 +57,7 @@
   "service_new_description": "Vous devez choisir un deployment à exposer ainsi qu'un port",
   "service_open_browser_no_node": "Nous ne trouvons pas de node prêt pour afficher ce service",
 
-  "settings_repo_url_placeholder": "Ajouter un nouveau store",
+  "settings_repo_url_placeholder": "Ajouter une nouvelle URL",
   "settings_repo_name_placeholder": "Donner un surnom à ce store",
   "settings_repo_add_alert": "Please fill both url and name fields",
   "settings_repo_failed": "Impossible de récupérer les données de cette url, réessayez avec une autre url",
