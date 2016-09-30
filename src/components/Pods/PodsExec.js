@@ -21,9 +21,11 @@ import PodsActions from 'actions/PodsActions';
 const {
   View,
   Text,
+  ActivityIndicator,
   TextInput,
   StyleSheet,
   Dimensions,
+  Animated,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -37,11 +39,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     color: Colors.WHITE,
+    marginBottom: 50,
   },
   bold: {
     fontWeight: '600',
   },
   inputContainer: {
+    position: 'absolute',
+    bottom: 0, left: 0, right: 0,
     height: 50,
     backgroundColor: Colors.WHITE,
     flexDirection: 'row',
@@ -66,6 +71,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 16,
   },
+  loader: {
+    position: 'absolute',
+    left: 0, right: 0, top: 0, bottom: 0,
+  },
 });
 
 export default class PodsExec extends Component {
@@ -80,10 +89,13 @@ export default class PodsExec extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       statusBarLoading: false,
       container: props.container || props.pod.getIn(['spec', 'containers', 0, 'name']),
+      inputBottom: new Animated.Value(0),
     };
+    this.keyboardHeight = 0;
+    this.contentSizeHeight = 0;
     this.scrollViewHeight = Dimensions.get('window').height - 114;
   }
 
@@ -101,35 +113,59 @@ export default class PodsExec extends Component {
         <PodsContainerPicker pod={pod} cluster={cluster} selectedContainer={container} onChangeContainer={this.handleContainerChange.bind(this)}/>
         <ScrollView ref="scrollView" style={styles.list}
           onLayout={(e) => { this.scrollViewHeight = e.nativeEvent.layout.height; }}
+          onKeyboardWillShow={(frames) => {
+            this.showKeyboard(frames.endCoordinates.height);
+          }}
+          onKeyboardWillHide={() => {
+            this.hideKeyboard();
+          }}
           onContentSizeChange={(width, height) => {
+            this.contentSizeHeight = height;
             if (height > this.scrollViewHeight) {
-              this.refs.scrollView.scrollTo({y: height - this.scrollViewHeight});
+              this.refs.scrollView.scrollTo({y: height - this.scrollViewHeight + this.keyboardHeight});
             } else {
               this.refs.scrollView.scrollTo({y: 0});
             }
           }}>
           <Text style={styles.logs}>{messages}</Text>
         </ScrollView>
-        <View style={styles.inputContainer}>
+        <Animated.View style={[styles.inputContainer, {bottom: this.state.inputBottom}]}>
           <TextInput style={styles.input}
             ref="input"
             autoCapitalize="none" autoCorrect={false}
             placeholder="command to execute"
             onChangeText={text => {this.command = text;}}
             onSubmitEditing={this.execCommand.bind(this)}/>
-          <Text style={styles.inputText} onPress={this.execCommand.bind(this)}>Execute</Text>
-        </View>
+            <View>
+              <Text style={[styles.inputText, this.state.loading && {opacity: 0}]} onPress={this.execCommand.bind(this)}>Execute</Text>
+              {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.BLUE}/>}
+            </View>
+        </Animated.View>
       </View>
     );
   }
 
+  showKeyboard(height) {
+    this.keyboardHeight = height;
+    Animated.timing(this.state.inputBottom, {toValue: height - 50, duration: 250}).start();
+    this.refs.scrollView.scrollTo({y: this.contentSizeHeight - this.scrollViewHeight + height});
+  }
+
+  hideKeyboard() {
+    this.keyboardHeight = 0;
+    Animated.timing(this.state.inputBottom, {toValue: 0, duration: 250}).start();
+  }
+
   handleContainerChange(container) {
-    this.setState({container, loading: true});
+    this.setState({container});
   }
 
   execCommand() {
+    if (this.state.loading) { return; }
+    this.setState({loading: true});
     PodsActions.execPodCommand({cluster: this.props.cluster, pod: this.props.pod, command: this.command, container: this.state.container}).then(() => {
       this.refs.input.setNativeProps({text: ''});
+      this.setState({loading: false});
     });
   }
 }

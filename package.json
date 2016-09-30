@@ -58,7 +58,7 @@
     "react": "^15.3.0",
     "react-native": "0.35.0-rc.0",
     "react-native-action-button": "^1.1.11",
-    "react-native-keyboard-aware-scroll-view": "git+https://github.com/APSL/react-native-keyboard-aware-scroll-view.git",
+    "react-native-keyboard-aware-scroll-view": "^0.2.0",
     "react-native-message-bar": "^1.6.0",
     "react-native-orientation": "^1.17.0",
     "react-native-parsed-text": "0.0.15",
