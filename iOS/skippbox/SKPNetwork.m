@@ -38,7 +38,7 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
                                                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
     if (error != nil)
     {
-      reject([@(error.code) stringValue], [error localizedDescription], error);
+      reject([@(error.code) stringValue], [error localizedDescription], nil);
     } else {
       NSString *text = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
       resolve(@{@"text":text, @"ok":@(true)});
