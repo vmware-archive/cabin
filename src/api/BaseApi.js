@@ -16,11 +16,10 @@
 import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
 import base64 from 'base-64';
-import ReactNative from 'react-native';
-import { StatusBar, Platform, InteractionManager } from 'react-native';
+import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
 import YAML from 'yamljs';
 import EntitiesUtils from 'utils/EntitiesUtils';
-const grpc = ReactNative.NativeModules.GRPCManager;
+const { GRPCManager: grpc, SKPNetwork } = NativeModules;
 
 let REQUESTS_COUNT = 0;
 
@@ -81,12 +80,18 @@ class BaseApi {
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    return fetch(`${URL}`, {
+    return SKPNetwork.fetch(`${URL}`, {
       method,
       headers,
-      body: JSON.stringify(body),
+      body,
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
+      if (typeof response.text !== 'function') {
+        const t = response.text;
+        response.text = () => new Promise(resolve => {
+          resolve(t);
+        });
+      }
       if (!response.ok) {
         return response.text().then(t => {
           return this.handleError(BaseApi.parseJSON(t));
