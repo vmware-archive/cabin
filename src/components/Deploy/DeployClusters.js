@@ -244,6 +244,7 @@ export default class DeployClusters extends Component {
   }
 
   openCluster(cluster) {
+    this.props.navigator.popToTop();
     NavigationActions.showCluster(cluster);
   }
 }
