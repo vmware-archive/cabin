@@ -180,12 +180,15 @@ export default class DeployClusters extends Component {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
       if (!tillerDP) {
         this.setState({loading: false});
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
           Alert.alert(intl('deploy_no_tiller_dp_alert_title'), intl('deploy_no_tiller_dp_alert_subtitle'),
           [{text: intl('cancel')}, {text: intl('ok'), onPress: () => {
             this.createTillerDeploy(cluster).then(deployment => {
               return this.createTillerSVC({cluster, deployment});
-            }).then(service => resolve(service));
+            }).catch(e => {
+              reject(e);
+            })
+            .then(service => resolve(service));
           }}]);
         });
       }

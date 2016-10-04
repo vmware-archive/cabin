@@ -14,21 +14,13 @@
 
 syntax = "proto3";
 
-package hapi.release;
+package hapi.version;
 
-import "google/protobuf/timestamp.proto";
-import "hapi/release/status.proto";
+option go_package = "version";
 
-option go_package = "release";
-
-// Info describes release information.
-message Info {
-	Status status = 1;
-
-	google.protobuf.Timestamp first_deployed = 2;
-
-	google.protobuf.Timestamp last_deployed = 3;
-
-	// Deleted tracks when this object was deleted.
-	google.protobuf.Timestamp deleted = 4;
+message Version {
+  // Sem ver string for the version
+  string sem_ver = 1;
+  string git_commit = 2;
+  string git_tree_state = 3;
 }

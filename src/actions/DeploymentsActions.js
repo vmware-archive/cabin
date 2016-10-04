@@ -39,8 +39,9 @@ class DeploymentsActions {
       EntitiesActions.dispatchEntities({cluster, entityType, entities});
       return entities;
     })
-    .catch(() => {
+    .catch(e => {
       EntitiesActions.fetchEntitiesFailure({cluster, entityType});
+      return Promise.reject(e);
     });
   }
 
