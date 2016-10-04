@@ -22,6 +22,10 @@
   "chart": "Chart",
   "open_in_browser": "Ouvrir dans un navigateur",
 
+  "tabs_clusters": "Clusters",
+  "tabs_deploy": "Deployer",
+  "tabs_settings": "Paramètres",
+
   "clusters_empty_title": "Bienvenue dans la Cabin",
   "clusters_empty_subtitle": "Vous n'avez aucun cluster à gérer, commençons par en ajouter un!",
   "clusters_empty_action": "Ajouter un cluster",
