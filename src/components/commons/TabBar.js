@@ -22,6 +22,7 @@ import Colors from 'styles/Colors';
 const {
   TabBarIOS,
   StyleSheet,
+  DeviceEventEmitter,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -37,6 +38,14 @@ export default class TabBar extends Component {
     this.state = {
       activeTab: 0,
     };
+  }
+
+  componentDidMount() {
+    this.navigationEventListener = DeviceEventEmitter.addListener('tabbar:navigation', this.handleSelecTab.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.navigationEventListener.remove();
   }
 
   render() {
@@ -79,5 +88,9 @@ export default class TabBar extends Component {
         </TabBarIOS.Item>
       </TabBarIOS>
     );
+  }
+
+  handleSelecTab(index) {
+    this.setState({activeTab: index});
   }
 }

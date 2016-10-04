@@ -21,6 +21,7 @@ import ChartsUtils from 'utils/ChartsUtils';
 import AlertUtils from 'utils/AlertUtils';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import ServicesActions from 'actions/ServicesActions';
+import NavigationActions from 'actions/NavigationActions';
 import BaseApi from 'api/BaseApi';
 
 const { PropTypes } = React;
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
   },
   deployed: {
     flexDirection: 'column',
-    alignItems: 'center',
     marginTop: 40,
   },
   deployedImage: {
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   deployedTitle: {
     color: Colors.GRAY,
     fontSize: 20,
+    marginBottom: 20,
   },
 });
 
@@ -112,6 +113,7 @@ export default class DeployClusters extends Component {
       deployed: false,
       loadingMessage: '',
     };
+    this.selectedCluster;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -168,13 +170,21 @@ export default class DeployClusters extends Component {
     if (!this.state.deployed) { return false; }
     return (
       <View style={styles.deployed}>
-        <Image style={styles.deployedImage} source={require('images/done_circle.png')}/>
-        <Text style={styles.deployedTitle}>{intl('deploy_success_title')}</Text>
+        <View style={{alignItems: 'center'}}>
+          <Image style={styles.deployedImage} source={require('images/done_circle.png')}/>
+          <Text style={styles.deployedTitle}>{intl('deploy_success_title')}</Text>
+        </View>
+        <ListItem
+          title={intl('deploy_success_action')}
+          showArrow={true}
+          onPress={() => this.openCluster(this.selectedCluster)}
+          isLast={true}/>
       </View>
     );
   }
 
   chooseCluster(cluster) {
+    this.selectedCluster = cluster;
     this.setState({loading: true, loadingMessage: intl('deploy_loading_deployments')});
     DeploymentsActions.fetchDeployments(cluster).then(dps => {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
@@ -223,7 +233,7 @@ export default class DeployClusters extends Component {
     return DeploymentsActions.createDeployment({
       cluster,
       name: 'tiller-deploy',
-      image: 'gcr.io/kubernetes-helm/tiller:canary',
+      image: 'gcr.io/kubernetes-helm/tiller:v2.0.0-alpha.4',
       namespace: 'default',
     });
   }
@@ -231,5 +241,9 @@ export default class DeployClusters extends Component {
   createTillerSVC({cluster, deployment}) {
     this.setState({loading: true, loadingMessage: intl('deploy_loading_create_service')});
     return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
+  }
+
+  openCluster(cluster) {
+    NavigationActions.showCluster(cluster);
   }
 }

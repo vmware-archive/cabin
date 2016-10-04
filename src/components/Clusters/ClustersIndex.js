@@ -28,6 +28,7 @@ const {
   TouchableOpacity,
   StyleSheet,
   InteractionManager,
+  DeviceEventEmitter,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -85,10 +86,12 @@ const styles = StyleSheet.create({
 export default class ClustersIndex extends Component {
 
   componentDidMount() {
+    this.navigationEventListener = DeviceEventEmitter.addListener('clusters:navigation', this.handleShowCluster.bind(this));
     InteractionManager.runAfterInteractions(() => this.checkClusters());
   }
 
   componentWillUnmount() {
+    this.navigationEventListener.remove();
     clearTimeout(this.checkTimeout);
   }
 
@@ -120,7 +123,7 @@ export default class ClustersIndex extends Component {
     return (
       <ClustersItem
         cluster={cluster}
-        onPress={() => this.onPressItem(cluster)}
+        onPress={() => this.onSelectCluster(cluster)}
       />
     );
   }
@@ -152,7 +155,14 @@ export default class ClustersIndex extends Component {
     });
   }
 
-  onPressItem(cluster) {
+  handleShowCluster(cluster) {
+    this.props.navigator.popToTop();
+    InteractionManager.runAfterInteractions(() => {
+      this.onSelectCluster(cluster);
+    });
+  }
+
+  onSelectCluster(cluster) {
     ClustersActions.fetchClusterEntities(cluster);
     ClustersActions.fetchNamespaces(cluster);
     this.props.navigator.push(ClustersRoutes.getClusterShowRoute(cluster));

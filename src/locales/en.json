@@ -47,6 +47,7 @@
   "deploy_coming_soon": "Alpha feature",
   "deploy_coming_soon_subtitle": "This is an Alpha Feature made available for testing. Tiller will be deployed but you will not be able to deploy Charts via Cabin, use your local Helm client.",
   "deploy_success_title": "Chart successfully deployed!",
+  "deploy_success_action": "Go to cluster",
   "deploy_loading_deployments": "Fetching tiller deployment...",
   "deploy_loading_service": "Fetching tiller service...",
   "deploy_loading_create_deploy": "Creating tiller deployment...",
