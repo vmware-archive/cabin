@@ -20,6 +20,7 @@ import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
+import PodsActions from 'actions/PodsActions';
 
 const {
   View,
@@ -97,6 +98,7 @@ export default class DeploymentsShow extends Component {
   handleReplicasComplete(value) {
     return DeploymentsActions.scaleDeployment({deployment: this.props.deployment, cluster: this.props.cluster, replicas: value}).then(() => {
       setTimeout(() => {
+        PodsActions.fetchPods(this.props.cluster);
         this.handleRefresh();
       }, 2000);
     });

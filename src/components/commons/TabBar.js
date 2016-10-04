@@ -70,6 +70,7 @@ export default class TabBar extends Component {
     const items = tabs.map((tab, i) => {
       return (
         <TabBarIOS.Item
+          key={i}
           title={tab.get('title')}
           icon={tab.get('icon')}
           selected={this.state.activeTab === i}

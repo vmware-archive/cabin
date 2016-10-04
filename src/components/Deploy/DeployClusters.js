@@ -21,6 +21,7 @@ import ChartsUtils from 'utils/ChartsUtils';
 import AlertUtils from 'utils/AlertUtils';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import ServicesActions from 'actions/ServicesActions';
+import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import BaseApi from 'api/BaseApi';
 
@@ -189,17 +190,17 @@ export default class DeployClusters extends Component {
     DeploymentsActions.fetchDeployments(cluster).then(dps => {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
       if (!tillerDP) {
-        this.setState({loading: false});
         return new Promise((resolve, reject) => {
           Alert.alert(intl('deploy_no_tiller_dp_alert_title'), intl('deploy_no_tiller_dp_alert_subtitle'),
-          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => {
-            this.createTillerDeploy(cluster).then(deployment => {
-              return this.createTillerSVC({cluster, deployment});
-            }).catch(e => {
-              reject(e);
-            })
-            .then(service => resolve(service));
-          }}]);
+            [{text: intl('cancel'), onPress: () => this.setState({loading: false})},
+            {text: intl('ok'), onPress: () => {
+              this.createTillerDeploy(cluster).then(deployment => {
+                return this.createTillerSVC({cluster, deployment});
+              }).catch(e => {
+                reject(e);
+              })
+              .then(service => resolve(service));
+            }}]);
         });
       }
       return this.findService({cluster, deployment: tillerDP});
@@ -207,6 +208,7 @@ export default class DeployClusters extends Component {
       this.setState({loading: true, loadingMessage: intl('deploy_loading_deploy_chart')});
       return BaseApi.deployChart({chart: this.props.chart, service, cluster});
     }).then(() => {
+      ClustersActions.fetchClusterEntities(cluster);
       this.setState({deployed: true});
     }).catch(e => {
       AlertUtils.showError({message: e.message});
@@ -240,7 +242,14 @@ export default class DeployClusters extends Component {
 
   createTillerSVC({cluster, deployment}) {
     this.setState({loading: true, loadingMessage: intl('deploy_loading_create_service')});
-    return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
+    return new Promise((resolve, reject) => {
+      ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])})
+      .then(r => {
+        setTimeout(() => {
+          resolve(r);
+        }, 5000); // wait 5sec after creating the service to make sure it's available.
+      }).catch(e => reject(e));
+    });
   }
 
   openCluster(cluster) {
