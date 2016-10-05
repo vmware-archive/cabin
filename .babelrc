@@ -1,18 +1,3 @@
 {
-  "presets": [
-    "react-native"
-  ],
-  "plugins": [
-    ["module-alias", [
-      { "src": "./src/actions", "expose": "actions" },
-      { "src": "./src/api", "expose": "api" },
-      { "src": "./src/components", "expose": "components" },
-      { "src": "./src/images", "expose": "images" },
-      { "src": "./src/routes", "expose": "routes" },
-      { "src": "./src/stores", "expose": "stores" },
-      { "src": "./src/styles", "expose": "styles" },
-      { "src": "./src/utils", "expose": "utils" },
-      { "src": "./src", "expose": "src" }
-    ]]
-  ]
+"presets": ["react-native"]
 }
