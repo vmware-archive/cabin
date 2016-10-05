@@ -35,6 +35,8 @@ const {
   Alert,
 } = ReactNative;
 
+const MAX_RETRIES = 3; // number of retries to deploy, if it fails for unknown reason
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,6 +117,7 @@ export default class DeployClusters extends Component {
       loadingMessage: '',
     };
     this.selectedCluster;
+    this.deployTries = MAX_RETRIES;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -206,13 +209,16 @@ export default class DeployClusters extends Component {
       return this.findService({cluster, deployment: tillerDP});
     }).then(service => {
       this.setState({loading: true, loadingMessage: intl('deploy_loading_deploy_chart')});
-      return BaseApi.deployChart({chart: this.props.chart, service, cluster});
+      return this.deployChart({chart: this.props.chart, service, cluster});
     }).then(() => {
       ClustersActions.fetchClusterEntities(cluster);
       this.setState({deployed: true});
     }).catch(e => {
       AlertUtils.showError({message: e.message});
-    }).finally(() => this.setState({loading: false}));
+    }).finally(() => {
+      this.deployTries = MAX_RETRIES;
+      this.setState({loading: false});
+    });
   }
 
   findService({cluster, deployment}) {
@@ -242,13 +248,27 @@ export default class DeployClusters extends Component {
 
   createTillerSVC({cluster, deployment}) {
     this.setState({loading: true, loadingMessage: intl('deploy_loading_create_service')});
+    return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
+  }
+
+  deployChart({chart, service, cluster}) {
     return new Promise((resolve, reject) => {
-      ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])})
-      .then(r => {
+      this.sendChart({chart, service, cluster, resolve, reject});
+    });
+  }
+
+  sendChart({chart, service, cluster, resolve, reject}) {
+    this.deployTries--;
+    BaseApi.deployChart({chart, service, cluster}).then(r => {
+      resolve(r);
+    }).catch(e => {
+      if (this.deployTries > 0) {
         setTimeout(() => {
-          resolve(r);
-        }, 5000); // wait 5sec after creating the service to make sure it's available.
-      }).catch(e => reject(e));
+          this.sendChart({chart, service, cluster, resolve, reject});
+        }, 3000);
+      } else {
+        reject(e);
+      }
     });
   }
 
