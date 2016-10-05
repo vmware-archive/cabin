@@ -226,10 +226,9 @@ export default class DeployClusters extends Component {
     return ServicesActions.fetchServices(cluster).then(svcs => {
       const tillerSVC = svcs && svcs.find(svc => svc.getIn(['metadata', 'labels', 'run']) === deployment.getIn(['metadata', 'name']));
       if (!tillerSVC) {
-        this.setState({loading: false});
         return new Promise(resolve => {
           Alert.alert(intl('deploy_no_tiller_svc_alert_title'), intl('deploy_no_tiller_svc_alert_subtitle'),
-          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => this.createTillerSVC({cluster, deployment}).then(service => resolve(service))}]);
+          [{text: intl('cancel'), onPress: () => this.setState({loading: false})}, {text: intl('ok'), onPress: () => this.createTillerSVC({cluster, deployment}).then(service => resolve(service))}]);
         });
       }
       return tillerSVC;
