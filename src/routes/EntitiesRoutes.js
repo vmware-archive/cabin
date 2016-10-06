@@ -187,11 +187,11 @@ EntitiesRoutes = {
           {title: 'Put in maintenance', onPress: () => NodesActions.putInMaintenance({cluster, node})},
         ];
         return (
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 10}}>
             <NavbarButton source={require('images/view.png')} style={{tintColor: Colors.WHITE}}
               onPress={() => navigator.push(EntitiesRoutes.getEntitiesYamlRoute({entity: node}))}
             />
-            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
+            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE, marginLeft: 15}}
               onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
             />
           </View>
@@ -353,9 +353,9 @@ EntitiesRoutes = {
           }},
         ];
         return (
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 4}}>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingRight: 10}}>
             {yamlRightButton({cluster, navigator, entity: deployment, store: alt.stores.DeploymentsStore})}
-            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE}}
+            <NavbarButton source={require('images/more.png')} style={{tintColor: Colors.WHITE, marginLeft: 15}}
               onPress={() => ActionSheetUtils.showActionSheetWithOptions({options})}
             />
           </View>
