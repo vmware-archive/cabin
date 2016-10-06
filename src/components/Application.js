@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Navigator from 'components/commons/Navigator';
-import TabBar from 'components/commons/TabBar';
+import Home from 'components/commons/Home';
 import InitActions from 'actions/InitActions';
 import ActionSheet from '@exponent/react-native-action-sheet';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
@@ -48,8 +48,8 @@ export default class Application extends Component {
             sceneStyle={{paddingTop: 0}}
             initialRoute={{
               statusBarStyle: 'light-content',
-              renderScene() {
-                return <TabBar />;
+              getSceneClass() {
+                return Home;
               },
             }}
           />

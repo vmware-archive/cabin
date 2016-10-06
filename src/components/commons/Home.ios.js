@@ -49,7 +49,7 @@ const tabs = Immutable.fromJS([
   },
 ]);
 
-export default class TabBar extends Component {
+export default class HomeIOS extends Component {
 
   constructor() {
     super();

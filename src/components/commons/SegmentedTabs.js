@@ -147,7 +147,7 @@ export default class SegmentedTabs extends Component {
           <Touchable
             onPress={() => this.handlePress(index)}
             style={[styles.control, isScrollable ? {paddingHorizontal: 10} : {width: defaultWidth}]}>
-            <Animated.Text style={[styles.label, {color: textColor}]} numberOfLines={1}>{control}</Animated.Text>
+            <Text><Animated.Text style={[styles.label, {color: textColor}]} numberOfLines={1}>{control}</Animated.Text></Text>
           </Touchable>
         </View>
       );

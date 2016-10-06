@@ -45,6 +45,10 @@ if (!_window.Intl) {
 import 'intl/locale-data/jsonp/en.js';
 import 'intl/locale-data/jsonp/fr.js';
 
+if (ReactNative.NativeModules.SKPNetwork) {
+  _window.fetch = ReactNative.NativeModules.SKPNetwork.fetch;
+}
+
 // Global variables
 _window.ReactNative = ReactNative;
 _window.React       = React;

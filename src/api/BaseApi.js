@@ -19,7 +19,7 @@ import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
 import YAML from 'yamljs';
 import EntitiesUtils from 'utils/EntitiesUtils';
-const { GRPCManager: grpc, SKPNetwork } = NativeModules;
+const { GRPCManager: grpc } = NativeModules;
 
 let REQUESTS_COUNT = 0;
 
@@ -78,7 +78,10 @@ class BaseApi {
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    return SKPNetwork.fetch(`${URL}`, {
+    if (URL.indexOf('test') !== -1) {
+      return Promise.reject();
+    }
+    return fetch(URL, {
       method,
       headers,
       body,
