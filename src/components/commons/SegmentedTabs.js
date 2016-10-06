@@ -17,20 +17,16 @@ import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import _ from 'lodash';
 import PStyleSheet from 'styles/PStyleSheet';
+import NativeTouchable from 'components/commons/NativeTouchable';
 
 const { PropTypes } = React;
 import {
   Animated,
   Dimensions,
+  ScrollView,
   Text,
   View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-  ScrollView,
 } from 'react-native';
-
-const Touchable = Platform.OS === 'ios' ? TouchableOpacity : TouchableNativeFeedback;
 
 const styles = PStyleSheet.create({
   container: {
@@ -144,11 +140,11 @@ export default class SegmentedTabs extends Component {
           style={styles.controlContainer}
           collapsable={false}
           onLayout={isScrollable ? e => this.handleControlLayout(index, e) : undefined}>
-          <Touchable
+          <NativeTouchable
             onPress={() => this.handlePress(index)}
             style={[styles.control, isScrollable ? {paddingHorizontal: 10} : {width: defaultWidth}]}>
-            <Text><Animated.Text style={[styles.label, {color: textColor}]} numberOfLines={1}>{control}</Animated.Text></Text>
-          </Touchable>
+            <Animated.Text style={[styles.label, {color: textColor}]} numberOfLines={1}>{control}</Animated.Text>
+          </NativeTouchable>
         </View>
       );
     });
@@ -178,13 +174,13 @@ export default class SegmentedTabs extends Component {
     const first = controls.first();
     return (
       <View key={`tab${0}`} style={styles.controlContainer}>
-        <Touchable
+        <NativeTouchable
           onPress={() => this.handlePress(0)}
           style={styles.control}>
           <View style={{flex: 1, borderColor: activeColor, borderBottomWidth: 2, paddingTop: 15, paddingHorizontal: 10}}>
             <Text style={[styles.label, {color: activeTextColor}]} numberOfLines={1}>{first}</Text>
           </View>
-        </Touchable>
+        </NativeTouchable>
       </View>
     );
   }
