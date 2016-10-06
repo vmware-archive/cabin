@@ -31,6 +31,7 @@ const {
   View,
   StyleSheet,
   Animated,
+  Dimensions,
 } = ReactNative;
 
 const { PropTypes } = React;
@@ -58,6 +59,7 @@ export default class ServicesShow extends Component {
 
   render() {
     const { service } = this.props;
+    const smallDevice = Dimensions.get('window').width <= 340;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
@@ -66,7 +68,7 @@ export default class ServicesShow extends Component {
             <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="Type" renderDetail={this.renderTypeDetail.bind(this)}/>
+            <ListItem title={!smallDevice && 'Type'} renderDetail={this.renderTypeDetail.bind(this)}/>
             <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>
           </View>
           <View style={styles.section}>
