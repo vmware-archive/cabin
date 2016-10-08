@@ -20,14 +20,16 @@ import ClustersItem from 'components/Clusters/ClustersItem';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
+import ActionButton from 'react-native-action-button';
 
 const {
   View,
   Image,
+  InteractionManager,
+  Platform,
   Text,
   TouchableOpacity,
   StyleSheet,
-  InteractionManager,
   DeviceEventEmitter,
 } = ReactNative;
 
@@ -124,6 +126,11 @@ export default class ClustersIndex extends Component {
             onRefresh={this.handleRefresh.bind(this)}
           />
         </AltContainer>
+        {Platform.OS === 'android' &&
+          <ActionButton
+            buttonColor={Colors.BLUE}
+            offsetY={16} offsetX={16}
+            onPress={() => this.props.navigator.push(ClustersRoutes.getClustersNewRoute())} />}
       </View>
     );
   }
@@ -148,7 +155,7 @@ export default class ClustersIndex extends Component {
         <Text style={styles.emptyTitle}>{intl('clusters_empty_title')}</Text>
         <Text style={styles.emptySubtitle}>{intl('clusters_empty_subtitle')}</Text>
         <TouchableOpacity style={styles.emptyButton} onPress={() => {
-          NavigationActions.push(ClustersRoutes.getClustersNewRoute());
+          NavigationActions.push(ClustersRoutes.getClustersNewNavigatorRoute());
         }}>
           <Text style={styles.emptyAction}>{intl('clusters_empty_action')}</Text>
         </TouchableOpacity>

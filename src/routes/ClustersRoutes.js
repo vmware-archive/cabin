@@ -52,7 +52,7 @@ const ClustersRoutes = {
         return (
           <NavbarButton source={require('images/add.png')}
             // onPress={() => BaseApi.callGRPC('test')}
-            onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
+            onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewNavigatorRoute())}
           />
         );
       },
@@ -113,38 +113,38 @@ const ClustersRoutes = {
     };
   },
 
-  getClustersNewRoute(optionalCluster) {
+  getClustersNewNavigatorRoute(optionalCluster) {
     return {
       name: 'ClustersNew',
       statusBarStyle: 'light-content',
       renderScene() {
-        return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => 'New Cluster',
-              renderScene(navigator) {
-                return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return (
-                  <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.pop()}
-                  />
-                );
-              },
-              renderRightButton() {
-                return (
-                  <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
-                  />
-                );
-              },
-            }}
-          />
-        );
+        return <Navigator initialRoute={ClustersRoutes.getClustersNewRoute(optionalCluster)} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getClustersNewRoute(optionalCluster) {
+    return {
+      getTitle: () => 'New Cluster',
+      renderScene(navigator) {
+        return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
+      },
+      renderLeftButton() {
+        return (
+          <NavbarButton title={intl('cancel')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('done')}
+            onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
+          />
+        );
       },
     };
   },

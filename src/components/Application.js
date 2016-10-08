@@ -18,6 +18,7 @@ import Home from 'components/commons/Home';
 import InitActions from 'actions/InitActions';
 import ActionSheet from '@exponent/react-native-action-sheet';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import ToolbarAugmenter from 'components/commons/ToolbarAugmenter';
 
 const {
   BackAndroid,
@@ -75,11 +76,13 @@ export default class Application extends Component {
             showNavigationBar={false}
             sceneStyle={{paddingTop: 0}}
             initialRoute={{
+              name: 'Home',
               statusBarStyle: 'light-content',
               getSceneClass() {
                 return Home;
               },
             }}
+            augmentScene={(scene, route) => <ToolbarAugmenter scene={scene} route={route} navigator={this.refs.navigator} />}
           />
           <MessageBar ref="messageBar"/>
         </View>

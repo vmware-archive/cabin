@@ -119,7 +119,7 @@ export default class HomeAndroid extends Component {
 
     return (
       <NativeTouchable style={styles.tabBarItemContainer} key={option.title} onPress={onTabPress} onLongPress={onTabPress}>
-        <Image source={option.source} style={isSelected && {tintColor: Colors.BLUE}} />
+        <Image source={option.source} style={{tintColor: isSelected ? Colors.BLUE : Colors.GRAY}} />
       </NativeTouchable>
     );
   }

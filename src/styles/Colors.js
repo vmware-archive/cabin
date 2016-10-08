@@ -31,6 +31,6 @@ const Colors = {
   BLUE2: '#52B3D9',
   TURQUOISE: '#36D7B7',
   PINK: '#D2527F',
-  DARK_BLUE: '#003253',
 };
+
 export default Object.freeze(Colors);
