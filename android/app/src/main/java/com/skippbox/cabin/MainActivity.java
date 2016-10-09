@@ -1,4 +1,4 @@
-package com.skippbox;
+package com.skippbox.cabin;
 
 import com.facebook.react.ReactActivity;
 
