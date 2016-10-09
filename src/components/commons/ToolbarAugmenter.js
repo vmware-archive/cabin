@@ -71,7 +71,7 @@ export default class ToolbarAugmenter extends Component {
   };
 
   render() {
-    const { route, scene } = this.props;
+    const { navigator, route, scene } = this.props;
     let toolbar;
 
     if (Platform.OS === 'ios') {
@@ -87,11 +87,20 @@ export default class ToolbarAugmenter extends Component {
         </ToolbarAndroid>
       );
     } else {
-      // TODO: Map render{Left,Right}Button to actions ?
+      const actions = [];
+      if (route.renderRightButton) {
+        const rightComponent = route.renderRightButton(navigator);
+        actions.push({
+          title: rightComponent.props.title || rightComponent.key,
+          icon: rightComponent.props.androidSource || rightComponent.props.source,
+          show: 'always',
+          onPress: rightComponent.props.onPress,
+        });
+      }
       toolbar = (
         <ToolbarAndroid style={styles.toolbar} navIcon={require('images/ic-back-white-48.png')} onIconClicked={() => {
           NavigationActions.pop();
-        }}>
+        }} actions={actions} onActionSelected={(i) => actions[i].onPress()}>
           <View style={styles.titleContainer}>
             {route.renderTitle ? route.renderTitle() : <Text style={styles.title}>{route.getTitle()}</Text>}
           </View>

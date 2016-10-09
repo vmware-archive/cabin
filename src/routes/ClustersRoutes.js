@@ -80,7 +80,7 @@ const ClustersRoutes = {
       },
       renderRightButton(navigator) {
         return (
-          <NavbarButton key="search" source={require('images/search.png')}
+          <NavbarButton key="Search" source={require('images/search.png')}
             onPress={() => {
               navigator.push(ClustersRoutes.getClustersSearchRoute(cluster));
             }}
@@ -142,6 +142,7 @@ const ClustersRoutes = {
       renderRightButton() {
         return (
           <NavbarButton title={intl('done')}
+            androidSource={require('images/done.png')}
             onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
           />
         );
