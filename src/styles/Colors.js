@@ -29,6 +29,7 @@ const Colors = {
   PURPLE: '#8E44AD',
   BLUE: '#428ABF',
   BLUE2: '#52B3D9',
+  BLUE3: '#216AAF',
   TURQUOISE: '#36D7B7',
   PINK: '#D2527F',
 };

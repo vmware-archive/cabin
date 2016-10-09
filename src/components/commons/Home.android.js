@@ -28,8 +28,6 @@ const {
   ViewPagerAndroid,
 } = ReactNative;
 
-const NB_TABS = 3;
-
 const styles = StyleSheet.create({
   tabBarContainer: {
     height: 48,
@@ -41,7 +39,6 @@ const styles = StyleSheet.create({
   },
   tabBarItemContainer: {
     flex: 1,
-    height: 45,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -97,6 +94,7 @@ export default class HomeAndroid extends Component {
   }
 
   renderTabBar() {
+    const NB_TABS = this.options.length;
     const tabBarIndicatorWidth = Dimensions.get('window').width / NB_TABS;
     const indicatorMargin = this.selectedIndex.interpolate({
       inputRange: [0, NB_TABS],

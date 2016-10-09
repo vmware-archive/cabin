@@ -16,6 +16,7 @@
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
+import NavigationActions from 'actions/NavigationActions';
 
 const {
   Image,
@@ -89,7 +90,7 @@ export default class ToolbarAugmenter extends Component {
       // TODO: Map render{Left,Right}Button to actions ?
       toolbar = (
         <ToolbarAndroid style={styles.toolbar} navIcon={require('images/ic-back-white-48.png')} onIconClicked={() => {
-          this.props.navigator.pop();
+          NavigationActions.pop();
         }}>
           <View style={styles.titleContainer}>
             {route.renderTitle ? route.renderTitle() : <Text style={styles.title}>{route.getTitle()}</Text>}
