@@ -41,6 +41,10 @@ if (!_window.Intl) {
   _window.Intl = Intl; // polyfill for `Intl`
 }
 
+// import locales we are using. This should be in sync with `LocalesUtils.SUPPORTED_LANGUAGES`
+import 'intl/locale-data/jsonp/en.js';
+import 'intl/locale-data/jsonp/fr.js';
+
 // Global variables
 _window.ReactNative = ReactNative;
 _window.React       = React;
