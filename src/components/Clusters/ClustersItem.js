@@ -22,6 +22,7 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
 
 const { PropTypes } = React;
@@ -102,11 +103,11 @@ export default class ClusterItem extends Component {
 
   render() {
     const { cluster } = this.props;
-    const buttons = [
-      { text: intl('report'), backgroundColor: Colors.BLUE, underlayColor: Colors.BLUE, onPress: this.handleReport.bind(this)},
-      { text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
-      { text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)},
-    ];
+    const showReport = !ClustersUtils.hasSpartakusDeployment(cluster);
+    const buttons = [];
+    showReport && buttons.push({ text: intl('report'), backgroundColor: Colors.BLUE, underlayColor: Colors.BLUE, onPress: this.handleReport.bind(this)});
+    buttons.push({ text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)});
+    buttons.push({ text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)});
     return (
       <SwipeOut ref="swipeOut" right={buttons} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
@@ -173,12 +174,11 @@ export default class ClusterItem extends Component {
   }
 
   showActionSheet() {
-    const options = [
-      {title: intl('cancel')},
-      {title: intl('report'), onPress: this.handleReport.bind(this)},
-      {title: intl('edit'), onPress: this.handleEdit.bind(this)},
-      {title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true},
-    ];
+    const showReport = !ClustersUtils.hasSpartakusDeployment(this.props.cluster);
+    const options = [{title: intl('cancel')}];
+    showReport && options.push({title: intl('report'), onPress: this.handleReport.bind(this)});
+    options.push({title: intl('edit'), onPress: this.handleEdit.bind(this)});
+    options.push({title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true});
     ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
