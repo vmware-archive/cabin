@@ -15,7 +15,7 @@
 */
 import alt from 'src/alt';
 import ChartsApi from 'api/ChartsApi';
-import ImmutableUtils from 'utils/ImmutableUtils';
+import ChartsUtils from 'utils/ChartsUtils';
 
 class ClustersActions {
 
@@ -30,8 +30,9 @@ class ClustersActions {
     const url = alt.stores.SettingsStore.getChartsStores().getIn([alt.stores.SettingsStore.getSelectedChartsStoreIndex(), 'url']);
     this.fetchChartsStart(url);
     return ChartsApi.fetchCharts(url).then(charts => {
-      charts = ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
+      charts = ChartsUtils.parseCharts(charts);
       this.fetchChartsSuccess(charts);
+      return charts;
     });
   }
 

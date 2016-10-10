@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 export default Immutable.fromJS([
   { name: 'cassandra', icon: require('images/charts/cassandra.png') },
   { name: 'docker', icon: require('images/charts/docker.png') },

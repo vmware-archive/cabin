@@ -16,11 +16,22 @@
 
 import icons from 'images/charts/all';
 import defaultIcon from 'images/charts/default.png';
+import ImmutableUtils from './ImmutableUtils';
 
 export default class ChartsUtils {
 
   static iconForChart(name) {
     const found = icons.find(icon => name.indexOf(icon.get('name')) !== -1);
     return found ? found.get('icon') : defaultIcon;
+  }
+
+  static parseCharts(charts) {
+    if (charts.get('entries')) {
+      charts = charts.get('entries').map(entry => {
+        const first = entry.first();
+        return first.set('url', first.getIn(['urls', 0])).set('chartfile', first);
+      });
+    }
+    return ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
   }
 }
