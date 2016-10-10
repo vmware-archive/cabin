@@ -24,6 +24,7 @@ import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import AlertUtils from 'utils/AlertUtils';
 
 const { PropTypes } = React;
 const {
@@ -200,12 +201,20 @@ export default class ClusterItem extends Component {
   }
 
   handleReport() {
+    AlertUtils.showInfo({
+      message: intl('cluster_report_success'),
+      duration: 30000,
+    });
     DeploymentsActions.createDeployment({
       cluster: this.props.cluster,
       name: 'spartakus',
       image: 'gcr.io/google_containers/spartakus-amd64:v1.0.0',
       namespace: 'default',
       args: EntitiesUtils.spartakusArgs(),
+    }).then(() => {
+      AlertUtils.showSuccess({message: intl('cluster_report_success')});
+    }).catch(e => {
+      AlertUtils.showError({message: e.message});
     });
   }
 
