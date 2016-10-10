@@ -29,7 +29,7 @@ export default class EntitiesUtils {
     return find;
   }
 
-  static newDeploymentParams({name, image, namespace = 'default'}) {
+  static newDeploymentParams({name, image, namespace = 'default', args = {}}) {
     return Immutable.fromJS({
       kind: 'Deployment',
       apiVersion: 'extensions/v1beta1',
@@ -40,7 +40,7 @@ export default class EntitiesUtils {
         template: {
           metadata: { labels: {run: name}},
           spec: { containers: [
-            {name, image, resources: {}},
+            {name, image, resources: {}, args},
           ]},
         },
         strategy: {},
@@ -88,5 +88,10 @@ export default class EntitiesUtils {
       return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
     });
     return ready ? ready.getIn(['spec', 'externalID']) : cluster.get('url').split(':')[0];
+  }
+
+  static spartakusArgs() {
+    const generatedId = new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cabin';
+    return ['volunteer', `--cluster-id=${generatedId}`];
   }
 }

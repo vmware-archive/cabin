@@ -7,6 +7,7 @@
   "no": "No",
   "edit": "Edit",
   "delete": "Delete",
+  "report": "Report",
   "pods": "Pods",
   "nodes": "Nodes",
   "replicationcontrollers": "Replication Controllers",
@@ -27,6 +28,8 @@
   "clusters_empty_action": "Add a cluster",
   "cluster_remove_title": "Remove cluster",
   "cluster_remove_subtitle": "Are you sure your want to remove this cluster?",
+  "cluster_report_loading": "Creating Spartakus deployment...",
+  "cluster_report_success": "Spartakus deployment created",
 
   "namespace": "Namespace",
   "namespaces_all": "All namespaces",

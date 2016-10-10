@@ -53,8 +53,8 @@ class DeploymentsActions {
     });
   }
 
-  createDeployment({cluster, name, image, namespace}) {
-    const params = EntitiesUtils.newDeploymentParams({name, image, namespace});
+  createDeployment({cluster, name, image, namespace, args}) {
+    const params = EntitiesUtils.newDeploymentParams({name, image, namespace, args});
     return EntitiesActions.createEntity({cluster, params, namespace, entityType});
   }
 

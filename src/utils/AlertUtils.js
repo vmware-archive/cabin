@@ -32,6 +32,14 @@ class AlertUtils {
     });
   }
 
+  static showSuccess(options) {
+    AlertUtils.showAlert({
+      alertType: 'success',
+      ...options,
+    });
+  }
+
+
   static showError(options) {
     if (!options) {
       options = { message: intl('alert_error') };

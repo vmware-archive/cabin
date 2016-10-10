@@ -89,4 +89,10 @@ export default class ClustersUtils {
     });
   }
 
+  static hasSpartakusDeployment(cluster) {
+    const spartakus = alt.stores.DeploymentsStore.getAll(cluster)
+      .find(d => d.getIn(['metadata', 'name']) === 'spartakus');
+    return spartakus ? true : false;
+  }
+
 }

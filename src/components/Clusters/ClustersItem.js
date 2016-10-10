@@ -18,10 +18,13 @@ import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import AlertUtils from 'utils/AlertUtils';
 
 const { PropTypes } = React;
 const {
@@ -101,10 +104,11 @@ export default class ClusterItem extends Component {
 
   render() {
     const { cluster } = this.props;
-    const buttons = [
-      { text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
-      { text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)},
-    ];
+    const showReport = !ClustersUtils.hasSpartakusDeployment(cluster);
+    const buttons = [];
+    showReport && buttons.push({ text: intl('report'), backgroundColor: Colors.BLUE, underlayColor: Colors.BLUE, onPress: this.handleReport.bind(this)});
+    buttons.push({ text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)});
+    buttons.push({ text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)});
     return (
       <SwipeOut ref="swipeOut" right={buttons} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
@@ -171,11 +175,11 @@ export default class ClusterItem extends Component {
   }
 
   showActionSheet() {
-    const options = [
-      {title: intl('cancel')},
-      {title: intl('edit'), onPress: this.handleEdit.bind(this)},
-      {title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true},
-    ];
+    const showReport = !ClustersUtils.hasSpartakusDeployment(this.props.cluster);
+    const options = [{title: intl('cancel')}];
+    showReport && options.push({title: intl('report'), onPress: this.handleReport.bind(this)});
+    options.push({title: intl('edit'), onPress: this.handleEdit.bind(this)});
+    options.push({title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true});
     ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
@@ -194,6 +198,24 @@ export default class ClusterItem extends Component {
 
   handleEdit() {
     NavigationActions.push(ClustersRoutes.getClustersNewRoute(this.props.cluster));
+  }
+
+  handleReport() {
+    AlertUtils.showInfo({
+      message: intl('cluster_report_success'),
+      duration: 30000,
+    });
+    DeploymentsActions.createDeployment({
+      cluster: this.props.cluster,
+      name: 'spartakus',
+      image: 'gcr.io/google_containers/spartakus-amd64:v1.0.0',
+      namespace: 'default',
+      args: EntitiesUtils.spartakusArgs(),
+    }).then(() => {
+      AlertUtils.showSuccess({message: intl('cluster_report_success')});
+    }).catch(e => {
+      AlertUtils.showError({message: e.message});
+    });
   }
 
 }
