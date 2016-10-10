@@ -18,6 +18,7 @@ import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
@@ -102,6 +103,7 @@ export default class ClusterItem extends Component {
   render() {
     const { cluster } = this.props;
     const buttons = [
+      { text: intl('report'), backgroundColor: Colors.BLUE, underlayColor: Colors.BLUE, onPress: this.handleReport.bind(this)},
       { text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)},
       { text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)},
     ];
@@ -173,6 +175,7 @@ export default class ClusterItem extends Component {
   showActionSheet() {
     const options = [
       {title: intl('cancel')},
+      {title: intl('report'), onPress: this.handleReport.bind(this)},
       {title: intl('edit'), onPress: this.handleEdit.bind(this)},
       {title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true},
     ];
@@ -194,6 +197,16 @@ export default class ClusterItem extends Component {
 
   handleEdit() {
     NavigationActions.push(ClustersRoutes.getClustersNewRoute(this.props.cluster));
+  }
+
+  handleReport() {
+    DeploymentsActions.createDeployment({
+      cluster: this.props.cluster,
+      name: 'spartakus',
+      image: 'gcr.io/google_containers/spartakus-amd64:v1.0.0',
+      namespace: 'default',
+      args: EntitiesUtils.spartakusArgs(),
+    });
   }
 
 }
