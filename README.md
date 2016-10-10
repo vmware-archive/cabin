@@ -5,10 +5,17 @@ Mobile app for Skippbox made with React Native.
 
 ### How to run the app
 
-Install project dependencies:
+Install node dependencies:
 
 ```
 npm install
+```
+
+Install ios dependencies:
+
+```
+gem install cocoapods
+cd iOS/ && pod install
 ```
 
 Install React Native cli:
