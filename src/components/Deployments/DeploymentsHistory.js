@@ -60,7 +60,7 @@ export default class DeploymentsHistory extends Component {
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
-            list={replicas.sortBy(e => e.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']))}
+            list={replicas.sortBy(e => e.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])).reverse()}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
             renderHeader={() => <ListHeader title={intl('revisions')} />}
