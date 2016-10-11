@@ -189,7 +189,7 @@ export default class DeployClusters extends Component {
     if (!this.state.deployed) { return false; }
     return this.renderStatus({
       title: intl('deploy_success_title'),
-      actiontitle: intl('deploy_success_action'),
+      actionTitle: intl('deploy_success_action'),
       action: () => this.openCluster(this.state.selectedCluster),
       image: require('images/done_circle.png'), tintColor: Colors.GREEN,
     });
@@ -204,13 +204,13 @@ export default class DeployClusters extends Component {
         action: () => this.chooseCluster(this.state.selectedCluster),
         image: require('images/error_circle.png'), tintColor: Colors.RED,
       }),
-      <ListItem title={intl('deploy_error_action_2')} showArrow={true} onPress={() => this.setState({selectedCluster: null, error: null})} isLast={true}/>,
+      <ListItem key="action" title={intl('deploy_error_action_2')} showArrow={true} onPress={() => this.setState({selectedCluster: null, error: null})} isLast={true}/>,
     ];
   }
 
   renderStatus({title, actionTitle, action, image, tintColor}) {
     return (
-      <View style={styles.deployed}>
+      <View key="status" style={styles.deployed}>
         <View style={{alignItems: 'center'}}>
           <Image style={[styles.deployedImage, {tintColor}]} source={image}/>
           <Text style={styles.deployedTitle}>{title}</Text>
