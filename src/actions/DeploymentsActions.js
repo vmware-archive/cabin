@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import ClustersActions from 'actions/ClustersActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
 
 const entityType = 'deployments';
@@ -101,6 +102,13 @@ class DeploymentsActions {
       labelSelector: `run=${deployment.getIn(['metadata', 'name'])}`,
     }}).then(() => {
       alt.stores.DeploymentsStore.emitChange();
+    });
+  }
+
+  rollbackToRevision({cluster, deployment, revision}) {
+    return ClustersApi.rollbackDeployment({cluster, deployment, revision}).then(response => {
+      ClustersActions.fetchClusterEntities.defer(cluster);
+      return response;
     });
   }
 }

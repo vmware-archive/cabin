@@ -112,6 +112,16 @@ class ClustersApi {
     return BaseApi.patch(`/deployments/${deployment.getIn(['metadata', 'name'])}`, body, cluster, deployment);
   }
 
+  static rollbackDeployment({cluster, deployment, revision}) {
+    const body = {
+      kind: 'DeploymentRollback',
+      apiVersion: 'extensions/v1beta1',
+      name: deployment.getIn(['metadata', 'name']),
+      rollbackTo: {revision},
+    };
+    return BaseApi.post(`/deployments/${deployment.getIn(['metadata', 'name'])}/rollback`, body, cluster, deployment);
+  }
+
   /* SERVICES */
   static fetchService({cluster, service}) {
     return BaseApi.get(`/services/${service.getIn(['metadata', 'name'])}`, {}, cluster, service);

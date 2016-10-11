@@ -46,6 +46,10 @@
   "deployment_new_empty_image": "You need to specify an image",
   "deployment_rolling_update_action": "Change image",
   "deployment_change_cause": "Cause: ",
+  "deployment_rollback": "Rollback",
+  "deployment_rollback_alert": "Do you want to rollback to revision #{revision}?",
+  "deployment_rollback_action": "Yes, rollback!",
+  "deployment_rollback_succeed": "Rollback done!",
 
   "deploy_index_failed_title": "Can't fetch this store, verify your connection or try another url",
   "deploy_index_failed_action": "Try again",

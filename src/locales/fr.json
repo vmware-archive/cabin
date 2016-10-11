@@ -46,6 +46,10 @@
   "deployment_new_empty_image": "Veuillez spécifier une image",
   "deployment_rolling_update_action": "Changer l'image",
   "deployment_change_cause": "Cause: ",
+  "deployment_rollback": "Rollback",
+  "deployment_rollback_alert": "Voulez-vous rollback à la révision #{revision}?",
+  "deployment_rollback_action": "Oui, rollback !",
+  "deployment_rollback_succeed": "Rollback effectué !",
 
   "deploy_index_failed_title": "Impossible de récupérer les données, verifiez votre connexion ou essayez une autre url",
   "deploy_index_failed_action": "Réessayer",

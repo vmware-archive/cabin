@@ -18,10 +18,12 @@ import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
+import AlertUtils from 'utils/AlertUtils';
 
 const {
   View,
   ActivityIndicator,
+  Alert,
   StyleSheet,
 } = ReactNative;
 
@@ -58,7 +60,7 @@ export default class DeploymentsHistory extends Component {
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
-            list={replicas}
+            list={replicas.sortBy(e => e.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']))}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
             renderHeader={() => <ListHeader title={intl('revisions')} />}
@@ -68,12 +70,16 @@ export default class DeploymentsHistory extends Component {
     );
   }
 
-  renderRow(entity, rowID, index) {
+  renderRow(replica, rowID, index) {
     const isLast = index >= this.props.replicas.size - 1;
     return (
       <ListItem
-        subtitle={intl('deployment_change_cause') + entity.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}
-        title={entity.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}
+        subtitle={intl('deployment_change_cause') + replica.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}
+        title={replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}
+        showArrow={true}
+        onPress={() => this.onPressItem(replica)}
+        onDelete={() => this.rollbackTo(replica)}
+        deleteTitle={intl('deployment_rollback')}
         isLast={isLast}
       />
     );
@@ -82,6 +88,25 @@ export default class DeploymentsHistory extends Component {
   refresh() {
     const { deployment, cluster } = this.props;
     DeploymentsActions.fetchHistory({cluster, deployment});
+  }
+
+  onPressItem(replica) {
+    const revision = replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']);
+    Alert.alert(null, intl('deployment_rollback_alert', {revision}),
+      [
+        {text: intl('cancel')},
+        {text: intl('deployment_rollback_action'), onPress: () => this.rollbackTo(replica)},
+      ]
+    );
+  }
+
+  rollbackTo(replica) {
+    const { deployment, cluster } = this.props;
+    const revision = replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']);
+    DeploymentsActions.rollbackToRevision({cluster, deployment, revision}).then(r => {
+      console.log(r.toJS());
+      AlertUtils.showSuccess({message: intl('deployment_rollback_succeed')});
+    });
   }
 
 }
