@@ -72,7 +72,7 @@ export default class DeploymentsHistory extends Component {
     const isLast = index >= this.props.replicas.size - 1;
     return (
       <ListItem
-        detailTitle={entity.getIn(['metadata', 'name'])}
+        subtitle={intl('deployment_change_cause') + entity.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}
         title={entity.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}
         isLast={isLast}
       />
