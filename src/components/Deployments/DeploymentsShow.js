@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import PodsActions from 'actions/PodsActions';
+import EntitiesRoutes from 'routes/EntitiesRoutes';
 
 const {
   View,
@@ -66,7 +67,8 @@ export default class DeploymentsShow extends Component {
             <ListHeader title=""/>
             <ListItem title="Name" detailTitle={deployment.getIn(['metadata', 'name'])}/>
             <ListItem title="Namespace" detailTitle={deployment.getIn(['metadata', 'namespace'])}/>
-            <ListItem title="Age" detailTitle={intlrd(deployment.getIn(['metadata', 'creationTimestamp']))} isLast={true}/>
+            <ListItem title="Age" detailTitle={intlrd(deployment.getIn(['metadata', 'creationTimestamp']))}/>
+            <ListItem title="History" showArrow={true} isLast={true} onPress={this.handleShowHistory.bind(this)}/>
           </View>
           <View style={styles.section}>
             <ListHeader title="Replicas"/>
@@ -87,6 +89,10 @@ export default class DeploymentsShow extends Component {
     DeploymentsActions.fetchDeployments(this.props.cluster);
   }
 
+  handleShowHistory() {
+    this.props.navigator.push(EntitiesRoutes.getDeploymentsHistoryRoute({...this.props}));
+  }
+
   handleLabelSubmit({key, value}) {
     return DeploymentsActions.addDeploymentLabel({deployment: this.props.deployment, cluster: this.props.cluster, key, value});
   }
@@ -103,4 +109,5 @@ export default class DeploymentsShow extends Component {
       }, 2000);
     });
   }
+
 }
