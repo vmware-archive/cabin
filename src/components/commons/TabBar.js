@@ -22,6 +22,7 @@ import Colors from 'styles/Colors';
 const {
   TabBarIOS,
   StyleSheet,
+  DeviceEventEmitter,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -29,6 +30,24 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
 });
+
+const tabs = Immutable.fromJS([
+  {
+    title: intl('tabs_clusters'), icon: require('images/target.png'),
+    ref: 'clustersNavigator', event: 'clusters:navigation',
+    route: ClustersRoutes.getClustersIndexRoute(),
+  },
+  {
+    title: intl('tabs_deploy'), icon: require('images/upload.png'),
+    ref: 'deployNavigator', event: 'deploy:navigation',
+    route: DeployRoutes.getDeployIndexRoute(),
+  },
+  {
+    title: intl('tabs_settings'), icon: require('images/settings.png'),
+    ref: 'settingsNavigator', event: 'settings:navigation',
+    route: SettingsRoutes.getSettingsIndexRoute(),
+  },
+]);
 
 export default class TabBar extends Component {
 
@@ -39,45 +58,57 @@ export default class TabBar extends Component {
     };
   }
 
+  componentDidMount() {
+    this.navigationEventListener = DeviceEventEmitter.addListener('tabbar:navigation', this.handleSelecTab.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.navigationEventListener.remove();
+  }
+
   render() {
+    const items = tabs.map((tab, i) => {
+      return (
+        <TabBarIOS.Item
+          key={i}
+          title={tab.get('title')}
+          icon={tab.get('icon')}
+          selected={this.state.activeTab === i}
+          onPress={() => this.handleSelecTab(i)}>
+            <Navigator
+              ref={tab.get('ref')}
+              sceneStyle={styles.sceneStyle}
+              navigatorEvent={tab.get('event')}
+              initialRoute={tab.get('route').toJS()}
+            />
+        </TabBarIOS.Item>
+      );
+    });
+
     return (
       <TabBarIOS
         unselectedTintColor={Colors.GRAY}
         tintColor={Colors.BLUE}>
-        <TabBarIOS.Item
-          title="Clusters"
-          icon={require('images/target.png')}
-          selected={this.state.activeTab === 0}
-          onPress={() => this.setState({activeTab: 0})}>
-            <Navigator
-              sceneStyle={styles.sceneStyle}
-              navigatorEvent="clusters:navigation"
-              initialRoute={ClustersRoutes.getClustersIndexRoute()}
-            />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          title="Deploy"
-          icon={require('images/upload.png')}
-          selected={this.state.activeTab === 1}
-          onPress={() => this.setState({activeTab: 1})}>
-            <Navigator
-              sceneStyle={styles.sceneStyle}
-              navigatorEvent="deploy:navigation"
-              initialRoute={DeployRoutes.getDeployIndexRoute()}
-            />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          title="Settings"
-          icon={require('images/settings.png')}
-          selected={this.state.activeTab === 2}
-          onPress={() => this.setState({activeTab: 2})}>
-            <Navigator
-              sceneStyle={styles.sceneStyle}
-              navigatorEvent="settings:navigation"
-              initialRoute={SettingsRoutes.getSettingsIndexRoute()}
-            />
-        </TabBarIOS.Item>
+        {items}
       </TabBarIOS>
     );
+  }
+
+  handleSelecTab(index) {
+    if (index === this.state.activeTab) {
+      const navigator = this.navigatorForIndex(index);
+      navigator.popToTop();
+    } else {
+      this.setState({activeTab: index});
+    }
+  }
+
+  navigatorForIndex(index) {
+    switch (index) {
+      case 0: return this.refs.clustersNavigator;
+      case 1: return this.refs.deployNavigator;
+      case 2: return this.refs.settingsNavigator;
+      default: return this.refs.clustersNavigator;
+    }
   }
 }

@@ -58,6 +58,10 @@ class ServicesActions {
     return EntitiesActions.createEntity({cluster, entityType, params, namespace: deployment.getIn(['metadata', 'namespace'])});
   }
 
+  fetchService({cluster, service}) {
+    return ClustersApi.fetchService({cluster, service});
+  }
+
   addServiceLabel({cluster, service, key, value}) {
     EntitiesActions.addEntityLabelStart({cluster, entity: service, entityType, key, value});
     return ClustersApi.addEntityLabel({cluster, entity: service, entityType, key, value}).then(() => {

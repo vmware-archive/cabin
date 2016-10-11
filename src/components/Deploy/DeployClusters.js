@@ -18,9 +18,10 @@ import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ChartsUtils from 'utils/ChartsUtils';
-import AlertUtils from 'utils/AlertUtils';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import ServicesActions from 'actions/ServicesActions';
+import ClustersActions from 'actions/ClustersActions';
+import NavigationActions from 'actions/NavigationActions';
 import BaseApi from 'api/BaseApi';
 
 const { PropTypes } = React;
@@ -32,6 +33,8 @@ const {
   ActivityIndicator,
   Alert,
 } = ReactNative;
+
+const MAX_RETRIES = 3; // number of retries to deploy, if it fails for unknown reason
 
 const styles = StyleSheet.create({
   container: {
@@ -83,8 +86,7 @@ const styles = StyleSheet.create({
   },
   deployed: {
     flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   deployedImage: {
     width: 50, height: 50,
@@ -95,6 +97,9 @@ const styles = StyleSheet.create({
   deployedTitle: {
     color: Colors.GRAY,
     fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 20,
+    paddingHorizontal: 10,
   },
 });
 
@@ -110,8 +115,11 @@ export default class DeployClusters extends Component {
     this.state = {
       loading: false,
       deployed: false,
+      selectedCluster: null,
+      error: null,
       loadingMessage: '',
     };
+    this.deployTries = MAX_RETRIES;
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -122,6 +130,7 @@ export default class DeployClusters extends Component {
 
   render() {
     const { chart } = this.props;
+    const { selectedCluster } = this.state;
     const file = chart.get('chartfile');
     return (
       <View style={styles.container}>
@@ -134,9 +143,17 @@ export default class DeployClusters extends Component {
               <Text style={styles.chartSubtitle} numberOfLines={2}>{file.get('description')}</Text>
             </View>
           </View>
-          {!this.state.deployed && <ListHeader title={intl('deploy_choose_cluster')} />}
+          {selectedCluster && [
+            <ListHeader key="selectedClusterHeader" title={intl('deploy_selected_cluster')} />,
+            <ListItem
+              key="selectedCluster"
+              title={selectedCluster.get('name')}
+              subtitle={selectedCluster.get('url')}
+              isLast={true}/>,
+          ]}
           {this.renderClusters()}
           {this.renderDeploySuccess()}
+          {this.renderDeployError()}
         </ScrollView>
         {this.state.loading &&
           <View style={styles.loader}>
@@ -149,9 +166,9 @@ export default class DeployClusters extends Component {
   }
 
   renderClusters() {
-    if (this.state.deployed) { return false; }
+    if (this.state.deployed || this.state.selectedCluster) { return false; }
     const { clusters } = this.props;
-    return clusters.map((cluster, i) => {
+    const items = clusters.map((cluster, i) => {
       return (
         <ListItem
           key={i}
@@ -162,42 +179,83 @@ export default class DeployClusters extends Component {
           isLast={i === clusters.size - 1}/>
       );
     });
+    return [
+      <ListHeader key="title" title={intl('deploy_choose_cluster')} />,
+      items,
+    ];
   }
 
   renderDeploySuccess() {
     if (!this.state.deployed) { return false; }
+    return this.renderStatus({
+      title: intl('deploy_success_title'),
+      actiontitle: intl('deploy_success_action'),
+      action: () => this.openCluster(this.state.selectedCluster),
+      image: require('images/done_circle.png'), tintColor: Colors.GREEN,
+    });
+  }
+
+  renderDeployError() {
+    if (!this.state.error || this.state.deployed) { return false; }
+    return [
+      this.renderStatus({
+        title: intl('deploy_error_title', {message: this.state.error.message}),
+        actionTitle: intl('deploy_error_action'),
+        action: () => this.chooseCluster(this.state.selectedCluster),
+        image: require('images/error_circle.png'), tintColor: Colors.RED,
+      }),
+      <ListItem title={intl('deploy_error_action_2')} showArrow={true} onPress={() => this.setState({selectedCluster: null, error: null})} isLast={true}/>,
+    ];
+  }
+
+  renderStatus({title, actionTitle, action, image, tintColor}) {
     return (
       <View style={styles.deployed}>
-        <Image style={styles.deployedImage} source={require('images/done_circle.png')}/>
-        <Text style={styles.deployedTitle}>{intl('deploy_success_title')}</Text>
+        <View style={{alignItems: 'center'}}>
+          <Image style={[styles.deployedImage, {tintColor}]} source={image}/>
+          <Text style={styles.deployedTitle}>{title}</Text>
+        </View>
+        <ListItem
+          title={actionTitle}
+          showArrow={true}
+          onPress={action}
+          isLast={true}/>
       </View>
     );
   }
 
   chooseCluster(cluster) {
-    this.setState({loading: true, loadingMessage: intl('deploy_loading_deployments')});
+    this.setState({loading: true, error: null, deployed: false, selectedCluster: cluster, loadingMessage: intl('deploy_loading_deployments')});
     DeploymentsActions.fetchDeployments(cluster).then(dps => {
       const tillerDP = dps && dps.find(dp => dp.getIn(['metadata', 'name']) === 'tiller-deploy');
       if (!tillerDP) {
-        this.setState({loading: false});
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
           Alert.alert(intl('deploy_no_tiller_dp_alert_title'), intl('deploy_no_tiller_dp_alert_subtitle'),
-          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => {
-            this.createTillerDeploy(cluster).then(deployment => {
-              return this.createTillerSVC({cluster, deployment});
-            }).then(service => resolve(service));
-          }}]);
+            [{text: intl('cancel'), onPress: () => this.setState({loading: false})},
+            {text: intl('ok'), onPress: () => {
+              this.createTillerDeploy(cluster).then(deployment => {
+                return this.createTillerSVC({cluster, deployment});
+              }).catch(e => {
+                reject(e);
+              })
+              .then(service => resolve(service));
+            }}]);
         });
       }
       return this.findService({cluster, deployment: tillerDP});
     }).then(service => {
       this.setState({loading: true, loadingMessage: intl('deploy_loading_deploy_chart')});
-      return BaseApi.deployChart({chart: this.props.chart, service, cluster});
+      return this.deployChart({chart: this.props.chart, service, cluster});
     }).then(() => {
+      ClustersActions.fetchClusterEntities(cluster);
       this.setState({deployed: true});
     }).catch(e => {
-      AlertUtils.showError({message: e.message});
-    }).finally(() => this.setState({loading: false}));
+      this.setState({error: e});
+      // AlertUtils.showError({message: e.message});
+    }).finally(() => {
+      this.deployTries = MAX_RETRIES;
+      this.setState({loading: false});
+    });
   }
 
   findService({cluster, deployment}) {
@@ -205,10 +263,9 @@ export default class DeployClusters extends Component {
     return ServicesActions.fetchServices(cluster).then(svcs => {
       const tillerSVC = svcs && svcs.find(svc => svc.getIn(['metadata', 'labels', 'run']) === deployment.getIn(['metadata', 'name']));
       if (!tillerSVC) {
-        this.setState({loading: false});
         return new Promise(resolve => {
           Alert.alert(intl('deploy_no_tiller_svc_alert_title'), intl('deploy_no_tiller_svc_alert_subtitle'),
-          [{text: intl('cancel')}, {text: intl('ok'), onPress: () => this.createTillerSVC({cluster, deployment}).then(service => resolve(service))}]);
+          [{text: intl('cancel'), onPress: () => this.setState({loading: false})}, {text: intl('ok'), onPress: () => this.createTillerSVC({cluster, deployment}).then(service => resolve(service))}]);
         });
       }
       return tillerSVC;
@@ -220,7 +277,7 @@ export default class DeployClusters extends Component {
     return DeploymentsActions.createDeployment({
       cluster,
       name: 'tiller-deploy',
-      image: 'gcr.io/kubernetes-helm/tiller:canary',
+      image: 'gcr.io/kubernetes-helm/tiller:v2.0.0-alpha.4',
       namespace: 'default',
     });
   }
@@ -228,5 +285,31 @@ export default class DeployClusters extends Component {
   createTillerSVC({cluster, deployment}) {
     this.setState({loading: true, loadingMessage: intl('deploy_loading_create_service')});
     return ServicesActions.createService({cluster, deployment, type: 'NodePort', port: 44134, name: deployment.getIn(['metadata', 'name'])});
+  }
+
+  deployChart({chart, service, cluster}) {
+    return new Promise((resolve, reject) => {
+      this.sendChart({chart, service, cluster, resolve, reject});
+    });
+  }
+
+  sendChart({chart, service, cluster, resolve, reject}) {
+    this.deployTries--;
+    BaseApi.deployChart({chart, service, cluster}).then(r => {
+      resolve(r);
+    }).catch(e => {
+      if (this.deployTries > 0) {
+        setTimeout(() => {
+          this.sendChart({chart, service, cluster, resolve, reject});
+        }, 3000);
+      } else {
+        reject(e);
+      }
+    });
+  }
+
+  openCluster(cluster) {
+    this.props.navigator.popToTop();
+    NavigationActions.showCluster(cluster);
   }
 }

@@ -44,6 +44,7 @@ export default {
       name: 'DeployClusters',
       statusBarStyle: 'light-content',
       getTitle: () => intl('deploy_choose_cluster'),
+      getBackButtonTitle: () => intl('deploy_choose_cluster_back'),
       renderScene(navigator) {
         return (
           <AltContainer stores={{

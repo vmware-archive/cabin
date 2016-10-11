@@ -30,6 +30,14 @@ class NavigationActions {
     });
   }
 
+  selectTab(index) {
+    DeviceEventEmitter.emit('tabbar:navigation', index);
+  }
+
+  showCluster(cluster) {
+    this.selectTab(0);
+    DeviceEventEmitter.emit('clusters:navigation', cluster);
+  }
 }
 
 export default alt.createActions(NavigationActions);

@@ -18,10 +18,12 @@ import ServicesActions from 'actions/ServicesActions';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import BaseEntitiesStore from './BaseEntitiesStore';
 
+const entityType = 'services';
+
 class ServicesStore extends BaseEntitiesStore {
 
   constructor() {
-    super({entityType: 'services', persistent: true});
+    super({entityType, persistent: true});
     this.bindActions(ServicesActions);
   }
 
@@ -30,11 +32,11 @@ class ServicesStore extends BaseEntitiesStore {
   }
 
   onUpdateServiceTypeSuccess({cluster, service}) {
-    this.setState(this.state.mergeIn(['services', cluster.get('url'), service.getIn(['metadata', 'name'])], service));
+    this.setState(this.state.mergeIn(['services', cluster.get('url'), service.getIn(['metadata', 'name'])], service.set('kind', entityType)));
   }
 
   onUpdateServicePortsSuccess({cluster, service}) {
-    this.setState(this.state.setIn(['services', cluster.get('url'), service.getIn(['metadata', 'name'])], service));
+    this.setState(this.state.setIn(['services', cluster.get('url'), service.getIn(['metadata', 'name'])], service.set('kind', entityType)));
   }
 
 }

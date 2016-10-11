@@ -27,10 +27,8 @@ class BaseApi {
 
   static deployChart({chart, service, cluster}) {
     const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
-    return grpc.deployChartAtURL(chart.get('url'), host).then(response => {
-      console.log('DONE ? :', response);
-    }).catch(e => {
-      console.log('ERROR', e);
+    return grpc.deployChartAtURL(chart.get('url'), host).catch(e => {
+      console.log('ERROR DEPLOY', e);
       return Promise.reject(e);
     });
   }

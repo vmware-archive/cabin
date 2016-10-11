@@ -27,7 +27,6 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 {
   [GRPCCall useInsecureConnectionsForHost:host];
   ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
-  
   [self downloadFileAtUrl:chartUrl completion:^(NSURL *filePath) {
     NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     NSURL *toPath = [documentsDirectoryURL URLByAppendingPathComponent:@"chart"];

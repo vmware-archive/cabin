@@ -59,7 +59,7 @@ export default class EntitiesList extends Component {
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
-            list={entities}
+            list={entities.sortBy(e => e.getIn(['metadata', 'creationTimestamp'])).reverse()}
             onRefresh={this.refresh.bind(this)}
             renderRow={this.renderRow.bind(this)}
             renderHeader={this.props.listHeader && (() => <ListHeader title={this.props.listHeader} />)}

@@ -113,6 +113,10 @@ class ClustersApi {
   }
 
   /* SERVICES */
+  static fetchService({cluster, service}) {
+    return BaseApi.get(`/services/${service.getIn(['metadata', 'name'])}`, {}, cluster, service);
+  }
+
   static updateServiceType({cluster, service, type}) {
     const body = {spec: { type }};
     if (type === 'ClusterIP') {
