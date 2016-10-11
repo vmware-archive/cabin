@@ -38,9 +38,9 @@ class EntitiesActions {
     );
   }
 
-  fetchEntities({cluster, entityType}) {
+  fetchEntities({cluster, entityType, params}) {
     this.fetchEntitiesStart({cluster, entityType});
-    return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
+    return ClustersApi.fetchEntities({cluster, entityType, params}).then(entities => {
       this.dispatchEntities({cluster, entityType, entities});
       return entities;
     })

@@ -131,8 +131,8 @@ class ClustersApi {
   }
 
   /* GENERAL ENTITIES */
-  static fetchEntities({cluster, entityType}) {
-    return BaseApi.get(`/${entityType}`, {}, cluster).then(response => {
+  static fetchEntities({cluster, entityType, params = {}}) {
+    return BaseApi.get(`/${entityType}`, params, cluster).then(response => {
       return response.get('items');
     });
   }

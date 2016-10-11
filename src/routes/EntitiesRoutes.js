@@ -397,16 +397,19 @@ EntitiesRoutes = {
     return {
       name: 'DeploymentsHistory',
       statusBarStyle: 'light-content',
-      renderScene() {
+      getTitle: () => intl('history'),
+      renderScene(navigator) {
         return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => intl('deployment_new'),
-              renderScene(navigator) {
-                return <DeploymentsHistory cluster={cluster} deployment={deployment} navigator={navigator} />;
-              },
-            }}
-          />
+          <AltContainer stores={{
+            replicas: () => {
+              return {
+                store: alt.stores.DeploymentsStore,
+                value: alt.stores.DeploymentsStore.getDeploymentReplicas({deployment, cluster}),
+              };
+            }}}>
+            <DeploymentsHistory deployment={deployment} cluster={cluster} navigator={navigator}
+              replicas={alt.stores.DeploymentsStore.getDeploymentReplicas({deployment, cluster})}/>
+          </AltContainer>
         );
       },
     };

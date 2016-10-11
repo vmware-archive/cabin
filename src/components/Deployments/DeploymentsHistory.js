@@ -14,10 +14,14 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import CollectionView from 'components/commons/CollectionView';
+import ListItem from 'components/commons/ListItem';
+import ListHeader from 'components/commons/ListHeader';
+import DeploymentsActions from 'actions/DeploymentsActions';
 
 const {
   View,
-  Text,
+  ActivityIndicator,
   StyleSheet,
 } = ReactNative;
 
@@ -27,8 +31,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.BACKGROUND,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  list: {
+    flex: 1,
+  },
+  listContent: {
+    marginTop: 20,
   },
 });
 
@@ -37,22 +45,43 @@ export default class DeploymentsHistory extends Component {
   static propTypes = {
     deployment: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
+    replicas: PropTypes.instanceOf(Immutable.List),
   }
 
   render() {
-    // const { deployment, cluster } = this.props;
+    const { replicas } = this.props;
     return (
       <View style={styles.container}>
-        <Text>History</Text>
+        {replicas.isEmpty() ?
+          <ActivityIndicator style={{flex: 1}}/> :
+          <CollectionView style={styles.list}
+            contentContainerStyle={styles.listContent}
+            contentInset={{bottom: 40}}
+            scrollIndicatorInsets={{bottom: 0}}
+            list={replicas}
+            onRefresh={this.refresh.bind(this)}
+            renderRow={this.renderRow.bind(this)}
+            renderHeader={() => <ListHeader title={intl('revisions')} />}
+          />
+        }
       </View>
     );
+  }
+
+  renderRow(entity, rowID, index) {
+    const isLast = index >= this.props.replicas.size - 1;
+    return (
+      <ListItem
+        detailTitle={entity.getIn(['metadata', 'name'])}
+        title={entity.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}
+        isLast={isLast}
+      />
+    );
+  }
+
+  refresh() {
+    const { deployment, cluster } = this.props;
+    DeploymentsActions.fetchHistory({cluster, deployment});
   }
 
 }

@@ -43,6 +43,11 @@ class DeploymentsStore extends BaseEntitiesStore {
     this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name'])], deployment));
   }
 
+  static getDeploymentReplicas({cluster, deployment}) {
+    return alt.stores.ReplicaSetsStore.getAll(cluster).filter(replica => {
+      return replica.getIn(['metadata', 'labels', 'run']) === deployment.getIn(['metadata', 'name']);
+    });
+  }
 }
 
 export default alt.createStore(immutableUtil(DeploymentsStore), 'DeploymentsStore');

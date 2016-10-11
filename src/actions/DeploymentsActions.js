@@ -95,6 +95,14 @@ class DeploymentsActions {
       this.rollingUpdateFailure({cluster, deployment, image});
     });
   }
+
+  fetchHistory({cluster, deployment}) {
+    return EntitiesActions.fetchEntities({cluster, entityType: 'replicasets', params: {
+      labelSelector: `run=${deployment.getIn(['metadata', 'name'])}`,
+    }}).then(() => {
+      alt.stores.DeploymentsStore.emitChange();
+    });
+  }
 }
 
 export default alt.createActions(DeploymentsActions);

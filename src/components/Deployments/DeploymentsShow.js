@@ -90,7 +90,9 @@ export default class DeploymentsShow extends Component {
   }
 
   handleShowHistory() {
-    this.props.navigator.push(EntitiesRoutes.getDeploymentsHistoryRoute({...this.props}));
+    const { cluster, deployment } = this.props;
+    DeploymentsActions.fetchHistory({cluster, deployment});
+    this.props.navigator.push(EntitiesRoutes.getDeploymentsHistoryRoute({cluster, deployment}));
   }
 
   handleLabelSubmit({key, value}) {

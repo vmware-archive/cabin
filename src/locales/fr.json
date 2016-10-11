@@ -21,6 +21,8 @@
   "ingresses": "Ingress Rules",
   "replicasets": "Replica Sets",
   "chart": "Chart",
+  "history": "Historique",
+  "revisions": "Révisions",
   "open_in_browser": "Ouvrir dans un navigateur",
 
   "tabs_clusters": "Clusters",
