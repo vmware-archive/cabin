@@ -60,6 +60,10 @@ export default class ServicesShow extends Component {
   render() {
     const { service } = this.props;
     const smallDevice = Dimensions.get('window').width <= 340;
+    let externalIP = null;
+    if (service.getIn(['spec', 'type']) === 'LoadBalancer' && service.getIn(['status', 'loadBalancer', 'ingress'], Immutable.List()).size > 0) {
+      externalIP = service.getIn(['status', 'loadBalancer', 'ingress', 0, 'ip']);
+    }
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
@@ -69,7 +73,8 @@ export default class ServicesShow extends Component {
             <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
             <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
             <ListItem title={!smallDevice && 'Type'} renderDetail={this.renderTypeDetail.bind(this)}/>
-            <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={true}/>
+            <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={!externalIP}/>
+            {externalIP && <ListItem title="ExternalIP" detailTitle={externalIP} isLast={true}/>}
           </View>
           <View style={styles.section}>
             <LabelsView
