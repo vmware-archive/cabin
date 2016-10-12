@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import ClustersActions from 'actions/ClustersActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
 
 const entityType = 'deployments';
@@ -93,6 +94,21 @@ class DeploymentsActions {
       this.rollingUpdateSuccess({cluster, deployment: dep, image});
     }).catch(() => {
       this.rollingUpdateFailure({cluster, deployment, image});
+    });
+  }
+
+  fetchHistory({cluster, deployment}) {
+    return EntitiesActions.fetchEntities({cluster, entityType: 'replicasets', params: {
+      labelSelector: `run=${deployment.getIn(['metadata', 'name'])}`,
+    }}).then(() => {
+      alt.stores.DeploymentsStore.emitChange();
+    });
+  }
+
+  rollbackToRevision({cluster, deployment, revision}) {
+    return ClustersApi.rollbackDeployment({cluster, deployment, revision}).then(response => {
+      ClustersActions.fetchClusterEntities.defer(cluster);
+      return response;
     });
   }
 }

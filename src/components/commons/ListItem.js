@@ -90,6 +90,9 @@ export default class ListItem extends Component {
     showArrow: PropTypes.bool,
     renderTitle: PropTypes.func,
     renderDetail: PropTypes.func,
+    onPress: PropTypes.func,
+    onDelete: PropTypes.func,
+    deleteTitle: PropTypes.string,
     entity: PropTypes.instanceOf(Immutable.Map), // optional
   }
 
@@ -97,7 +100,7 @@ export default class ListItem extends Component {
     const Container = (this.props.onPress || this.props.onLongPress) ? TouchableOpacity : View;
     return (
       <SwipeOut autoClose={true} right={this.props.onDelete && [
-        {text: 'Delete', backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.props.onDelete},
+        {text: this.props.deleteTitle || intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.props.onDelete},
       ]}>
         <Container style={[styles.item, this.props.style]} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>

@@ -24,6 +24,7 @@ import ServicesEditPort from 'components/Services/ServicesEditPort';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import DeploymentsShow from 'components/Deployments/DeploymentsShow';
 import DeploymentsNew from 'components/Deployments/DeploymentsNew';
+import DeploymentsHistory from 'components/Deployments/DeploymentsHistory';
 import Navigator from 'components/commons/Navigator';
 import NavbarButton from 'components/commons/NavbarButton';
 import YamlView from 'components/YamlView';
@@ -388,6 +389,28 @@ EntitiesRoutes = {
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getDeploymentsHistoryRoute({cluster, deployment}) {
+    return {
+      name: 'DeploymentsHistory',
+      statusBarStyle: 'light-content',
+      getTitle: () => intl('history'),
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            replicas: () => {
+              return {
+                store: alt.stores.DeploymentsStore,
+                value: alt.stores.DeploymentsStore.getDeploymentReplicas({deployment, cluster}),
+              };
+            }}}>
+            <DeploymentsHistory deployment={deployment} cluster={cluster} navigator={navigator}
+              replicas={alt.stores.DeploymentsStore.getDeploymentReplicas({deployment, cluster})}/>
+          </AltContainer>
+        );
       },
     };
   },
