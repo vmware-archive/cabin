@@ -46,15 +46,6 @@ class DeploymentsActions {
     });
   }
 
-  deleteDeployment({cluster, deployment}) {
-    EntitiesActions.deleteEntityStart({cluster, entity: deployment, entityType});
-    return ClustersApi.deleteEntity({cluster, entity: deployment, entityType}).then(() => {
-      EntitiesActions.deleteEntitySuccess({cluster, entity: deployment, entityType});
-    }).catch(() => {
-      EntitiesActions.deleteEntityFailure({cluster, entity: deployment, entityType});
-    });
-  }
-
   createDeployment({cluster, name, image, namespace, args}) {
     const params = EntitiesUtils.newDeploymentParams({name, image, namespace, args});
     return EntitiesActions.createEntity({cluster, params, namespace, entityType});
