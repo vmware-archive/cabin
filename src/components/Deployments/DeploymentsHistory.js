@@ -72,13 +72,19 @@ export default class DeploymentsHistory extends Component {
 
   renderRow(replica, rowID, index) {
     const isLast = index >= this.props.replicas.size - 1;
+    const isLatestRevision = index <= 0;
+    // const title = ;
+    // if (isLatestRevision) {
+    //   title = `${title} (${intl('deployment_history_latest')})`;
+    // }
     return (
       <ListItem
-        subtitle={intl('deployment_change_cause') + replica.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}
-        title={replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}
-        showArrow={true}
-        onPress={() => this.onPressItem(replica)}
-        onDelete={() => this.rollbackTo(replica)}
+        subtitle={`${intl('deployment_change_cause')} ${replica.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}`}
+        title={`#${replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}`}
+        detailTitle={isLatestRevision ? intl('deployment_history_latest') : null}
+        showArrow={!isLatestRevision}
+        onPress={!isLatestRevision ? () => this.onPressItem(replica) : null}
+        onDelete={!isLatestRevision ? () => this.rollbackTo(replica) : null}
         deleteTitle={intl('deployment_rollback')}
         isLast={isLast}
       />
