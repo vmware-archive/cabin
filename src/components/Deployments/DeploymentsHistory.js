@@ -22,6 +22,7 @@ import AlertUtils from 'utils/AlertUtils';
 
 const {
   View,
+  Text,
   ActivityIndicator,
   Alert,
   StyleSheet,
@@ -39,6 +40,29 @@ const styles = StyleSheet.create({
   },
   listContent: {
     marginTop: 20,
+  },
+  itemTitle: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  itemRevision: {
+    width: 30, height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.PURPLE,
+    marginRight: 10,
+    borderRadius: 5,
+  },
+  itemCause: {
+    flex: 1,
+  },
+  itemDetail: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.GREEN,
+    padding: 5,
+    borderRadius: 5,
   },
 });
 
@@ -73,15 +97,26 @@ export default class DeploymentsHistory extends Component {
   renderRow(replica, rowID, index) {
     const isLast = index >= this.props.replicas.size - 1;
     const isLatestRevision = index <= 0;
-    // const title = ;
-    // if (isLatestRevision) {
-    //   title = `${title} (${intl('deployment_history_latest')})`;
-    // }
     return (
       <ListItem
-        subtitle={`${intl('deployment_change_cause')} ${replica.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}`}
-        title={`#${replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}`}
-        detailTitle={isLatestRevision ? intl('deployment_history_latest') : null}
+        renderTitle={() => {
+          return (
+            <View style={styles.itemTitle}>
+              <View style={styles.itemRevision}><Text style={{color: Colors.WHITE}}>{`#${replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision'])}`}</Text></View>
+              <Text style={styles.itemCause} numberOfLines={0}>
+                <Text style={{fontWeight: '500'}}>{`${intl('deployment_change_cause')} `}</Text>
+                {replica.getIn(['metadata', 'annotations', 'kubernetes.io/change-cause'], intl('none'))}
+              </Text>
+            </View>
+          );
+        }}
+        renderDetail={() => {
+          return !isLatestRevision ? false : (
+            <View style={styles.itemDetail}>
+              <Text style={{color: Colors.WHITE}}>{intl('deployment_history_latest')}</Text>
+            </View>
+          );
+        }}
         showArrow={!isLatestRevision}
         onPress={!isLatestRevision ? () => this.onPressItem(replica) : null}
         onDelete={!isLatestRevision ? () => this.rollbackTo(replica) : null}
