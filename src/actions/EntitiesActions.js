@@ -63,8 +63,16 @@ class EntitiesActions {
   }
 
   deleteEntity({cluster, entity, entityType}) {
+    const params = { labelSelector: `run=${entity.getIn(['metadata', 'name'])}` };
     this.deleteEntityStart({cluster, entity, entityType});
     return ClustersApi.deleteEntity({cluster, entity, entityType}).then(() => {
+      if (entityType === 'replications' || entityType === 'deployments') {
+        Immutable.List(['services', 'pods', 'replicasets']).map(type => {
+          ClustersApi.fetchEntities({cluster, entityType: type, params}).then(entities => {
+            entities.map(e => this.deleteEntity({cluster, entity: e, entityType: type}));
+          });
+        });
+      }
       this.deleteEntitySuccess({cluster, entity, entityType});
     }).catch(() => {
       this.deleteEntityFailure({cluster, entity, entityType});

@@ -39,15 +39,6 @@ class ReplicationsActions {
     });
   }
 
-  deleteReplication({cluster, replication}) {
-    EntitiesActions.deleteEntityStart({cluster, entity: replication, entityType});
-    return ClustersApi.deleteEntity({cluster, entity: replication, entityType}).then(() => {
-      EntitiesActions.deleteEntitySuccess({cluster, entity: replication, entityType});
-    }).catch(() => {
-      EntitiesActions.deleteEntityFailure({cluster, entity: replication, entityType});
-    });
-  }
-
   addReplicationLabel({cluster, replication, key, value}) {
     EntitiesActions.addEntityLabelStart({cluster, entity: replication, entityType, key, value});
     return ClustersApi.addEntityLabel({cluster, entity: replication, entityType, key, value}).then(() => {
