@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import ListItem from 'components/commons/ListItem';
+import Colors from 'styles/Colors';
 
 const {
   View,
@@ -41,6 +42,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: -4,
   },
+  done: {
+    marginLeft: 10,
+    color: Colors.BLUE,
+    fontWeight: '600',
+    fontSize: 16,
+  },
   title: {
     flex: 1,
     fontSize: 16,
@@ -61,6 +68,7 @@ export default class ReplicationsSlider extends Component {
     super(props);
     this.state = {
       sliderValue: props.replication.getIn(['spec', 'replicas']),
+      edited: false,
     };
   }
 
@@ -74,10 +82,16 @@ export default class ReplicationsSlider extends Component {
             <View style={styles.row}>
               <Text style={styles.title}>Desired</Text>
               <Text style={styles.detail}>{this.state.sliderValue}</Text>
+              {this.state.edited &&
+                <Text style={styles.done} onPress={() => {
+                  this.props.onSubmit(this.state.sliderValue);
+                  this.setState({edited: false});
+                }}>{intl('apply')}</Text>
+              }
             </View>
             <Slider style={styles.slider} minimumValue={0} maximumValue={maxReplicas} step={1} value={replication.getIn(['spec', 'replicas'])}
-              onValueChange={(sliderValue) => this.setState({sliderValue})}
-              onSlidingComplete={this.props.onSubmit}/>
+              onValueChange={(sliderValue) => this.setState({sliderValue, edited: true})}
+              onSlidingComplete={(sliderValue) => this.setState({sliderValue})}/>
           </View>
         );
       }}
