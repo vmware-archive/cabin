@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import SwipeOut from 'react-native-swipeout';
+import SwipeRow from 'components/commons/SwipeRow';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
@@ -39,6 +39,7 @@ const {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.BACKGROUND,
   },
   innerContainer: {
     backgroundColor: Colors.WHITE,
@@ -106,11 +107,11 @@ export default class ClusterItem extends Component {
     const { cluster } = this.props;
     const showReport = !ClustersUtils.hasSpartakusDeployment(cluster);
     const buttons = [];
-    showReport && buttons.push({ text: intl('report'), backgroundColor: Colors.BLUE, underlayColor: Colors.BLUE, onPress: this.handleReport.bind(this)});
-    buttons.push({ text: intl('edit'), backgroundColor: Colors.YELLOW, underlayColor: Colors.YELLOW, onPress: this.handleEdit.bind(this)});
-    buttons.push({ text: intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.handleDelete.bind(this)});
+    showReport && buttons.push({ text: intl('report'), style: {backgroundColor: Colors.BLUE, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleReport.bind(this)});
+    buttons.push({ text: intl('edit'), style: {backgroundColor: Colors.YELLOW, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleEdit.bind(this)});
+    buttons.push({ text: intl('delete'), style: {backgroundColor: Colors.RED, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleDelete.bind(this)});
     return (
-      <SwipeOut ref="swipeOut" right={buttons} backgroundColor="transparent" autoClose={true}>
+      <SwipeRow ref="swipeOut" onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd} right={buttons} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.handleLongPress.bind(this)}>
             <View style={styles.header}>
@@ -128,7 +129,7 @@ export default class ClusterItem extends Component {
             {this.renderCounters()}
           </TouchableOpacity>
         </View>
-      </SwipeOut>
+      </SwipeRow>
     );
   }
 

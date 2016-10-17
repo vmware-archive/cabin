@@ -85,6 +85,13 @@ const styles = StyleSheet.create({
 
 export default class ClustersIndex extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      scrollEnabled: true,
+    };
+  }
+
   componentDidMount() {
     this.navigationEventListener = DeviceEventEmitter.addListener('clusters:navigation', this.handleShowCluster.bind(this));
     InteractionManager.runAfterInteractions(() => this.checkClusters());
@@ -106,6 +113,7 @@ export default class ClustersIndex extends Component {
             };
           }}}>
           <CollectionView style={styles.list}
+            scrollEnabled={this.state.scrollEnabled}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
             contentContainerStyle={styles.listContent}
@@ -124,6 +132,8 @@ export default class ClustersIndex extends Component {
       <ClustersItem
         cluster={cluster}
         onPress={() => this.onSelectCluster(cluster)}
+        onSwipeStart={(swiping) => this.setState({scrollEnabled: !swiping})}
+        onSwipeEnd={() => this.setState({scrollEnabled: true})}
       />
     );
   }

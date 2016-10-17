@@ -4264,7 +4264,7 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-tween-state@^0.1.5:
+react-tween-state, react-tween-state@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/react-tween-state/-/react-tween-state-0.1.5.tgz#e98b066551efb93cb92dd1be14995c2e3deae339"
   dependencies:
