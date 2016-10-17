@@ -78,6 +78,9 @@
 
   "service_new": "New Service",
   "service_new_description": "You need to choose a deployment to expose and a port",
+  "service_new_choose_deployment": "Choose a deployment",
+  "service_new_choose_deployment_alert": "Choose a deployment to expose",
+  "service_new_no_deployments_alert": "We can't find a deployment to expose",
   "service_open_browser_no_node": "We can't find a node ready to open this service",
 
   "settings_repo_url_placeholder": "Add new deploy store URL",

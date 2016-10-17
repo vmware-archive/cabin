@@ -77,6 +77,9 @@
 
   "service_new": "Nouveau Service",
   "service_new_description": "Vous devez choisir un deployment à exposer ainsi qu'un port",
+  "service_new_choose_deployment": "Choisissez un deployment",
+  "service_new_choose_deployment_alert": "Choisissez un deployment à exposer",
+  "service_new_no_deployments_alert": "Nous ne trouvons pas de deployment à exposer",
   "service_open_browser_no_node": "Nous ne trouvons pas de node prêt pour afficher ce service",
 
   "settings_repo_url_placeholder": "Ajouter une nouvelle URL",

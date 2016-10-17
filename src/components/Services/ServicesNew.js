@@ -18,6 +18,7 @@ import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ServicesActions from 'actions/ServicesActions';
+import DeploymentsActions from 'actions/DeploymentsActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
@@ -56,20 +57,21 @@ export default class ServicesNew extends Component {
 
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
-    defaultDeployment: PropTypes.instanceOf(Immutable.Map).isRequired,
+    defaultDeployment: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor(props) {
     super(props);
     this.state = {
       deployment: props.defaultDeployment,
-      name: props.defaultDeployment.getIn(['metadata', 'name']),
+      name: props.defaultDeployment ? props.defaultDeployment.getIn(['metadata', 'name']) : null,
       port: '1234',
       loading: false,
     };
   }
 
   componentDidMount() {
+    DeploymentsActions.fetchDeployments(this.props.cluster);
     this.submitListener = DeviceEventEmitter.addListener('ServicesNew:submit', this.onSubmit.bind(this));
   }
 
@@ -79,6 +81,7 @@ export default class ServicesNew extends Component {
 
   render() {
     const { deployment } = this.state;
+    let selectedDeploymentTitle = deployment ? deployment.getIn(['metadata', 'name']) : null;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}
@@ -86,7 +89,7 @@ export default class ServicesNew extends Component {
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
           <ListHeader title={intl('service_new_description')} style={{height: null, paddingBottom: 10}}/>
-          <ListItem title="Deployment" detailTitle={deployment.getIn(['metadata', 'name'])} showArrow={true} onPress={this.selectDeployment.bind(this)}/>
+          <ListItem title={deployment ? 'Deployment' : intl('service_new_choose_deployment')} detailTitle={selectedDeploymentTitle} showArrow={true} onPress={this.selectDeployment.bind(this)}/>
           <ListInputItem ref="nameInput" autoCapitalize="none" autoCorrect={false} defaultValue={this.state.name} placeholder="Service name"
             onChangeText={name => this.setState({name})}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.port} placeholder="Port"
@@ -112,11 +115,12 @@ export default class ServicesNew extends Component {
         };
       }).toJS(),
     ];
-    ActionSheetUtils.showActionSheetWithOptions({options, title: 'Choose a deployment to expose'});
+    const title = deployments.size > 0 ? intl('service_new_choose_deployment_alert') : intl('service_new_no_deployments_alert');
+    ActionSheetUtils.showActionSheetWithOptions({options, title});
   }
 
   onSubmit() {
-    if (this.state.loading) { return; }
+    if (this.state.loading || !this.state.deployment || !this.state.name) { return; }
     this.setState({loading: true});
     ServicesActions.createService({
       cluster: this.props.cluster,
