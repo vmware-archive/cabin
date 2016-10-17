@@ -44,10 +44,10 @@ export default Immutable.fromJS({
     entityType: 'services',
     status: {'test': 'success'},
     services: {
-      'test': [
-        {kind: 'services', metadata: { name: 'Service A', creationTimestamp: '2016-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443', targetPort: '443', protocol: 'TCP'}]}},
-        {kind: 'services', metadata: { name: 'Service B', creationTimestamp: '2015-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443', targetPort: '443', protocol: 'TCP'}]}},
-      ],
+      'test': {
+        'Service A': {kind: 'services', metadata: { name: 'Service A', creationTimestamp: '2016-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443', targetPort: '443', protocol: 'TCP'}]}},
+        'Service B': {kind: 'services', metadata: { name: 'Service B', creationTimestamp: '2015-07-14T23:45:20Z' }, spec: { type: 'ClusterIP', ports: [{name: 'https', port: '443', targetPort: '443', protocol: 'TCP'}]}},
+      },
     },
   },
   ReplicationsStore: {
@@ -64,9 +64,9 @@ export default Immutable.fromJS({
     entityType: 'deployments',
     status: {'test': 'success'},
     deployments: {
-      'test': [
-        {kind: 'deployments', metadata: { name: 'Deployment-A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
-      ],
+      'test': {
+        'Deployment-A': {kind: 'deployments', metadata: { name: 'Deployment-A', creationTimestamp: '2016-07-14T23:45:20Z'}, spec: {replicas: 1}},
+      },
     },
   },
   NodesStore: {
