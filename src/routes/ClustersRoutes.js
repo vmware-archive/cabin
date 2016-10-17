@@ -28,6 +28,7 @@ import Colors from 'styles/Colors';
 
 const {
   DeviceEventEmitter,
+  Platform,
   View,
   Image,
 } = ReactNative;
@@ -52,7 +53,7 @@ const ClustersRoutes = {
         return (
           <NavbarButton source={require('images/add.png')}
             // onPress={() => BaseApi.callGRPC('test')}
-            onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewNavigatorRoute())}
+            onPress={() => NavigationActions.push(ClustersRoutes.getClusterNewRoute())}
           />
         );
       },
@@ -113,12 +114,16 @@ const ClustersRoutes = {
     };
   },
 
-  getClustersNewNavigatorRoute(optionalCluster) {
+  getClusterNewRoute(optionalCluster) {
+    const route = ClustersRoutes.getClusterCreationRoute(optionalCluster);
+    if (Platform.OS === 'android') {
+      return route;
+    }
     return {
       name: 'ClustersNew',
       statusBarStyle: 'light-content',
       renderScene() {
-        return <Navigator initialRoute={ClustersRoutes.getClustersNewRoute(optionalCluster)} />;
+        return <Navigator initialRoute={route} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
@@ -126,7 +131,7 @@ const ClustersRoutes = {
     };
   },
 
-  getClustersNewRoute(optionalCluster) {
+  getClusterCreationRoute(optionalCluster) {
     return {
       getTitle: () => 'New Cluster',
       renderScene(navigator) {

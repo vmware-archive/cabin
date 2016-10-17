@@ -130,7 +130,7 @@ export default class ClustersIndex extends Component {
           <ActionButton
             buttonColor={Colors.BLUE}
             offsetY={16} offsetX={16}
-            onPress={() => this.props.navigator.push(ClustersRoutes.getClustersNewRoute())} />}
+            onPress={() => this.props.navigator.push(ClustersRoutes.getClusterNewRoute())} />}
       </View>
     );
   }
@@ -155,7 +155,7 @@ export default class ClustersIndex extends Component {
         <Text style={styles.emptyTitle}>{intl('clusters_empty_title')}</Text>
         <Text style={styles.emptySubtitle}>{intl('clusters_empty_subtitle')}</Text>
         <TouchableOpacity style={styles.emptyButton} onPress={() => {
-          NavigationActions.push(ClustersRoutes.getClustersNewNavigatorRoute());
+          NavigationActions.push(ClustersRoutes.getClusterNewRoute());
         }}>
           <Text style={styles.emptyAction}>{intl('clusters_empty_action')}</Text>
         </TouchableOpacity>
