@@ -19,6 +19,7 @@ import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
+import AlertUtils from 'utils/AlertUtils';
 
 const { PropTypes } = React;
 
@@ -99,6 +100,10 @@ export default class ClustersNew extends Component {
   }
 
   onSubmit() {
+    if (!/(ftp|https?):\/\/[^ "]+$/.test(this.state.url)) {
+      AlertUtils.showWarning({message: intl('cluster_new_wrong_url')});
+      return;
+    }
     if (this.props.cluster) {
       ClustersActions.editCluster({cluster: this.props.cluster, params: Immutable.fromJS({...this.state})});
     } else {

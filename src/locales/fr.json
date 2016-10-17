@@ -34,6 +34,7 @@
   "clusters_empty_title": "Bienvenue dans la Cabin",
   "clusters_empty_subtitle": "Vous n'avez aucun cluster à gérer, commençons par en ajouter un!",
   "clusters_empty_action": "Ajouter un cluster",
+  "cluster_new_wrong_url": "Merci d'entrer une url de cluster valide",
   "cluster_remove_title": "Supprimer cluster",
   "cluster_remove_subtitle": "Êtes-vous sûr de vouloir supprimer cet cluster ?",
   "cluster_report_loading": "Creation d'un deployment Spartakus...",
