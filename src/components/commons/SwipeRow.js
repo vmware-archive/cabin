@@ -22,6 +22,8 @@ import {
   Animated,
 } from 'react-native';
 
+const FULL_SWIPE_ACTION = 100;
+
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
@@ -68,9 +70,13 @@ export default class SwipeRow extends Component {
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: (event, gestureState) =>
-        Math.abs(gestureState.dx) > this.props.sensitivity &&
-        Math.abs(gestureState.dy) > this.props.sensitivity,
+      onMoveShouldSetPanResponder: (e, gestureState) => {
+        const dx = Math.abs(gestureState.dx);
+        const dy = Math.abs(gestureState.dy);
+        if (dx < 3 || (dy > dx)) { return false; }
+        this.props.onSwipeStart && this.props.onSwipeStart();
+        return true;
+      },
       onPanResponderGrant: this._handlePanResponderGrant.bind(this),
       onPanResponderMove: this._handlePanResponderMove.bind(this),
       onPanResponderRelease: this._handlePanResponderEnd.bind(this),
@@ -80,9 +86,7 @@ export default class SwipeRow extends Component {
   }
 
   _handlePanResponderGrant() {
-    if (this.props.onOpen) {
-      this.props.onOpen(this.props.sectionID, this.props.rowID);
-    }
+    this.props.onOpen && this.props.onOpen(this.props.sectionID, this.props.rowID);
     this.refs.swipeContent._component.measure((ox, oy, width) => {
       this.setState({
         btnWidth: (width / 5),
@@ -95,18 +99,18 @@ export default class SwipeRow extends Component {
 
   _handlePanResponderMove(e: Object, gestureState: Object) {
     let posX = gestureState.dx;
-    const posY = gestureState.dy;
+    // const posY = gestureState.dy;
     const leftWidth = this.state.btnsLeftWidth;
     const rightWidth = this.state.btnsRightWidth;
     if (this.state.openedRight) {
       posX = gestureState.dx - rightWidth;
     } else if (this.state.openedLeft) { posX = gestureState.dx + leftWidth; }
 
-    const moveX = Math.abs(posX) > Math.abs(posY);
-    if (this.props.onSwipeStart) {
-      if (moveX) this.props.onSwipeStart(true);
-      else this.props.onSwipeStart(false);
-    }
+    // const moveX = Math.abs(posX) > Math.abs(posY);
+    // if (this.props.onSwipeStart) {
+    //   if (moveX) this.props.onSwipeStart(true);
+    //   else this.props.onSwipeStart(false);
+    // }
     if (this.state.swiping) {
       if (posX < 0 && this.props.right) this.state.contentX.setValue(Math.min(posX, 0));
       else if (posX > 0 && this.props.left) this.state.contentX.setValue(Math.max(posX, 0));
@@ -139,7 +143,15 @@ export default class SwipeRow extends Component {
     }
 
     if (this.state.swiping) {
-      if (openRight && contentX < 0 && posX < 0) {
+      if (openRight && contentX < (-contentWidth + FULL_SWIPE_ACTION)) {
+        // full swipe triggered
+        this.animateTo(-contentWidth);
+        setTimeout(() => {
+          this.close();
+        }, 1000);
+        this.setState({ openedLeft: false, openedRight: false });
+        this.triggerLastRight();
+      } else if (openRight && contentX < 0 && posX < 0) {
         // open swipeout right
         this.animateTo(-btnsRightWidth);
         this.setState({ openedLeft: false, openedRight: true });
@@ -149,7 +161,7 @@ export default class SwipeRow extends Component {
         this.setState({ openedLeft: true, openedRight: false });
       } else {
         // close swipeout
-        this.animateTo(0);
+        this.close();
         this.setState({ openedLeft: false, openedRight: false });
       }
     }
@@ -197,6 +209,11 @@ export default class SwipeRow extends Component {
     if (isRight) {
       inputRange = [-this.state.btnsRightWidth, 0];
       outputRange = [this.state.btnWidth, 0];
+      if (index === this.props.right.length - 1 && this.state.contentWidth > 0) {
+        const reachEdge = (-this.state.contentWidth + FULL_SWIPE_ACTION);
+        inputRange = [-this.state.contentWidth, reachEdge - 1, reachEdge, -this.state.btnsRightWidth, 0];
+        outputRange = [this.state.contentWidth, -reachEdge, this.state.btnWidth, this.state.btnWidth, 0];
+      }
     } else {
       inputRange = [0, this.state.btnsLeftWidth];
       outputRange = [0, this.state.btnWidth];
@@ -224,15 +241,26 @@ export default class SwipeRow extends Component {
     );
   }
 
+  close() {
+    this.animateTo(0);
+  }
+
   animateTo(toValue) {
-    Animated.timing(this.state.contentX, {toValue, duration: 200}).start();
+    Animated.timing(this.state.contentX, {toValue, duration: 500}).start();
   }
 
   onLayout(event) {
     const { width, height } = event.nativeEvent.layout;
-    this.setState({
-      contentWidth: width,
-      contentHeight: height,
-    });
+    if (width !== this.state.contentWidth || height !== this.state.contentHeight) {
+      this.setState({
+        contentWidth: width,
+        contentHeight: height,
+      });
+    }
+  }
+
+  triggerLastRight() {
+    const lastRight = this.props.right[this.props.right.length - 1];
+    lastRight && lastRight.onPress && lastRight.onPress();
   }
 }

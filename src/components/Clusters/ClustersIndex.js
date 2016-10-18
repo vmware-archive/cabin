@@ -113,6 +113,7 @@ export default class ClustersIndex extends Component {
             };
           }}}>
           <CollectionView style={styles.list}
+          ref="CollectionView"
             scrollEnabled={this.state.scrollEnabled}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
@@ -132,7 +133,7 @@ export default class ClustersIndex extends Component {
       <ClustersItem
         cluster={cluster}
         onPress={() => this.onSelectCluster(cluster)}
-        onSwipeStart={(swiping) => this.setState({scrollEnabled: !swiping})}
+        onSwipeStart={() => this.setState({scrollEnabled: false})}
         onSwipeEnd={() => this.setState({scrollEnabled: true})}
       />
     );
