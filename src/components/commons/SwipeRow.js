@@ -143,7 +143,7 @@ export default class SwipeRow extends Component {
     }
 
     if (this.state.swiping) {
-      if (openRight && contentX < (-contentWidth + FULL_SWIPE_ACTION)) {
+      if (openRight && contentX < -(btnsRightWidth + FULL_SWIPE_ACTION)) {
         // full swipe triggered
         this.animateTo(-contentWidth);
         setTimeout(() => {
@@ -210,7 +210,7 @@ export default class SwipeRow extends Component {
       inputRange = [-this.state.btnsRightWidth, 0];
       outputRange = [this.state.btnWidth, 0];
       if (index === this.props.right.length - 1 && this.state.contentWidth > 0) {
-        const reachEdge = (-this.state.contentWidth + FULL_SWIPE_ACTION);
+        const reachEdge = -(this.state.btnsRightWidth + FULL_SWIPE_ACTION);
         inputRange = [-this.state.contentWidth, reachEdge - 1, reachEdge, -this.state.btnsRightWidth, 0];
         outputRange = [this.state.contentWidth, -reachEdge, this.state.btnWidth, this.state.btnWidth, 0];
       }
