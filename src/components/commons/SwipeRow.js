@@ -22,7 +22,6 @@ import {
   Animated,
 } from 'react-native';
 
-const FULL_SWIPE_ACTION = 100;
 
 const styles = StyleSheet.create({
   container: {
@@ -65,6 +64,7 @@ export default class SwipeRow extends Component {
       swiping: false,
       timeStart: null,
     };
+    this.closeTimeout;
   }
 
   componentWillMount() {
@@ -105,12 +105,6 @@ export default class SwipeRow extends Component {
     if (this.state.openedRight) {
       posX = gestureState.dx - rightWidth;
     } else if (this.state.openedLeft) { posX = gestureState.dx + leftWidth; }
-
-    // const moveX = Math.abs(posX) > Math.abs(posY);
-    // if (this.props.onSwipeStart) {
-    //   if (moveX) this.props.onSwipeStart(true);
-    //   else this.props.onSwipeStart(false);
-    // }
     if (this.state.swiping) {
       if (posX < 0 && this.props.right) this.state.contentX.setValue(Math.min(posX, 0));
       else if (posX > 0 && this.props.left) this.state.contentX.setValue(Math.max(posX, 0));
@@ -143,7 +137,7 @@ export default class SwipeRow extends Component {
     }
 
     if (this.state.swiping) {
-      if (openRight && contentX < -(btnsRightWidth + FULL_SWIPE_ACTION)) {
+      if (openRight && contentX < -(btnsRightWidth + (contentWidth - btnsRightWidth) / 3)) {
         // full swipe triggered
         this.animateTo(-contentWidth);
         setTimeout(() => {
@@ -155,10 +149,16 @@ export default class SwipeRow extends Component {
         // open swipeout right
         this.animateTo(-btnsRightWidth);
         this.setState({ openedLeft: false, openedRight: true });
+        this.closeTimeout = setTimeout(() => {
+          this.close();
+        }, 5000);
       } else if (openLeft && contentX > 0 && posX > 0) {
         // open swipeout left
         this.animateTo(btnsLeftWidth);
         this.setState({ openedLeft: true, openedRight: false });
+        this.closeTimeout = setTimeout(() => {
+          this.close();
+        }, 5000);
       } else {
         // close swipeout
         this.close();
@@ -204,19 +204,20 @@ export default class SwipeRow extends Component {
   }
 
   renderButton({button, isRight, index}) {
+    const { contentWidth, btnsRightWidth, btnsLeftWidth, btnWidth } = this.state;
     let inputRange = [];
     let outputRange = [];
     if (isRight) {
       inputRange = [-this.state.btnsRightWidth, 0];
       outputRange = [this.state.btnWidth, 0];
-      if (index === this.props.right.length - 1 && this.state.contentWidth > 0) {
-        const reachEdge = -(this.state.btnsRightWidth + FULL_SWIPE_ACTION);
-        inputRange = [-this.state.contentWidth, reachEdge - 1, reachEdge, -this.state.btnsRightWidth, 0];
-        outputRange = [this.state.contentWidth, -reachEdge, this.state.btnWidth, this.state.btnWidth, 0];
+      if (index === this.props.right.length - 1 && contentWidth > 0) {
+        const reachEdge = -(btnsRightWidth + (contentWidth - btnsRightWidth) / 3);
+        inputRange = [-contentWidth, reachEdge - 1, reachEdge, -btnsRightWidth, 0];
+        outputRange = [contentWidth, -reachEdge, btnWidth, btnWidth, 0];
       }
     } else {
-      inputRange = [0, this.state.btnsLeftWidth];
-      outputRange = [0, this.state.btnWidth];
+      inputRange = [0, btnsLeftWidth];
+      outputRange = [0, btnWidth];
     }
     const width = this.state.contentX.interpolate({
       inputRange, outputRange, extrapolateLeft: 'clamp', extrapolateRight: 'clamp',
@@ -242,10 +243,12 @@ export default class SwipeRow extends Component {
   }
 
   close() {
+    clearTimeout(this.closeTimeout);
     this.animateTo(0);
   }
 
   animateTo(toValue) {
+    clearTimeout(this.closeTimeout);
     Animated.timing(this.state.contentX, {toValue, duration: 500}).start();
   }
 
