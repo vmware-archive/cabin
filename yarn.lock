@@ -4162,12 +4162,6 @@ react-native-sortable-listview@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.0.8.tgz#8740ac49641ba6bfe7d52c1ece74c59d6b94daea"
 
-"react-native-swipeout@git+https://github.com/kemcake/react-native-swipeout.git":
-  version "2.0.12"
-  resolved "git+https://github.com/kemcake/react-native-swipeout.git#829b7c01ba969cd70509944bc210289b759d48a6"
-  dependencies:
-    react-tween-state "^0.1.5"
-
 react-native-tag-input@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/react-native-tag-input/-/react-native-tag-input-0.0.11.tgz#d02dce7ca113d72dfedf946ab87a3ada248b8dfd"
@@ -4264,7 +4258,7 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-tween-state, react-tween-state@^0.1.5:
+react-tween-state:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/react-tween-state/-/react-tween-state-0.1.5.tgz#e98b066551efb93cb92dd1be14995c2e3deae339"
   dependencies:
