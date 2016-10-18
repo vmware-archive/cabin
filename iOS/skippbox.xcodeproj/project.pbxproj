@@ -858,7 +858,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = skippbox;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a0b8fc40-759f-4f60-b4ac-c19182d1c505";
 				SWIFT_OBJC_BRIDGING_HEADER = "Skippbox-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -905,7 +905,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = skippbox;
-				PROVISIONING_PROFILE = "bd97b223-4d35-4ab7-b5c1-95fe93cc8269";
+				PROVISIONING_PROFILE = "a0b8fc40-759f-4f60-b4ac-c19182d1c505";
 				SWIFT_OBJC_BRIDGING_HEADER = "Skippbox-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -49,6 +49,13 @@ export default class EntitiesList extends Component {
     listHeader: PropTypes.string,
   }
 
+  constructor() {
+    super();
+    this.state = {
+      scrollEnabled: true,
+    };
+  }
+
   render() {
     const { status, entities } = this.props;
     return (
@@ -56,6 +63,7 @@ export default class EntitiesList extends Component {
         {status === 'loading' && entities.isEmpty() ?
           <ActivityIndicator style={{flex: 1}}/> :
           <CollectionView style={styles.list}
+            scrollEnabled={this.state.scrollEnabled}
             contentContainerStyle={styles.listContent}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
@@ -84,6 +92,8 @@ export default class EntitiesList extends Component {
         entity={entity}
         showArrow={true}
         isLast={isLast}
+        onSwipeStart={() => this.setState({scrollEnabled: false})}
+        onSwipeEnd={() => this.setState({scrollEnabled: true})}
         onPress={() => this.onPressItem(entity)}
         onDelete={() => this.props.onDelete(entity)}
       />

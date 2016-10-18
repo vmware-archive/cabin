@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import SwipeOut from 'react-native-swipeout';
+import SwipeRow from 'components/commons/SwipeRow';
 import EntityIcon from 'components/commons/EntityIcon';
 import StatusView from 'components/commons/StatusView';
 import EntitiesUtils from 'utils/EntitiesUtils';
@@ -99,8 +99,9 @@ export default class ListItem extends Component {
   render() {
     const Container = (this.props.onPress || this.props.onLongPress) ? TouchableOpacity : View;
     return (
-      <SwipeOut autoClose={true} right={this.props.onDelete && [
-        {text: this.props.deleteTitle || intl('delete'), backgroundColor: Colors.RED, underlayColor: Colors.RED, onPress: this.props.onDelete},
+      <SwipeRow onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
+      right={this.props.onDelete && [
+        {text: this.props.deleteTitle || intl('delete'), style: {backgroundColor: Colors.RED}, textStyle: {color: Colors.WHITE}, onPress: this.props.onDelete},
       ]}>
         <Container style={[styles.item, this.props.style]} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>
@@ -112,7 +113,7 @@ export default class ListItem extends Component {
           </View>
           <View style={[styles.separator, this.props.isLast && {left: 0}]}/>
         </Container>
-      </SwipeOut>
+      </SwipeRow>
     );
   }
 
