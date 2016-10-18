@@ -113,7 +113,7 @@ export default class ClustersIndex extends Component {
             };
           }}}>
           <CollectionView style={styles.list}
-          ref="CollectionView"
+            ref="CollectionView"
             scrollEnabled={this.state.scrollEnabled}
             contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
@@ -129,9 +129,11 @@ export default class ClustersIndex extends Component {
   }
 
   renderRow(cluster) {
+    const isCompactSize = alt.stores.ClustersStore.getClusters().size > 5;
     return (
       <ClustersItem
         cluster={cluster}
+        compactSize={isCompactSize}
         onPress={() => this.onSelectCluster(cluster)}
         onSwipeStart={() => this.setState({scrollEnabled: false})}
         onSwipeEnd={() => this.setState({scrollEnabled: true})}

@@ -53,12 +53,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   header: {
-    height: 50,
     flexDirection: 'row',
     borderColor: Colors.BORDER,
     borderBottomWidth: 1,
     padding: 12,
     alignItems: 'center',
+  },
+  compactHeader: {
+    paddingVertical: 8,
   },
   title: {
     flex: 1,
@@ -72,9 +74,12 @@ const styles = StyleSheet.create({
     marginBottom: -8,
   },
   stats: {
-    height: 50,
+    padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  compactStats: {
+    paddingVertical: 6,
   },
   statItem: {
     flex: 1,
@@ -101,6 +106,9 @@ export default class ClusterItem extends Component {
 
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
+    compactSize: PropTypes.bool,
+    onSwipeStart: PropTypes.func,
+    onSwipeEnd: PropTypes.func,
   }
 
   render() {
@@ -114,7 +122,7 @@ export default class ClusterItem extends Component {
       <SwipeRow ref="swipeOut" onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd} right={buttons} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.handleLongPress.bind(this)}>
-            <View style={styles.header}>
+            <View style={[styles.header, this.props.compactSize && styles.compactHeader]}>
               <Text style={styles.title}>
                 {cluster.get('name')}
               </Text>
@@ -143,7 +151,7 @@ export default class ClusterItem extends Component {
         </AltContainer>
       );
     });
-    return <View style={styles.stats}>{counters}</View>;
+    return <View style={[styles.stats, this.props.compactSize && styles.compactStats]}>{counters}</View>;
   }
 
   countForEntity(entity) {
