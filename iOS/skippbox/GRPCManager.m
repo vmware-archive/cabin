@@ -20,6 +20,22 @@
 
 RCT_EXPORT_MODULE();
 
+RCT_EXPORT_METHOD(fetchReleasesForHost:(NSString*)host
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [GRPCCall useInsecureConnectionsForHost:host];
+  ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
+  ListReleasesRequest *request = [[ListReleasesRequest alloc] init];
+  [service listReleasesWithRequest:request eventHandler:^(BOOL done, ListReleasesResponse * _Nullable response, NSError * _Nullable error) {
+    if (error) {
+      reject([@(error.code) stringValue], error.localizedDescription, error);
+    } else {
+      resolve(@"Ok");
+    }
+  }];
+}
+
 RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
                       onHost:(NSString*)host
                       resolver:(RCTPromiseResolveBlock)resolve

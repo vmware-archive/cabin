@@ -15,6 +15,7 @@
 */
 import alt from 'src/alt';
 import ChartsApi from 'api/ChartsApi';
+import ServicesActions from 'actions/ServicesActions';
 
 class ReleasesActions {
 
@@ -22,14 +23,21 @@ class ReleasesActions {
     this.generateActions(
       'fetchReleasesStart',
       'fetchReleasesSuccess',
+      'fetchReleasesFailure',
     );
   }
 
   fetchReleases(cluster) {
     this.fetchReleasesStart(cluster);
-    return ChartsApi.fetchReleases(cluster).then(releases => {
-      this.fetchReleasesSuccess({cluster, releases});
-      return releases;
+    ServicesActions.getTillerService(cluster).then(service => {
+      if (!service) {
+        this.fetchReleasesFailure({cluster});
+        return Immutable.List();
+      }
+      return ChartsApi.fetchReleases({cluster, service}).then(releases => {
+        this.fetchReleasesSuccess({cluster, releases});
+        return releases;
+      });
     });
   }
 

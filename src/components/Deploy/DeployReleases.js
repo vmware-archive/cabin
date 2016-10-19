@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-// import ReleasesActions from 'actions/ReleasesActions';
+import ReleasesActions from 'actions/ReleasesActions';
 import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import ClustersEmpty from 'components/Clusters/ClustersEmpty';
@@ -91,6 +91,10 @@ export default class DeployReleases extends Component {
       loading: false,
     };
     this.items = [];
+  }
+
+  componentDidMount() {
+    this.fetchReleases();
   }
 
   componentWillUpdate(nextProps) {
@@ -174,7 +178,7 @@ export default class DeployReleases extends Component {
     }
     return releases.map((release, i) => {
       return (
-        <ListItem style={styles.releaseItem}
+        <ListItem key={i} style={styles.releaseItem}
           hideSeparator={i >= releases.size - 1}
           title={release.get('name')}
           onDelete={() => {}}
@@ -196,9 +200,7 @@ export default class DeployReleases extends Component {
   }
 
   fetchReleases() {
-    // ReleasesActions.fetchReleases()
-    // .then(() => this.setState({loading: false}))
-    // .catch(() => this.setState({loading: false}));
+    this.props.clusters.map(cluster => ReleasesActions.fetchReleases(cluster));
   }
 
 }

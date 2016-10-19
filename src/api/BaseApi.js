@@ -30,7 +30,7 @@ let REQUESTS_COUNT = 0;
 
 class BaseApi {
 
-  // GRPCManager
+  // GRPC
   static deployChart({chart, service, cluster}) {
     const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
     return grpc.deployChartAtURL(chart.get('url'), host).catch(e => {
@@ -39,9 +39,12 @@ class BaseApi {
     });
   }
 
-  static fetchReleases(cluster) {
-    console.log(cluster);
-    return grpc.fetchReleases();
+  // GRPC
+  static fetchReleases({cluster, service}) {
+    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    return grpc.fetchReleasesForHost(host).then(() => {
+      return Promise.resolve(Immutable.List());
+    });
   }
 
   static showNetworkActivityIndicator() {

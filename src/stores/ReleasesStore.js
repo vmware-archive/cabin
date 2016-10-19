@@ -31,17 +31,11 @@ class ReleasesStore {
     }
   }
 
-  onFetchReleasesStart(cluster) {
-    console.log(cluster);
-    // this.setState(Immutable.Map());
-  }
-
   onFetchReleasesSuccess({cluster, releases}) {
     return this.setState(this.state.setIn(['releases', cluster.getIn(['metadata', 'name'])], releases));
   }
 
-  static getAll(cluster) {
-    console.log(cluster);
+  static getAll() {
     return this.state.getIn(['releases']);
   }
 
