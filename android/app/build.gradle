@@ -1,4 +1,5 @@
-apply plugin: "com.android.application"
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
 
 import com.android.build.OutputFile
 
@@ -80,7 +81,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 24
@@ -115,7 +116,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -125,15 +126,46 @@ android {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.2'
+    }
+    plugins {
+        javalite {
+            // The codegen for lite comes as a separate artifact
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.1'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-orientation')
+    // grpc
+    compile 'com.google.protobuf:protobuf-java:3.0.2'
+    compile 'com.google.protobuf:protobuf-lite:3.0.1'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    compile 'io.grpc:grpc-okhttp:1.0.1'
+    compile 'io.grpc:grpc-protobuf-lite:1.0.1'
+    compile 'io.grpc:grpc-stub:1.0.1'
+    compile 'org.kamranzafar:jtar:2.3'
+    compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
 }
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-  from configurations.compile
-  into 'libs'
+    from configurations.compile
+    into 'libs'
 }

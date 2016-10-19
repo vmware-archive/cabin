@@ -369,6 +369,7 @@ EntitiesRoutes = {
     return {
       name: 'DeploymentsNew',
       statusBarStyle: 'light-content',
+      // TODO: Android
       renderScene() {
         return (
           <Navigator
