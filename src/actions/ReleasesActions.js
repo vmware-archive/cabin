@@ -13,19 +13,26 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import 'stores/ChartsStore';
-import 'stores/ClustersStore';
-import 'stores/DeploymentsStore';
-import 'stores/IngressesStore';
-import 'stores/NodesStore';
-import 'stores/PodsStore';
-import 'stores/ReleasesStore';
-import 'stores/ReplicaSetsStore';
-import 'stores/ReplicationsStore';
-import 'stores/SecretsStore';
-import 'stores/ServiceAccountsStore';
-import 'stores/ServicesStore';
-import 'stores/SettingsStore';
-import 'stores/VolumesStore';
-import 'stores/VolumeClaimsStore';
-export default {};
+import alt from 'src/alt';
+import ChartsApi from 'api/ChartsApi';
+
+class ReleasesActions {
+
+  constructor() {
+    this.generateActions(
+      'fetchReleasesStart',
+      'fetchReleasesSuccess',
+    );
+  }
+
+  fetchReleases(cluster) {
+    this.fetchReleasesStart(cluster);
+    return ChartsApi.fetchReleases(cluster).then(releases => {
+      this.fetchReleasesSuccess({cluster, releases});
+      return releases;
+    });
+  }
+
+}
+
+export default alt.createActions(ReleasesActions);

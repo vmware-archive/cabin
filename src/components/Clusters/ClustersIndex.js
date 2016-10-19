@@ -17,6 +17,7 @@ import CollectionView from 'components/commons/CollectionView';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import Colors from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
+import ClustersEmpty from 'components/Clusters/ClustersEmpty';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
@@ -43,45 +44,6 @@ const styles = StyleSheet.create({
   },
   listContent: {
     marginTop: 20,
-  },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 40,
-    backgroundColor: Colors.BACKGROUND,
-  },
-  emptyImage: {
-    height: 140,
-    width: 140,
-    resizeMode: 'contain',
-    marginTop: -30,
-    marginBottom: 20,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    color: Colors.BLACK,
-    marginTop: 20,
-    fontWeight: '600',
-    textAlign: 'center',
-    opacity: 0.8,
-  },
-  emptySubtitle: {
-    fontSize: 14,
-    color: Colors.GRAY,
-    textAlign: 'center',
-    marginTop: 8,
-  },
-  emptyButton: {
-    backgroundColor: Colors.BLUE,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  emptyAction: {
-    color: Colors.WHITE,
-    fontSize: 16,
-    fontWeight: '400',
   },
 });
 
@@ -122,7 +84,7 @@ export default class ClustersIndex extends Component {
             contentContainerStyle={styles.listContent}
             list={alt.stores.ClustersStore.getClusters()}
             renderRow={this.renderRow.bind(this)}
-            renderEmpty={this.renderEmptyState.bind(this)}
+            renderEmpty={() => <ClustersEmpty />}
             onRefresh={this.handleRefresh.bind(this)}
           />
         </AltContainer>
@@ -145,21 +107,6 @@ export default class ClustersIndex extends Component {
         onSwipeStart={() => this.setState({scrollEnabled: false})}
         onSwipeEnd={() => this.setState({scrollEnabled: true})}
       />
-    );
-  }
-
-  renderEmptyState() {
-    return (
-      <View style={styles.emptyContainer}>
-        <Image style={styles.emptyImage} source={require('images/cubes.png')} />
-        <Text style={styles.emptyTitle}>{intl('clusters_empty_title')}</Text>
-        <Text style={styles.emptySubtitle}>{intl('clusters_empty_subtitle')}</Text>
-        <TouchableOpacity style={styles.emptyButton} onPress={() => {
-          NavigationActions.push(ClustersRoutes.getClusterNewRoute());
-        }}>
-          <Text style={styles.emptyAction}>{intl('clusters_empty_action')}</Text>
-        </TouchableOpacity>
-      </View>
     );
   }
 

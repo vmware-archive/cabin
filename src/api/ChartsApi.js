@@ -20,4 +20,8 @@ export default class ChartsApi {
   static fetchCharts(url) {
     return BaseApi.get(url, {});
   }
+
+  static fetchReleases(cluster) {
+    return BaseApi.fetchReleases(cluster);
+  }
 }

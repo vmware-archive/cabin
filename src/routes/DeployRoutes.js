@@ -15,6 +15,7 @@
 */
 import DeployIndex from 'components/Deploy/DeployIndex';
 import DeployClusters from 'components/Deploy/DeployClusters';
+import DeployReleases from 'components/Deploy/DeployReleases';
 import AltContainer from 'alt-container';
 
 export default {
@@ -33,6 +34,34 @@ export default {
               };
             }}}>
             <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={navigator} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getDeployReleasesRoute() {
+    return {
+      name: 'DeployReleases',
+      statusBarStyle: 'light-content',
+      getTitle: () => 'Installed Releases',
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            clusters: () => {
+              return {
+                store: alt.stores.ClustersStore,
+                value: alt.stores.ClustersStore.getClusters(),
+              };
+            },
+            releases: () => {
+              return {
+                store: alt.stores.ReleasesStore,
+                value: alt.stores.ReleasesStore.getAll(),
+              };
+            }}}>
+            <DeployReleases clusters={alt.stores.ClustersStore.getClusters()}
+              releases={alt.stores.ReleasesStore.getAll()} navigator={navigator} />
           </AltContainer>
         );
       },

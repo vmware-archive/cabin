@@ -20,6 +20,7 @@ import DeployRoutes from 'routes/DeployRoutes';
 import SettingsRoutes from 'routes/SettingsRoutes';
 import ScrollView from 'components/commons/ScrollView';
 import HeaderPicker from 'components/commons/HeaderPicker';
+import ListItem from 'components/commons/ListItem';
 import ChartItem from './ChartItem';
 import AltContainer from 'alt-container';
 
@@ -177,5 +178,9 @@ export default class DeployIndex extends Component {
 
   handleSelectChart(chart) {
     this.props.navigator.push(DeployRoutes.getDeployClustersRoute(chart));
+  }
+
+  showDeploysList() {
+    this.props.navigator.push(DeployRoutes.getDeployReleasesRoute());
   }
 }
