@@ -19,6 +19,7 @@ import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import ClustersEmpty from 'components/Clusters/ClustersEmpty';
 import Accordion from 'react-native-accordion';
+import ChartsUtils from 'utils/ChartsUtils';
 
 const { PropTypes } = React;
 const {
@@ -167,8 +168,9 @@ export default class DeployReleases extends Component {
       return (
         <ListItem key={i} style={styles.releaseItem}
           hideSeparator={i >= releases.size - 1}
-          title={release.get('name')}
-          onDelete={() => {}}
+          title={`${release.get('name')} (${release.getIn(['chart', 'name'])})`}
+          detailTitle={ChartsUtils.releaseStatusForCode(release.getIn(['info', 'status']))}
+          onDelete={() => this.deleteRelease({cluster, release})}
           />
       );
     });
@@ -188,6 +190,10 @@ export default class DeployReleases extends Component {
 
   fetchReleases() {
     this.props.clusters.map(cluster => ReleasesActions.fetchReleases(cluster));
+  }
+
+  deleteRelease({cluster, release}) {
+    ReleasesActions.deleteRelease({cluster, release});
   }
 
 }

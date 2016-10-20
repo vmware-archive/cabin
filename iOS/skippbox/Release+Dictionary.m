@@ -24,6 +24,12 @@
                     @"version": self.chart.metadata.version,
                     @"description": self.chart.metadata.description_p,
                     };
+  dic[@"info"] = @{
+                   @"status": @(Status_Code_RawValue(self.info.status)),
+                   @"firstDeployed": @(self.info.firstDeployed.seconds),
+                   @"lastDeployed": @(self.info.lastDeployed.seconds),
+                   @"deleted": @(self.info.deleted.seconds)
+                   };
   return [NSDictionary dictionaryWithDictionary:dic];
 }
 

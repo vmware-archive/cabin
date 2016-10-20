@@ -40,6 +40,24 @@ RCT_EXPORT_METHOD(fetchReleasesForHost:(NSString*)host
   }];
 }
 
+RCT_EXPORT_METHOD(deleteRelease:(NSString*)releaseName
+                  forHost:(NSString*)host
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [GRPCCall useInsecureConnectionsForHost:host];
+  ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
+  UninstallReleaseRequest *request = [[UninstallReleaseRequest alloc] init];
+  request.name = releaseName;
+  [service uninstallReleaseWithRequest:request handler:^(UninstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
+    if (error) {
+      reject([@(error.code) stringValue], error.localizedDescription, error);
+    } else {
+      resolve(response.description);
+    }
+  }];
+}
+
 RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
                       onHost:(NSString*)host
                       resolver:(RCTPromiseResolveBlock)resolve

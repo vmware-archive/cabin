@@ -32,7 +32,13 @@ class ReleasesStore {
   }
 
   onFetchReleasesSuccess({cluster, releases}) {
-    return this.setState(this.state.setIn(['releases', cluster.get('url')], releases));
+    this.setState(this.state.setIn(['releases', cluster.get('url')], releases));
+  }
+
+  onDeleteReleaseStart({cluster, release}) {
+    this.setState(this.state.updateIn(['releases', cluster.get('url')], releases => {
+      return releases.filter(r => !Immutable.is(r, release));
+    }));
   }
 
   static getAll() {

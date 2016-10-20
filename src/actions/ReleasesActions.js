@@ -24,12 +24,15 @@ class ReleasesActions {
       'fetchReleasesStart',
       'fetchReleasesSuccess',
       'fetchReleasesFailure',
+      'deleteReleaseStart',
+      'deleteReleaseSuccess',
+      'deleteReleaseFailure',
     );
   }
 
   fetchReleases(cluster) {
     this.fetchReleasesStart(cluster);
-    ServicesActions.getTillerService(cluster).then(service => {
+    return ServicesActions.getTillerService(cluster).then(service => {
       if (!service) {
         this.fetchReleasesFailure({cluster});
         return Immutable.List();
@@ -41,6 +44,19 @@ class ReleasesActions {
     });
   }
 
+  deleteRelease({cluster, release}) {
+    this.deleteReleaseStart({cluster, release});
+    return ServicesActions.getTillerService(cluster).then(service => {
+      if (!service) {
+        this.deleteReleaseFailure({cluster, release});
+        return false;
+      }
+      return ChartsApi.deleteRelease({cluster, release, service}).then(() => {
+        this.deleteReleaseSuccess({cluster});
+        return true;
+      });
+    });
+  }
 }
 
 export default alt.createActions(ReleasesActions);

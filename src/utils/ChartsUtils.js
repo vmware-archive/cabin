@@ -34,4 +34,15 @@ export default class ChartsUtils {
     }
     return ImmutableUtils.toKeyedMap(charts.toList(), ['url']);
   }
+
+  static releaseStatusForCode(code) {
+    switch (code) {
+      case 0: return 'unknown';
+      case 1: return 'deployed';
+      case 2: return 'deleted';
+      case 3: return 'superseded';
+      case 4: return 'failed';
+      default: return 'unknown';
+    }
+  }
 }

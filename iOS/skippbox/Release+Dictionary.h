@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "hapi/services/Tiller.pbrpc.h"
 #import "hapi/chart/Metadata.pbobjc.h"
+#import "hapi/release/Status.pbobjc.h"
 
 @interface Release (Dictionary)
 

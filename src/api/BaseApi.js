@@ -49,6 +49,12 @@ class BaseApi {
     });
   }
 
+  // GRPC
+  static deleteRelease({cluster, service, release}) {
+    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    return grpc.deleteRelease(release.get('name'), host);
+  }
+
   static showNetworkActivityIndicator() {
     REQUESTS_COUNT++;
     if (Platform.OS === 'ios') {
