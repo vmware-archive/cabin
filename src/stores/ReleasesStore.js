@@ -32,7 +32,7 @@ class ReleasesStore {
   }
 
   onFetchReleasesSuccess({cluster, releases}) {
-    return this.setState(this.state.setIn(['releases', cluster.getIn(['metadata', 'name'])], releases));
+    return this.setState(this.state.setIn(['releases', cluster.get('url')], releases));
   }
 
   static getAll() {

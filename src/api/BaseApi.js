@@ -42,8 +42,10 @@ class BaseApi {
   // GRPC
   static fetchReleases({cluster, service}) {
     const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
-    return grpc.fetchReleasesForHost(host).then(() => {
-      return Promise.resolve(Immutable.List());
+    return grpc.fetchReleasesForHost(host).then(r => {
+      return Immutable.fromJS(r);
+    }).catch(e => {
+      return Promise.reject(e);
     });
   }
 

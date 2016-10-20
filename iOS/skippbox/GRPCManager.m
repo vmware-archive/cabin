@@ -15,6 +15,7 @@
 #import "hapi/chart/Template.pbobjc.h"
 #import <NVHTarGzip/NVHTarGzip.h>
 #import <YAMLThatWorks/YATWSerialization.h>
+#import "Release+Dictionary.h"
 
 @implementation GRPCManager
 
@@ -28,10 +29,13 @@ RCT_EXPORT_METHOD(fetchReleasesForHost:(NSString*)host
   ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
   ListReleasesRequest *request = [[ListReleasesRequest alloc] init];
   [service listReleasesWithRequest:request eventHandler:^(BOOL done, ListReleasesResponse * _Nullable response, NSError * _Nullable error) {
-    if (error) {
-      reject([@(error.code) stringValue], error.localizedDescription, error);
-    } else {
-      resolve(@"Ok");
+    if ((!done && response != nil) || (done && error != nil)) {
+      if (error) {
+        reject([@(error.code) stringValue], error.localizedDescription, error);
+      } else {
+        NSArray *releasesArray = [self releasesArrayFromResponse: response];
+        resolve(releasesArray);
+      }
     }
   }];
 }
@@ -144,4 +148,12 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   [downloadTask resume];
 }
 
+
+- (NSArray*)releasesArrayFromResponse:(ListReleasesResponse*)response {
+  NSMutableArray *list = [NSMutableArray new];
+  for (Release* release in response.releasesArray) {
+    [list addObject:release.toDictionary];
+  }
+  return list;
+}
 @end

@@ -97,20 +97,6 @@ export default class DeployReleases extends Component {
     this.fetchReleases();
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.state.selectedIndex === null && !Immutable.is(nextProps.releases, this.props.releases)) {
-      let found = false;
-      let index = 0;
-      nextProps.clusters.map(cluster => {
-        if (!found && nextProps.releases.get(cluster.get('url'))) {
-          this.setState({selectedIndex: index});
-          found = true;
-        }
-        index++;
-      });
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -126,6 +112,7 @@ export default class DeployReleases extends Component {
           scrollIndicatorInsets={{bottom: 0}}
           contentContainerStyle={styles.listContent}
           list={this.props.clusters}
+          onRefresh={this.fetchReleases.bind(this)}
           renderRow={this.renderRow.bind(this)}
           renderEmpty={() => <ClustersEmpty />}
         />

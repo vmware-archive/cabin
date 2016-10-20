@@ -25,6 +25,7 @@
 		8E5BABEF1BB02DBD00D0FDEF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */; };
 		8E5BABF11BB02DC600D0FDEF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */; };
 		8E5BABF51BB02F5400D0FDEF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF41BB02F5400D0FDEF /* libz.tbd */; };
+		A517A8B71DB8CA7200526A06 /* Release+Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = A517A8B61DB8CA7200526A06 /* Release+Dictionary.m */; };
 		A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A56399791D48F5A9000C7C24 /* GRPCManager.m */; };
 		A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A56492E41D351C6500C1DF4F /* libSafariViewManager.a */; };
 		A579E6681BD5451100CD8E2C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */; };
@@ -198,6 +199,8 @@
 		8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8E5BABF41BB02F5400D0FDEF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skippbox.release.xcconfig"; path = "Pods/Target Support Files/Pods-skippbox/Pods-skippbox.release.xcconfig"; sourceTree = "<group>"; };
+		A517A8B51DB8CA7200526A06 /* Release+Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Release+Dictionary.h"; sourceTree = "<group>"; };
+		A517A8B61DB8CA7200526A06 /* Release+Dictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Release+Dictionary.m"; sourceTree = "<group>"; };
 		A557E0F31CB29D2300C7193B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A56399781D48F5A9000C7C24 /* GRPCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRPCManager.h; sourceTree = "<group>"; };
 		A56399791D48F5A9000C7C24 /* GRPCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRPCManager.m; sourceTree = "<group>"; };
@@ -317,6 +320,8 @@
 				A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */,
 				A56399781D48F5A9000C7C24 /* GRPCManager.h */,
 				A56399791D48F5A9000C7C24 /* GRPCManager.m */,
+				A517A8B51DB8CA7200526A06 /* Release+Dictionary.h */,
+				A517A8B61DB8CA7200526A06 /* Release+Dictionary.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -799,6 +804,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */,
+				A517A8B71DB8CA7200526A06 /* Release+Dictionary.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				A5EF5CCA1BD62590002D794B /* main.m in Sources */,
 				A5839BD61D9C0D6C00A932EB /* SKPNetwork.m in Sources */,
