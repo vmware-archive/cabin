@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.google.common.io.Files;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.protobuf.ByteString;
 
 import org.kamranzafar.jtar.TarEntry;
@@ -26,7 +28,10 @@ import java.util.zip.GZIPInputStream;
 import hapi.chart.ChartOuterClass;
 import hapi.chart.MetadataOuterClass;
 import hapi.chart.TemplateOuterClass;
+import hapi.services.tiller.ReleaseServiceGrpc;
 import hapi.services.tiller.Tiller;
+import io.grpc.Channel;
+import io.grpc.ManagedChannelBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -47,7 +52,7 @@ class GRPCManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void deployChartAtURL(String url, String host, Promise promise) {
+    public void deployChartAtURL(String url, String host, final Promise promise) {
         File downloadedFile = null;
         File archiveFolder = null;
         try {
@@ -83,9 +88,14 @@ class GRPCManager extends ReactContextBaseJavaModule {
             request.setChart(chart);
             request.setNamespace("default");
 
-            // TODO: Send the request somehow
-
-            promise.resolve(true);
+            Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
+            final ListenableFuture<Tiller.InstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).installRelease(request.build());
+            future.addListener(new Runnable() {
+                @Override
+                public void run() {
+                    promise.resolve("ok");
+                }
+            }, MoreExecutors.directExecutor());
         } catch (Exception e) {
             promise.reject(e);
         } finally {
