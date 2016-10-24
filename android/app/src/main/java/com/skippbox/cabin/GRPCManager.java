@@ -34,6 +34,7 @@ import hapi.services.tiller.ReleaseServiceGrpc;
 import hapi.services.tiller.Tiller;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.internal.GrpcUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

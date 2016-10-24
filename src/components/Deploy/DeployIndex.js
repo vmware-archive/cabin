@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'flex-start',
     paddingHorizontal: 10,
+    paddingTop: 10,
   },
   absolute: {
     position: 'absolute',

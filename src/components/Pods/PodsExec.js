@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import PStyleSheet from 'styles/PStyleSheet';
 import ScrollView from 'components/commons/ScrollView';
 import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
 import PodsActions from 'actions/PodsActions';
@@ -23,14 +24,13 @@ const {
   Text,
   ActivityIndicator,
   TextInput,
-  StyleSheet,
   Dimensions,
   Animated,
 } = ReactNative;
 
 const { PropTypes } = React;
 
-const styles = StyleSheet.create({
+const styles = PStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.BLACK,
@@ -59,12 +59,17 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: Colors.BORDER,
-    marginVertical: 8,
     marginLeft: 10,
     paddingLeft: 6,
+    ios: {
+      marginVertical: 8,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: Colors.BORDER,
+    },
+    android: {
+      fontSize: 16,
+    },
   },
   inputText: {
     color: Colors.BLUE,

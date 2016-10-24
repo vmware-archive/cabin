@@ -102,7 +102,7 @@ export default class ToolbarAugmenter extends Component {
           NavigationActions.pop();
         }} actions={actions} onActionSelected={(i) => actions[i].onPress()}>
           <View style={styles.titleContainer}>
-            {route.renderTitle ? route.renderTitle() : <Text style={styles.title}>{route.getTitle()}</Text>}
+            {route.renderTitle ? route.renderTitle() : <Text style={styles.title}>{route.getTitle && route.getTitle()}</Text>}
           </View>
         </ToolbarAndroid>
       );

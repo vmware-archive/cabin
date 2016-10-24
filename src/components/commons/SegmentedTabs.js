@@ -38,7 +38,7 @@ const styles = PStyleSheet.create({
   controlContainer: {
     android: {
       flex: 0,
-      height: Sizes.NAVIGATOR_HEIGHT - 2,
+      height: Sizes.NAVIGATOR_HEIGHT - 14,
     },
     ios: {
       height: Sizes.NAVIGATOR_HEIGHT - 20,

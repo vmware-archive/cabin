@@ -228,41 +228,33 @@ EntitiesRoutes = {
     if (!deployment) {
       deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
     }
-    return {
+    const route = {
       name: 'ServicesNew',
       statusBarStyle: 'light-content',
-      renderScene() {
-        return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => intl('service_new'),
-              renderScene(navigator) {
-                return <ServicesNew cluster={cluster} defaultDeployment={deployment} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
-              },
-              renderRightButton() {
-                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
-              },
-            }}
-          />
-        );
+      getTitle: () => intl('service_new'),
+      renderScene(navigator) {
+        return <ServicesNew cluster={cluster} defaultDeployment={deployment} navigator={navigator} />;
+      },
+      renderLeftButton() {
+        return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
+      },
+      renderRightButton() {
+        return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
-  getServicesEditPortRoute({cluster, service, port}) {
-    const route = EntitiesRoutes.getServicesEditPortDefaultRoute({cluster, service, port});
+  getModalRoute(route) {
     if (Platform.OS === 'android') {
       return route;
     }
     return {
-      name: 'ServicesEditPort',
-      statusBarStyle: 'light-content',
+      name: route.name,
+      statusBarStyle: route.statusBarStyle,
       renderScene() {
         return <Navigator initialRoute={route} />;
       },
@@ -272,8 +264,8 @@ EntitiesRoutes = {
     };
   },
 
-  getServicesEditPortDefaultRoute({cluster, service, port}) {
-    return {
+  getServicesEditPortRoute({cluster, service, port}) {
+    const route = {
       getTitle: () => 'Edit Port',
       renderScene(navigator) {
         return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
@@ -297,6 +289,7 @@ EntitiesRoutes = {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
   getReplicationsShowRoute({replication, cluster}) {
@@ -374,24 +367,7 @@ EntitiesRoutes = {
   },
 
   getDeploymentsNewRoute(cluster) {
-    const route = EntitiesRoutes.getDeploymentCreationRoute(cluster);
-    if (Platform.OS === 'android') {
-      return route;
-    }
-    return {
-      name: 'DeploymentsNew',
-      statusBarStyle: 'light-content',
-      renderScene() {
-        return <Navigator initialRoute={route} />;
-      },
-      configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
-      },
-    };
-  },
-
-  getDeploymentCreationRoute(cluster) {
-    return {
+    const route = {
       getTitle: () => intl('deployment_new'),
       renderScene(navigator) {
         return <DeploymentsNew cluster={cluster} navigator={navigator} />;
@@ -400,12 +376,13 @@ EntitiesRoutes = {
         return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
       },
       renderRightButton() {
-        return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
+        return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
   getDeploymentsHistoryRoute({cluster, deployment}) {
