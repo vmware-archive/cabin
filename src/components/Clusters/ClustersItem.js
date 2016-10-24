@@ -34,6 +34,7 @@ const {
   Alert,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -119,8 +120,11 @@ export default class ClusterItem extends Component {
     showReport && buttons.push({ text: intl('report'), style: {backgroundColor: Colors.BLUE, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleReport.bind(this)});
     buttons.push({ text: intl('edit'), style: {backgroundColor: Colors.YELLOW, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleEdit.bind(this)});
     buttons.push({ text: intl('delete'), style: {backgroundColor: Colors.RED, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleDelete.bind(this)});
+    const Container = Platform.OS === 'ios' ? SwipeRow : View;
     return (
-      <SwipeRow ref="swipeOut" onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd} right={buttons} backgroundColor="transparent" autoClose={true}>
+      <Container
+        onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
+        right={Platform.OS === 'ios' ? buttons : undefined} backgroundColor="transparent" autoClose={true}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.handleLongPress.bind(this)}>
             <View style={[styles.header, this.props.compactSize && styles.compactHeader]}>
@@ -138,7 +142,7 @@ export default class ClusterItem extends Component {
             {this.renderCounters()}
           </TouchableOpacity>
         </View>
-      </SwipeRow>
+      </Container>
     );
   }
 
