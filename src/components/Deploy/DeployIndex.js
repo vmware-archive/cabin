@@ -31,6 +31,7 @@ const {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -104,9 +105,36 @@ export default class DeployIndex extends Component {
     const charts = this.props.charts.map((chart, key) => {
       return <ChartItem key={key} chart={chart} onPress={() => this.handleSelectChart(chart)} />;
     }).toArray();
-    const choices = alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder'));
     return (
       <View style={styles.container}>
+        {Platform.OS === 'ios' && this.renderStorePicker()}
+        {this.state.loading &&
+          <View style={styles.absolute}>
+            <ActivityIndicator style={{flex: 1}} />
+          </View>
+        }
+        <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
+          {charts}
+        </ScrollView>
+        {this.state.failed && !this.state.loading &&
+          <View style={styles.absolute}>
+            <Image style={styles.failedImage} source={require('images/cubes.png')} />
+            <Text style={styles.failedTitle}>{intl('deploy_index_failed_title')}</Text>
+            <TouchableOpacity style={styles.failedButton} onPress={() => {
+              this.setState({loading: true});
+              this.fetchCharts();
+            }}><Text style={styles.failedAction}>{intl('deploy_index_failed_action')}</Text>
+            </TouchableOpacity>
+          </View>
+        }
+        {Platform.OS === 'android' && this.renderStorePicker()}
+      </View>
+    );
+  }
+
+  renderStorePicker() {
+    const choices = alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder'));
+    return (
       <AltContainer stores={{
         choices: () => {
           return {
@@ -136,27 +164,7 @@ export default class DeployIndex extends Component {
               this.setState({loading: true});
               this.fetchCharts();
             }}/>
-        </AltContainer>
-        {this.state.loading &&
-          <View style={styles.absolute}>
-            <ActivityIndicator style={{flex: 1}} />
-          </View>
-        }
-        <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
-          {charts}
-        </ScrollView>
-        {this.state.failed && !this.state.loading &&
-          <View style={styles.absolute}>
-            <Image style={styles.failedImage} source={require('images/cubes.png')} />
-            <Text style={styles.failedTitle}>{intl('deploy_index_failed_title')}</Text>
-            <TouchableOpacity style={styles.failedButton} onPress={() => {
-              this.setState({loading: true});
-              this.fetchCharts();
-            }}><Text style={styles.failedAction}>{intl('deploy_index_failed_action')}</Text>
-            </TouchableOpacity>
-          </View>
-        }
-      </View>
+      </AltContainer>
     );
   }
 
