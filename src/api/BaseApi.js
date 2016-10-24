@@ -78,13 +78,13 @@ class BaseApi {
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    if (URL.indexOf('test') !== -1) {
-      return Promise.reject();
+    if (cluster && cluster.get('url') === 'test') {
+      return Promise.resolve();
     }
     return fetch(URL, {
       method,
       headers,
-      body,
+      body: JSON.stringify(body),
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (typeof response.text !== 'function') {
@@ -125,9 +125,6 @@ class BaseApi {
         });
       });
     }).catch((error) => {
-      if (cluster && cluster.get('url') === 'test') {
-        return Promise.resolve();
-      }
       return this.handleError(error, url);
     });
   }

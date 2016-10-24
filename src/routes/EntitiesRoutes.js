@@ -37,7 +37,7 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import AltContainer from 'alt-container';
 
-const { View, DeviceEventEmitter, Alert, AlertIOS } = ReactNative;
+const { View, DeviceEventEmitter, Alert, AlertIOS, Platform } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -256,32 +256,40 @@ EntitiesRoutes = {
   },
 
   getServicesEditPortRoute({cluster, service, port}) {
+    const route = EntitiesRoutes.getServicesEditPortDefaultRoute({cluster, service, port});
+    if (Platform.OS === 'android') {
+      return route;
+    }
     return {
       name: 'ServicesEditPort',
       statusBarStyle: 'light-content',
       renderScene() {
+        return <Navigator initialRoute={route} />;
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getServicesEditPortDefaultRoute({cluster, service, port}) {
+    return {
+      getTitle: () => 'Edit Port',
+      renderScene(navigator) {
+        return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
+      },
+      renderLeftButton() {
         return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => 'Edit Port',
-              renderScene(navigator) {
-                return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return (
-                  <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.pop()}
-                  />
-                );
-              },
-              renderRightButton() {
-                return (
-                  <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('ServicesEditPort:submit')}
-                  />
-                );
-              },
-            }}
+          <NavbarButton title={intl('cancel')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('done')}
+            androidSource={require('images/done.png')}
+            onPress={() => DeviceEventEmitter.emit('ServicesEditPort:submit')}
           />
         );
       },
@@ -366,27 +374,33 @@ EntitiesRoutes = {
   },
 
   getDeploymentsNewRoute(cluster) {
+    const route = EntitiesRoutes.getDeploymentCreationRoute(cluster);
+    if (Platform.OS === 'android') {
+      return route;
+    }
     return {
       name: 'DeploymentsNew',
       statusBarStyle: 'light-content',
-      // TODO: Android
       renderScene() {
-        return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => intl('deployment_new'),
-              renderScene(navigator) {
-                return <DeploymentsNew cluster={cluster} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
-              },
-              renderRightButton() {
-                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
-              },
-            }}
-          />
-        );
+        return <Navigator initialRoute={route} />;
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getDeploymentCreationRoute(cluster) {
+    return {
+      getTitle: () => intl('deployment_new'),
+      renderScene(navigator) {
+        return <DeploymentsNew cluster={cluster} navigator={navigator} />;
+      },
+      renderLeftButton() {
+        return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
+      },
+      renderRightButton() {
+        return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;

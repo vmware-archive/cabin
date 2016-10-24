@@ -1,6 +1,7 @@
 package com.skippbox.cabin;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.facebook.react.bridge.Promise;
@@ -22,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -69,9 +71,9 @@ class GRPCManager extends ReactContextBaseJavaModule {
             metadata.setName((String) map.get("name"));
             metadata.setDescription((String) map.get("description"));
             metadata.setHome((String) map.get("home"));
-            String[] keywords = (String[]) map.get("keywords");
-            for (int i = 0; keywords != null && i < keywords.length; i++) {
-                metadata.setKeywords(i, keywords[i]);
+            ArrayList<String> keywords = (ArrayList<String>) map.get("keywords");
+            if (keywords != null) {
+                metadata.addAllKeywords(keywords);
             }
             chart.setMetadata(metadata);
 
@@ -127,8 +129,9 @@ class GRPCManager extends ReactContextBaseJavaModule {
         File outDestination = new File(getReactApplicationContext().getCacheDir(), File.separator + "chart");
 
         outDestination.mkdirs();
-        BufferedOutputStream outputStream = null;
-        TarEntry entry = null;
+        BufferedOutputStream outputStream;
+        TarEntry entry;
+        String dirName = null;
         while ((entry = inputStream.getNextEntry()) != null) {
             int count;
             byte data[] = new byte[4096];
@@ -142,6 +145,10 @@ class GRPCManager extends ReactContextBaseJavaModule {
                     new File(outDestination, File.separator + entry.getName().substring(0, di)).mkdirs();
                 }
             }
+            int pos = entry.getName().indexOf(File.separatorChar);
+            if (pos != -1 && dirName == null) {
+                dirName = entry.getName().substring(0, pos);
+            }
             outputStream = new BufferedOutputStream(new FileOutputStream(outDestination + File.separator + entry.getName()));
 
             while ((count = inputStream.read(data)) != -1) {
@@ -150,10 +157,6 @@ class GRPCManager extends ReactContextBaseJavaModule {
             outputStream.flush();
             outputStream.close();
         }
-        File[] files = outDestination.listFiles();
-        if (files.length == 1) {
-            return files[0];
-        }
-        return outDestination;
+        return new File(outDestination, dirName);
     }
 }

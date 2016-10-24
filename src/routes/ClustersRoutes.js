@@ -152,6 +152,9 @@ const ClustersRoutes = {
           />
         );
       },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
     };
   },
 
