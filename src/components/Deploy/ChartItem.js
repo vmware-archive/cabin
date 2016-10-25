@@ -75,7 +75,7 @@ export default class ChartItem extends Component {
 
   render() {
     const { chart } = this.props;
-    const file = chart.get('chartfile');
+    const file = chart.get('chartfile', chart);
     const titleLength = file.get('name').length;
     return (
       <View style={[styles.chart, this.props.style]}>

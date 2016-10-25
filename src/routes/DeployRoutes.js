@@ -15,7 +15,7 @@
 */
 import DeployIndex from 'components/Deploy/DeployIndex';
 import DeployClusters from 'components/Deploy/DeployClusters';
-import DeployReleases from 'components/Deploy/DeployReleases';
+import DeployReleasesShow from 'components/Deploy/DeployReleasesShow';
 import AltContainer from 'alt-container';
 
 export default {
@@ -40,29 +40,15 @@ export default {
     };
   },
 
-  getDeployReleasesRoute() {
+  getDeployReleasesShowRoute({cluster, release}) {
     return {
-      name: 'DeployReleases',
+      name: 'DeployReleasesShow',
       statusBarStyle: 'light-content',
-      getTitle: () => 'Installed Releases',
+      getTitle: () => release.get('name'),
+      getBackButtonTitle: () => '',
       renderScene(navigator) {
         return (
-          <AltContainer stores={{
-            clusters: () => {
-              return {
-                store: alt.stores.ClustersStore,
-                value: alt.stores.ClustersStore.getClusters(),
-              };
-            },
-            releases: () => {
-              return {
-                store: alt.stores.ReleasesStore,
-                value: alt.stores.ReleasesStore.getAll(),
-              };
-            }}}>
-            <DeployReleases clusters={alt.stores.ClustersStore.getClusters()}
-              releases={alt.stores.ReleasesStore.getAll()} navigator={navigator} />
-          </AltContainer>
+          <DeployReleasesShow cluster={cluster} release={release} navigator={navigator} />
         );
       },
     };

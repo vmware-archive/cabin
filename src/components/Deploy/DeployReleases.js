@@ -20,6 +20,7 @@ import ListItem from 'components/commons/ListItem';
 import EmptyView from 'components/commons/EmptyView';
 import NavigationActions from 'actions/NavigationActions';
 import ChartsUtils from 'utils/ChartsUtils';
+import DeployRoutes from 'routes/DeployRoutes';
 
 const { PropTypes } = React;
 const {
@@ -117,6 +118,7 @@ export default class DeployReleases extends Component {
           );
         }}
         isLast={index >= this.props.releases.size - 1}
+        showArrow={true}
         onDelete={() => this.deleteRow(release)}
         onPress={() => this.showRelease(release)}
       />
@@ -128,10 +130,10 @@ export default class DeployReleases extends Component {
   }
 
   deleteRow(release) {
-    console.log('delete ', release.toJS());
+    ReleasesActions.deleteRelease({cluster: this.props.cluster, release});
   }
 
   showRelease(release) {
-    console.log('show ', release.toJS());
+    this.props.navigator.push(DeployRoutes.getDeployReleasesShowRoute({cluster: this.props.cluster, release}));
   }
 }

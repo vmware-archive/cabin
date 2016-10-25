@@ -112,10 +112,6 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     }
     [chart setTemplatesArray:templates];
     [request setChart:chart];
-    GetVersionRequest* v = [[GetVersionRequest alloc] init];
-    [service getVersionWithRequest:v handler:^(GetVersionResponse * _Nullable response, NSError * _Nullable error) {
-      NSLog(@"Version %@", response.version.description);
-    }];
     [service installReleaseWithRequest:request handler:^(InstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
       [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
       [[NSFileManager defaultManager] removeItemAtPath:filePath.path error:nil];
