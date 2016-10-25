@@ -14,6 +14,8 @@ import com.github.yamill.orientation.OrientationPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -28,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage(),
                     new CabinPackage(),
                     new OrientationPackage(),
-                    new ReactMaterialKitPackage()
+                    new ReactMaterialKitPackage(),
+                    new RNGoogleSigninPackage()
             );
         }
     };

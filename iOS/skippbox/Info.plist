@@ -21,7 +21,28 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array/>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.googleusercontent.apps.777344195972-kga2cv236fi3mbkat6a17orm57q8lvdk</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.777344195972-kga2cv236fi3mbkat6a17orm57q8lvdk</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.skippbox.cabin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.skippbox.cabin</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>10</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

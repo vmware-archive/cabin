@@ -166,6 +166,10 @@ dependencies {
     compile 'com.facebook.react:react-native:+' // From node_modules
     compile project(':react-native-orientation')
     compile project(':react-native-material-kit')
+    compile(project(':react-native-google-signin')) {
+        exclude group: "com.google.android.gms"
+    }
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
     // grpc
     compile 'com.google.protobuf:protobuf-java:3.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
@@ -182,3 +186,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

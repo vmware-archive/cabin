@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "777344195972",
+    "project_id": "firebase-cabin"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777344195972:android:71fbc783f3894622",
+        "android_client_info": {
+          "package_name": "com.skippbox.cabin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777344195972-eikgv6scbr9kh51d7drvehad80t5seeu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skippbox.cabin",
+            "certificate_hash": "B855B3B8F2BF474D041E77F24252EB4F67029B21"
+          }
+        },
+        {
+          "client_id": "777344195972-f2q3mj1rvr1gmc0jaucpnav81u3apomj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUJc7SWMEco5FvQilrbBqklvd1c7kMN6I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

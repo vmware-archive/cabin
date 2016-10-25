@@ -18,6 +18,7 @@
 #import "RCTRootView.h"
 #import "Orientation.h"
 #import "RCTBundleURLProvider.h"
+#import "RNGoogleSignin.h"
 
 @implementation AppDelegate
 
@@ -39,7 +40,7 @@
   NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
 #endif
-  
+
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleURL moduleName:@"Skippbox" initialProperties:nil launchOptions:nil];
 
   NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil];
@@ -62,6 +63,12 @@
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return [Orientation getOrientation];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 @end
