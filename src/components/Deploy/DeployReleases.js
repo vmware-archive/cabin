@@ -19,10 +19,13 @@ import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import EmptyView from 'components/commons/EmptyView';
 import NavigationActions from 'actions/NavigationActions';
+import ChartsUtils from 'utils/ChartsUtils';
 
 const { PropTypes } = React;
 const {
   View,
+  Image,
+  Text,
   ActivityIndicator,
   StyleSheet,
 } = ReactNative;
@@ -40,39 +43,18 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.BORDER,
     borderTopWidth: 1,
   },
-  item: {
+  releaseDetail: {
+    flex: 1,
+    backgroundColor: Colors.BLUE,
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    marginTop: -4,
+    height: 28,
   },
-  releasesContainer: {
-    backgroundColor: Colors.BACKGROUND, // '#F6F6FB',
-    borderBottomColor: Colors.BORDER,
-    borderBottomWidth: 1,
-  },
-  releaseItem: {
-    backgroundColor: 'transparent',
-    marginLeft: 20,
-  },
-  clusterDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  arrow: {
-    width: 10,
-    height: 10,
-    backgroundColor: 'transparent',
-    borderTopWidth: 1,
-    borderRightWidth: 1,
-    borderColor: '#c7c7cc',
-    transform: [{
-      rotate: '45deg',
-    }],
-  },
-  arrowDown: {
-    transform: [{
-      rotate: '135deg',
-    }],
-  },
-  clusterDetailText: {
-    marginRight: 10,
+  releaseDetailText: {
+    fontSize: 16,
+    color: Colors.WHITE,
   },
 });
 
@@ -87,7 +69,7 @@ export default class DeployReleases extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.props.status === 'loading' ?
+        {this.props.status === 'loading' && this.props.releases.isEmpty() ?
           <View style={styles.absolute}>
             <ActivityIndicator style={{flex: 1}} />
           </View>
@@ -115,9 +97,28 @@ export default class DeployReleases extends Component {
   renderRow(release, section, index) {
     return (
       <ListItem
-        title={release.get('name')}
-        isLast={index === this.props.releases.size - 1}
+        renderTitle={() => {
+          return (
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+              <Image style={{width: 30, height: 30}} source={ChartsUtils.iconForChart(release.getIn(['chart', 'name']))}/>
+              <Text style={{flex: 1, marginLeft: 8, fontSize: 16}} numberOfLines={1}>
+                {release.get('name')}
+              </Text>
+            </View>
+          );
+        }}
+        renderDetail={() => {
+          return (
+            <View style={styles.releaseDetail}>
+              <Text style={styles.releaseDetailText} numberOfLines={1}>
+                {release.getIn(['chart', 'name'])}
+              </Text>
+            </View>
+          );
+        }}
+        isLast={index >= this.props.releases.size - 1}
         onDelete={() => this.deleteRow(release)}
+        onPress={() => this.showRelease(release)}
       />
     );
   }
@@ -128,5 +129,9 @@ export default class DeployReleases extends Component {
 
   deleteRow(release) {
     console.log('delete ', release.toJS());
+  }
+
+  showRelease(release) {
+    console.log('show ', release.toJS());
   }
 }
