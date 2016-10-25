@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
+import ReleasesActions from 'actions/ReleasesActions';
 
 class ClustersActions {
 
@@ -55,7 +56,11 @@ class ClustersActions {
 
   fetchClusterEntities(cluster) {
     alt.stores.SettingsStore.getEntitiesToDisplay().map(entity => {
-      EntitiesActions.fetchEntities.defer({cluster, entityType: entity.get('name')});
+      if (entity.get('name') === 'helmreleases') {
+        ReleasesActions.fetchReleases.defer(cluster);
+      } else {
+        EntitiesActions.fetchEntities.defer({cluster, entityType: entity.get('name')});
+      }
     });
   }
 

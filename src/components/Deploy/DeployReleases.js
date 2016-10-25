@@ -17,14 +17,12 @@ import Colors from 'styles/Colors';
 import ReleasesActions from 'actions/ReleasesActions';
 import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
-import ClustersEmpty from 'components/Clusters/ClustersEmpty';
-import Accordion from 'react-native-accordion';
-import ChartsUtils from 'utils/ChartsUtils';
+import EmptyView from 'components/commons/EmptyView';
+import NavigationActions from 'actions/NavigationActions';
 
 const { PropTypes } = React;
 const {
   View,
-  Text,
   ActivityIndicator,
   StyleSheet,
 } = ReactNative;
@@ -81,119 +79,54 @@ const styles = StyleSheet.create({
 export default class DeployReleases extends Component {
 
   static propTypes = {
-    releases: PropTypes.instanceOf(Immutable.Map).isRequired,
-    clusters: PropTypes.instanceOf(Immutable.List).isRequired,
-  }
-
-  constructor() {
-    super();
-    this.state = {
-      selectedIndex: null,
-      loading: false,
-    };
-    this.items = [];
-  }
-
-  componentDidMount() {
-    this.fetchReleases();
+    releases: PropTypes.instanceOf(Immutable.List).isRequired,
+    cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
+    status: PropTypes.string,
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.loading &&
+        {this.props.status === 'loading' ?
           <View style={styles.absolute}>
             <ActivityIndicator style={{flex: 1}} />
           </View>
-        }
+        :
         <CollectionView style={styles.list}
           ref="CollectionView"
-          scrollEnabled={this.state.scrollEnabled}
           contentInset={{bottom: 40}}
           scrollIndicatorInsets={{bottom: 0}}
           contentContainerStyle={styles.listContent}
-          list={this.props.clusters}
+          list={this.props.releases}
           onRefresh={this.fetchReleases.bind(this)}
           renderRow={this.renderRow.bind(this)}
-          renderEmpty={() => <ClustersEmpty />}
-        />
+          renderEmpty={() => <EmptyView
+              image={require('images/cubes.png')}
+              title={intl('deploy_empty_title')}
+              subtitle={intl('deploy_empty_subtitle')}
+              actionTitle={intl('deploy_empty_action')}
+              onPress={() => NavigationActions.selectTab(1)}
+            />}
+        />}
       </View>
     );
   }
 
-  renderRow(cluster, section, index) {
-    const clusterItem = (
-      <View style={{flex: 1}}>
-        <ListItem
-          title={cluster.get('name')}
-          isLast={true}
-          renderDetail={() => this.renderClusterDetail(cluster, index)}
-          onPress={() => this.selectRow(index)}
-        />
-      </View>
-    );
-    const releases = (
-      <View style={styles.releasesContainer}>
-        {this.renderReleases(cluster)}
-      </View>
-    );
+  renderRow(release, section, index) {
     return (
-      <Accordion
-        ref={e => {this.items[index] = e;}}
-        header={clusterItem}
-        content={releases}
-        easing="easeOutCubic"
+      <ListItem
+        title={release.get('name')}
+        isLast={index === this.props.releases.size - 1}
+        onDelete={() => this.deleteRow(release)}
       />
     );
   }
 
-  renderClusterDetail(cluster, index) {
-    const releases = this.props.releases.get(cluster.get('url'));
-    const text = releases && releases.size > 0 ? releases.size : 'No releases';
-    const selected = this.state.selectedIndex === index;
-    return (
-      <View style={styles.clusterDetail}>
-        <Text style={styles.clusterDetailText}>{text}</Text>
-        <View style={[styles.arrow, selected && styles.arrowDown]}/>
-      </View>
-    );
-  }
-
-  renderReleases(cluster) {
-    const releases = this.props.releases.get(cluster.get('url'));
-    if (!releases || releases.size === 0) {
-      return <Text>{'No releases'}</Text>;
-    }
-    return releases.map((release, i) => {
-      return (
-        <ListItem key={i} style={styles.releaseItem}
-          hideSeparator={i >= releases.size - 1}
-          title={`${release.get('name')} (${release.getIn(['chart', 'name'])})`}
-          detailTitle={ChartsUtils.releaseStatusForCode(release.getIn(['info', 'status']))}
-          onDelete={() => this.deleteRelease({cluster, release})}
-          />
-      );
-    });
-  }
-
-  selectRow(nextIndex) {
-    const previousIndex = this.state.selectedIndex;
-    if (previousIndex !== nextIndex) {
-      this.setState({selectedIndex: nextIndex});
-      this.items[nextIndex] && this.items[nextIndex].open();
-      this.items[previousIndex] && this.items[previousIndex].close();
-    } else {
-      if (previousIndex !== null) { this.setState({selectedIndex: null}); }
-      this.items[nextIndex] && this.items[nextIndex].toggle();
-    }
-  }
-
   fetchReleases() {
-    this.props.clusters.map(cluster => ReleasesActions.fetchReleases(cluster));
+    ReleasesActions.fetchReleases(this.props.cluster);
   }
 
-  deleteRelease({cluster, release}) {
-    ReleasesActions.deleteRelease({cluster, release});
+  deleteRow(release) {
+    console.log('delete ', release.toJS());
   }
-
 }

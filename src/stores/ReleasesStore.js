@@ -27,12 +27,19 @@ class ReleasesStore {
     if (__DEV__ && FakeData.get(this.displayName)) {
       this.state = FakeData.get(this.displayName);
     } else {
-      this.state = Immutable.Map();
+      this.state = Immutable.fromJS({
+        releases: {}, status: {},
+      });
     }
   }
 
+  onFetchReleasesStart(cluster) {
+    this.setState(this.state.setIn(['status', cluster.get('url')], 'loading'));
+  }
+
   onFetchReleasesSuccess({cluster, releases}) {
-    this.setState(this.state.setIn(['releases', cluster.get('url')], releases));
+    this.setState(this.state.setIn(['releases', cluster.get('url')], releases)
+      .setIn(['status', cluster.get('url')], 'success'));
   }
 
   onDeleteReleaseStart({cluster, release}) {
@@ -41,8 +48,12 @@ class ReleasesStore {
     }));
   }
 
-  static getAll() {
-    return this.state.getIn(['releases']);
+  static getAll(cluster) {
+    return this.state.getIn(['releases', cluster.get('url')], Immutable.List());
+  }
+
+  static getStatus(cluster) {
+    return this.state.getIn(['status', cluster.get('url')], 'success');
   }
 
 }

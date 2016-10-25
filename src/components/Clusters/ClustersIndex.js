@@ -17,19 +17,16 @@ import CollectionView from 'components/commons/CollectionView';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import Colors from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
-import ClustersEmpty from 'components/Clusters/ClustersEmpty';
+import EmptyView from 'components/commons/EmptyView';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import ActionButton from 'react-native-action-button';
+import NavigationActions from 'actions/NavigationActions';
 
 const {
   View,
-  Image,
   InteractionManager,
   Platform,
-  Text,
-  TouchableOpacity,
   StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
@@ -84,7 +81,13 @@ export default class ClustersIndex extends Component {
             contentContainerStyle={styles.listContent}
             list={alt.stores.ClustersStore.getClusters()}
             renderRow={this.renderRow.bind(this)}
-            renderEmpty={() => <ClustersEmpty />}
+            renderEmpty={() => <EmptyView
+                image={require('images/cubes.png')}
+                title={intl('clusters_empty_title')}
+                subtitle={intl('clusters_empty_subtitle')}
+                actionTitle={intl('clusters_empty_action')}
+                onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
+              />}
             onRefresh={this.handleRefresh.bind(this)}
           />
         </AltContainer>

@@ -13,10 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import ClustersRoutes from 'routes/ClustersRoutes';
 import Colors from 'styles/Colors';
-import NavigationActions from 'actions/NavigationActions';
-
+const { PropTypes } = React;
 const {
   View,
   Image,
@@ -70,18 +68,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class ClustersEmpty extends Component {
+export default class EmptyView extends Component {
 
+  static propTypes = {
+    image: Image.propTypes.source,
+    title: PropTypes.string,
+    subtitle: PropTypes.string,
+    actionTitle: PropTypes.string,
+    onPress: PropTypes.func,
+  }
   render() {
     return (
       <View style={styles.emptyContainer}>
-        <Image style={styles.emptyImage} source={require('images/cubes.png')} />
-        <Text style={styles.emptyTitle}>{intl('clusters_empty_title')}</Text>
-        <Text style={styles.emptySubtitle}>{intl('clusters_empty_subtitle')}</Text>
-        <TouchableOpacity style={styles.emptyButton} onPress={() => {
-          NavigationActions.push(ClustersRoutes.getClustersNewRoute());
-        }}>
-          <Text style={styles.emptyAction}>{intl('clusters_empty_action')}</Text>
+        <Image style={styles.emptyImage} source={this.props.image} />
+        <Text style={styles.emptyTitle}>{this.props.title}</Text>
+        <Text style={styles.emptySubtitle}>{this.props.subtitle}</Text>
+        <TouchableOpacity style={styles.emptyButton} onPress={this.props.onPress}>
+          <Text style={styles.emptyAction}>{this.props.actionTitle}</Text>
         </TouchableOpacity>
       </View>
     );
