@@ -23,6 +23,7 @@ const {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -33,9 +34,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 10,
     flexDirection: 'row',
     paddingHorizontal: 5,
+    paddingBottom: Platform.OS === 'android' ? 15 : 10,
+    paddingTop: Platform.OS === 'android' ? 15 : 0,
   },
   text: {
     color: Colors.WHITE,

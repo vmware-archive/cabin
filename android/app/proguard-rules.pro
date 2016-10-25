@@ -16,9 +16,6 @@
 #   public *;
 #}
 
-# Webview Bridge
--keep class com.github.alinz.reactnativewebviewbridge.JavascriptBridge { *; }
-
 # Disabling obfuscation is useful if you collect stack traces from production crashes
 # (unless you are using a system that supports de-obfuscate the stack traces).
 -dontobfuscate
@@ -29,11 +26,14 @@
 # See http://sourceforge.net/p/proguard/bugs/466/
 -keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
 -keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
 
 # Do not strip any method/class that is annotated with @DoNotStrip
 -keep @com.facebook.proguard.annotations.DoNotStrip class *
+-keep @com.facebook.common.internal.DoNotStrip class *
 -keepclassmembers class * {
     @com.facebook.proguard.annotations.DoNotStrip *;
+    @com.facebook.common.internal.DoNotStrip *;
 }
 
 -keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * {
@@ -54,9 +54,9 @@
 
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squareup.okhttp.** { *; }
--dontwarn com.squareup.okhttp.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
 
 # okio
 

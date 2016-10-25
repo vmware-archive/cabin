@@ -19,7 +19,12 @@ import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
 import YAML from 'yamljs';
 import EntitiesUtils from 'utils/EntitiesUtils';
-const { GRPCManager: grpc, SKPNetwork } = NativeModules;
+const { GRPCManager: grpc } = NativeModules;
+
+const httpFetch = fetch;
+if (NativeModules.SKPNetwork) {
+  httpFetch = NativeModules.SKPNetwork.fetch;
+}
 
 let REQUESTS_COUNT = 0;
 
@@ -78,10 +83,13 @@ class BaseApi {
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    return SKPNetwork.fetch(`${URL}`, {
+    if (cluster && cluster.get('url') === 'test') {
+      return Promise.resolve();
+    }
+    return httpFetch(URL, {
       method,
       headers,
-      body,
+      body: JSON.stringify(body),
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (typeof response.text !== 'function') {
@@ -122,9 +130,6 @@ class BaseApi {
         });
       });
     }).catch((error) => {
-      if (cluster && cluster.get('url') === 'test') {
-        return Promise.resolve();
-      }
       return this.handleError(error, url);
     });
   }

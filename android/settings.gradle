@@ -1,4 +1,4 @@
-rootProject.name = 'Skippbox'
+rootProject.name = 'skippbox'
 
 include ':app'
 include ':react-native-orientation'

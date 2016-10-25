@@ -28,6 +28,7 @@ import Colors from 'styles/Colors';
 
 const {
   DeviceEventEmitter,
+  Platform,
   View,
   Image,
 } = ReactNative;
@@ -52,7 +53,7 @@ const ClustersRoutes = {
         return (
           <NavbarButton source={require('images/add.png')}
             // onPress={() => BaseApi.callGRPC('test')}
-            onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
+            onPress={() => NavigationActions.push(ClustersRoutes.getClusterNewRoute())}
           />
         );
       },
@@ -80,7 +81,7 @@ const ClustersRoutes = {
       },
       renderRightButton(navigator) {
         return (
-          <NavbarButton key="search" source={require('images/search.png')}
+          <NavbarButton key="Search" source={require('images/search.png')}
             onPress={() => {
               navigator.push(ClustersRoutes.getClustersSearchRoute(cluster));
             }}
@@ -113,33 +114,41 @@ const ClustersRoutes = {
     };
   },
 
-  getClustersNewRoute(optionalCluster) {
+  getClusterNewRoute(optionalCluster) {
+    const route = ClustersRoutes.getClusterCreationRoute(optionalCluster);
+    if (Platform.OS === 'android') {
+      return route;
+    }
     return {
       name: 'ClustersNew',
       statusBarStyle: 'light-content',
       renderScene() {
+        return <Navigator initialRoute={route} />;
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getClusterCreationRoute(optionalCluster) {
+    return {
+      getTitle: () => 'New Cluster',
+      renderScene(navigator) {
+        return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
+      },
+      renderLeftButton() {
         return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => 'New Cluster',
-              renderScene(navigator) {
-                return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return (
-                  <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.pop()}
-                  />
-                );
-              },
-              renderRightButton() {
-                return (
-                  <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
-                  />
-                );
-              },
-            }}
+          <NavbarButton title={intl('cancel')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('done')}
+            androidSource={require('images/done.png')}
+            onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
           />
         );
       },

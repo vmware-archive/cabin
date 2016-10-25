@@ -37,7 +37,7 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import AltContainer from 'alt-container';
 
-const { View, DeviceEventEmitter, Alert, AlertIOS } = ReactNative;
+const { View, DeviceEventEmitter, Alert, AlertIOS, Platform } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -228,26 +228,35 @@ EntitiesRoutes = {
     if (!deployment) {
       deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
     }
-    return {
+    const route = {
       name: 'ServicesNew',
       statusBarStyle: 'light-content',
+      getTitle: () => intl('service_new'),
+      renderScene(navigator) {
+        return <ServicesNew cluster={cluster} defaultDeployment={deployment} navigator={navigator} />;
+      },
+      renderLeftButton() {
+        return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
+      },
+      renderRightButton() {
+        return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+    return EntitiesRoutes.getModalRoute(route);
+  },
+
+  getModalRoute(route) {
+    if (Platform.OS === 'android') {
+      return route;
+    }
+    return {
+      name: route.name,
+      statusBarStyle: route.statusBarStyle,
       renderScene() {
-        return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => intl('service_new'),
-              renderScene(navigator) {
-                return <ServicesNew cluster={cluster} defaultDeployment={deployment} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
-              },
-              renderRightButton() {
-                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
-              },
-            }}
-          />
-        );
+        return <Navigator initialRoute={route} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
@@ -256,32 +265,23 @@ EntitiesRoutes = {
   },
 
   getServicesEditPortRoute({cluster, service, port}) {
-    return {
-      name: 'ServicesEditPort',
-      statusBarStyle: 'light-content',
-      renderScene() {
+    const route = {
+      getTitle: () => 'Edit Port',
+      renderScene(navigator) {
+        return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
+      },
+      renderLeftButton() {
         return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => 'Edit Port',
-              renderScene(navigator) {
-                return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return (
-                  <NavbarButton title={intl('cancel')}
-                    onPress={() => NavigationActions.pop()}
-                  />
-                );
-              },
-              renderRightButton() {
-                return (
-                  <NavbarButton title={intl('done')}
-                    onPress={() => DeviceEventEmitter.emit('ServicesEditPort:submit')}
-                  />
-                );
-              },
-            }}
+          <NavbarButton title={intl('cancel')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('done')}
+            androidSource={require('images/done.png')}
+            onPress={() => DeviceEventEmitter.emit('ServicesEditPort:submit')}
           />
         );
       },
@@ -289,6 +289,7 @@ EntitiesRoutes = {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
   getReplicationsShowRoute({replication, cluster}) {
@@ -366,31 +367,22 @@ EntitiesRoutes = {
   },
 
   getDeploymentsNewRoute(cluster) {
-    return {
-      name: 'DeploymentsNew',
-      statusBarStyle: 'light-content',
-      renderScene() {
-        return (
-          <Navigator
-            initialRoute={{
-              getTitle: () => intl('deployment_new'),
-              renderScene(navigator) {
-                return <DeploymentsNew cluster={cluster} navigator={navigator} />;
-              },
-              renderLeftButton() {
-                return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
-              },
-              renderRightButton() {
-                return <NavbarButton title={intl('done')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
-              },
-            }}
-          />
-        );
+    const route = {
+      getTitle: () => intl('deployment_new'),
+      renderScene(navigator) {
+        return <DeploymentsNew cluster={cluster} navigator={navigator} />;
+      },
+      renderLeftButton() {
+        return <NavbarButton title={intl('cancel')} onPress={() => NavigationActions.pop()} />;
+      },
+      renderRightButton() {
+        return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
       },
     };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
   getDeploymentsHistoryRoute({cluster, deployment}) {

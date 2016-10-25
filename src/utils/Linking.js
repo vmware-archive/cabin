@@ -14,12 +14,12 @@
   limitations under the License.
 */
 import SafariView from 'react-native-safari-view';
-const { Linking } = ReactNative;
+const { Linking, Platform } = ReactNative;
 
 export default class LinkingUtils {
 
   static openURL(url, openApp) {
-    if (openApp || !url.match(/^http(s?):\/\//)) {
+    if (openApp || !url.match(/^http(s?):\/\//) || Platform.OS === 'android') {
       Linking.openURL(url);
       return;
     }

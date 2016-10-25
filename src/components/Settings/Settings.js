@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    // paddingTop: 20,
   },
   titleContainer: {
     flex: 1,
@@ -52,13 +51,10 @@ const styles = StyleSheet.create({
     tintColor: Colors.BLACK,
     opacity: 0.7,
   },
-  twitterText: {
-    fontSize: 16,
-    color: Colors.BLUE,
-  },
   replicasInput: {
-    flex: 1,
-    width: 60,
+    fontSize: 16,
+    width: 60, height: 40,
+    alignSelf: 'center',
     textAlign: 'right',
   },
 });
@@ -69,7 +65,7 @@ export default class Settings extends Component {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} keyboardDismissMode="interactive">
+        <ScrollView style={styles.list} contentContainerStyle={{paddingBottom: 20}} keyboardDismissMode="interactive">
           <ListHeader title="Customize"/>
           <ListItem title="Object kind list" showArrow={true} onPress={() => {
             this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
@@ -83,6 +79,8 @@ export default class Settings extends Component {
             return (
               <TextInput ref={t => {this.replicasInput = t;}} style={styles.replicasInput}
                 defaultValue={`${maxReplicas}`}
+                keyboardType="numeric"
+                underlineColorAndroid="transparent"
                 onSubmitEditing={(e) => {
                   const value = parseInt(e.nativeEvent.text, 10);
                   if (!value || value <= 0) {
@@ -113,7 +111,7 @@ export default class Settings extends Component {
                 </View>
               );
             }}/>
-          <ListItem detailTitle="info@skippbox.com" onPress={() => Linking.openURL('mailto://info@skippbox.com')}
+          <ListItem detailTitle="info@skippbox.com" onPress={() => Linking.openURL('mailto:info@skippbox.com')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>

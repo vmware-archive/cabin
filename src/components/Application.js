@@ -14,14 +14,26 @@
   limitations under the License.
 */
 import Navigator from 'components/commons/Navigator';
-import TabBar from 'components/commons/TabBar';
+import Home from 'components/commons/Home';
 import InitActions from 'actions/InitActions';
 import ActionSheet from '@exponent/react-native-action-sheet';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import ToolbarAugmenter from 'components/commons/ToolbarAugmenter';
 
-const { View, DeviceEventEmitter, InteractionManager } = ReactNative;
+const {
+  BackAndroid,
+  DeviceEventEmitter,
+  InteractionManager,
+  Platform,
+  View,
+} = ReactNative;
 
 export default class Application extends Component {
+
+  constructor() {
+    super();
+    this.handleBackAndroid = this.handleBackAndroid.bind(this);
+  }
 
   componentDidMount() {
     InitActions.initializeApplication();
@@ -31,11 +43,27 @@ export default class Application extends Component {
     InteractionManager.runAfterInteractions(() => {
       MessageBarManager.showAlert({ duration: 10 });
     });
+    if (Platform.OS === 'android') {
+      BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid);
+    }
   }
 
   componentWillUnmount() {
     this.actionSheetListener.remove();
     MessageBarManager.unregisterMessageBar();
+    if (Platform.OS === 'android') {
+      BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid);
+    }
+  }
+
+  handleBackAndroid() {
+    const { navigator } = this.refs;
+
+    if (navigator.getCurrentRoutes().length > 1) {
+      navigator.pop();
+      return true;
+    }
+    return false;
   }
 
   render() {
@@ -43,15 +71,18 @@ export default class Application extends Component {
       <ActionSheet ref="actionSheet">
         <View style={{flex: 1}}>
           <Navigator
+            ref="navigator"
             navigatorEvent="application:navigation"
             showNavigationBar={false}
             sceneStyle={{paddingTop: 0}}
             initialRoute={{
+              name: 'Home',
               statusBarStyle: 'light-content',
-              renderScene() {
-                return <TabBar />;
+              getSceneClass() {
+                return Home;
               },
             }}
+            augmentScene={(scene, route) => <ToolbarAugmenter scene={scene} route={route} navigator={this.refs.navigator} />}
           />
           <MessageBar ref="messageBar"/>
         </View>

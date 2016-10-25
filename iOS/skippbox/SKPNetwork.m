@@ -31,7 +31,7 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
   }
   [urlRequest setHTTPMethod:[(NSString*)params[@"method"] uppercaseString]];
   if (params[@"body"]) {
-    [urlRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:params[@"body"] options:0 error:nil]];
+    [urlRequest setHTTPBody:[params[@"body"] dataUsingEncoding:NSUTF8StringEncoding]];
   }
   
   NSURLSessionDataTask * dataTask =[defaultSession dataTaskWithRequest:urlRequest

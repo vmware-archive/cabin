@@ -232,7 +232,10 @@ export default class SwipeRow extends Component {
       <Animated.View style={style} key={index}>
         <NativeButton
           style={{flex: 1}}
-          onPress={button.onPress}
+          onPress={() => {
+            button.onPress && button.onPress();
+            this.close();
+          }}
           underlayColor={button.underlayColor}
           disabled={button.disabled}
           textStyle={button.textStyle}>

@@ -14,29 +14,37 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import PStyleSheet from 'styles/PStyleSheet';
 
 const {
   View,
   Image,
   TextInput,
-  StyleSheet,
   Dimensions,
   InteractionManager,
   DeviceEventEmitter,
+  Platform,
 } = ReactNative;
 
 
-const styles = StyleSheet.create({
+const styles = PStyleSheet.create({
   container: {
-    width: Dimensions.get('window').width - 50,
-    height: 32,
-    marginLeft: 35,
-    marginTop: 6,
-    paddingHorizontal: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    borderRadius: 6,
+    marginLeft: Platform.OS === 'ios' ? 35 : 0,
     flexDirection: 'row',
     alignItems: 'center',
+    ios: {
+      width: Dimensions.get('window').width - 50,
+      height: 32,
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+      marginLeft: 35,
+      marginTop: 6,
+      paddingHorizontal: 10,
+      borderRadius: 6,
+    },
+    android: {
+      width: Dimensions.get('window').width - 70,
+      height: 45,
+    },
   },
   icon: {
     width: 15, height: 15,
@@ -48,6 +56,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 2,
     color: Colors.WHITE,
+    android: {
+      fontSize: 20,
+      height: 45,
+    },
   },
 });
 
@@ -61,7 +73,7 @@ export default class SearchBar extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require('images/search.png')} style={styles.icon} />
+        {Platform.OS === 'ios' && <Image source={require('images/search.png')} style={styles.icon} />}
         <TextInput
           ref="input"
           style={styles.input}

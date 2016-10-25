@@ -16,24 +16,31 @@
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
+import PStyleSheet from 'styles/PStyleSheet';
 
 const {
   View,
   Text,
-  StyleSheet,
 } = ReactNative;
 
-const styles = StyleSheet.create({
+const styles = PStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    ios: {
+      justifyContent: 'center',
+    },
   },
   dot: {
     width: 10, height: 10,
     borderRadius: 5,
-    marginRight: 6,
+    ios: {
+      marginRight: 6,
+    },
+    android: {
+      marginRight: 10,
+    },
   },
   text: {
     color: Colors.WHITE,
