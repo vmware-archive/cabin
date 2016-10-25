@@ -25,8 +25,6 @@ import "hapi/version/version.proto";
 
 option go_package = "services";
 
-option java_generic_services = true;
-
 // ReleaseService is the service that a helm application uses to mutate,
 // query, and manage releases.
 //
@@ -53,7 +51,7 @@ service ReleaseService {
 	rpc GetReleaseStatus(GetReleaseStatusRequest) returns (GetReleaseStatusResponse) {
 	}
 
-	// GetReleaseContent retrieves the release content (chart + value) for the specifed release.
+	// GetReleaseContent retrieves the release content (chart + value) for the specified release.
 	rpc GetReleaseContent(GetReleaseContentRequest) returns (GetReleaseContentResponse) {
 	}
 
@@ -77,6 +75,9 @@ service ReleaseService {
     rpc RollbackRelease(RollbackReleaseRequest) returns (RollbackReleaseResponse) {
     }
 
+    // ReleaseHistory retrieves a releasse's history.
+    rpc GetHistory(GetHistoryRequest) returns (GetHistoryResponse) {
+    }
 }
 
 // ListReleasesRequest requests a list of releases.
@@ -263,4 +264,17 @@ message GetVersionRequest {
 
 message GetVersionResponse {
   hapi.version.Version Version = 1;
+}
+
+// GetHistoryRequest requests a release's history.
+message GetHistoryRequest {
+	// The name of the release.
+	string name = 1;
+	// The maximum number of releases to include.
+	int32 max = 2;
+}
+
+// GetHistoryResponse is received in response to a GetHistory rpc.
+message GetHistoryResponse {
+	repeated hapi.release.Release releases = 1;
 }

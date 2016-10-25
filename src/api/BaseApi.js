@@ -21,6 +21,11 @@ import YAML from 'yamljs';
 import EntitiesUtils from 'utils/EntitiesUtils';
 const { GRPCManager: grpc } = NativeModules;
 
+const httpFetch = fetch;
+if (NativeModules.SKPNetwork) {
+  httpFetch = NativeModules.SKPNetwork.fetch;
+}
+
 let REQUESTS_COUNT = 0;
 
 class BaseApi {
@@ -81,7 +86,7 @@ class BaseApi {
     if (cluster && cluster.get('url') === 'test') {
       return Promise.resolve();
     }
-    return fetch(URL, {
+    return httpFetch(URL, {
       method,
       headers,
       body: JSON.stringify(body),
