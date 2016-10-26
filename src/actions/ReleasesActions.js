@@ -40,6 +40,8 @@ class ReleasesActions {
       return ChartsApi.fetchReleases({cluster, service}).then(releases => {
         this.fetchReleasesSuccess({cluster, releases});
         return releases;
+      }).catch(() => {
+        this.fetchReleasesFailure({cluster});
       });
     });
   }

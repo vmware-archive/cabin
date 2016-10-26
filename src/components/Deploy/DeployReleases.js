@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   releaseDetail: {
-    flex: 1,
     backgroundColor: Colors.BLUE,
     borderRadius: 4,
     paddingHorizontal: 6,
@@ -54,6 +53,7 @@ const styles = StyleSheet.create({
     height: 28,
   },
   releaseDetailText: {
+    flex: 1,
     fontSize: 16,
     color: Colors.WHITE,
   },

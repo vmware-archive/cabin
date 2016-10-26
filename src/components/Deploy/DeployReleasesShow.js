@@ -56,7 +56,6 @@ export default class DeployReleasesShow extends Component {
     const { release } = this.props;
     const chart = release.get('chart');
     const info = release.get('info');
-    console.log(release.toJS());
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list}>
@@ -75,7 +74,7 @@ export default class DeployReleasesShow extends Component {
               return (
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                   <Image style={{width: 30, height: 30}} source={ChartsUtils.iconForChart(release.getIn(['chart', 'name']))}/>
-                  <Text style={{flex: 1, marginLeft: 8, fontSize: 16}} numberOfLines={1}>{release.get('name')}</Text>
+                  <Text style={{flex: 1, marginLeft: 8, fontSize: 16}} numberOfLines={1}>{release.getIn(['chart', 'name'])}</Text>
                 </View>
               );
             }}/>
