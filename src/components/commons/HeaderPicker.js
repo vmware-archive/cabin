@@ -28,6 +28,7 @@ const {
 
 const styles = StyleSheet.create({
   container: {
+    height: Platform.OS === 'ios' ? 30 : 45,
     backgroundColor: Colors.BLUE,
   },
   innerContainer: {

@@ -12,8 +12,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "lint": "eslint src",
     "pre-commit-lint": "LIST=`git diff --name-only --cached | grep .*\\.js$`;if [ \"$LIST\" ]; then eslint $LIST; fi",
-    "test": "jest",
-    "react-upgrade": "react-native upgrade --package=com.azendoo.azmobile"
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-react-native"
@@ -32,11 +31,11 @@
     "lodash": "4.13.1",
     "qs": "6.2.0",
     "react": "15.3.2",
-    "react-native": "0.35.0-rc.0",
+    "react-native": "0.36.0",
     "react-native-action-button": "^1.1.11",
     "react-native-keyboard-aware-scroll-view": "^0.2.0",
     "react-native-message-bar": "^1.6.0",
-    "react-native-orientation": "yamill/react-native-orientation",
+    "react-native-orientation": "git+https://github.com/yamill/react-native-orientation.git",
     "react-native-parsed-text": "0.0.15",
     "react-native-safari-view": "^1.0.0",
     "react-native-sortable-listview": "0.0.8",

@@ -29,6 +29,7 @@ const { PropTypes } = React;
 
 const styles = StyleSheet.create({
   container: {
+    height: 30,
     backgroundColor: Colors.BLUE,
   },
   innerContainer: {

@@ -123,7 +123,7 @@ export default class Search extends Component {
   }
 
   handlePress(entity) {
-    this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute(entity));
+    this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, entityType: entity.get('kind'), cluster: this.props.cluster}));
   }
 
   handleSearch({text}) {

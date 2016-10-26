@@ -266,6 +266,8 @@ EntitiesRoutes = {
 
   getServicesEditPortRoute({cluster, service, port}) {
     const route = {
+      name: 'ServicesEditPort',
+      statusBarStyle: 'light-content',
       getTitle: () => 'Edit Port',
       renderScene(navigator) {
         return <ServicesEditPort cluster={cluster} service={service} port={port} navigator={navigator} />;
@@ -368,6 +370,8 @@ EntitiesRoutes = {
 
   getDeploymentsNewRoute(cluster) {
     const route = {
+      name: 'DeploymentsNew',
+      statusBarStyle: 'light-content',
       getTitle: () => intl('deployment_new'),
       renderScene(navigator) {
         return <DeploymentsNew cluster={cluster} navigator={navigator} />;
