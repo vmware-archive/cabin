@@ -34,6 +34,13 @@ const {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.BACKGROUND,
+  },
+  absolute: {
+    position: 'absolute',
+    left: 0, bottom: 0, right: 0, top: 0,
+    alignItems: 'center', justifyContent: 'center',
+    backgroundColor: Colors.BACKGROUND,
   },
   list: {
     flex: 1,

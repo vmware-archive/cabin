@@ -116,6 +116,19 @@ class GRPCManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void deleteRelease(String releaseName, String host, final Promise promise) {
+        Tiller.UninstallReleaseRequest.Builder request = Tiller.UninstallReleaseRequest.newBuilder();
+        Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
+        final ListenableFuture<Tiller.UninstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).uninstallRelease(request.build());
+        future.addListener(new Runnable() {
+            @Override
+            public void run() {
+                promise.resolve("ok");
+            }
+        }, MoreExecutors.directExecutor());
+    }
+
+    @ReactMethod
     public void deployChartAtURL(String url, String host, final Promise promise) {
         File downloadedFile = null;
         File archiveFolder = null;
