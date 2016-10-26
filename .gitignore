@@ -23,11 +23,6 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
-# Android
-.idea
-.gradle
-local.properties
-
 # CocoaPods
 #
 iOS/Pods/
