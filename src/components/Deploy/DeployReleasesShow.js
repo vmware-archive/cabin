@@ -65,6 +65,7 @@ export default class DeployReleasesShow extends Component {
             <ListItem title="Namespace" detailTitle={release.get('namespace')}/>
             <ListItem title="Version" detailTitle={`${release.get('version')}`}/>
             <ListItem title="Status" detailTitle={ChartsUtils.releaseStatusForCode(info.get('status'))}/>
+            {info.get('deleted') !== 0 && <ListItem title="Deleted" detailTitle={intlrd(new Date(info.get('deleted') * 1000))}/>}
             <ListItem title="First Deployed" detailTitle={intlrd(new Date(info.get('firstDeployed') * 1000))}/>
             <ListItem title="Last Deployed" isLast={true} detailTitle={intlrd(new Date(info.get('firstDeployed') * 1000))}/>
           </View>
