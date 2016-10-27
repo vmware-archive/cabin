@@ -20,6 +20,8 @@ import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import AlertUtils from 'utils/AlertUtils';
+import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import GoogleCloudActions from 'actions/GoogleCloudActions';
 
 const { PropTypes } = React;
 
@@ -60,12 +62,18 @@ export default class ClustersNew extends Component {
         username: '',
         password: '',
         token: '',
+
+        googleUser: null,
       };
     }
   }
 
   componentDidMount() {
     this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+      iosClientId: '777344195972-kga2cv236fi3mbkat6a17orm57q8lvdk.apps.googleusercontent.com',
+    });
   }
 
   componentWillUnmount() {
@@ -79,6 +87,10 @@ export default class ClustersNew extends Component {
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
+          <GoogleSigninButton
+            style={{flex: 1, height: 48}}
+            size={GoogleSigninButton.Size.Standard}
+            onPress={this.signInGoogle.bind(this)}/>
           <ListHeader title="Cluster info"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
@@ -97,6 +109,14 @@ export default class ClustersNew extends Component {
         </ScrollView>
       </View>
     );
+  }
+
+  signInGoogle() {
+    GoogleCloudActions.signIn().then(() => {
+      return GoogleCloudActions.getProjects();
+    }).then(() => {
+      return GoogleCloudActions.getZones(alt.stores.GoogleCloudStore.getProjects().getIn(['0', 'projectId']));
+    });
   }
 
   onSubmit() {

@@ -29,4 +29,5 @@ import 'stores/ServicesStore';
 import 'stores/SettingsStore';
 import 'stores/VolumesStore';
 import 'stores/VolumeClaimsStore';
+import 'stores/GoogleCloudStore';
 export default {};
