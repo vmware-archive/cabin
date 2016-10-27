@@ -28,7 +28,7 @@ class ReleasesStore {
       this.state = FakeData.get(this.displayName);
     } else {
       this.state = Immutable.fromJS({
-        releases: {}, status: {},
+        releases: {}, status: {}, error: {},
       });
     }
   }
@@ -40,6 +40,11 @@ class ReleasesStore {
   onFetchReleasesSuccess({cluster, releases}) {
     this.setState(this.state.setIn(['releases', cluster.get('url')], releases)
       .setIn(['status', cluster.get('url')], 'success'));
+  }
+
+  onFetchReleasesFailure({cluster, error}) {
+    this.setState(this.state.setIn(['error', cluster.get('url')], error)
+      .setIn(['status', cluster.get('url')], 'failure'));
   }
 
   onDeleteReleaseStart({cluster, release}) {
@@ -54,6 +59,10 @@ class ReleasesStore {
 
   static getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
+  }
+
+  static getError(cluster) {
+    return this.state.getIn(['error', cluster.get('url')], {message: null}).message;
   }
 
 }

@@ -139,10 +139,17 @@ export default class ClusterShow extends Component {
             value: alt.stores.ReleasesStore.getStatus(cluster),
           };
         },
+        error: () => {
+          return {
+            store: alt.stores.ReleasesStore,
+            value: alt.stores.ReleasesStore.getError(cluster),
+          };
+        },
       }}>
         <DeployReleases cluster={cluster}
           releases={alt.stores.ReleasesStore.getAll(cluster)}
           status={alt.stores.ReleasesStore.getStatus(cluster)}
+          error={alt.stores.ReleasesStore.getError(cluster)}
           navigator={this.props.navigator}/>
       </AltContainer>
     );

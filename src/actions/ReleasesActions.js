@@ -34,14 +34,14 @@ class ReleasesActions {
     this.fetchReleasesStart(cluster);
     return ServicesActions.getTillerService(cluster).then(service => {
       if (!service) {
-        this.fetchReleasesFailure({cluster});
+        this.fetchReleasesFailure({cluster, error: {message: 'notiller'}});
         return Immutable.List();
       }
       return ChartsApi.fetchReleases({cluster, service}).then(releases => {
         this.fetchReleasesSuccess({cluster, releases});
         return releases;
-      }).catch(() => {
-        this.fetchReleasesFailure({cluster});
+      }).catch((error) => {
+        this.fetchReleasesFailure({cluster, error});
       });
     });
   }

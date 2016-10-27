@@ -72,6 +72,7 @@ export default class EmptyView extends Component {
 
   static propTypes = {
     image: Image.propTypes.source,
+    imageStyle: Image.propTypes.style,
     title: PropTypes.string,
     subtitle: PropTypes.string,
     actionTitle: PropTypes.string,
@@ -80,7 +81,7 @@ export default class EmptyView extends Component {
   render() {
     return (
       <View style={styles.emptyContainer}>
-        <Image style={styles.emptyImage} source={this.props.image} />
+        <Image style={[styles.emptyImage, this.props.imageStyle]} source={this.props.image} />
         <Text style={styles.emptyTitle}>{this.props.title}</Text>
         <Text style={styles.emptySubtitle}>{this.props.subtitle}</Text>
         <TouchableOpacity style={styles.emptyButton} onPress={this.props.onPress}>

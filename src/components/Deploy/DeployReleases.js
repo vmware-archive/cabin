@@ -64,6 +64,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.WHITE,
   },
+  error: {
+    color: Colors.GRAY,
+    fontSize: 14,
+  },
+  errorTitle: {
+    color: Colors.ORANGE,
+    marginBottom: 6,
+    fontSize: 20,
+  },
 });
 
 export default class DeployReleases extends Component {
@@ -72,33 +81,68 @@ export default class DeployReleases extends Component {
     releases: PropTypes.instanceOf(Immutable.List).isRequired,
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     status: PropTypes.string,
+    error: PropTypes.string,
   }
 
   render() {
+    let view;
+    switch (this.props.status) {
+      case 'loading' && this.props.releases.isEmpty():
+        view = this.renderLoading(); break;
+      case 'failure':
+        view = this.renderFailure(); break;
+      default:
+        view = this.renderList();
+    }
     return (
       <View style={styles.container}>
-        {this.props.status === 'loading' && this.props.releases.isEmpty() ?
-          <View style={styles.absolute}>
-            <ActivityIndicator style={{flex: 1}} />
-          </View>
-        :
-        <CollectionView style={styles.list}
-          ref="CollectionView"
-          contentInset={{bottom: 40}}
-          scrollIndicatorInsets={{bottom: 0}}
-          contentContainerStyle={styles.listContent}
-          list={this.props.releases}
-          onRefresh={this.fetchReleases.bind(this)}
-          renderRow={this.renderRow.bind(this)}
-          renderEmpty={() => <EmptyView
-              image={require('images/cubes.png')}
-              title={intl('deploy_empty_title')}
-              subtitle={intl('deploy_empty_subtitle')}
-              actionTitle={intl('deploy_empty_action')}
-              onPress={() => NavigationActions.selectTab(1)}
-            />}
-        />}
+        {view}
       </View>
+    );
+  }
+
+  renderList() {
+    return (
+      <CollectionView style={styles.list}
+        ref="CollectionView"
+        contentInset={{bottom: 40}}
+        scrollIndicatorInsets={{bottom: 0}}
+        contentContainerStyle={styles.listContent}
+        list={this.props.releases}
+        onRefresh={this.fetchReleases.bind(this)}
+        renderRow={this.renderRow.bind(this)}
+        renderEmpty={() => <EmptyView
+            image={require('images/cubes.png')}
+            title={intl('deploy_empty_title')}
+            subtitle={intl('deploy_empty_subtitle')}
+            actionTitle={intl('deploy_empty_action')}
+            onPress={() => NavigationActions.selectTab(1)}
+          />}
+      />
+    );
+  }
+
+  renderLoading() {
+    return (
+      <View style={styles.absolute}>
+        <ActivityIndicator style={{flex: 1}} />
+      </View>
+    );
+  }
+
+  renderFailure() {
+    const noTiller = this.props.error === 'notiller';
+    return (
+      <EmptyView
+          image={require('images/error_circle.png')}
+          imageStyle={{width: 30, height: 30, marginTop: 0, marginBottom: 0, tintColor: Colors.RED}}
+          title={intl('deploy_releases_error')}
+          subtitle={noTiller ? intl('deploy_no_tiller_svc_alert_subtitle') : this.props.error}
+          actionTitle={noTiller ? intl('deploy_empty_action') : intl('deploy_error_action')}
+          onPress={() => {
+            noTiller ? NavigationActions.selectTab(1) : this.fetchReleases();
+          }}
+        />
     );
   }
 

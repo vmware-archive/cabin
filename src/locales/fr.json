@@ -80,6 +80,7 @@
   "deploy_empty_title": "No helm release found",
   "deploy_empty_subtitle": "You can deploy a new release by selecting a chart in the deploy tab",
   "deploy_empty_action": "Deploy a new release",
+  "deploy_releases_error": "Impossible de lister les releases Helm",
 
   "service_new": "Nouveau Service",
   "service_new_description": "Vous devez choisir un deployment à exposer ainsi qu'un port",

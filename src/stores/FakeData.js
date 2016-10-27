@@ -88,8 +88,8 @@ export default Immutable.fromJS({
     status: {'test': 'success'},
     releases: {
       'test': [
-        { name: 'Release-A' },
-        { name: 'Release-B' },
+        { name: 'Release-A', chart: { name: 'chart A' }, info: {} },
+        { name: 'Release-B', chart: { name: 'chart A' }, info: {} },
       ],
     },
   },

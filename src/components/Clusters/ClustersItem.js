@@ -162,21 +162,9 @@ export default class ClusterItem extends Component {
   countForEntity(entity) {
     const { cluster } = this.props;
     switch (entity.get('name')) {
-      case 'nodes':
-        return { store: alt.stores.NodesStore,
-          value: `${alt.stores.NodesStore.getAll(cluster).size} ${intl('nodes')}`};
-      case 'services':
-        return { store: alt.stores.ServicesStore,
-          value: `${alt.stores.ServicesStore.getAll(cluster).size} ${intl('services')}`};
-      case 'replicationcontrollers':
-        return { store: alt.stores.ReplicationsStore,
-          value: `${alt.stores.ReplicationsStore.getAll(cluster).size} ${intl('replicationcontrollers_short')}`};
-      case 'deployments':
-        return { store: alt.stores.DeploymentsStore,
-          value: `${alt.stores.DeploymentsStore.getAll(cluster).size} ${intl('deployments')}`};
-      case 'pods':
-        return { store: alt.stores.PodsStore,
-          value: `${alt.stores.PodsStore.getAll(cluster).size} ${intl('pods')}`};
+      case 'helmreleases':
+        return { store: alt.stores.ReleasesStore,
+          value: `${alt.stores.ReleasesStore.getAll(cluster).size} ${intl('helmreleases')}`};
       default:
         const store = EntitiesUtils.storeForType(entity.get('name'));
         return { store,
