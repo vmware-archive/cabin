@@ -118,6 +118,7 @@ export default class ClustersIndex extends Component {
   }
 
   checkClusters() {
+    clearTimeout(this.checkTimeout);
     ClustersActions.checkClusters().then(() => {
       this.checkTimeout = setTimeout(() => {
         this.checkClusters();

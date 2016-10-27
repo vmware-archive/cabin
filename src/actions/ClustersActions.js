@@ -57,7 +57,9 @@ class ClustersActions {
   fetchClusterEntities(cluster) {
     alt.stores.SettingsStore.getEntitiesToDisplay().map(entity => {
       if (entity.get('name') === 'helmreleases') {
-        ReleasesActions.fetchReleases.defer(cluster);
+        setTimeout(() => {
+          ReleasesActions.fetchReleases.defer(cluster);
+        }, 2000);
       } else {
         EntitiesActions.fetchEntities.defer({cluster, entityType: entity.get('name')});
       }
