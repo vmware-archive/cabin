@@ -54,7 +54,7 @@ class NativeButton extends Component {
     }
 
     return (
-      <Text style={ [ styles.textButton, this.props.textStyle ] }>
+      <Text style={ [ styles.textButton, this.props.textStyle ] } numberOfLines={1} ellipsizeMode="clip">
         { this.props.children }
       </Text>
     );
