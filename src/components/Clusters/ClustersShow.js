@@ -22,6 +22,7 @@ import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
 import NamespacePicker from 'components/commons/NamespacePicker';
+import DeployReleases from 'components/Deploy/DeployReleases';
 import EntitiesUtils from 'utils/EntitiesUtils';
 
 const {
@@ -87,6 +88,7 @@ export default class ClusterShow extends Component {
     const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
     return entitiesToDisplay.map(entityType => {
       if (active !== entityType) { return false; }
+      if (entityType === 'helmreleases') { return this.renderHelmRelease(); }
       const store = EntitiesUtils.storeForType(entityType);
       let onCreate; let actionColor;
       if (entityType === 'deployments') { onCreate = this.showDeploymentsNew.bind(this); actionColor = Colors.PURPLE;}
@@ -119,6 +121,31 @@ export default class ClusterShow extends Component {
         </AltContainer>
       );
     });
+  }
+
+  renderHelmRelease() {
+    const { cluster } = this.props;
+    return (
+      <AltContainer key="helmreleases" stores={{
+        releases: () => {
+          return {
+            store: alt.stores.ReleasesStore,
+            value: alt.stores.ReleasesStore.getAll(cluster),
+          };
+        },
+        status: () => {
+          return {
+            store: alt.stores.ReleasesStore,
+            value: alt.stores.ReleasesStore.getStatus(cluster),
+          };
+        },
+      }}>
+        <DeployReleases cluster={cluster}
+          releases={alt.stores.ReleasesStore.getAll(cluster)}
+          status={alt.stores.ReleasesStore.getStatus(cluster)}
+          navigator={this.props.navigator}/>
+      </AltContainer>
+    );
   }
 
   showDeploymentsNew() {

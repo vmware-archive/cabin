@@ -101,6 +101,19 @@ class ServicesActions {
     });
   }
 
+  getTillerService(cluster) {
+    const findMethod = svc => svc.getIn(['metadata', 'labels', 'run']) === 'tiller-deploy';
+    const services = alt.stores.ServicesStore.getAll(cluster);
+    const tillerService = services.find(findMethod);
+    if (tillerService) {
+      return Promise.resolve(tillerService);
+    }
+    return this.fetchServices(cluster).then(svcs => {
+      const tillerSVC = svcs && svcs.find(findMethod);
+      return tillerSVC;
+    });
+  }
+
 }
 
 export default alt.createActions(ServicesActions);

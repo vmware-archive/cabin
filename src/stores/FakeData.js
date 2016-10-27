@@ -84,4 +84,13 @@ export default Immutable.fromJS({
       },
     },
   },
+  ReleasesStore: {
+    status: {'test': 'success'},
+    releases: {
+      'test': [
+        { name: 'Release-A' },
+        { name: 'Release-B' },
+      ],
+    },
+  },
 });

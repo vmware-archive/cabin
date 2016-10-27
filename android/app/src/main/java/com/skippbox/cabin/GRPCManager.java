@@ -4,10 +4,14 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.esotericsoftware.yamlbeans.YamlReader;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.module.model.Info;
 import com.google.common.io.Files;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -24,17 +28,23 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import hapi.chart.ChartOuterClass;
 import hapi.chart.MetadataOuterClass;
 import hapi.chart.TemplateOuterClass;
+import hapi.release.InfoOuterClass;
+import hapi.release.ReleaseOuterClass;
 import hapi.services.tiller.ReleaseServiceGrpc;
 import hapi.services.tiller.Tiller;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.internal.GrpcUtil;
+import io.grpc.stub.StreamObserver;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -52,6 +62,70 @@ class GRPCManager extends ReactContextBaseJavaModule {
     @Override
     public String getName() {
         return "GRPCManager";
+    }
+
+    @ReactMethod
+    public void fetchReleasesForHost(String host, final Promise promise) {
+        Tiller.ListReleasesRequest.Builder request = Tiller.ListReleasesRequest.newBuilder();
+        Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
+        final List<ReleaseOuterClass.Release> releases = new ArrayList<>();
+        StreamObserver<Tiller.ListReleasesResponse> observer = new StreamObserver<Tiller.ListReleasesResponse>() {
+            @Override
+            public void onNext(Tiller.ListReleasesResponse response) {
+                releases.addAll(response.getReleasesList());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                promise.reject("0", t.getLocalizedMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                WritableArray result = Arguments.createArray();
+
+                for (ReleaseOuterClass.Release release: releases) {
+                    WritableMap r = Arguments.createMap();
+                    r.putString("name", release.getName());
+                    r.putString("manifest", release.getManifest());
+                    r.putInt("version", release.getVersion());
+                    r.putString("namespace", release.getNamespace());
+
+                    ChartOuterClass.Chart chart = release.getChart();
+                    WritableMap c = Arguments.createMap();
+                    c.putString("name", chart.getMetadata().getName());
+                    c.putString("home", chart.getMetadata().getHome());
+                    c.putString("version", chart.getMetadata().getVersion());
+                    c.putString("description", chart.getMetadata().getDescription());
+                    r.putMap("chart", c);
+
+                    InfoOuterClass.Info info = release.getInfo();
+                    WritableMap i = Arguments.createMap();
+                    i.putInt("status", info.getStatus().getCodeValue());
+                    i.putDouble("firstDeployed", info.getFirstDeployed().getSeconds());
+                    i.putDouble("lastDeployed", info.getLastDeployed().getSeconds());
+                    i.putDouble("deleted", info.getDeleted().getSeconds());
+                    r.putMap("info", i);
+
+                    result.pushMap(r);
+                }
+                promise.resolve(result);
+            }
+        };
+        ReleaseServiceGrpc.newStub(channel).listReleases(request.build(), observer);
+    }
+
+    @ReactMethod
+    public void deleteRelease(String releaseName, String host, final Promise promise) {
+        Tiller.UninstallReleaseRequest.Builder request = Tiller.UninstallReleaseRequest.newBuilder();
+        Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
+        final ListenableFuture<Tiller.UninstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).uninstallRelease(request.build());
+        future.addListener(new Runnable() {
+            @Override
+            public void run() {
+                promise.resolve("ok");
+            }
+        }, MoreExecutors.directExecutor());
     }
 
     @ReactMethod

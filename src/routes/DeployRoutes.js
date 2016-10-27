@@ -15,6 +15,7 @@
 */
 import DeployIndex from 'components/Deploy/DeployIndex';
 import DeployClusters from 'components/Deploy/DeployClusters';
+import DeployReleasesShow from 'components/Deploy/DeployReleasesShow';
 import AltContainer from 'alt-container';
 
 export default {
@@ -34,6 +35,20 @@ export default {
             }}}>
             <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={navigator} />
           </AltContainer>
+        );
+      },
+    };
+  },
+
+  getDeployReleasesShowRoute({cluster, release}) {
+    return {
+      name: 'DeployReleasesShow',
+      statusBarStyle: 'light-content',
+      getTitle: () => release.get('name'),
+      getBackButtonTitle: () => '',
+      renderScene(navigator) {
+        return (
+          <DeployReleasesShow cluster={cluster} release={release} navigator={navigator} />
         );
       },
     };

@@ -30,12 +30,29 @@ let REQUESTS_COUNT = 0;
 
 class BaseApi {
 
+  // GRPC
   static deployChart({chart, service, cluster}) {
     const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
     return grpc.deployChartAtURL(chart.get('url'), host).catch(e => {
       console.log('ERROR DEPLOY', e);
       return Promise.reject(e);
     });
+  }
+
+  // GRPC
+  static fetchReleases({cluster, service}) {
+    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    return grpc.fetchReleasesForHost(host).then(r => {
+      return Immutable.fromJS(r);
+    }).catch(e => {
+      return Promise.reject(e);
+    });
+  }
+
+  // GRPC
+  static deleteRelease({cluster, service, release}) {
+    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    return grpc.deleteRelease(release.get('name'), host);
   }
 
   static showNetworkActivityIndicator() {

@@ -19,6 +19,7 @@ import 'stores/DeploymentsStore';
 import 'stores/IngressesStore';
 import 'stores/NodesStore';
 import 'stores/PodsStore';
+import 'stores/ReleasesStore';
 import 'stores/ReplicaSetsStore';
 import 'stores/ReplicationsStore';
 import 'stores/SecretsStore';

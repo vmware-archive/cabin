@@ -15,10 +15,48 @@
 #import "hapi/chart/Template.pbobjc.h"
 #import <NVHTarGzip/NVHTarGzip.h>
 #import <YAMLThatWorks/YATWSerialization.h>
+#import "Release+Dictionary.h"
 
 @implementation GRPCManager
 
 RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(fetchReleasesForHost:(NSString*)host
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [GRPCCall useInsecureConnectionsForHost:host];
+  ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
+  ListReleasesRequest *request = [[ListReleasesRequest alloc] init];
+  [service listReleasesWithRequest:request eventHandler:^(BOOL done, ListReleasesResponse * _Nullable response, NSError * _Nullable error) {
+    if ((!done && response != nil) || (done && error != nil)) {
+      if (error) {
+        reject([@(error.code) stringValue], error.localizedDescription, error);
+      } else {
+        NSArray *releasesArray = [self releasesArrayFromResponse: response];
+        resolve(releasesArray);
+      }
+    }
+  }];
+}
+
+RCT_EXPORT_METHOD(deleteRelease:(NSString*)releaseName
+                  forHost:(NSString*)host
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  [GRPCCall useInsecureConnectionsForHost:host];
+  ReleaseService *service = [[ReleaseService alloc] initWithHost:host];
+  UninstallReleaseRequest *request = [[UninstallReleaseRequest alloc] init];
+  request.name = releaseName;
+  [service uninstallReleaseWithRequest:request handler:^(UninstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
+    if (error) {
+      reject([@(error.code) stringValue], error.localizedDescription, error);
+    } else {
+      resolve(response.description);
+    }
+  }];
+}
 
 RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
                       onHost:(NSString*)host
@@ -74,10 +112,6 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     }
     [chart setTemplatesArray:templates];
     [request setChart:chart];
-    GetVersionRequest* v = [[GetVersionRequest alloc] init];
-    [service getVersionWithRequest:v handler:^(GetVersionResponse * _Nullable response, NSError * _Nullable error) {
-      NSLog(@"Version %@", response.version.description);
-    }];
     [service installReleaseWithRequest:request handler:^(InstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
       [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
       [[NSFileManager defaultManager] removeItemAtPath:filePath.path error:nil];
@@ -128,4 +162,12 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   [downloadTask resume];
 }
 
+
+- (NSArray*)releasesArrayFromResponse:(ListReleasesResponse*)response {
+  NSMutableArray *list = [NSMutableArray new];
+  for (Release* release in response.releasesArray) {
+    [list addObject:release.toDictionary];
+  }
+  return list;
+}
 @end

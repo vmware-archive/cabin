@@ -20,4 +20,12 @@ export default class ChartsApi {
   static fetchCharts(url) {
     return BaseApi.get(url, {});
   }
+
+  static fetchReleases({cluster, service}) {
+    return BaseApi.fetchReleases({cluster, service});
+  }
+
+  static deleteRelease({cluster, service, release}) {
+    return BaseApi.deleteRelease({cluster, service, release});
+  }
 }

@@ -178,4 +178,5 @@ export default class DeployIndex extends Component {
   handleSelectChart(chart) {
     this.props.navigator.push(DeployRoutes.getDeployClustersRoute(chart));
   }
+
 }

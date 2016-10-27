@@ -16,6 +16,7 @@
   "replicationcontrollers_short": "RC",
   "deployments": "Deployments",
   "services": "Services",
+  "helmreleases": "Releases Helm",
   "secrets": "Secrets",
   "serviceaccounts": "Service Accounts",
   "persistentvolumes": "Volumes",
@@ -76,6 +77,9 @@
   "deploy_loading_create_deploy": "Creating tiller deployment...",
   "deploy_loading_create_service": "Creating tiller service...",
   "deploy_loading_deploy_chart": "Deploying chart...",
+  "deploy_empty_title": "No helm release found",
+  "deploy_empty_subtitle": "You can deploy a new release by selecting a chart in the deploy tab",
+  "deploy_empty_action": "Deploy a new release",
 
   "service_new": "New Service",
   "service_new_description": "You need to choose a deployment to expose and a port",

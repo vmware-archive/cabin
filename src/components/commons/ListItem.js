@@ -87,6 +87,8 @@ export default class ListItem extends Component {
     subtitle: PropTypes.string,
     detailTitle: PropTypes.string,
     isLast: PropTypes.bool,
+    hideSeparator: PropTypes.bool,
+    separatorStyle: View.propTypes.style,
     showArrow: PropTypes.bool,
     renderTitle: PropTypes.func,
     renderDetail: PropTypes.func,
@@ -111,7 +113,7 @@ export default class ListItem extends Component {
             {this.renderDetail()}
             {this.props.showArrow && <View style={styles.arrow}/>}
           </View>
-          <View style={[styles.separator, this.props.isLast && {left: 0}]}/>
+          {!this.props.hideSeparator && <View style={[styles.separator, this.props.separatorStyle, this.props.isLast && {left: 0}]}/>}
         </Container>
       </SwipeRow>
     );

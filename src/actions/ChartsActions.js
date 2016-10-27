@@ -17,7 +17,7 @@ import alt from 'src/alt';
 import ChartsApi from 'api/ChartsApi';
 import ChartsUtils from 'utils/ChartsUtils';
 
-class ClustersActions {
+class ChartsActions {
 
   constructor() {
     this.generateActions(
@@ -38,4 +38,4 @@ class ClustersActions {
 
 }
 
-export default alt.createActions(ClustersActions);
+export default alt.createActions(ChartsActions);
