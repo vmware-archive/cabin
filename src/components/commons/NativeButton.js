@@ -54,7 +54,7 @@ class NativeButton extends Component {
     }
 
     return (
-      <Text style={ [ styles.textButton, this.props.textStyle ] } numberOfLines={1} ellipsizeMode="clip">
+      <Text style={ [ styles.textButton, this.props.textStyle ] } numberOfLines={1} ellipsizeMode={Platform.OS === 'ios' ? 'clip' : 'tail'}>
         { this.props.children }
       </Text>
     );
