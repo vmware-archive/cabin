@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { PropTypes } from 'react';
+import { Children, PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import NavigationActions from 'actions/NavigationActions';
@@ -70,6 +70,15 @@ export default class ToolbarAugmenter extends Component {
     route: PropTypes.object.isRequired,
   };
 
+  getAction(component) {
+    return {
+      title: component.props.title || component.key,
+      icon: component.props.androidSource || component.props.source,
+      show: 'always',
+      onPress: component.props.onPress,
+    };
+  }
+
   render() {
     const { navigator, route, scene } = this.props;
     let toolbar;
@@ -87,15 +96,14 @@ export default class ToolbarAugmenter extends Component {
         </ToolbarAndroid>
       );
     } else {
-      const actions = [];
+      let actions = null;
       if (route.renderRightButton) {
         const rightComponent = route.renderRightButton(navigator);
-        actions.push({
-          title: rightComponent.props.title || rightComponent.key,
-          icon: rightComponent.props.androidSource || rightComponent.props.source,
-          show: 'always',
-          onPress: rightComponent.props.onPress,
-        });
+        if (rightComponent.type.displayName === 'View') {
+          actions = Children.map(rightComponent.props.children, this.getAction);
+        } else if (rightComponent.type.name === 'NavbarButton') {
+          actions = [this.getAction(rightComponent)];
+        }
       }
       toolbar = (
         <ToolbarAndroid style={styles.toolbar} navIcon={require('images/ic-back-white-48.png')} onIconClicked={() => {
