@@ -37,10 +37,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
+  containerContent: {
+    paddingBottom: 20,
   },
   switch: {
     alignSelf: 'center',
@@ -59,28 +58,22 @@ export default class NodesShow extends Component {
     const unschedulable = node.getIn(['spec', 'unschedulable']);
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
-          <View style={styles.section}>
-            <ListHeader title=""/>
-            <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
-            <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="Status" renderDetail={() => {
-              return <StatusView status={EntitiesUtils.statusForEntity(node)}/>;
-            }}/>
-            <ListItem title="Schedulable"
-              isLast={true}
-              renderDetail={() => {
-                return <Switch value={!unschedulable} onValueChange={(value) => this.setSchedulable(value)} style={styles.switch}/>;
-              }}
-            />
-          </View>
-          <View style={styles.section}>
-            <LabelsView entity={node} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
-          </View>
-          <View style={styles.section}>
-            <ListHeader title="Addresses"/>
-            {this.renderAddresses()}
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
+          <ListHeader title=""/>
+          <ListItem title="Name" detailTitle={node.getIn(['metadata', 'name'])}/>
+          <ListItem title="Age" detailTitle={intlrd(node.getIn(['metadata', 'creationTimestamp']))}/>
+          <ListItem title="Status" renderDetail={() => {
+            return <StatusView status={EntitiesUtils.statusForEntity(node)}/>;
+          }}/>
+          <ListItem title="Schedulable"
+            isLast={true}
+            renderDetail={() => {
+              return <Switch value={!unschedulable} onValueChange={(value) => this.setSchedulable(value)} style={styles.switch}/>;
+            }}
+          />
+          <LabelsView entity={node} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
+          <ListHeader title="Addresses"/>
+          {this.renderAddresses()}
         </ScrollView>
       </View>
     );
