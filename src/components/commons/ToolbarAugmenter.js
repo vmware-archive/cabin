@@ -17,6 +17,8 @@ import { Children, PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import NavigationActions from 'actions/NavigationActions';
+import DeployRoutes from 'routes/DeployRoutes';
+import SettingsRoutes from 'routes/SettingsRoutes';
 
 const {
   Image,
@@ -70,6 +72,21 @@ export default class ToolbarAugmenter extends Component {
     route: PropTypes.object.isRequired,
   };
 
+  constructor() {
+    super();
+    this.defaultActions = [{
+      title: 'Deploy',
+      icon: require('images/upload.png'),
+      show: 'always',
+      onPress: () => NavigationActions.push(DeployRoutes.getDeployIndexRoute()),
+    }, {
+      title: 'Settings',
+      icon: require('images/settings.png'),
+      show: 'never',
+      onPress: () => NavigationActions.push(SettingsRoutes.getSettingsIndexRoute()),
+    }];
+  }
+
   getAction(component) {
     return {
       title: component.props.title || component.key,
@@ -88,7 +105,7 @@ export default class ToolbarAugmenter extends Component {
     }
     if (route.name === 'Home') {
       toolbar = (
-        <ToolbarAndroid style={styles.toolbar}>
+        <ToolbarAndroid style={styles.toolbar} actions={this.defaultActions} onActionSelected={i => this.defaultActions[i].onPress()}>
           <View style={styles.titleContainer}>
             <Image style={styles.logo} source={require('images/kubernetes.png')} />
             <Image style={styles.titleImage} source={require('images/cabin.png')} />
