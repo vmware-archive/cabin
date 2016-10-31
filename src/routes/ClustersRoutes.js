@@ -15,6 +15,7 @@
 */
 import ClustersIndex from 'components/Clusters/ClustersIndex';
 import ClustersNew from 'components/Clusters/ClustersNew';
+import ClustersNewGoogle from 'components/Clusters/ClustersNewGoogle';
 import ClusterShow from 'components/Clusters/ClustersShow';
 import ClustersNavbarTitle from 'components/Clusters/ClustersNavbarTitle';
 import Search from 'components/Search';
@@ -154,6 +155,27 @@ const ClustersRoutes = {
       },
       configureScene() {
         return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getClustersGoogleRoute() {
+    return {
+      statusBarStyle: 'light-content',
+      getTitle: () => 'Google Clusters',
+      getBackButtonTitle: () => '',
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            projects: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getProjects(),
+              };
+            }}}>
+            <ClustersNewGoogle navigator={navigator} projects={alt.stores.GoogleCloudStore.getProjects()} />
+          </AltContainer>
+        );
       },
     };
   },

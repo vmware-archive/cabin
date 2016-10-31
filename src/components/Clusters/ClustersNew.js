@@ -14,19 +14,22 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import AlertUtils from 'utils/AlertUtils';
-import {GoogleSignin, GoogleSigninButton} from 'react-native-google-signin';
+import {GoogleSignin} from 'react-native-google-signin';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
+import ClustersRoutes from 'routes/ClustersRoutes';
 
 const { PropTypes } = React;
 
 const {
   View,
+  Image,
   StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
@@ -87,11 +90,13 @@ export default class ClustersNew extends Component {
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
-          <GoogleSigninButton
-            style={{flex: 1, height: 48}}
-            size={GoogleSigninButton.Size.Standard}
-            onPress={this.signInGoogle.bind(this)}/>
-          <ListHeader title="Cluster info"/>
+          <ListHeader title="Add cluster from Google GKE"/>
+          <ListItem title="Signin with Google" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+            <Image source={require('images/google.png')}
+              style={{width: 30, height: 30, marginTop: -6}}/>
+          }/>
+          <View style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>
+          <ListHeader title="Or manually with url"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
@@ -115,7 +120,8 @@ export default class ClustersNew extends Component {
     GoogleCloudActions.signIn().then(() => {
       return GoogleCloudActions.getProjects();
     }).then(() => {
-      return GoogleCloudActions.getZones(alt.stores.GoogleCloudStore.getProjects().getIn(['0', 'projectId']));
+      this.props.navigator.push(ClustersRoutes.getClustersGoogleRoute());
+      // return GoogleCloudActions.getZones(alt.stores.GoogleCloudStore.getProjects().getIn(['0', 'projectId']));
     });
   }
 
