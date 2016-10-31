@@ -6,7 +6,6 @@ target 'skippbox' do
   pod 'gRPC', '~> 1.0.1-pre1'
   pod 'Google'
   pod 'GoogleSignIn'
-  pod 'gRPC', '~> 1.0.0'
   pod 'Helm', :path => '.'
   pod 'NVHTarGzip'
   pod 'YAMLThatWorks'

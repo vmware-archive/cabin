@@ -120,7 +120,11 @@ export default class ClustersNew extends Component {
     GoogleCloudActions.signIn().then(() => {
       return GoogleCloudActions.getProjects();
     }).then(() => {
-      this.props.navigator.push(ClustersRoutes.getClustersGoogleRoute());
+      const projects = alt.stores.GoogleCloudStore.getProjects();
+      if (projects.size > 0) {
+        GoogleCloudActions.getClusters(projects.getIn([0, 'projectId']));
+        this.props.navigator.push(ClustersRoutes.getClustersGoogleRoute());
+      }
       // return GoogleCloudActions.getZones(alt.stores.GoogleCloudStore.getProjects().getIn(['0', 'projectId']));
     });
   }

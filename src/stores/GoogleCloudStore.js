@@ -71,12 +71,37 @@ class GoogleCloudStore {
     this.setState(newState);
   }
 
+  onGetClustersStart() {
+    this.setState(this.state.setIn(['clusters', 'loading'], true));
+  }
+
+  onGetClustersSuccess(response) {
+    const newState = this.state.withMutations(state => {
+      state.setIn(['clusters', 'list'], response.get('items'))
+           .setIn(['clusters', 'nextPageToken'], response.get('nextPageToken'))
+           .setIn(['clusters', 'loading'], false);
+    });
+    this.setState(newState);
+  }
+
+  onGetClustersFailure(error) {
+    const newState = this.state.withMutations(state => {
+      state.setIn(['clusters', 'error'], error)
+           .setIn(['clusters', 'loading'], false);
+    });
+    this.setState(newState);
+  }
+
   static getUser() {
     return this.state.get('user');
   }
 
   static getProjects() {
-    return this.state.getIn(['projects', 'list']);
+    return this.state.getIn(['projects', 'list'], Immutable.List());
+  }
+
+  static getClusters() {
+    return this.state.getIn(['clusters', 'list'], Immutable.List());
   }
 }
 

@@ -17,6 +17,7 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import HeaderPicker from 'components/commons/HeaderPicker';
 import CollectionView from 'components/commons/CollectionView';
+import GoogleCloudActions from 'actions/GoogleCloudActions';
 
 const { PropTypes } = React;
 
@@ -42,6 +43,7 @@ export default class ClustersNewGoogle extends Component {
 
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
+    clusters: PropTypes.instanceOf(Immutable.List),
   }
 
   constructor() {
@@ -60,24 +62,26 @@ export default class ClustersNewGoogle extends Component {
           choices={choices}
           selectedIndex={this.state.selectedProjectIndex}
           onChange={(index) => {
+            GoogleCloudActions.getClusters(this.props.projects.getIn([index, 'projectId']));
             this.setState({selectedProjectIndex: index});
           }}/>
         <CollectionView
           style={styles.list}
           contentContainerStyle={styles.listContent}
-          list={this.props.projects}
+          list={this.props.clusters}
           renderRow={this.renderItem.bind(this)}
         />
       </View>
     );
   }
 
-  renderItem(project, section, row) {
+  renderItem(cluster, section, row) {
     return (
       <ListItem title={`Cluster #${row}`}
         showArrow={true}
-        isLast={row >= this.props.projects.size - 1} />
+        isLast={row >= this.props.clusters.size - 1} />
     );
   }
+
 
 }

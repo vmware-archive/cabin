@@ -172,8 +172,16 @@ const ClustersRoutes = {
                 store: alt.stores.GoogleCloudStore,
                 value: alt.stores.GoogleCloudStore.getProjects(),
               };
+            },
+            clusters: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getClusters(),
+              };
             }}}>
-            <ClustersNewGoogle navigator={navigator} projects={alt.stores.GoogleCloudStore.getProjects()} />
+            <ClustersNewGoogle navigator={navigator}
+              clusters={alt.stores.GoogleCloudStore.getClusters()}
+              projects={alt.stores.GoogleCloudStore.getProjects()} />
           </AltContainer>
         );
       },

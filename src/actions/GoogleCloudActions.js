@@ -30,6 +30,9 @@ class GoogleCloudActions {
       'getZonesStart',
       'getZonesSuccess',
       'getZonesFailure',
+      'getClustersStart',
+      'getClustersSuccess',
+      'getClustersFailure',
     );
   }
 
@@ -56,6 +59,15 @@ class GoogleCloudActions {
       this.getZonesSuccess(response);
     }).catch((error) => {
       this.getZonesFailure(error);
+    });
+  }
+
+  getClusters(projectId, zone = '-', pageToken = null) {
+    this.getClustersStart();
+    return GoogleCloudApi.getClusters(projectId, zone, pageToken).then((response) => {
+      this.getClustersSuccess(response);
+    }).catch((error) => {
+      this.getClustersFailure(error);
     });
   }
 }

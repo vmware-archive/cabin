@@ -33,6 +33,14 @@ export default class GoogleCloudApi {
     );
   }
 
+  static getClusters(projectId, zone, pageToken = null) {
+    return BaseApi.get(`https://container.googleapis.com/v1/projects/${projectId}/zones/${zone}/clusters`,
+      {
+        pageToken,
+      },
+    );
+  }
+
   static createCluster(projectId, zone, cluster) {
     return BaseApi.post(`https://container.googleapis.com/v1/projects/${projectId}/zones/${zone}/clusters`, cluster);
   }
