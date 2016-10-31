@@ -19,13 +19,6 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		3EFEA1FC1DBEEC930024B8A3 /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1F51DBEEC930024B8A3 /* GoogleAppUtilities.framework */; };
-		3EFEA1FD1DBEEC930024B8A3 /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1F61DBEEC930024B8A3 /* GoogleAuthUtilities.framework */; };
-		3EFEA1FE1DBEEC930024B8A3 /* GoogleNetworkingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1F71DBEEC930024B8A3 /* GoogleNetworkingUtilities.framework */; };
-		3EFEA1FF1DBEEC930024B8A3 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3EFEA1F81DBEEC930024B8A3 /* GoogleSignIn.bundle */; };
-		3EFEA2001DBEEC930024B8A3 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1F91DBEEC930024B8A3 /* GoogleSignIn.framework */; };
-		3EFEA2011DBEEC930024B8A3 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1FA1DBEEC930024B8A3 /* GoogleSymbolUtilities.framework */; };
-		3EFEA2021DBEEC930024B8A3 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFEA1FB1DBEEC930024B8A3 /* GoogleUtilities.framework */; };
 		536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAA17D08BF2A415C8576E351 /* libRCTOrientation.a */; };
 		621C16C09751435FB6206330 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F4852667CFF44C58E3A388E /* SafariServices.framework */; };
 		6A654B62CB5A4DA68CA84F22 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9029F50D48ED4573AB9BE2EF /* SystemConfiguration.framework */; };
@@ -155,6 +148,62 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTOrientation;
 		};
+		A5AA51D71DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A283A1D9B042B00D4039D;
+			remoteInfo = "RCTImage-tvOS";
+		};
+		A5AA51DB1DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28471D9B043800D4039D;
+			remoteInfo = "RCTLinking-tvOS";
+		};
+		A5AA51DF1DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28541D9B044C00D4039D;
+			remoteInfo = "RCTNetwork-tvOS";
+		};
+		A5AA51E51DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28611D9B046600D4039D;
+			remoteInfo = "RCTSettings-tvOS";
+		};
+		A5AA51E91DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5B2F11F1BD62F7600CF6A12 /* RCTTest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A286E1D9B047700D4039D;
+			remoteInfo = "RCTTest-tvOS";
+		};
+		A5AA51ED1DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A287B1D9B048500D4039D;
+			remoteInfo = "RCTText-tvOS";
+		};
+		A5AA51F21DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28881D9B049200D4039D;
+			remoteInfo = "RCTWebSocket-tvOS";
+		};
+		A5AA51F61DC73D2400555C76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
+			remoteInfo = "React-tvOS";
+		};
 		A5B2F1111BD62DAC00CF6A12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */;
@@ -210,13 +259,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		3EFEA1F51DBEEC930024B8A3 /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
-		3EFEA1F61DBEEC930024B8A3 /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAuthUtilities.framework; sourceTree = "<group>"; };
-		3EFEA1F71DBEEC930024B8A3 /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
-		3EFEA1F81DBEEC930024B8A3 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
-		3EFEA1F91DBEEC930024B8A3 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
-		3EFEA1FA1DBEEC930024B8A3 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
-		3EFEA1FB1DBEEC930024B8A3 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
 		3EFEA2241DBEFAFC0024B8A3 /* skippbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = skippbox.entitlements; sourceTree = "<group>"; };
 		3F4852667CFF44C58E3A388E /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		5C9F6BBAC40740AF97A1399C /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -258,7 +300,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EFEA2011DBEEC930024B8A3 /* GoogleSymbolUtilities.framework in Frameworks */,
 				A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */,
 				A56492E51D3527DF00C1DF4F /* libSafariViewManager.a in Frameworks */,
 				A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */,
@@ -272,24 +313,19 @@
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
-				3EFEA2021DBEEC930024B8A3 /* GoogleUtilities.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
-				3EFEA2001DBEEC930024B8A3 /* GoogleSignIn.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */,
 				DEE46A2D4C7AA0A45A26B1D5 /* libPods-skippbox.a in Frameworks */,
 				FD8DBF452F7E4A16938AE46A /* libRNGoogleSignin.a in Frameworks */,
 				621C16C09751435FB6206330 /* SafariServices.framework in Frameworks */,
-				3EFEA1FD1DBEEC930024B8A3 /* GoogleAuthUtilities.framework in Frameworks */,
-				3EFEA1FC1DBEEC930024B8A3 /* GoogleAppUtilities.framework in Frameworks */,
 				6A654B62CB5A4DA68CA84F22 /* SystemConfiguration.framework in Frameworks */,
 				F806156314A349F28CFFAD8A /* AddressBook.framework in Frameworks */,
-				3EFEA1FE1DBEEC930024B8A3 /* GoogleNetworkingUtilities.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302C01ABCB91800DB3ED1 /* libRCTImage.a */,
+				A5AA51D81DC73D2400555C76 /* libRCTImage-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -324,6 +361,7 @@
 			isa = PBXGroup;
 			children = (
 				00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */,
+				A5AA51E01DC73D2400555C76 /* libRCTNetwork-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -340,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				139105C11AF99BAD00B5F7CC /* libRCTSettings.a */,
+				A5AA51E61DC73D2400555C76 /* libRCTSettings-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -348,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				139FDEF41B06529B00C62182 /* libRCTWebSocket.a */,
+				A5AA51F31DC73D2400555C76 /* libRCTWebSocket-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -377,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				146834041AC3E56700842450 /* libReact.a */,
+				A5AA51F71DC73D2400555C76 /* libReact-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -387,20 +428,6 @@
 				3EFEA1F21DBEEBCC0024B8A3 /* libRNGoogleSignin.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		3EFEA1F41DBEEC930024B8A3 /* GoogleSdk */ = {
-			isa = PBXGroup;
-			children = (
-				3EFEA1F51DBEEC930024B8A3 /* GoogleAppUtilities.framework */,
-				3EFEA1F61DBEEC930024B8A3 /* GoogleAuthUtilities.framework */,
-				3EFEA1F71DBEEC930024B8A3 /* GoogleNetworkingUtilities.framework */,
-				3EFEA1F81DBEEC930024B8A3 /* GoogleSignIn.bundle */,
-				3EFEA1F91DBEEC930024B8A3 /* GoogleSignIn.framework */,
-				3EFEA1FA1DBEEC930024B8A3 /* GoogleSymbolUtilities.framework */,
-				3EFEA1FB1DBEEC930024B8A3 /* GoogleUtilities.framework */,
-			);
-			path = GoogleSdk;
 			sourceTree = "<group>";
 		};
 		4804E8612B2AE9B345684110 /* Frameworks */ = {
@@ -436,6 +463,7 @@
 			isa = PBXGroup;
 			children = (
 				78C398B91ACF4ADC00677621 /* libRCTLinking.a */,
+				A5AA51DC1DC73D2400555C76 /* libRCTLinking-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -467,6 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				832341B51AAA6A8300B99B32 /* libRCTText.a */,
+				A5AA51EE1DC73D2400555C76 /* libRCTText-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -474,7 +503,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				3EFEA1F41DBEEC930024B8A3 /* GoogleSdk */,
 				13B07FAE1A68108700A75B9A /* skippbox */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -530,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				8E0BE7BA1BDA688E00C4BA5A /* libRCTTest.a */,
+				A5AA51EA1DC73D2400555C76 /* libRCTTest-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -791,6 +820,62 @@
 			remoteRef = A59A172F1D587FD400B94091 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A5AA51D81DC73D2400555C76 /* libRCTImage-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTImage-tvOS.a";
+			remoteRef = A5AA51D71DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51DC1DC73D2400555C76 /* libRCTLinking-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTLinking-tvOS.a";
+			remoteRef = A5AA51DB1DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51E01DC73D2400555C76 /* libRCTNetwork-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTNetwork-tvOS.a";
+			remoteRef = A5AA51DF1DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51E61DC73D2400555C76 /* libRCTSettings-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTSettings-tvOS.a";
+			remoteRef = A5AA51E51DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51EA1DC73D2400555C76 /* libRCTTest-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTTest-tvOS.a";
+			remoteRef = A5AA51E91DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51EE1DC73D2400555C76 /* libRCTText-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTText-tvOS.a";
+			remoteRef = A5AA51ED1DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51F31DC73D2400555C76 /* libRCTWebSocket-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTWebSocket-tvOS.a";
+			remoteRef = A5AA51F21DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5AA51F71DC73D2400555C76 /* libReact-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReact-tvOS.a";
+			remoteRef = A5AA51F61DC73D2400555C76 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -813,7 +898,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3EFEA1FF1DBEEC930024B8A3 /* GoogleSignIn.bundle in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
