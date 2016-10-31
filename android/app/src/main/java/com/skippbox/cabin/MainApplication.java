@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.github.yamill.orientation.OrientationPackage;
 
 import java.util.Arrays;
@@ -24,7 +25,8 @@ public class MainApplication extends Application implements ReactApplication {
             return Arrays.asList(
                     new MainReactPackage(),
                     new CabinPackage(),
-                    new OrientationPackage()
+                    new OrientationPackage(),
+                    new ReactMaterialKitPackage()
             );
         }
     };
