@@ -86,7 +86,7 @@ export default class ClustersIndex extends Component {
                 title={intl('clusters_empty_title')}
                 subtitle={intl('clusters_empty_subtitle')}
                 actionTitle={intl('clusters_empty_action')}
-                onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
+                onPress={Platform.OS === 'ios' && (() => NavigationActions.push(ClustersRoutes.getClustersNewRoute()))}
               />}
             onRefresh={this.handleRefresh.bind(this)}
           />

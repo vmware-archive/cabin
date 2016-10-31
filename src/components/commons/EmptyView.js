@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     backgroundColor: Colors.BACKGROUND,
   },
   emptyImage: {
@@ -84,9 +84,9 @@ export default class EmptyView extends Component {
         <Image style={[styles.emptyImage, this.props.imageStyle]} source={this.props.image} />
         <Text style={styles.emptyTitle}>{this.props.title}</Text>
         <Text style={styles.emptySubtitle}>{this.props.subtitle}</Text>
-        <TouchableOpacity style={styles.emptyButton} onPress={this.props.onPress}>
+        {this.props.onPress && <TouchableOpacity style={styles.emptyButton} onPress={this.props.onPress}>
           <Text style={styles.emptyAction}>{this.props.actionTitle}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     );
   }
