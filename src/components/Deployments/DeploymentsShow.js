@@ -37,10 +37,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
+  containerContent: {
+    paddingBottom: 20,
   },
 });
 
@@ -62,24 +61,18 @@ export default class DeploymentsShow extends Component {
     const { deployment } = this.props;
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
-          <View style={styles.section}>
-            <ListHeader title=""/>
-            <ListItem title="Name" detailTitle={deployment.getIn(['metadata', 'name'])}/>
-            <ListItem title="Namespace" detailTitle={deployment.getIn(['metadata', 'namespace'])}/>
-            <ListItem title="Age" detailTitle={intlrd(deployment.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title="History" showArrow={true} isLast={true} onPress={this.handleShowHistory.bind(this)}/>
-          </View>
-          <View style={styles.section}>
-            <ListHeader title="Replicas"/>
-            <ReplicationsSlider replication={deployment} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'], 0)}`}/>
-            <ListItem title="Up to date" detailTitle={`${deployment.getIn(['status', 'updatedReplicas'], 0)}`}/>
-            <ListItem title="Available" detailTitle={`${deployment.getIn(['status', 'availableReplicas'], 0)}`} isLast={true}/>
-          </View>
-          <View style={styles.section}>
-            <LabelsView entity={deployment} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
+          <ListHeader title=""/>
+          <ListItem title="Name" detailTitle={deployment.getIn(['metadata', 'name'])}/>
+          <ListItem title="Namespace" detailTitle={deployment.getIn(['metadata', 'namespace'])}/>
+          <ListItem title="Age" detailTitle={intlrd(deployment.getIn(['metadata', 'creationTimestamp']))}/>
+          <ListItem title="History" showArrow={true} isLast={true} onPress={this.handleShowHistory.bind(this)}/>
+          <ListHeader title="Replicas"/>
+          <ReplicationsSlider replication={deployment} onSubmit={this.handleReplicasComplete.bind(this)}/>
+          <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'], 0)}`}/>
+          <ListItem title="Up to date" detailTitle={`${deployment.getIn(['status', 'updatedReplicas'], 0)}`}/>
+          <ListItem title="Available" detailTitle={`${deployment.getIn(['status', 'availableReplicas'], 0)}`} isLast={true}/>
+          <LabelsView entity={deployment} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
         </ScrollView>
       </View>
     );

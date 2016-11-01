@@ -36,8 +36,9 @@ import NodesActions from 'actions/NodesActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import AltContainer from 'alt-container';
+import Alert from 'utils/Alert';
 
-const { View, DeviceEventEmitter, Alert, AlertIOS, Platform } = ReactNative;
+const { View, DeviceEventEmitter, Platform } = ReactNative;
 
 let EntitiesRoutes = {};
 
@@ -345,7 +346,7 @@ EntitiesRoutes = {
               Alert.alert(null, intl('rolling_update_multiple_containers'));
               return;
             }
-            AlertIOS.prompt(
+            Alert.prompt(
               intl('rolling_update_alert'),
               `${intl('rolling_update_alert_subtitle')} ${containers.first().get('image')}`,
               [{text: intl('cancel')},

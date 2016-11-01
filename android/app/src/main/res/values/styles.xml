@@ -8,6 +8,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!-- Details color -->
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- Overflow menu icon color -->
+        <item name="android:textColorSecondary">@android:color/white</item>
+
+        <item name="android:alertDialogTheme">@style/MyDialogTheme</item>
     </style>
 
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

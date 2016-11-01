@@ -37,10 +37,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
+  containerContent: {
+    paddingBottom: 20,
   },
 });
 
@@ -60,27 +59,21 @@ export default class PodsShow extends Component {
     });
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
-          <View style={styles.section}>
-            <ListHeader title=""/>
-            <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
-            <ListItem title="Namespace" detailTitle={pod.getIn(['metadata', 'namespace'])}/>
-            <ListItem title="Status" renderDetail={() => {
-              return <StatusView status={EntitiesUtils.statusForEntity(pod)}/>;
-            }}/>
-            <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
-            <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
-            <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
-            <ListItem title="Logs" showArrow={true} onPress={() => this.showLogs()} isLast={true}/>
-            <ListItem title="Exec" showArrow={true} isLast={true} onPress={() => this.showExec()}/>
-          </View>
-          <View style={styles.section}>
-            <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
-          </View>
-          <View style={styles.section}>
-            <ListHeader title="Containers"/>
-            {this.renderContainers()}
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
+          <ListHeader title=""/>
+          <ListItem title="Name" detailTitle={pod.getIn(['metadata', 'name'])}/>
+          <ListItem title="Namespace" detailTitle={pod.getIn(['metadata', 'namespace'])}/>
+          <ListItem title="Status" renderDetail={() => {
+            return <StatusView status={EntitiesUtils.statusForEntity(pod)}/>;
+          }}/>
+          <ListItem title="Ready" detailTitle={`${ready}/${containerStatuses.size}`}/>
+          <ListItem title="HostIP" detailTitle={`${pod.getIn(['status', 'hostIP'])}`}/>
+          <ListItem title="PodIP" detailTitle={pod.getIn(['status', 'podIP'])} />
+          <ListItem title="Logs" showArrow={true} onPress={() => this.showLogs()} isLast={true}/>
+          <ListItem title="Exec" showArrow={true} isLast={true} onPress={() => this.showExec()}/>
+          <LabelsView entity={pod} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
+          <ListHeader title="Containers"/>
+          {this.renderContainers()}
         </ScrollView>
       </View>
     );

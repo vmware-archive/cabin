@@ -36,10 +36,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
+  containerContent: {
+    paddingBottom: 20,
   },
 });
 
@@ -61,21 +60,15 @@ export default class ReplicationsShow extends Component {
     const { replication } = this.props;
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
-          <View style={styles.section}>
-            <ListHeader title=""/>
-            <ListItem title="Name" detailTitle={replication.getIn(['metadata', 'name'])}/>
-            <ListItem title="Namespace" detailTitle={replication.getIn(['metadata', 'namespace'])}/>
-            <ListItem title="Age" detailTitle={intlrd(replication.getIn(['metadata', 'creationTimestamp']))} isLast={true}/>
-          </View>
-          <View style={styles.section}>
-            <ListHeader title="Replicas"/>
-            <ReplicationsSlider replication={replication} onSubmit={this.handleReplicasComplete.bind(this)}/>
-            <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'], 0)}`} isLast={true}/>
-          </View>
-          <View style={styles.section}>
-            <LabelsView entity={replication} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
+          <ListHeader title=""/>
+          <ListItem title="Name" detailTitle={replication.getIn(['metadata', 'name'])}/>
+          <ListItem title="Namespace" detailTitle={replication.getIn(['metadata', 'namespace'])}/>
+          <ListItem title="Age" detailTitle={intlrd(replication.getIn(['metadata', 'creationTimestamp']))} isLast={true}/>
+          <ListHeader title="Replicas"/>
+          <ReplicationsSlider replication={replication} onSubmit={this.handleReplicasComplete.bind(this)}/>
+          <ListItem title="Current" detailTitle={`${replication.getIn(['status', 'replicas'], 0)}`} isLast={true}/>
+          <LabelsView entity={replication} onSubmit={this.handleLabelSubmit.bind(this)} onDelete={this.handleLabelDelete.bind(this)} />
         </ScrollView>
       </View>
     );

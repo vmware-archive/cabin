@@ -17,7 +17,7 @@ import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
-import ActionButton from 'react-native-action-button';
+import FAB from 'components/commons/FAB';
 
 const {
   View,
@@ -74,9 +74,8 @@ export default class EntitiesList extends Component {
           />
         }
         {this.props.onCreate &&
-          <ActionButton
-            buttonColor={this.props.actionColor || Colors.BLUE}
-            offsetY={20} offsetX={20}
+          <FAB
+            backgroundColor={this.props.actionColor || Colors.BLUE}
             onPress={this.props.onCreate}
           />
         }
