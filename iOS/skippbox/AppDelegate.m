@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "RCTRootView.h"
 #import "Orientation.h"
+#import "RCTBundleURLProvider.h"
 
 @implementation AppDelegate
 
@@ -29,14 +30,16 @@
    * Opt 1: Use for dev
    */
   NSURL *bundleURL = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+
 #else
 
   /**
    * Opt 2: Production with static Bundle
    */
   NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
 
+#endif
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleURL moduleName:@"Skippbox" initialProperties:nil launchOptions:nil];
 
   NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil];

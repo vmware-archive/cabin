@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import InitActions from 'actions/InitActions';
 import ReleasesActions from 'actions/ReleasesActions';
+import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import FakeData from './FakeData';
 
