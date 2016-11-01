@@ -74,8 +74,8 @@ export default class EntityIcon extends Component {
       case 'services':
         return Colors.ORANGE;
       case 'replicationcontrollers':
-        return Colors.PURPLE;
       case 'deployments':
+      case 'helmreleases':
         return Colors.PURPLE;
       case 'nodes':
         return Colors.BLUE;
@@ -102,8 +102,8 @@ export default class EntityIcon extends Component {
       case 'services':
         return iconService;
       case 'replicationcontrollers':
-        return iconReplication;
       case 'deployments':
+      case 'helmreleases':
         return iconReplication;
       case 'nodes':
         return iconNodes;

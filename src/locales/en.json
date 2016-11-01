@@ -16,7 +16,7 @@
   "replicationcontrollers_short": "RC",
   "deployments": "Deployments",
   "services": "Services",
-  "helmreleases": "Releases Helm",
+  "helmreleases": "Helm Releases",
   "secrets": "Secrets",
   "serviceaccounts": "Service Accounts",
   "persistentvolumes": "Volumes",
