@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
 import ClustersActions from 'actions/ClustersActions';
-const { AlertIOS } = ReactNative;
+import Alert from 'utils/Alert';
 
 const { Status } = Constants;
 
@@ -63,7 +63,7 @@ export default class ClustersUtils {
   static showNamespaceActionSheet({cluster, all = true, create = false}) {
     return new Promise(resolve => {
       const handleCreateNamespace = () => {
-        AlertIOS.prompt(
+        Alert.prompt(
           intl('namespaces_create'),
           null,
           [{text: intl('cancel')},

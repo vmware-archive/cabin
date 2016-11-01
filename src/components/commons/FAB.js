@@ -9,7 +9,7 @@ const FAB = ({ backgroundColor, onPress }) => {
     <MKButton
       {...button.toProps()}
       style={[button.style, {position: 'absolute', bottom: 16, right: 16, width: 56, height: 56, borderRadius: 28}]}>
-      <Text style={{fontSize: 18, color: Colors.WHITE}}>+</Text>
+      <Text style={{fontSize: 24, color: Colors.WHITE}}>+</Text>
     </MKButton>
   );
 };
