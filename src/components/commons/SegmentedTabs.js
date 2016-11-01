@@ -88,15 +88,10 @@ export default class SegmentedTabs extends Component {
     };
     this.layouts = [];
     this.scrollValue = 0;
-    this.counter = props.controls.size;
   }
 
   componentWillUpdate(nextProps) {
     if (!Immutable.is(nextProps.controls, this.props.controls)) {
-      const changed = nextProps.controls.count((control, i) => {
-        return this.props.controls.get(i) !== control;
-      });
-      this.counter = changed;
       if (this.props.isScrollable) {
         this.setState({isScrollable: true});
       }
@@ -114,7 +109,7 @@ export default class SegmentedTabs extends Component {
     const windowWidth = Dimensions.get('window').width;
     const defaultWidth = windowWidth / controlsCount;
     const containerPadding = isScrollable ? 10 : 0;
-    const widths = isScrollable && this.counter === 0 ? this.layouts.slice(0, controlsCount).map(l => l.width) : controls.map(() => defaultWidth).toJS();
+    const widths = isScrollable && this.layouts.length === controlsCount ? this.layouts.slice(0, controlsCount).map(l => l.width) : controls.map(() => defaultWidth).toJS();
 
     const inputRange = _.range(controlsCount);
     const animatedWidth = selectedIndex.interpolate({
@@ -186,9 +181,8 @@ export default class SegmentedTabs extends Component {
   }
 
   handleControlLayout(index, e) {
-    this.counter--;
     this.layouts[index] = e.nativeEvent.layout;
-    if (this.counter === 0) {
+    if (this.layouts.length === this.props.controls.size) {
       const windowWidth = Dimensions.get('window').width;
       let shouldScroll = false;
       const fullWidth = this.layouts.reduce((sum, layout) => {

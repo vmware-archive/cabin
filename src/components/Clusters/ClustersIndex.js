@@ -20,8 +20,8 @@ import ClustersItem from 'components/Clusters/ClustersItem';
 import EmptyView from 'components/commons/EmptyView';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import ActionButton from 'react-native-action-button';
 import NavigationActions from 'actions/NavigationActions';
+import FAB from 'components/commons/FAB';
 
 const {
   View,
@@ -86,15 +86,14 @@ export default class ClustersIndex extends Component {
                 title={intl('clusters_empty_title')}
                 subtitle={intl('clusters_empty_subtitle')}
                 actionTitle={intl('clusters_empty_action')}
-                onPress={() => NavigationActions.push(ClustersRoutes.getClustersNewRoute())}
+                onPress={Platform.OS === 'ios' && (() => NavigationActions.push(ClustersRoutes.getClustersNewRoute()))}
               />}
             onRefresh={this.handleRefresh.bind(this)}
           />
         </AltContainer>
         {Platform.OS === 'android' &&
-          <ActionButton
-            buttonColor={Colors.BLUE}
-            offsetY={16} offsetX={16}
+          <FAB
+            backgroundColor={Colors.BLUE}
             onPress={() => this.props.navigator.push(ClustersRoutes.getClusterNewRoute())} />}
       </View>
     );

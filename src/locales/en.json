@@ -33,7 +33,7 @@
   "tabs_settings": "Settings",
 
   "clusters_empty_title": "Welcome in the Cabin",
-  "clusters_empty_subtitle": "Looks like you don't have any clusters to use, let's add one",
+  "clusters_empty_subtitle": "It looks like you don't have any clusters to use.\nLet's add one !",
   "clusters_empty_action": "Add a cluster",
   "cluster_new_wrong_url": "Please enter a valid cluster url",
   "cluster_remove_title": "Remove cluster",

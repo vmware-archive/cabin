@@ -43,10 +43,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingTop: 20,
   },
-  section: {
-    marginBottom: 20,
+  containerContent: {
+    paddingBottom: 20,
   },
 });
 
@@ -66,26 +65,20 @@ export default class ServicesShow extends Component {
     }
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} onRefresh={this.handleRefresh.bind(this)}>
-          <View style={styles.section}>
-            <ListHeader title=""/>
-            <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
-            <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
-            <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
-            <ListItem title={!smallDevice && 'Type'} renderDetail={this.renderTypeDetail.bind(this)}/>
-            <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={!externalIP}/>
-            {externalIP && <ListItem title="ExternalIP" detailTitle={externalIP} isLast={true}/>}
-          </View>
-          <View style={styles.section}>
-            <LabelsView
-              entity={service}
-              onSubmit={this.handleLabelSubmit.bind(this)}
-              onDelete={this.handleLabelDelete.bind(this)} />
-          </View>
-          <View style={styles.section}>
-            <ListHeader title="Ports"/>
-            {this.renderPorts()}
-          </View>
+        <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
+          <ListHeader title=""/>
+          <ListItem title="Name" detailTitle={service.getIn(['metadata', 'name'])}/>
+          <ListItem title="Namespace" detailTitle={service.getIn(['metadata', 'namespace'])}/>
+          <ListItem title="Age" detailTitle={intlrd(service.getIn(['metadata', 'creationTimestamp']))}/>
+          <ListItem title={!smallDevice && 'Type'} renderDetail={this.renderTypeDetail.bind(this)}/>
+          <ListItem title="ClusterIP" detailTitle={service.getIn(['spec', 'clusterIP'])} isLast={!externalIP}/>
+          {externalIP && <ListItem title="ExternalIP" detailTitle={externalIP} isLast={true}/>}
+          <LabelsView
+            entity={service}
+            onSubmit={this.handleLabelSubmit.bind(this)}
+            onDelete={this.handleLabelDelete.bind(this)} />
+          <ListHeader title="Ports"/>
+          {this.renderPorts()}
         </ScrollView>
       </View>
     );
