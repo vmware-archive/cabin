@@ -116,9 +116,9 @@ export default class ToolbarAugmenter extends Component {
       let actions = null;
       if (route.renderRightButton) {
         const rightComponent = route.renderRightButton(navigator);
-        if (rightComponent.type.displayName === 'View') {
+        if (rightComponent.props.children) {
           actions = Children.map(rightComponent.props.children, this.getAction);
-        } else if (rightComponent.type.name === 'NavbarButton') {
+        } else {
           actions = [this.getAction(rightComponent)];
         }
       }
