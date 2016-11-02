@@ -25,7 +25,7 @@ class ClustersApi {
 
   static fetchNamespaces(cluster) {
     return BaseApi.get('/api/v1/namespaces', {}, cluster).then(response => {
-      return response.get('items').map(namespace => namespace.getIn(['metadata', 'name']));
+      return response.get ? response.get('items').map(namespace => namespace.getIn(['metadata', 'name'])) : Immutable.List();
     });
   }
 
@@ -35,12 +35,6 @@ class ClustersApi {
   }
 
   /* NODES */
-  static fetchNodes(cluster) {
-    return BaseApi.get('/api/v1/nodes', {}, cluster).then(response => {
-      return response.get('items');
-    });
-  }
-
   static deleteNode({cluster, node}) {
     return BaseApi.delete(`/api/v1/nodes/${node.getIn(['metadata', 'name'])}`, {}, cluster, node);
   }
@@ -143,7 +137,7 @@ class ClustersApi {
   /* GENERAL ENTITIES */
   static fetchEntities({cluster, entityType, params = {}}) {
     return BaseApi.get(`/${entityType}`, params, cluster).then(response => {
-      return response.get('items');
+      return typeof response.get === 'function' ? response.get('items') : Immutable.List();
     });
   }
 
