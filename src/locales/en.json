@@ -93,6 +93,7 @@
   "settings_repo_name_placeholder": "Give this store a short name",
   "settings_repo_add_alert": "Please fill both url and name fields",
   "settings_repo_failed": "Can't fetch this store url, try again with another one",
+  "settings_entities_list": "Resource listing",
 
   "status_up": "Running",
   "status_down": "Down",

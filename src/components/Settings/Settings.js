@@ -67,7 +67,7 @@ export default class Settings extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.list} contentContainerStyle={{paddingBottom: 20}} keyboardDismissMode="interactive">
           <ListHeader title="Customize"/>
-          <ListItem title="Object kind list" showArrow={true} onPress={() => {
+          <ListItem title={intl('settings_entities_list')} showArrow={true} onPress={() => {
             this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
           }}/>
           <ListItem title="Charts stores" showArrow={true} onPress={() => {

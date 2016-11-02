@@ -93,6 +93,7 @@
   "settings_repo_name_placeholder": "Donner un surnom à ce store",
   "settings_repo_add_alert": "Please fill both url and name fields",
   "settings_repo_failed": "Impossible de récupérer les données de cette url, réessayez avec une autre url",
+  "settings_entities_list": "Resource listing",
 
   "status_up": "Actif",
   "status_down": "Éteint",
