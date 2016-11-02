@@ -143,7 +143,7 @@ export default class DeploymentsHistory extends Component {
 
   rollbackTo(replica) {
     const { deployment, cluster } = this.props;
-    const revision = replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']);
+    const revision = parseInt(replica.getIn(['metadata', 'annotations', 'deployment.kubernetes.io/revision']), 10);
     DeploymentsActions.rollbackToRevision({cluster, deployment, revision}).then(() => {
       setTimeout(() => {
         this.refresh();

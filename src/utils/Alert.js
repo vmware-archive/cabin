@@ -5,7 +5,7 @@ const ExportAlert = Alert;
 
 ExportAlert.prompt = (title, message, actions) => {
   if (Platform.OS === 'ios') {
-    return AlertIOS.prompt(...arguments);
+    return AlertIOS.prompt(title, message, actions);
   }
   return Dialog.prompt(title, message, actions.map(a => a.text), (action, which, text) => {
     if (action !== Dialog.dismissed) {
