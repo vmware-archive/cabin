@@ -277,7 +277,7 @@ export default class DeployClusters extends Component {
     return DeploymentsActions.createDeployment({
       cluster,
       name: 'tiller-deploy',
-      image: 'gcr.io/kubernetes-helm/tiller:v2.0.0-beta.1',
+      image: 'gcr.io/kubernetes-helm/tiller:v2.0.0-rc.1',
       namespace: 'default',
     });
   }
