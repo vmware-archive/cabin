@@ -28,7 +28,7 @@ class SettingsStore {
     this.state = Immutable.fromJS({
       maxReplicas: 40,
       chartsStores: [
-        { url: 'http://storage.googleapis.com/kubernetes-charts-testing/index.yaml', name: 'Helm Test Store' },
+        { url: 'http://storage.googleapis.com/skippbox-charts/index.yaml', name: 'Helm Charts Store' },
       ],
       selectedChartsStoreIndex: 0,
       entitiesDisplay: {
