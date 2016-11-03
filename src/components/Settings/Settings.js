@@ -95,7 +95,7 @@ export default class Settings extends Component {
           }}/>
 
           <ListHeader style={{marginTop: 20}} title="About us"/>
-          <ListItem detailTitle="v0.1.0" renderTitle={() => {
+          <ListItem detailTitle="v0.2" renderTitle={() => {
             return (
               <View style={styles.titleContainer}>
                 <Image style={styles.logo} source={require('images/icon.png')}/>
