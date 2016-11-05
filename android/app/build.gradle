@@ -160,7 +160,6 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'io.grpc:grpc-okhttp:1.0.1'
     compile 'io.grpc:grpc-protobuf:1.0.1'
-    compile 'io.grpc:grpc-protobuf-lite:1.0.1'
     compile 'io.grpc:grpc-stub:1.0.1'
     compile 'org.kamranzafar:jtar:2.3'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'

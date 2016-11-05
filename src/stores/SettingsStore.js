@@ -20,6 +20,7 @@ import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import { AsyncStorage } from 'react-native';
 
+const defaultChartStore = { url: 'http://storage.googleapis.com/skippbox-charts/index.yaml', name: 'Helm Charts Store' };
 class SettingsStore {
 
   constructor() {
@@ -28,7 +29,7 @@ class SettingsStore {
     this.state = Immutable.fromJS({
       maxReplicas: 40,
       chartsStores: [
-        { url: 'http://storage.googleapis.com/skippbox-charts/index.yaml', name: 'Helm Charts Store' },
+        defaultChartStore,
       ],
       selectedChartsStoreIndex: 0,
       entitiesDisplay: {
@@ -60,6 +61,9 @@ class SettingsStore {
           .setIn(['entitiesDisplay', 'entities'], this.state.getIn(['entitiesDisplay', 'entities']));
       }
       // **/
+      if (state.getIn(['chartsStores', 0]) !== defaultChartStore) {
+        state = state.setIn(['chartsStores', 0], defaultChartStore);
+      }
       this.setState(state);
       return true;
     }

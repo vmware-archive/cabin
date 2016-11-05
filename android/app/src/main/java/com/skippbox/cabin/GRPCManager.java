@@ -41,6 +41,7 @@ import hapi.release.InfoOuterClass;
 import hapi.release.ReleaseOuterClass;
 import hapi.services.tiller.ReleaseServiceGrpc;
 import hapi.services.tiller.Tiller;
+import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.internal.GrpcUtil;
@@ -54,6 +55,7 @@ import okio.Okio;
 class GRPCManager extends ReactContextBaseJavaModule {
 
     private static final String CHART_FILENAME = "Chart.yaml";
+    private static final String PROTO_VERSION = "v2.0.0-rc.2";
 
     GRPCManager(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -112,14 +114,15 @@ class GRPCManager extends ReactContextBaseJavaModule {
                 promise.resolve(result);
             }
         };
-        ReleaseServiceGrpc.newStub(channel).listReleases(request.build(), observer);
+        final ReleaseServiceGrpc.ReleaseServiceStub stub = ReleaseServiceGrpc.newStub(channel);
+        stub.withOption(CallOptions.Key.of("x-helm-api-client", ""), PROTO_VERSION).listReleases(request.build(), observer);
     }
 
     @ReactMethod
     public void deleteRelease(String releaseName, String host, final Promise promise) {
         Tiller.UninstallReleaseRequest.Builder request = Tiller.UninstallReleaseRequest.newBuilder();
         Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
-        final ListenableFuture<Tiller.UninstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).uninstallRelease(request.build());
+        final ListenableFuture<Tiller.UninstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).withOption(CallOptions.Key.of("x-helm-api-client", ""), PROTO_VERSION).uninstallRelease(request.build());
         future.addListener(new Runnable() {
             @Override
             public void run() {
@@ -166,7 +169,7 @@ class GRPCManager extends ReactContextBaseJavaModule {
             request.setNamespace("default");
 
             Channel channel = ManagedChannelBuilder.forTarget(host).usePlaintext(true).build();
-            final ListenableFuture<Tiller.InstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).installRelease(request.build());
+            final ListenableFuture<Tiller.InstallReleaseResponse> future = ReleaseServiceGrpc.newFutureStub(channel).withOption(CallOptions.Key.of("x-helm-api-client", ""), PROTO_VERSION).installRelease(request.build());
             future.addListener(new Runnable() {
                 @Override
                 public void run() {

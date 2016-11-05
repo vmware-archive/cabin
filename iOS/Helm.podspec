@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.osx.deployment_target = "10.9"
 
-  s.dependency '!ProtoCompiler-gRPCPlugin', '~> 1.0.1-pre1'
+  s.dependency '!ProtoCompiler-gRPCPlugin', '1.0.1-pre1'
 
   # Base directory where the .proto files are.
   src = "protos"
