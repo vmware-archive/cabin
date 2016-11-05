@@ -49,19 +49,33 @@ export default class EntitiesUtils {
     });
   }
 
-  static newServiceParams({deployment, port, name, type = 'ClusterIP'}) {
-    const deploymentName = deployment.getIn(['metadata', 'name']);
+  static newServiceParams({port, name, type = 'ClusterIP', labels = {}, selector, deployment}) {
     port = parseInt(port, 10);
-    return Immutable.fromJS({
+    let serviceParams = Immutable.fromJS({
       kind: 'Service',
       apiVersion: 'v1',
-      metadata: {name, labels: {run: deploymentName}},
+      metadata: {name, labels},
       spec: {
         ports: port ? [{protocol: 'TCP', port, targetPort: port}] : [],
-        selector: {run: deploymentName},
+        selector: selector ? selector : {},
         type,
       },
       status: {loadBalancer: {}},
+    });
+    if (deployment) {
+      const deploymentName = deployment.getIn(['metadata', 'name']);
+      serviceParams = serviceParams.setIn(['metadata', 'labels', 'run'], deploymentName)
+        .setIn(['spec', 'selector', 'run'], deploymentName);
+    }
+    return serviceParams;
+  }
+
+  static newSecretParams({name, data}) {
+    return Immutable.fromJS({
+      kind: 'Secret',
+      apiVersion: 'v1',
+      metadata: {name},
+      data,
     });
   }
 
