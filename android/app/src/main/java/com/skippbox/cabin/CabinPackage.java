@@ -13,7 +13,11 @@ import java.util.List;
 public class CabinPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new GRPCManager(reactContext), new AlertPromptModule(reactContext));
+        return Arrays.<NativeModule>asList(
+                new GRPCManager(reactContext),
+                new AlertPromptModule(reactContext),
+                new CabinWebsocketModule(reactContext)
+        );
     }
 
     @Override

@@ -29,23 +29,24 @@ class CabinOkHttpClientProvider {
     }
 
     private static OkHttpClient createClient() throws NoSuchAlgorithmException, KeyManagementException {
-        // Install the all-trusting trust manager
-        final X509TrustManager trustManager = CabinOkHttpClientProvider.getTrustManager();
-        final SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, new TrustManager[]{trustManager}, null);
-        // Create an ssl socket factory with our all-trusting manager
-        final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
         return new OkHttpClient.Builder()
                 .connectTimeout(0, TimeUnit.MILLISECONDS)
                 .readTimeout(0, TimeUnit.MILLISECONDS)
                 .writeTimeout(0, TimeUnit.MILLISECONDS)
                 .cookieJar(new ReactCookieJarContainer())
-                .sslSocketFactory(sslSocketFactory, trustManager)
+                .sslSocketFactory(getSocketFactory(), getTrustManager())
                 .build();
     }
 
-    private static X509TrustManager getTrustManager() {
+    public static SSLSocketFactory getSocketFactory() throws NoSuchAlgorithmException, KeyManagementException {
+        final X509TrustManager trustManager = CabinOkHttpClientProvider.getTrustManager();
+        final SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, new TrustManager[]{trustManager}, null);
+        // Create an ssl socket factory with our all-trusting manager
+        return sslContext.getSocketFactory();
+    }
+
+    public static X509TrustManager getTrustManager() {
         return new X509TrustManager() {
             @Override
             public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
