@@ -278,7 +278,7 @@ export default class DeployClusters extends Component {
       cluster,
       name: 'tiller-deploy',
       image: 'gcr.io/kubernetes-helm/tiller:v2.0.0-rc.2',
-      namespace: 'default',
+      namespace: 'kube-system',
     });
   }
 
