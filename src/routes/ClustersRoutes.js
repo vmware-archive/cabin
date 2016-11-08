@@ -163,7 +163,7 @@ const ClustersRoutes = {
   getClustersGoogleRoute() {
     return {
       statusBarStyle: 'light-content',
-      getTitle: () => 'Google Clusters',
+      getTitle: () => 'GKE Clusters',
       getBackButtonTitle: () => '',
       renderScene(navigator) {
         return (

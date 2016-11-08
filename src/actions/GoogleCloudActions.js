@@ -40,7 +40,12 @@ class GoogleCloudActions {
   }
 
   signIn() {
-    return GoogleSignin.signIn().then((user) => {
+    return GoogleSignin.currentUserAsync().then((user) => {
+      if (!user) {
+        return GoogleSignin.signIn();
+      }
+      return Promise.resolve(user);
+    }).then((user) => {
       this.signInSuccess(fromJS(user));
     }).catch((err) => {
       this.signInFailure(err);
