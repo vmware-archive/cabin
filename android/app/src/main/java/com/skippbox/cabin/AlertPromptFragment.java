@@ -33,7 +33,7 @@ public class AlertPromptFragment extends DialogFragment implements DialogInterfa
     }
 
     private Dialog createDialog(Context context, Bundle arguments, DialogInterface.OnClickListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.MyDialogTheme);
 
         if (arguments.containsKey("title")) {
             builder.setTitle(arguments.getString("title"));

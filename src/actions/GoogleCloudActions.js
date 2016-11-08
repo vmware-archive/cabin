@@ -33,6 +33,9 @@ class GoogleCloudActions {
       'getClustersStart',
       'getClustersSuccess',
       'getClustersFailure',
+      'createClusterStart',
+      'createClusterSuccess',
+      'createClusterFailure',
     );
   }
 
@@ -44,7 +47,7 @@ class GoogleCloudActions {
     });
   }
 
-  getProjects(pageToken = null) {
+  getProjects(pageToken) {
     this.getProjectsStart();
     return GoogleCloudApi.getProjects(pageToken).then((response) => {
       this.getProjectsSuccess(response);
@@ -53,7 +56,7 @@ class GoogleCloudActions {
     });
   }
 
-  getZones(projectId, pageToken = null) {
+  getZones(projectId, pageToken) {
     this.getZonesStart();
     return GoogleCloudApi.getZones(projectId, pageToken).then((response) => {
       this.getZonesSuccess(response);
@@ -62,12 +65,21 @@ class GoogleCloudActions {
     });
   }
 
-  getClusters(projectId, zone = '-', pageToken = null) {
+  getClusters(projectId, zone = '-', pageToken) {
     this.getClustersStart();
     return GoogleCloudApi.getClusters(projectId, zone, pageToken).then((response) => {
       this.getClustersSuccess(response);
     }).catch((error) => {
       this.getClustersFailure(error);
+    });
+  }
+
+  createCluster(projectId, zone, cluster) {
+    this.createClusterStart();
+    return GoogleCloudApi.createCluster(projectId, zone, cluster).then((response) => {
+      this.createClusterSuccess(response);
+    }).catch((error) => {
+      this.createClusterFailure(error);
     });
   }
 }

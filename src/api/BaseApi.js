@@ -139,7 +139,7 @@ class BaseApi {
       return text;
     }).then( (json) => {
       if (__DEV__ && !APP_CONFIG.DEBUG_API) {
-        console.log(`[BaseApi ${url}]`, json);
+        console.log(`[BaseApi ${URL}]`, json);
       }
       return new Promise((resolve) => {
         InteractionManager.runAfterInteractions(() => {

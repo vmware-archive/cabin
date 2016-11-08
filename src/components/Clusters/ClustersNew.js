@@ -75,7 +75,7 @@ export default class ClustersNew extends Component {
     this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-      iosClientId: '777344195972-kga2cv236fi3mbkat6a17orm57q8lvdk.apps.googleusercontent.com',
+      iosClientId: '260396395869-fpar03ln0q3lqmtou94n1iu38ecdok64.apps.googleusercontent.com',
     });
   }
 
@@ -90,12 +90,7 @@ export default class ClustersNew extends Component {
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
-          <ListHeader title="Add cluster from Google GKE"/>
-          <ListItem title="Signin with Google" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
-            <Image source={require('images/google.png')}
-              style={{width: 30, height: 30, marginTop: -6}}/>
-          }/>
-          <View style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>
+          {this.renderGoogle()}
           <ListHeader title="Or manually with url"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
@@ -114,6 +109,21 @@ export default class ClustersNew extends Component {
         </ScrollView>
       </View>
     );
+  }
+
+  renderGoogle() {
+    if (this.props.cluster) {
+      // Don't show Google cluster creation when editing cluster
+      return false;
+    }
+    return [
+      <ListHeader key="title" title="Add cluster from Google GKE" />,
+      <ListItem key="action" title="Signin with Google" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+        <Image source={require('images/google.png')}
+          style={{width: 30, height: 30, marginTop: -6}}/>
+      }/>,
+      <View style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>,
+    ];
   }
 
   signInGoogle() {

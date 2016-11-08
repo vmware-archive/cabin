@@ -25,7 +25,7 @@ export default class GoogleCloudApi {
     );
   }
 
-  static getZones(projectId, pageToken = null) {
+  static getZones(projectId, pageToken) {
     return BaseApi.get(`https://www.googleapis.com/compute/v1/projects/${projectId}/zones`,
       {
         pageToken,
@@ -33,7 +33,7 @@ export default class GoogleCloudApi {
     );
   }
 
-  static getClusters(projectId, zone, pageToken = null) {
+  static getClusters(projectId, zone, pageToken) {
     return BaseApi.get(`https://container.googleapis.com/v1/projects/${projectId}/zones/${zone}/clusters`,
       {
         pageToken,
@@ -42,6 +42,6 @@ export default class GoogleCloudApi {
   }
 
   static createCluster(projectId, zone, cluster) {
-    return BaseApi.post(`https://container.googleapis.com/v1/projects/${projectId}/zones/${zone}/clusters`, cluster);
+    return BaseApi.post(`https://container.googleapis.com/v1/projects/${projectId}/zones/${zone}/clusters`, {cluster});
   }
 }

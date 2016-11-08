@@ -102,9 +102,9 @@ export default class ListItem extends Component {
     const Container = (this.props.onPress || this.props.onLongPress) ? TouchableOpacity : View;
     return (
       <SwipeRow onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
-      right={this.props.onDelete && [
-        {text: this.props.deleteTitle || intl('delete'), style: {backgroundColor: Colors.RED}, textStyle: {color: Colors.WHITE}, onPress: this.props.onDelete},
-      ]}>
+        right={this.props.onDelete && [
+          {text: this.props.deleteTitle || intl('delete'), style: {backgroundColor: Colors.RED}, textStyle: {color: Colors.WHITE}, onPress: this.props.onDelete},
+        ]}>
         <Container style={[styles.item, this.props.style]} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
           <View style={styles.left}>
             {this.renderTitle()}

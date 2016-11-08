@@ -35,7 +35,7 @@ class GoogleCloudStore {
 
   onGetProjectsSuccess(response) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['projects', 'list'], response.get('projects'))
+      state.setIn(['projects', 'list'], response.get('projects').filter(p => p.get('lifecycleState') === 'ACTIVE'))
            .setIn(['projects', 'nextPageToken'], response.get('nextPageToken'))
            .setIn(['projects', 'loading'], false);
     });
@@ -77,7 +77,7 @@ class GoogleCloudStore {
 
   onGetClustersSuccess(response) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['clusters', 'list'], response.get('items'))
+      state.setIn(['clusters', 'list'], response.get('clusters'))
            .setIn(['clusters', 'nextPageToken'], response.get('nextPageToken'))
            .setIn(['clusters', 'loading'], false);
     });
@@ -98,6 +98,10 @@ class GoogleCloudStore {
 
   static getProjects() {
     return this.state.getIn(['projects', 'list'], Immutable.List());
+  }
+
+  static getZones() {
+    return this.state.getIn(['zones', 'list'], Immutable.List());
   }
 
   static getClusters() {
