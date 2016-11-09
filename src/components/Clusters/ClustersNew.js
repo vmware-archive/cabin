@@ -30,6 +30,7 @@ const { PropTypes } = React;
 const {
   View,
   Image,
+  ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
@@ -44,6 +45,12 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     marginTop: 20,
+  },
+  loader: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    alignItems: 'center', justifyContent: 'center',
   },
 });
 
@@ -67,6 +74,7 @@ export default class ClustersNew extends Component {
         token: '',
 
         googleUser: null,
+        loading: false,
       };
     }
   }
@@ -91,7 +99,7 @@ export default class ClustersNew extends Component {
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
           {this.renderGoogle()}
-          <ListHeader title="Or manually with url"/>
+          <ListHeader title="Cluster information"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
@@ -105,8 +113,8 @@ export default class ClustersNew extends Component {
           <ListHeader title="Or"/>
           <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
             onChangeText={token => this.setState({token})} isLast={true}/>
-
         </ScrollView>
+        {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
       </View>
     );
   }
@@ -122,19 +130,24 @@ export default class ClustersNew extends Component {
         <Image source={require('images/google.png')}
           style={{width: 30, height: 30, marginTop: -6}}/>
       }/>,
-      <View style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>,
+      <View key="border" style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>,
     ];
   }
 
   signInGoogle() {
+    this.setState({loading: true});
     GoogleCloudActions.signIn().then(() => {
       return GoogleCloudActions.getProjects();
     }).then(() => {
+      this.setState({loading: false});
       const projects = alt.stores.GoogleCloudStore.getProjects();
       if (projects.size > 0) {
         GoogleCloudActions.getClusters(projects.getIn([0, 'projectId']));
         this.props.navigator.push(ClustersRoutes.getClustersGoogleRoute());
       }
+    }).catch(() => {
+      this.setState({loading: false});
+      AlertUtils.showError();
     });
   }
 

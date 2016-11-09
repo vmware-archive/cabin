@@ -146,6 +146,7 @@ export default class ClustersNewGoogleCreation extends Component {
     if (!cluster.masterAuth.username && !cluster.masterAuth.password) {
       cluster.masterAuth = undefined;
     }
+    cluster.master_auth = cluster.masterAuth;
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
       GoogleCloudActions.getClusters(projectId);
       this.props.navigator.pop();

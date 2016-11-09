@@ -47,8 +47,9 @@ class GoogleCloudActions {
       return Promise.resolve(user);
     }).then((user) => {
       this.signInSuccess(fromJS(user));
-    }).catch((err) => {
-      this.signInFailure(err);
+    }).catch((error) => {
+      this.signInFailure(error);
+      return Promise.reject(error);
     });
   }
 
@@ -58,6 +59,7 @@ class GoogleCloudActions {
       this.getProjectsSuccess(response);
     }).catch((error) => {
       this.getProjectsFailure(error);
+      return Promise.reject(error);
     });
   }
 
@@ -67,6 +69,7 @@ class GoogleCloudActions {
       this.getZonesSuccess(response);
     }).catch((error) => {
       this.getZonesFailure(error);
+      return Promise.reject(error);
     });
   }
 
@@ -76,6 +79,7 @@ class GoogleCloudActions {
       this.getClustersSuccess(response);
     }).catch((error) => {
       this.getClustersFailure(error);
+      return Promise.reject(error);
     });
   }
 
@@ -85,6 +89,7 @@ class GoogleCloudActions {
       this.createClusterSuccess(response);
     }).catch((error) => {
       this.createClusterFailure(error);
+      return Promise.reject(error);
     });
   }
 }

@@ -135,6 +135,7 @@ const ClustersRoutes = {
 
   getClusterCreationRoute(optionalCluster) {
     return {
+      statusBarStyle: 'light-content',
       getTitle: () => 'New Cluster',
       renderScene(navigator) {
         return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
