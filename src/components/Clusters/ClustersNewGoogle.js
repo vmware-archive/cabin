@@ -149,6 +149,12 @@ export default class ClustersNewGoogle extends Component {
   }
 
   submitCluster(cluster) {
+    if (!cluster.get('endpoint')) {
+      Alert.alert('Add cluster', 'Can\'t add this cluster to cabin, it has no url yet. \n Please try again in few seconds.', [
+        {'text': 'Ok'},
+      ]);
+      return;
+    }
     Alert.alert('Add cluster', `Do you want to add cluster '${cluster.get('name')}' from GKE to Cabin ?`, [
       {'text': 'Cancel'},
       {'text': 'Ok', onPress: () => this.addCluster(cluster)},
