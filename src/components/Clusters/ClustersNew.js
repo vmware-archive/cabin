@@ -143,7 +143,7 @@ export default class ClustersNew extends Component {
       const projects = alt.stores.GoogleCloudStore.getProjects();
       if (projects.size > 0) {
         GoogleCloudActions.getClusters(projects.getIn([0, 'projectId']));
-        this.props.navigator.push(ClustersRoutes.getClustersGoogleRoute());
+        this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
       }
     }).catch(() => {
       this.setState({loading: false});

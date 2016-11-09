@@ -18,6 +18,7 @@ import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import AlertUtils from 'utils/AlertUtils';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import ScrollView from 'components/commons/ScrollView';
 
@@ -28,6 +29,7 @@ import {
   Slider,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -53,6 +55,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  loader: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    alignItems: 'center', justifyContent: 'center',
+  },
 });
 
 export default class ClustersNewGoogleCreation extends Component {
@@ -60,6 +68,7 @@ export default class ClustersNewGoogleCreation extends Component {
   constructor() {
     super();
     this.state = {
+      loading: false,
       name: '',
       zone: '',
       description: 'created by Cabin',
@@ -122,6 +131,7 @@ export default class ClustersNewGoogleCreation extends Component {
             );
           }} />
         </ScrollView>
+        {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
       </View>
     );
   }
@@ -140,15 +150,21 @@ export default class ClustersNewGoogleCreation extends Component {
   }
 
   onSubmit() {
+    if (this.state.loading) { return; }
+    this.setState({loading: true});
     const { zone, ...cluster } = this.state;
+    cluster.loading = undefined;
     const { projectId } = this.props;
 
     if (!cluster.masterAuth.username && !cluster.masterAuth.password) {
       cluster.masterAuth = undefined;
     }
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
+      AlertUtils.showSuccess({message: 'The cluster has been created on GKE, you can now add it to cabin'});
       GoogleCloudActions.getClusters(projectId);
       this.props.navigator.pop();
+    }).catch(e => {
+      AlertUtils.showError(e && e.message && {message: e.message});
     });
   }
 }

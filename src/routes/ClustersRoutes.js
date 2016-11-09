@@ -165,7 +165,13 @@ const ClustersRoutes = {
     return {
       statusBarStyle: 'light-content',
       getTitle: () => 'GKE Clusters',
-      getBackButtonTitle: () => '',
+      renderLeftButton() {
+        return (
+          <NavbarButton title={intl('close')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
       renderScene(navigator) {
         return (
           <AltContainer stores={{

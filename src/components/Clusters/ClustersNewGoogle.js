@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
+import ListHeader from 'components/commons/ListHeader';
 import HeaderPicker from 'components/commons/HeaderPicker';
 import CollectionView from 'components/commons/CollectionView';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
@@ -22,6 +23,7 @@ import ClustersActions from 'actions/ClustersActions';
 import FAB from 'components/commons/FAB';
 import Alert from 'utils/Alert';
 import StatusView from 'components/commons/StatusView';
+import AlertUtils from 'utils/AlertUtils';
 import LocalesUtils from 'utils/LocalesUtils';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
@@ -118,7 +120,10 @@ export default class ClustersNewGoogle extends Component {
             contentContainerStyle={styles.listContent}
             list={alt.stores.GoogleCloudStore.getClusters(projectId)}
             onRefresh={this.onRefresh.bind(this)}
-            renderRow={this.renderItem.bind(this)} />
+            renderRow={this.renderItem.bind(this)}
+            renderHeader={() => {
+              return <ListHeader title="Tap to add to cabin" />;
+            }}/>
         </AltContainer>
         <FAB
           backgroundColor={Colors.BLUE}
@@ -150,14 +155,18 @@ export default class ClustersNewGoogle extends Component {
 
   submitCluster(cluster) {
     if (!cluster.get('endpoint')) {
+      this.onRefresh();
       Alert.alert('Add cluster', 'Can\'t add this cluster to cabin, it has no url yet. \n Please try again in few seconds.', [
-        {'text': 'Ok'},
+        {'text': intl('ok')},
       ]);
+      return;
+    } else if (alt.stores.ClustersStore.get(`https://${cluster.get('endpoint')}:443`)) {
+      AlertUtils.showWarning({message: 'You\'ve already added this cluster to Cabin'});
       return;
     }
     Alert.alert('Add cluster', `Do you want to add cluster '${cluster.get('name')}' from GKE to Cabin ?`, [
-      {'text': 'Cancel'},
-      {'text': 'Ok', onPress: () => this.addCluster(cluster)},
+      {'text': intl('cancel')},
+      {'text': intl('ok'), onPress: () => this.addCluster(cluster)},
     ]);
   }
 
@@ -169,6 +178,7 @@ export default class ClustersNewGoogle extends Component {
       password: googleCluster.getIn(['masterAuth', 'password']),
     });
     ClustersActions.addCluster(cluster.toJS());
+    AlertUtils.showSuccess({message: 'Cluster added to Cabin'});
     setTimeout(() => {
       ClustersActions.checkCluster(cluster);
     }, 1000);
