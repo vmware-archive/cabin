@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    marginTop: 20,
+    paddingBottom: 20,
   },
 });
 
@@ -65,7 +65,6 @@ export default class EntitiesList extends Component {
           <CollectionView style={styles.list}
             scrollEnabled={this.state.scrollEnabled}
             contentContainerStyle={styles.listContent}
-            contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
             list={entities.sortBy(e => e.getIn(['metadata', 'creationTimestamp'])).reverse()}
             onRefresh={this.refresh.bind(this)}
