@@ -105,9 +105,9 @@ export default class ClustersNewGoogleCreation extends Component {
           }} />
           <ListHeader title="Authentication" style={{marginTop: 30}} />
           <ListInputItem autoCapitalize="none" autoCorrect={false} placeholder="Username"
-            onChangeText={username => this.setState({masterAuth: {username}})}/>
+            onChangeText={username => this.setState({masterAuth: {...this.state.masterAuth, username}})}/>
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} placeholder="Password"
-            onChangeText={password => this.setState({masterAuth: {password}})} isLast={true}/>
+            onChangeText={password => this.setState({masterAuth: {...this.state.masterAuth, password}})} isLast={true}/>
           <ListHeader title="Initial Node count" style={{marginTop: 30}}/>
           <ListItem style={styles.sliderItem} isLast={true} renderTitle={() => {
             return (
@@ -146,7 +146,6 @@ export default class ClustersNewGoogleCreation extends Component {
     if (!cluster.masterAuth.username && !cluster.masterAuth.password) {
       cluster.masterAuth = undefined;
     }
-    cluster.master_auth = cluster.masterAuth;
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
       GoogleCloudActions.getClusters(projectId);
       this.props.navigator.pop();
