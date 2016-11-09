@@ -35,7 +35,7 @@ class GoogleCloudStore {
 
   onGetProjectsSuccess(response) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['projects', 'list'], response.get('projects').filter(p => p.get('lifecycleState') === 'ACTIVE'))
+      state.setIn(['projects', 'list'], response.get('projects'))
            .setIn(['projects', 'nextPageToken'], response.get('nextPageToken'))
            .setIn(['projects', 'loading'], false);
     });
@@ -71,23 +71,23 @@ class GoogleCloudStore {
     this.setState(newState);
   }
 
-  onGetClustersStart() {
-    this.setState(this.state.setIn(['clusters', 'loading'], true));
+  onGetClustersStart(projectId) {
+    this.setState(this.state.setIn(['clusters', projectId, 'loading'], true));
   }
 
-  onGetClustersSuccess(response) {
+  onGetClustersSuccess({projectId, response}) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['clusters', 'list'], response.get('clusters'))
-           .setIn(['clusters', 'nextPageToken'], response.get('nextPageToken'))
-           .setIn(['clusters', 'loading'], false);
+      state.setIn(['clusters', projectId, 'list'], response.get('clusters'))
+           .setIn(['clusters', projectId, 'nextPageToken'], response.get('nextPageToken'))
+           .setIn(['clusters', projectId, 'loading'], false);
     });
     this.setState(newState);
   }
 
-  onGetClustersFailure(error) {
+  onGetClustersFailure({projectId, error}) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['clusters', 'error'], error)
-           .setIn(['clusters', 'loading'], false);
+      state.setIn(['clusters', projectId, 'error'], error)
+           .setIn(['clusters', projectId, 'loading'], false);
     });
     this.setState(newState);
   }
@@ -104,8 +104,8 @@ class GoogleCloudStore {
     return this.state.getIn(['zones', 'list'], Immutable.List());
   }
 
-  static getClusters() {
-    return this.state.getIn(['clusters', 'list'], Immutable.List());
+  static getClusters(projectId) {
+    return this.state.getIn(['clusters', projectId, 'list']) || Immutable.List();
   }
 }
 

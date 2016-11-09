@@ -24,6 +24,7 @@ import Alert from 'utils/Alert';
 import StatusView from 'components/commons/StatusView';
 import LocalesUtils from 'utils/LocalesUtils';
 import ClustersRoutes from 'routes/ClustersRoutes';
+import AltContainer from 'alt-container';
 
 const { PropTypes } = React;
 
@@ -82,7 +83,6 @@ export default class ClustersNewGoogle extends Component {
 
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
-    clusters: PropTypes.instanceOf(Immutable.List),
   }
 
   constructor() {
@@ -94,6 +94,7 @@ export default class ClustersNewGoogle extends Component {
 
   render() {
     const choices = this.props.projects.map(p => p.get('name'));
+    const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
 
     return (
       <View style={styles.flex}>
@@ -105,13 +106,21 @@ export default class ClustersNewGoogle extends Component {
             GoogleCloudActions.getClusters(this.props.projects.getIn([index, 'projectId']));
             this.setState({selectedProjectIndex: index});
           }}/>
-        <CollectionView
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
-          list={this.props.clusters}
-          onRefresh={this.onRefresh.bind(this)}
-          renderRow={this.renderItem.bind(this)} />
-            <FAB
+        <AltContainer stores={{
+          list: () => {
+            return {
+              store: alt.stores.GoogleCloudStore,
+              value: alt.stores.GoogleCloudStore.getClusters(projectId),
+            };
+          }}}>
+          <CollectionView
+            style={styles.list}
+            contentContainerStyle={styles.listContent}
+            list={alt.stores.GoogleCloudStore.getClusters(projectId)}
+            onRefresh={this.onRefresh.bind(this)}
+            renderRow={this.renderItem.bind(this)} />
+        </AltContainer>
+        <FAB
           backgroundColor={Colors.BLUE}
           onPress={this.createCluster.bind(this)} />
       </View>

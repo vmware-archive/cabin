@@ -74,11 +74,11 @@ class GoogleCloudActions {
   }
 
   getClusters(projectId, zone = '-', pageToken) {
-    this.getClustersStart();
+    this.getClustersStart(projectId);
     return GoogleCloudApi.getClusters(projectId, zone, pageToken).then((response) => {
-      this.getClustersSuccess(response);
+      this.getClustersSuccess({projectId, response});
     }).catch((error) => {
-      this.getClustersFailure(error);
+      this.getClustersFailure({projectId, error});
       return Promise.reject(error);
     });
   }
