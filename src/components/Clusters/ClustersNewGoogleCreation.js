@@ -19,12 +19,12 @@ import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
+import ScrollView from 'components/commons/ScrollView';
 
 import {
   StyleSheet,
   DeviceEventEmitter,
   View,
-  ScrollView,
   Slider,
   Text,
   TouchableOpacity,
