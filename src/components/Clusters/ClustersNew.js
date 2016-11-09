@@ -30,6 +30,7 @@ const { PropTypes } = React;
 const {
   View,
   Image,
+  Text,
   ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   scrollViewContent: {
-    marginTop: 20,
+    marginTop: 0,
   },
   loader: {
     position: 'absolute',
@@ -99,13 +100,12 @@ export default class ClustersNew extends Component {
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
           {this.renderGoogle()}
-          <ListHeader title="Cluster information"/>
+          <ListHeader title="Manual cluster entry" style={{marginTop: 20}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
             onChangeText={name => this.setState({name})} isLast={true}/>
-
-          <ListHeader title="Authentication" style={{marginTop: 30}}/>
+          <ListHeader title="Authentication" style={{marginTop: 20}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
             onChangeText={username => this.setState({username})}/>
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
@@ -125,12 +125,16 @@ export default class ClustersNew extends Component {
       return false;
     }
     return [
-      <ListHeader key="title" title="Add cluster from Google GKE" />,
-      <ListItem key="action" title="Signin with Google" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+      <ListHeader key="title" title="" style={{marginTop: -10}} />,
+      <ListItem key="action" title="Add cluster from Google GKE" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
         <Image source={require('images/google.png')}
           style={{width: 30, height: 30, marginTop: -6}}/>
       }/>,
-      <View key="border" style={{height: 1, backgroundColor: Colors.BORDER, marginTop: 20}}/>,
+      (<View key="border" style={{height: 30, marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{height: 1, flex: 1, backgroundColor: Colors.GRAY}}/>
+        <Text style={{marginHorizontal: 10, color: Colors.GRAY}}>{'Or'}</Text>
+        <View style={{height: 1, flex: 1, backgroundColor: Colors.GRAY}}/>
+      </View>),
     ];
   }
 
