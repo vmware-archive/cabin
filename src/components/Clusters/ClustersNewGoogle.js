@@ -122,7 +122,7 @@ export default class ClustersNewGoogle extends Component {
             onRefresh={this.onRefresh.bind(this)}
             renderRow={this.renderItem.bind(this)}
             renderHeader={() => {
-              return <ListHeader title="Tap to add to cabin" />;
+              return <ListHeader title="Tap to add to cabin" style={{borderBottomWidth: 0, marginBottom: -6}}/>;
             }}/>
         </AltContainer>
         <FAB

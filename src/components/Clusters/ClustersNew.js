@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BACKGROUND,
   },
   scrollViewContent: {
-    marginTop: 0,
+    marginTop: 20,
   },
   loader: {
     position: 'absolute',
@@ -131,9 +131,9 @@ export default class ClustersNew extends Component {
           style={{width: 30, height: 30, marginTop: -6}}/>
       }/>,
       (<View key="border" style={{height: 30, marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{height: 1, flex: 1, backgroundColor: Colors.GRAY}}/>
+        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
         <Text style={{marginHorizontal: 10, color: Colors.GRAY}}>{'Or'}</Text>
-        <View style={{height: 1, flex: 1, backgroundColor: Colors.GRAY}}/>
+        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
       </View>),
     ];
   }
