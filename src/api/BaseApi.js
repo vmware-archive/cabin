@@ -17,7 +17,7 @@ import StatusCodes from 'utils/StatusCodes';
 import Qs from 'qs';
 import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
-import YAML from 'yamljs';
+import YAML from 'js-yaml';
 import EntitiesUtils from 'utils/EntitiesUtils';
 const { GRPCManager: grpc } = NativeModules;
 
@@ -161,8 +161,8 @@ class BaseApi {
 
   static parseYAML(text) {
     try {
-      text = text.replace('  platforms.', '');// FIXME: Remove this
-      return YAML.parse(text);
+      // text = text.replace('  platforms.', '');// FIXME: Remove this
+      return YAML.load(text);
     } catch (e) {
       return null;
     }
@@ -240,7 +240,7 @@ class BaseApi {
       }
     }
 
-    if (dataUrl) {
+    if (dataUrl && Object.keys(dataUrl).length !== 0) {
       const params = Qs.stringify(dataUrl, {arrayFormat: 'repeat'});
       url = `${url}?${params}`;
     }
