@@ -30,6 +30,8 @@ const iconObjects = require('images/shape.png');
 const iconLock = require('images/lock.png');
 const iconDisk = require('images/disk.png');
 const iconAccount = require('images/account.png');
+const iconConfig = require('images/config.png');
+const iconRuler = require('images/ruler.png');
 
 const styles = StyleSheet.create({
   container: {
@@ -88,6 +90,8 @@ export default class EntityIcon extends Component {
         return Colors.PINK;
       case 'ingresses':
         return Colors.GREEN2;
+      case 'configmaps':
+        return Colors.ORANGE;
       case 'replicasets':
         return Colors.YELLOW2;
       default:
@@ -115,7 +119,9 @@ export default class EntityIcon extends Component {
       case 'persistentvolumeclaims':
         return iconDisk;
       case 'ingresses':
-        return iconObjects;
+        return iconRuler;
+      case 'configmaps':
+        return iconConfig;
       case 'replicasets':
         return iconReplication;
       default:

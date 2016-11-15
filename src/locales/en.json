@@ -23,6 +23,7 @@
   "persistentvolumeclaims": "Volume Claims",
   "ingresses": "Ingress Rules",
   "replicasets": "Replica Sets",
+  "configmaps": "Config Maps",
   "chart": "Chart",
   "history": "History",
   "revisions": "Revisions",
