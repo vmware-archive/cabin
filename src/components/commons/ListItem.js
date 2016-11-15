@@ -31,7 +31,7 @@ const { PropTypes } = React;
 const styles = StyleSheet.create({
   item: {
     flex: 1,
-    height: 50,
+    minHeight: 50,
     paddingLeft: 15,
     paddingRight: 20,
     backgroundColor: Colors.WHITE,
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
   arrow: {
     width: 10,
     height: 10,
-    marginLeft: 7,
-    marginTop: 6,
+    alignSelf: 'center',
+    marginLeft: 6,
     backgroundColor: 'transparent',
     borderTopWidth: 1,
     borderRightWidth: 1,

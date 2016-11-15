@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 10,
-    height: 40,
+    height: 25,
   },
   checking: {
     position: 'absolute',

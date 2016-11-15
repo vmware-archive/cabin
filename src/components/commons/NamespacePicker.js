@@ -63,7 +63,7 @@ export default class NamespacePicker extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
-          <Text style={styles.text}>
+          <Text style={styles.text} numberOfLines={1}>
             {intl('namespace')}:
             <Text style={styles.namespaceText}> {namespaceTitle}</Text>
           </Text>

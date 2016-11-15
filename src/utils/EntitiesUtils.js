@@ -18,6 +18,9 @@ export default class EntitiesUtils {
 
   static storeForType(entityType) {
     let find;
+    if (entityType === 'helmreleases') {
+      return alt.stores.ReleasesStore;
+    }
     for (const key in alt.stores) {
       if (alt.stores.hasOwnProperty(key)) {
         const store = alt.stores[key];

@@ -85,7 +85,7 @@ export default class Settings extends Component {
     const isLast = row === this.state.order.last();
     return (
       <DraggableItem
-        style={entity.get('hidden') && {backgroundColor: Colors.BACKGROUND}}
+        style={[{height: 50}, entity.get('hidden') && {backgroundColor: Colors.BACKGROUND}]}
         renderTitle={() => {
           return (
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
