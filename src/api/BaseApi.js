@@ -20,6 +20,7 @@ import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-na
 import YAML from 'js-yaml';
 import EntitiesUtils from 'utils/EntitiesUtils';
 const { GRPCManager: grpc } = NativeModules;
+import alt from 'src/alt';
 
 const httpFetch = fetch;
 if (NativeModules.SKPNetwork) {
@@ -137,8 +138,8 @@ class BaseApi {
       if (yaml) { return yaml; }
       return text;
     }).then( (json) => {
-      if (__DEV__ && APP_CONFIG.DEBUG_API) {
-        console.log(`[BaseApi ${url}]`, json);
+      if (__DEV__ && !APP_CONFIG.DEBUG_API) {
+        console.log(`[BaseApi ${URL}]`, json);
       }
       return new Promise((resolve) => {
         InteractionManager.runAfterInteractions(() => {
@@ -238,6 +239,10 @@ class BaseApi {
       } else if (cluster.get('username')) {
         headers.Authorization = 'Basic ' + base64.encode(`${cluster.get('username')}:${cluster.get('password')}`);
       }
+    }
+    const user = alt.stores.GoogleCloudStore.getUser();
+    if (user && url.indexOf('googleapis.com') !== -1) {
+      headers.Authorization = `Bearer ${user.get('accessToken')}`;
     }
 
     if (dataUrl && Object.keys(dataUrl).length !== 0) {

@@ -15,6 +15,8 @@
 */
 import ClustersIndex from 'components/Clusters/ClustersIndex';
 import ClustersNew from 'components/Clusters/ClustersNew';
+import ClustersNewGoogle from 'components/Clusters/ClustersNewGoogle';
+import ClustersNewGoogleCreation from 'components/Clusters/ClustersNewGoogleCreation';
 import ClusterShow from 'components/Clusters/ClustersShow';
 import ClustersNavbarTitle from 'components/Clusters/ClustersNavbarTitle';
 import Search from 'components/Search';
@@ -133,6 +135,7 @@ const ClustersRoutes = {
 
   getClusterCreationRoute(optionalCluster) {
     return {
+      statusBarStyle: 'light-content',
       getTitle: () => 'New Cluster',
       renderScene(navigator) {
         return <ClustersNew cluster={optionalCluster} navigator={navigator} />;
@@ -149,6 +152,73 @@ const ClustersRoutes = {
           <NavbarButton title={intl('done')}
             androidSource={require('images/done.png')}
             onPress={() => DeviceEventEmitter.emit('ClustersNew:submit')}
+          />
+        );
+      },
+      configureScene() {
+        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+  },
+
+  getClustersGoogleRoute() {
+    return {
+      statusBarStyle: 'light-content',
+      getTitle: () => 'GKE Clusters',
+      renderLeftButton() {
+        return (
+          <NavbarButton title={intl('close')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            projects: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getProjects(),
+              };
+            }}}>
+            <ClustersNewGoogle navigator={navigator}
+              projects={alt.stores.GoogleCloudStore.getProjects()} />
+          </AltContainer>
+        );
+      },
+    };
+  },
+
+  getClusterGoogleCreationRoute(projectId) {
+    return {
+      statusBarStyle: 'light-content',
+      getTitle: () => 'Create GKE Cluster',
+      getBackButtonTitle: () => '',
+      renderScene(navigator) {
+        return (
+          <AltContainer stores={{
+            zones: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getZones(),
+              };
+            }}}>
+            <ClustersNewGoogleCreation navigator={navigator} projectId={projectId} />
+          </AltContainer>
+        );
+      },
+      renderLeftButton(navigator) {
+        return (
+          <NavbarButton title={intl('cancel')}
+            onPress={() => navigator.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('done')}
+            androidSource={require('images/done.png')}
+            onPress={() => DeviceEventEmitter.emit('ClustersNewGoogle:submit')}
           />
         );
       },

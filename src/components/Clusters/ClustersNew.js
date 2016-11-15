@@ -14,17 +14,24 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
+import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import AlertUtils from 'utils/AlertUtils';
+import {GoogleSignin} from 'react-native-google-signin';
+import GoogleCloudActions from 'actions/GoogleCloudActions';
+import ClustersRoutes from 'routes/ClustersRoutes';
 
 const { PropTypes } = React;
 
 const {
   View,
+  Image,
+  Text,
+  ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
@@ -39,6 +46,12 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     marginTop: 20,
+  },
+  loader: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    alignItems: 'center', justifyContent: 'center',
   },
 });
 
@@ -60,12 +73,19 @@ export default class ClustersNew extends Component {
         username: '',
         password: '',
         token: '',
+
+        googleUser: null,
+        loading: false,
       };
     }
   }
 
   componentDidMount() {
     this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+      iosClientId: '260396395869-fpar03ln0q3lqmtou94n1iu38ecdok64.apps.googleusercontent.com',
+    });
   }
 
   componentWillUnmount() {
@@ -79,13 +99,13 @@ export default class ClustersNew extends Component {
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
           keyboardShouldPersistTaps={true}>
-          <ListHeader title="Cluster info"/>
+          {this.renderGoogle()}
+          <ListHeader title="Manual cluster entry" style={{marginTop: 20}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
             onChangeText={url => this.setState({url})}/>
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
             onChangeText={name => this.setState({name})} isLast={true}/>
-
-          <ListHeader title="Authentication" style={{marginTop: 30}}/>
+          <ListHeader title="Authentication" style={{marginTop: 20}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
             onChangeText={username => this.setState({username})}/>
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
@@ -93,10 +113,46 @@ export default class ClustersNew extends Component {
           <ListHeader title="Or"/>
           <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
             onChangeText={token => this.setState({token})} isLast={true}/>
-
         </ScrollView>
+        {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
       </View>
     );
+  }
+
+  renderGoogle() {
+    if (this.props.cluster) {
+      // Don't show Google cluster creation when editing cluster
+      return false;
+    }
+    return [
+      <ListHeader key="title" title="" style={{marginTop: -10}} />,
+      <ListItem key="action" title="Add cluster from Google GKE" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+        <Image source={require('images/google.png')}
+          style={{width: 30, height: 30, marginTop: -6}}/>
+      }/>,
+      (<View key="border" style={{height: 30, marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
+        <Text style={{marginHorizontal: 10, color: Colors.GRAY}}>{'Or'}</Text>
+        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
+      </View>),
+    ];
+  }
+
+  signInGoogle() {
+    this.setState({loading: true});
+    GoogleCloudActions.signIn().then(() => {
+      return GoogleCloudActions.getProjects();
+    }).then(() => {
+      this.setState({loading: false});
+      const projects = alt.stores.GoogleCloudStore.getProjects();
+      if (projects.size > 0) {
+        GoogleCloudActions.getClusters(projects.getIn([0, 'projectId']));
+        this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
+      }
+    }).catch(() => {
+      this.setState({loading: false});
+      AlertUtils.showError();
+    });
   }
 
   onSubmit() {
