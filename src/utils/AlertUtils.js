@@ -15,6 +15,7 @@
 */
 import { MessageBarManager } from 'react-native-message-bar';
 import Colors from 'styles/Colors';
+import { Platform } from 'react-native';
 
 class AlertUtils {
 
@@ -53,7 +54,7 @@ class AlertUtils {
   static showAlert(options) {
     MessageBarManager.showAlert({
       duration: 5000,
-      viewTopOffset: 64,
+      viewTopOffset: Platform.OS === 'ios' ? 64 : 56,
       viewBottomOffset: 50,
       messageNumberOfLines: 0,
       stylesheetInfo: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},

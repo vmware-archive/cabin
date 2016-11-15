@@ -109,7 +109,6 @@ export default class ClusterShow extends Component {
           }}}>
           <EntitiesList
             navigator={this.props.navigator}
-            listHeader={intl(entityType)}
             status={store.getStatus(cluster)}
             entities={store.getAll(cluster)}
             onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster, entityType}))}

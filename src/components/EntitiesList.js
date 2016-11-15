@@ -16,7 +16,6 @@
 import CollectionView from 'components/commons/CollectionView';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-import ListHeader from 'components/commons/ListHeader';
 import FAB from 'components/commons/FAB';
 
 const {
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     marginTop: 20,
+    paddingBottom: 20,
   },
 });
 
@@ -65,13 +65,10 @@ export default class EntitiesList extends Component {
           <CollectionView style={styles.list}
             scrollEnabled={this.state.scrollEnabled}
             contentContainerStyle={styles.listContent}
-            contentInset={{bottom: 40}}
             scrollIndicatorInsets={{bottom: 0}}
             list={entities.sortBy(e => e.getIn(['metadata', 'creationTimestamp'])).reverse()}
             onRefresh={this.refresh.bind(this)}
-            renderRow={this.renderRow.bind(this)}
-            renderHeader={this.props.listHeader && (() => <ListHeader title={this.props.listHeader} />)}
-          />
+            renderRow={this.renderRow.bind(this)} />
         }
         {this.props.onCreate &&
           <FAB
