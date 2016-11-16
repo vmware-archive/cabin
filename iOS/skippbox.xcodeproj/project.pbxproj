@@ -136,6 +136,13 @@
 			remoteGlobalIDString = 580C376F1AB104AF0015E709;
 			remoteInfo = RCTTest;
 		};
+		A5581C8F1DDBCDF400C384A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A579E65C1BD5420500CD8E2C /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DD0EFE61DA8533A00B0C975;
+			remoteInfo = "RCTPushNotification-tvOS";
+		};
 		A56492E31D351C6500C1DF4F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */;
@@ -557,6 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */,
+				A5581C901DDBCDF400C384A9 /* libRCTPushNotification-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -831,6 +839,13 @@
 			fileType = archive.ar;
 			path = libRCTTest.a;
 			remoteRef = 8E0BE7B91BDA688E00C4BA5A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A5581C901DDBCDF400C384A9 /* libRCTPushNotification-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTPushNotification-tvOS.a";
+			remoteRef = A5581C8F1DDBCDF400C384A9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A56492E41D351C6500C1DF4F /* libSafariViewManager.a */ = {
