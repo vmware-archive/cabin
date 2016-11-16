@@ -113,11 +113,19 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     NSArray *templatesDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:templatesPath error:nil];
     for (NSString *templatePath in templatesDir) {
       NSLog(@"Template: %@", templatePath);
+      if ([templatePath rangeOfString:@".yaml"].location == NSNotFound) {
+        continue;
+      }
       Template *template = [[Template alloc] init];
       template.name = templatePath;
-      NSDictionary *templateDic = [YATWSerialization YAMLObjectWithData:[NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]] options:0 error:nil];
-      template.data_p = [self dictionnaryToData:templateDic];
-      [templates addObject:template];
+      @try {
+        NSDictionary *templateDic = [YATWSerialization YAMLObjectWithData:[NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]] options:0 error:nil];
+        template.data_p = [self dictionnaryToData:templateDic];
+        [templates addObject:template];
+      } @catch (NSException *exception) {
+        reject(@"0", exception.reason, nil);
+        return;
+      }
     }
     [chart setTemplatesArray:templates];
     [request setChart:chart];

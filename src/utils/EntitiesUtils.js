@@ -99,17 +99,6 @@ export default class EntitiesUtils {
     return status;
   }
 
-  static nodeUrlForCluster(cluster) {
-    const nodes = alt.stores.NodesStore.getAll(cluster);
-    const readyNodes = nodes.filter(node => {
-      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
-    });
-    const ready = readyNodes.find(node => {
-      return node.getIn(['spec', 'externalID']);
-    });
-    return ready ? ready.getIn(['spec', 'externalID']) : cluster.get('url').split(':')[0];
-  }
-
   static spartakusArgs() {
     const generatedId = new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cabin';
     return ['volunteer', `--cluster-id=${generatedId}`];

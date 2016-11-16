@@ -14,7 +14,7 @@
   limitations under the License.
 */
 
-const { DeviceEventEmitter } = ReactNative;
+import { DeviceEventEmitter } from 'react-native';
 
 class ActionSheetUtils {
 

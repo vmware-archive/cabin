@@ -18,7 +18,7 @@ import Qs from 'qs';
 import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
 import YAML from 'js-yaml';
-import EntitiesUtils from 'utils/EntitiesUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 const { GRPCManager: grpc } = NativeModules;
 import alt from 'src/alt';
 
@@ -33,7 +33,7 @@ class BaseApi {
 
   // GRPC
   static deployChart({chart, service, cluster}) {
-    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    const host = ClustersUtils.hostForCluster({cluster, service});
     return grpc.deployChartAtURL(chart.get('url'), host).catch(e => {
       console.log('ERROR DEPLOY', e);
       return Promise.reject(e);
@@ -42,7 +42,7 @@ class BaseApi {
 
   // GRPC
   static fetchReleases({cluster, service}) {
-    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    const host = ClustersUtils.hostForCluster({cluster, service});
     return grpc.fetchReleasesForHost(host).then(r => {
       return Immutable.fromJS(r);
     }).catch(e => {
@@ -52,7 +52,7 @@ class BaseApi {
 
   // GRPC
   static deleteRelease({cluster, service, release}) {
-    const host = `${EntitiesUtils.nodeUrlForCluster(cluster)}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
+    const host = ClustersUtils.hostForCluster({cluster, service});
     return grpc.deleteRelease(release.get('name'), host);
   }
 

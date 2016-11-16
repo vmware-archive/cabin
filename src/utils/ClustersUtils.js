@@ -19,11 +19,10 @@ import AlertUtils from 'utils/AlertUtils';
 import ClustersActions from 'actions/ClustersActions';
 import Alert from 'utils/Alert';
 
-const { Status } = Constants;
-
 export default class ClustersUtils {
 
   static colorForStatus(status) {
+    const { Status } = Constants;
     switch (status) {
       case Status.RUNNING:
       case Status.READY:
@@ -38,6 +37,7 @@ export default class ClustersUtils {
   }
 
   static textForStatus(status) {
+    const { Status } = Constants;
     switch (status) {
       case Status.RUNNING || 'Running':
         return intl('status_up');
@@ -93,6 +93,36 @@ export default class ClustersUtils {
     const spartakus = alt.stores.DeploymentsStore.getAll(cluster)
       .find(d => d.getIn(['metadata', 'name']) === 'spartakus');
     return spartakus ? true : false;
+  }
+
+  static nodeUrlForCluster(cluster) {
+    const nodes = alt.stores.NodesStore.getAll(cluster);
+    const readyNodes = nodes.filter(node => {
+      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+    });
+    let url;
+    const ready = readyNodes.find(node => {
+      const externalID = node.getIn(['spec', 'externalID']);
+      if (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(externalID)) {
+        url = externalID;
+        return true;
+      }
+      const address = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'ExternalIP');
+      if (address) {
+        url = address.get('address');
+        return true;
+      }
+      return false;
+    });
+    return ready ? url : false;
+  }
+
+  static hostForCluster({cluster, service}) {
+    let url = ClustersUtils.nodeUrlForCluster(cluster);
+    if (!url) {
+      url = cluster.get('url').split(':')[0];
+    }
+    return `${url}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
   }
 
 }
