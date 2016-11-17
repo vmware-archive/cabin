@@ -21,8 +21,10 @@ import ScrollView from 'components/commons/ScrollView';
 import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import PodsActions from 'actions/PodsActions';
+import EntitiesActions from 'actions/EntitiesActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import AlertUtils from 'utils/AlertUtils';
 
 const {
   View,
@@ -112,14 +114,22 @@ export default class DeploymentsShow extends Component {
     const options = [{title: intl('cancel')}];
     alt.stores.ClustersStore.getClusters().map(cluster => {
       if (cluster.get('url') !== this.props.cluster.get('url')) {
-        options.push({title: cluster.get('name'), onPress: this.copyToCluster(cluster)});
+        options.push({title: cluster.get('name'), onPress: () => this.copyToCluster(cluster)});
       }
     });
     ActionSheetUtils.showActionSheetWithOptions({title: 'Copy to another cluster', options});
   }
 
-  copyToCluster() {
-
+  copyToCluster(cluster) {
+    const config = this.props.deployment.getIn(['metadata', 'annotations', 'kubectl.kubernetes.io/last-applied-configuration']);
+    const params = JSON.parse(config);
+    if (params === null) {
+      AlertUtils.showError();
+      return;
+    }
+    EntitiesActions.createEntity({cluster, params: Immutable.fromJS(params), entityType: 'deployments'}).then(() => {
+      AlertUtils.showSuccess({message: `Deployment copied to ${cluster.get('name')}`});
+    });
   }
 
 }
