@@ -22,6 +22,7 @@ import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import PodsActions from 'actions/PodsActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
 
 const {
   View,
@@ -59,6 +60,7 @@ export default class DeploymentsShow extends Component {
 
   render() {
     const { deployment } = this.props;
+    const hasConfiguration = !!deployment.getIn(['metadata', 'annotations', 'kubectl.kubernetes.io/last-applied-configuration']);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.list} contentContainerStyle={styles.containerContent} onRefresh={this.handleRefresh.bind(this)}>
@@ -66,7 +68,8 @@ export default class DeploymentsShow extends Component {
           <ListItem title="Name" detailTitle={deployment.getIn(['metadata', 'name'])}/>
           <ListItem title="Namespace" detailTitle={deployment.getIn(['metadata', 'namespace'])}/>
           <ListItem title="Age" detailTitle={intlrd(deployment.getIn(['metadata', 'creationTimestamp']))}/>
-          <ListItem title="History" showArrow={true} isLast={true} onPress={this.handleShowHistory.bind(this)}/>
+          <ListItem title="History" showArrow={true} isLast={!hasConfiguration} onPress={this.handleShowHistory.bind(this)}/>
+          {hasConfiguration && <ListItem title="Copy to another cluster" showArrow={true} isLast={true} onPress={this.handleCopyObject.bind(this)}/>}
           <ListHeader title="Replicas"/>
           <ReplicationsSlider replication={deployment} onSubmit={this.handleReplicasComplete.bind(this)}/>
           <ListItem title="Current" detailTitle={`${deployment.getIn(['status', 'replicas'], 0)}`}/>
@@ -103,6 +106,20 @@ export default class DeploymentsShow extends Component {
         this.handleRefresh();
       }, 2000);
     });
+  }
+
+  handleCopyObject() {
+    const options = [{title: intl('cancel')}];
+    alt.stores.ClustersStore.getClusters().map(cluster => {
+      if (cluster.get('url') !== this.props.cluster.get('url')) {
+        options.push({title: cluster.get('name'), onPress: this.copyToCluster(cluster)});
+      }
+    });
+    ActionSheetUtils.showActionSheetWithOptions({title: 'Copy to another cluster', options});
+  }
+
+  copyToCluster() {
+
   }
 
 }
