@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   button: {
-    flex: 1,
     overflow: 'hidden',
   },
 });
@@ -175,7 +174,6 @@ export default class SwipeRow extends Component {
       inputRange,
       outputRange: [-this.state.contentWidth, 0, this.state.contentWidth],
     });
-
     return (
       <View style={styles.container}>
         { this.renderButtons({buttons: this.props.left, isRight: false}) }
