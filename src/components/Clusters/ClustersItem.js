@@ -203,7 +203,7 @@ export default class ClusterItem extends Component {
 
   handleReport() {
     AlertUtils.showInfo({
-      message: intl('cluster_report_success'),
+      message: intl('cluster_report_loading'),
       duration: 30000,
     });
     DeploymentsActions.createDeployment({
