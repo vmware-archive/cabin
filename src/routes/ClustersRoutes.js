@@ -180,9 +180,15 @@ const ClustersRoutes = {
                 store: alt.stores.GoogleCloudStore,
                 value: alt.stores.GoogleCloudStore.getProjects(),
               };
+            }, policies: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getProjectsPolicies(),
+              };
             }}}>
             <ClustersNewGoogle navigator={navigator}
-              projects={alt.stores.GoogleCloudStore.getProjects()} />
+              projects={alt.stores.GoogleCloudStore.getProjects()}
+              policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}/>
           </AltContainer>
         );
       },

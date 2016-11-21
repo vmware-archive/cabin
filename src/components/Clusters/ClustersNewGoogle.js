@@ -85,6 +85,7 @@ export default class ClustersNewGoogle extends Component {
 
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
+    policies: PropTypes.instanceOf(Immutable.Map),
   }
 
   constructor() {
@@ -97,7 +98,8 @@ export default class ClustersNewGoogle extends Component {
   render() {
     const choices = this.props.projects.map(p => p.get('name'));
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
-
+    const policy = this.props.policies.get(projectId, Immutable.Map());
+    const readOnly = policy.getIn(['error', 'status']) === 'PERMISSION_DENIED';
     return (
       <View style={styles.flex}>
         <HeaderPicker
@@ -106,6 +108,7 @@ export default class ClustersNewGoogle extends Component {
           selectedIndex={this.state.selectedProjectIndex}
           onChange={(index) => {
             GoogleCloudActions.getClusters(this.props.projects.getIn([index, 'projectId']));
+            GoogleCloudActions.getProjectPolicy(this.props.projects.getIn([index, 'projectId']));
             this.setState({selectedProjectIndex: index});
           }}/>
         <AltContainer stores={{
@@ -125,9 +128,9 @@ export default class ClustersNewGoogle extends Component {
               return <ListHeader title="Tap to add to cabin" style={{borderBottomWidth: 0, marginBottom: -6}}/>;
             }}/>
         </AltContainer>
-        <FAB
+        {!readOnly && <FAB
           backgroundColor={Colors.BLUE}
-          onPress={this.createCluster.bind(this)} />
+          onPress={this.createCluster.bind(this)} />}
       </View>
     );
   }

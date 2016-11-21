@@ -25,6 +25,10 @@ export default class GoogleCloudApi {
     );
   }
 
+  static getProjectPolicy(projectId) {
+    return BaseApi.post(`https://cloudresourcemanager.googleapis.com/v1/projects/${projectId}:getIamPolicy`, {});
+  }
+
   static getZones(projectId, pageToken) {
     return BaseApi.get(`https://www.googleapis.com/compute/v1/projects/${projectId}/zones`,
       {

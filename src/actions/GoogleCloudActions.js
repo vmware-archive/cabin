@@ -27,6 +27,9 @@ class GoogleCloudActions {
       'getProjectsStart',
       'getProjectsSuccess',
       'getProjectsFailure',
+      'getProjectPolicyStart',
+      'getProjectPolicySuccess',
+      'getProjectPolicyFailure',
       'getZonesStart',
       'getZonesSuccess',
       'getZonesFailure',
@@ -59,6 +62,16 @@ class GoogleCloudActions {
       this.getProjectsSuccess(response);
     }).catch((error) => {
       this.getProjectsFailure(error);
+      return Promise.reject(error);
+    });
+  }
+
+  getProjectPolicy(projectId) {
+    this.getProjectPolicyStart(projectId);
+    return GoogleCloudApi.getProjectPolicy(projectId).then((response) => {
+      this.getProjectPolicySuccess({projectId, response});
+    }).catch((error) => {
+      this.getProjectPolicyFailure(error);
       return Promise.reject(error);
     });
   }

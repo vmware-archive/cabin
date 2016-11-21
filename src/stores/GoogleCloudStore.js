@@ -50,6 +50,10 @@ class GoogleCloudStore {
     this.setState(newState);
   }
 
+  onGetProjectPolicySuccess({projectId, response}) {
+    this.setState(this.state.setIn(['policies', projectId], response));
+  }
+
   onGetZonesStart() {
     this.setState(this.state.setIn(['zones', 'loading'], true));
   }
@@ -100,6 +104,10 @@ class GoogleCloudStore {
     return this.state.getIn(['projects', 'list'], Immutable.List());
   }
 
+  static getProjectsPolicies() {
+    return this.state.get('policies', Immutable.List());
+  }
+
   static getZones() {
     return this.state.getIn(['zones', 'list'], Immutable.List());
   }
@@ -107,6 +115,7 @@ class GoogleCloudStore {
   static getClusters(projectId) {
     return this.state.getIn(['clusters', projectId, 'list']) || Immutable.List();
   }
+
 }
 
 export default alt.createStore(immutableUtil(GoogleCloudStore), 'GoogleCloudStore');
