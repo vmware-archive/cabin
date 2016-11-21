@@ -39,6 +39,7 @@ class GoogleCloudActions {
       'createClusterStart',
       'createClusterSuccess',
       'createClusterFailure',
+      'setSelectedProjectId',
     );
   }
 

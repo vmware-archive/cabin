@@ -86,12 +86,21 @@ export default class ClustersNewGoogle extends Component {
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
     policies: PropTypes.instanceOf(Immutable.Map),
+    selectedProjectId: PropTypes.string,
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    let selectedProjectIndex = 0;
+    if (props.selectedProjectId && props.projects.size > 0) {
+      props.projects.forEach((p, index) => {
+        if (p.get('projectId') === props.selectedProjectId) {
+          selectedProjectIndex = index;
+        }
+      });
+    }
     this.state = {
-      selectedProjectIndex: 0,
+      selectedProjectIndex,
     };
   }
 
@@ -107,8 +116,10 @@ export default class ClustersNewGoogle extends Component {
           choices={choices}
           selectedIndex={this.state.selectedProjectIndex}
           onChange={(index) => {
-            GoogleCloudActions.getClusters(this.props.projects.getIn([index, 'projectId']));
-            GoogleCloudActions.getProjectPolicy(this.props.projects.getIn([index, 'projectId']));
+            const pId = this.props.projects.getIn([index, 'projectId']);
+            GoogleCloudActions.setSelectedProjectId(pId);
+            GoogleCloudActions.getClusters(pId);
+            GoogleCloudActions.getProjectPolicy(pId);
             this.setState({selectedProjectIndex: index});
           }}/>
         <AltContainer stores={{

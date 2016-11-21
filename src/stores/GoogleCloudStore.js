@@ -96,6 +96,10 @@ class GoogleCloudStore {
     this.setState(newState);
   }
 
+  onSetSelectedProjectId(projectId) {
+    this.setState(this.state.set('selectedProjectId', projectId));
+  }
+
   static getUser() {
     return this.state.get('user');
   }
@@ -114,6 +118,10 @@ class GoogleCloudStore {
 
   static getClusters(projectId) {
     return this.state.getIn(['clusters', projectId, 'list']) || Immutable.List();
+  }
+
+  static getSelectedProjectId() {
+    return this.state.get('selectedProjectId');
   }
 
 }

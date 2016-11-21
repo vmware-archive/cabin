@@ -187,6 +187,7 @@ const ClustersRoutes = {
               };
             }}}>
             <ClustersNewGoogle navigator={navigator}
+              selectedProjectId={alt.stores.GoogleCloudStore.getSelectedProjectId()}
               projects={alt.stores.GoogleCloudStore.getProjects()}
               policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}/>
           </AltContainer>
