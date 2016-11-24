@@ -42,7 +42,7 @@ class ImmutableUtils {
   }
 
   static entitiesToMap(list: Immutable.List<any>): Immutable.Map<string, any> {
-    return ImmutableUtils.toKeyedMap(list, ['metadata', 'name']);
+    return ImmutableUtils.toKeyedMap(list, ['metadata', 'uid']);
   }
 
   /**
