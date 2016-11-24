@@ -73,38 +73,38 @@ export default class BaseEntitiesStore {
 
   onCreateEntitySuccess({cluster, entity, entityType}) {
     if (entityType === this.getEntityType() && entity) {
-      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name'])], entity.set('kind', entityType)));
+      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'])], entity.set('kind', entityType)));
     }
   }
 
   onDeleteEntityStart({cluster, entity, entityType}) {
     if (entityType === this.getEntityType()) {
-      this.setState(this.state.deleteIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name'])]));
+      this.setState(this.state.deleteIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'])]));
     }
   }
 
   onDeleteEntityFailure({cluster, entity, entityType}) {
     if (entityType === this.getEntityType()) {
       // TODO: warn user
-      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name'], entity)]));
+      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'], entity)]));
     }
   }
 
   onAddEntityLabelStart({cluster, entity, entityType, key, value}) {
     if (entityType === this.getEntityType()) {
-      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key], value));
+      this.setState(this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid']), 'metadata', 'labels', key], value));
     }
   }
 
   onAddEntityLabelFailure({cluster, entity, entityType, key}) {
     if (entityType === this.getEntityType()) {
-      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
+      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid']), 'metadata', 'labels', key]));
     }
   }
 
   onDeleteEntityLabelStart({cluster, entity, entityType, key}) {
     if (entityType === this.getEntityType()) {
-      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'name']), 'metadata', 'labels', key]));
+      this.setState(this.state.removeIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid']), 'metadata', 'labels', key]));
     }
   }
 
@@ -121,11 +121,11 @@ export default class BaseEntitiesStore {
     return this.state.getIn([this.getEntityType(), cluster.get('url')], Immutable.List()).toList();
   }
 
-  get({cluster, entity, name}) { // give entity or entity's name
-    if (!name) {
-      name = entity.getIn(['metadata', 'name']);
+  get({cluster, entity, uid}) { // give entity or entity's uid
+    if (!uid && entity) {
+      uid = entity.getIn(['metadata', 'uid']);
     }
-    return this.state.getIn([this.getEntityType(), cluster.get('url'), name]);
+    return this.state.getIn([this.getEntityType(), cluster.get('url'), uid]);
   }
 
 }
