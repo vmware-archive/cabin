@@ -35,6 +35,7 @@
 		A5839BD61D9C0D6C00A932EB /* SKPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */; };
 		A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A597EF391D629817009298F5 /* libHelm.a */; };
 		A5B2F11E1BD62E0100CF6A12 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */; };
+		A5C7526F305E4C41BF020DF9 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B55EBA477B4146B6956C5C /* libRNFS.a */; };
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428451C57A86100C5B9EC /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5EF5CCA1BD62590002D794B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -234,6 +235,13 @@
 			remoteGlobalIDString = 93D925B51B577A3A0021F250;
 			remoteInfo = RNClipboard;
 		};
+		A5F880241DE85AEE004C2728 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNFS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -275,6 +283,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		3E1B9DB01DD0E4BA00261358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3EFEA2241DBEFAFC0024B8A3 /* skippbox.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = skippbox.entitlements; sourceTree = "<group>"; };
 		3F4852667CFF44C58E3A388E /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -312,6 +321,7 @@
 		CD8018ACCF244DA2A5CD4BC3 /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 		E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
 		F21506BFDF8F4C809EF27A2C /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
+		F5B55EBA477B4146B6956C5C /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +356,7 @@
 				6A654B62CB5A4DA68CA84F22 /* SystemConfiguration.framework in Frameworks */,
 				F806156314A349F28CFFAD8A /* AddressBook.framework in Frameworks */,
 				ED33F37A5EE240A39607FD2C /* libRCTMaterialKit.a in Frameworks */,
+				A5C7526F305E4C41BF020DF9 /* libRNFS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +528,7 @@
 				E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */,
 				9E52D81035B44DEA94AB2944 /* RNGoogleSignin.xcodeproj */,
 				497ED39F93FD471286B1EABD /* RCTMaterialKit.xcodeproj */,
+				3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -598,6 +610,14 @@
 			isa = PBXGroup;
 			children = (
 				A5C6FD8B1BF9FB260057C13B /* libRNClipboard.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5F880091DE85AEE004C2728 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5F880251DE85AEE004C2728 /* libRNFS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -732,6 +752,10 @@
 				{
 					ProductGroup = A5C6FD791BF9FB260057C13B /* Products */;
 					ProjectRef = A5C6FD781BF9FB260057C13B /* RNClipboard.xcodeproj */;
+				},
+				{
+					ProductGroup = A5F880091DE85AEE004C2728 /* Products */;
+					ProjectRef = 3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */;
 				},
 				{
 					ProductGroup = 3EFEA1E01DBEEBCC0024B8A3 /* Products */;
@@ -939,6 +963,13 @@
 			remoteRef = A5C6FD8A1BF9FB260057C13B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		A5F880251DE85AEE004C2728 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = A5F880241DE85AEE004C2728 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1067,6 +1098,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = skippbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1077,6 +1109,7 @@
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
+					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 				);
@@ -1119,6 +1152,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = skippbox/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1129,6 +1163,7 @@
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
+					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 					"\"$(SRCROOT)/skippbox\"",
 				);
@@ -1190,6 +1225,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1235,6 +1271,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

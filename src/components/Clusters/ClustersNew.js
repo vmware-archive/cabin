@@ -24,6 +24,7 @@ import AlertUtils from 'utils/AlertUtils';
 import {GoogleSignin} from 'react-native-google-signin';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
+import RNFS from 'react-native-fs';
 
 const { PropTypes } = React;
 
@@ -73,8 +74,10 @@ export default class ClustersNew extends Component {
         username: '',
         password: '',
         token: '',
+        certificate: null,
 
         googleUser: null,
+        downloadingCertificate: false,
         loading: false,
       };
     }
@@ -93,6 +96,7 @@ export default class ClustersNew extends Component {
   }
 
   render() {
+    const { certificate, downloadingCertificate } = this.state;
     return (
       <View style={styles.flex}>
         <ScrollView style={styles.scrollView}
@@ -111,8 +115,15 @@ export default class ClustersNew extends Component {
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
             onChangeText={password => this.setState({password})} isLast={true}/>
           <ListHeader title="Or"/>
-          <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
             onChangeText={token => this.setState({token})} isLast={true}/>
+          <ListHeader title="Or"/>
+          {!certificate && !downloadingCertificate && <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Paste certficate url"
+            returnKeyType="done" onSubmitEditing={this.downloadCert.bind(this)} isLast={true}/>}
+          {downloadingCertificate && <ListItem title="Downloading certificate..."  isLast={true}/>}
+          {certificate && <ListItem title={certificate} isLast={true} onPress={() => {
+            this.setState({certificate: null});
+          }} />}
         </ScrollView>
         {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
       </View>
@@ -153,6 +164,21 @@ export default class ClustersNew extends Component {
     }).catch(() => {
       this.setState({loading: false});
       AlertUtils.showError();
+    });
+  }
+
+  downloadCert(e) {
+    const url = e.nativeEvent.text;
+    this.setState({downloadingCertificate: true});
+    const certName = new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cert.p12';
+    const certPath = RNFS.MainBundlePath + '/' + certName;
+    console.log('downloading certicate at url', e.nativeEvent.text, certPath);
+    RNFS.downloadFile({fromUrl: url, toFile: certPath}).promise.then((success) => {
+      console.log('FILE WRITTEN!', success);
+      this.setState({downloadingCertificate: false, certificate: certName});
+    }).catch((err) => {
+      this.setState({downloadingCertificate: false});
+      console.log(err.message);
     });
   }
 

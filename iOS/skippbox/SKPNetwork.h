@@ -11,4 +11,5 @@
 
 @interface SKPNetwork : NSObject <RCTBridgeModule, NSURLSessionDelegate>
 
+@property (nonatomic, strong) NSMutableDictionary* certificatePaths;
 @end
