@@ -65,8 +65,8 @@ class ClustersStore {
     this.saveStore();
   }
 
-  onAddCluster({url, name, username, password, token}) {
-    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url, status: Constants.Status.CHECKING, token});
+  onAddCluster({url, name, username, password, token, certificate}) {
+    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url, status: Constants.Status.CHECKING, token, certificate});
     this.setState(this.state.set(cluster.get('url'), cluster));
     this.saveStore();
     return Promise.resolve(cluster);

@@ -108,7 +108,7 @@ class BaseApi {
       method,
       headers,
       body: JSON.stringify(body),
-      certificate: cluster.get('certificate') ? { path: cluster.get('certificate'), password: 'abc' } : undefined,
+      certificate: cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (typeof response.text !== 'function') {

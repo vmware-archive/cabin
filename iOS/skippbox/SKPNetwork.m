@@ -49,7 +49,7 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
     [urlRequest setHTTPBody:[params[@"body"] dataUsingEncoding:NSUTF8StringEncoding]];
   }
   if (params[@"certificate"]) {
-    [SKPNetwork shared].certificatePaths[url] = params[@"certificate"];
+    [SKPNetwork shared].certificatePaths[URL.host] = params[@"certificate"];
   }
   
   NSURLSessionDataTask * dataTask =[defaultSession dataTaskWithRequest:urlRequest
@@ -67,17 +67,25 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
 
 -(void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler
 {
-  NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/testCert.p12"];
-  NSData *p12data = [[NSFileManager defaultManager] contentsAtPath:path];
-  if (!p12data) {
+  void (^defaultCompletionBlock)() = ^{
     completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
-    return;
+  };
+  NSString* host = challenge.protectionSpace.host;
+  NSDictionary* certificate = [SKPNetwork shared].certificatePaths[host];
+  if (certificate == nil) {
+    return defaultCompletionBlock();
   }
-  CFDataRef inP12data = (__bridge CFDataRef)p12data;
+  CFStringRef password = certificate[@"password"] ? (__bridge CFStringRef)certificate[@"password"] : CFSTR("");
+  NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", certificate[@"path"]]];
+  NSData *certData = [[NSFileManager defaultManager] contentsAtPath:path];
+  if (!certData) {
+    return defaultCompletionBlock();
+  }
+  CFDataRef inCertdata = (__bridge CFDataRef)certData;
   
   SecIdentityRef myIdentity;
   SecTrustRef myTrust;
-  extractIdentityAndTrust(inP12data, &myIdentity, &myTrust);
+  extractIdentityAndTrust(password, inCertdata, &myIdentity, &myTrust);
   
   SecCertificateRef myCertificate;
   SecIdentityCopyCertificate(myIdentity, &myCertificate);
@@ -88,11 +96,10 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
   completionHandler(NSURLSessionAuthChallengeUseCredential, credential);
 }
 
-OSStatus extractIdentityAndTrust(CFDataRef inP12data, SecIdentityRef *identity, SecTrustRef *trust)
+OSStatus extractIdentityAndTrust(CFStringRef password, CFDataRef inP12data, SecIdentityRef *identity, SecTrustRef *trust)
 {
   OSStatus securityError = errSecSuccess;
   
-  CFStringRef password = CFSTR("abc");
   const void *keys[] = { kSecImportExportPassphrase };
   const void *values[] = { password };
   
