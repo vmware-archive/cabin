@@ -24,6 +24,7 @@ import AlertUtils from 'utils/AlertUtils';
 import {GoogleSignin} from 'react-native-google-signin';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import ClustersRoutes from 'routes/ClustersRoutes';
+import RNFS from 'react-native-fs';
 
 const { PropTypes } = React;
 
@@ -31,9 +32,11 @@ const {
   View,
   Image,
   Text,
+  TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -53,6 +56,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     alignItems: 'center', justifyContent: 'center',
   },
+  certificateClose: {
+    width: 20, height: 20,
+    marginTop: 3,
+    tintColor: Colors.GRAY,
+  },
 });
 
 export default class ClustersNew extends Component {
@@ -64,20 +72,20 @@ export default class ClustersNew extends Component {
   constructor(props) {
     super(props);
     const { cluster } = props;
-    if (cluster) {
-      this.state = cluster.toJS();
-    } else {
-      this.state = {
-        url: 'https://',
-        name: '',
-        username: '',
-        password: '',
-        token: '',
+    this.state = {
+      url: cluster ? cluster.get('url') : 'https://',
+      name: cluster ? cluster.get('name') : '',
+      username: cluster ? cluster.get('username') : '',
+      password: cluster ? cluster.get('password') : '',
+      token: cluster ? cluster.get('token') : '',
+      certificatePath: cluster ? cluster.getIn(['certificate', 'path']) : '',
+      certificatePassword: cluster ? cluster.getIn(['certificate', 'password']) : '',
 
-        googleUser: null,
-        loading: false,
-      };
-    }
+      googleUser: null,
+      downloadingCertificate: false,
+      loading: false,
+    };
+    console.log(this.state);
   }
 
   componentDidMount() {
@@ -106,15 +114,40 @@ export default class ClustersNew extends Component {
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
             onChangeText={name => this.setState({name})} isLast={true}/>
           <ListHeader title="Authentication" style={{marginTop: 20}}/>
+          {this.renderCertificate()}
+          <ListHeader title="Or"/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
             onChangeText={username => this.setState({username})}/>
           <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
             onChangeText={password => this.setState({password})} isLast={true}/>
           <ListHeader title="Or"/>
-          <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
+          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
             onChangeText={token => this.setState({token})} isLast={true}/>
         </ScrollView>
         {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
+      </View>
+    );
+  }
+
+  renderCertificate() {
+    if (Platform.OS === 'android') { return false; }
+    const { certificatePath, certificateUrl, certificatePassword, downloadingCertificate } = this.state;
+    return (
+      <View>
+        {!certificatePath && !downloadingCertificate && <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token}
+          placeholder="Paste certificate url (.p12)"
+          onChangeText={t => this.setState({certificateUrl: t})}
+          returnKeyType="done" onSubmitEditing={this.downloadCert.bind(this)} isLast={!certificateUrl}/>}
+        {downloadingCertificate && <ListItem title="Downloading certificate..."  isLast={true}/>}
+        {!certificatePath && !downloadingCertificate && !!certificateUrl && <ListItem title="Download certficate" showArrow={true} onPress={this.downloadCert.bind(this)} isLast={true}/>}
+        {!!certificatePath && <ListInputItem defaultValue={certificatePath} editable={false} placeholder="Certificate"
+          renderDetail={() => {
+            return <TouchableOpacity onPress={() => this.setState({certificatePath: null})}><Image source={require('images/close.png')} style={styles.certificateClose}/></TouchableOpacity>;
+          }}/>
+        }
+        {!!certificatePath && <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={certificatePassword}
+          placeholder="Passphrase" isLast={true} secureTextEntry={true}
+          onChangeText={t => this.setState({certificatePassword: t})} />}
       </View>
     );
   }
@@ -156,21 +189,47 @@ export default class ClustersNew extends Component {
     });
   }
 
+  downloadCert() {
+    const url = this.state.certificateUrl;
+    const certName = url.substr(url.lastIndexOf('/') + 1);
+    if (!this.isValidUrl(url) || certName === '') {
+      AlertUtils.showError({message: 'Wrong url'});
+      return;
+    }
+    this.setState({downloadingCertificate: true});
+    const certPath = RNFS.MainBundlePath + '/' + certName;
+    RNFS.downloadFile({fromUrl: url, toFile: certPath}).promise.then(() => {
+      this.setState({downloadingCertificate: false, certificatePath: certName, certificateUrl: ''});
+    }).catch(() => {
+      AlertUtils.showError();
+      this.setState({downloadingCertificate: false});
+    });
+  }
+
   onSubmit() {
-    if (!/(ftp|https?):\/\/[^ "]+$/.test(this.state.url)) {
+    if (!this.isValidUrl(this.state.url)) {
       AlertUtils.showWarning({message: intl('cluster_new_wrong_url')});
       return;
     }
+    const { url, name, username, password, token, certificatePath, certificatePassword} = this.state;
+    const params = Immutable.fromJS({
+      url, name, username, password, token,
+      certificate: certificatePath ? { path: certificatePath, password: certificatePassword} : undefined,
+    });
     if (this.props.cluster) {
-      ClustersActions.editCluster({cluster: this.props.cluster, params: Immutable.fromJS({...this.state})});
+      ClustersActions.editCluster({cluster: this.props.cluster, params});
     } else {
-      ClustersActions.addCluster({...this.state});
+      ClustersActions.addCluster(params.toJS());
     }
     setTimeout(() => {
       const cluster = alt.stores.ClustersStore.get(this.state.url);
       cluster && ClustersActions.checkCluster(cluster);
     }, 1000);
     NavigationActions.pop();
+  }
+
+  isValidUrl(url) {
+    return /(ftp|https?):\/\/[^ "]+$/.test(url);
   }
 
 }
