@@ -28,11 +28,11 @@ class ReplicationsStore extends BaseEntitiesStore {
   }
 
   onScaleReplicationStart({cluster, replication, replicas}) {
-    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
+    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'uid']), 'spec', 'replicas'], replicas));
   }
 
   onScaleReplicationSuccess({cluster, replication}) {
-    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'name'])], replication.set('kind', entityType)));
+    this.setState(this.state.setIn(['replicationcontrollers', cluster.get('url'), replication.getIn(['metadata', 'uid'])], replication.set('kind', entityType)));
   }
 
 }

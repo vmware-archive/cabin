@@ -27,12 +27,12 @@ class NodesStore extends BaseEntitiesStore {
   }
 
   onSetSchedulableStart({cluster, node, schedulable}) {
-    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'name']), 'spec', 'unschedulable'], !schedulable));
+    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'uid']), 'spec', 'unschedulable'], !schedulable));
   }
 
   onSetSchedulableFailure({cluster, node, schedulable}) {
     AlertUtils.showError();
-    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'name']), 'spec', 'unschedulable'], schedulable));
+    this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'uid']), 'spec', 'unschedulable'], schedulable));
   }
 
 }

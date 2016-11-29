@@ -28,19 +28,19 @@ class DeploymentsStore extends BaseEntitiesStore {
   }
 
   onScaleDeploymentStart({cluster, deployment, replicas}) {
-    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name']), 'spec', 'replicas'], replicas));
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'uid']), 'spec', 'replicas'], replicas));
   }
 
   onScaleDeploymentSuccess({cluster, deployment}) {
-    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name'])], deployment.set('kind', entityType)));
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'uid'])], deployment.set('kind', entityType)));
   }
 
   onRollingUpdateStart({cluster, deployment, image}) {
-    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name']), 'spec', 'template', 'spec', 'containers', 0, 'image'], image));
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'uid']), 'spec', 'template', 'spec', 'containers', 0, 'image'], image));
   }
 
   onRollingUpdateSuccess({cluster, deployment}) {
-    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'name'])], deployment));
+    this.setState(this.state.setIn(['deployments', cluster.get('url'), deployment.getIn(['metadata', 'uid'])], deployment));
   }
 
   static getDeploymentReplicas({cluster, deployment}) {

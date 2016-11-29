@@ -28,21 +28,21 @@ class PodsStore extends BaseEntitiesStore {
   }
 
   onFetchPodLogsSuccess({cluster, pod, logs}) {
-    this.setState(this.state.setIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], logs));
+    this.setState(this.state.setIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'uid'])], logs));
   }
 
   onExecPodCommandSuccess({cluster, pod, messages}) {
-    this.setState(this.state.updateIn(['execs', cluster.get('url'), pod.getIn(['metadata', 'name'])], Immutable.List(), msgs => {
+    this.setState(this.state.updateIn(['execs', cluster.get('url'), pod.getIn(['metadata', 'uid'])], Immutable.List(), msgs => {
       return msgs.concat(messages);
     }));
   }
 
   static getLogs({cluster, pod}) {
-    return this.state.getIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'name'])], Immutable.List());
+    return this.state.getIn(['logs', cluster.get('url'), pod.getIn(['metadata', 'uid'])], Immutable.List());
   }
 
   static getExecMessages({cluster, pod}) {
-    return this.state.getIn(['execs', cluster.get('url'), pod.getIn(['metadata', 'name'])], Immutable.List());
+    return this.state.getIn(['execs', cluster.get('url'), pod.getIn(['metadata', 'uid'])], Immutable.List());
   }
 }
 
