@@ -108,7 +108,7 @@ class BaseApi {
       method,
       headers,
       body: JSON.stringify(body),
-      certificate: cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
+      certificate: cluster && cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
       if (typeof response.text !== 'function') {
@@ -194,7 +194,7 @@ class BaseApi {
     return this.apiFetch({method: 'delete', url, body, cluster, entity});
   }
 
-  static getStatus(response) {
+  static getStatus(response = {}) {
     let status;
     switch (response.status) {
       case StatusCodes.PAYMENT_REQUIRED:
