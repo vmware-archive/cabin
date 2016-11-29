@@ -50,6 +50,13 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
   }
   if (params[@"certificate"]) {
     [SKPNetwork shared].certificatePaths[URL.host] = params[@"certificate"];
+  } else {
+    NSDictionary *cert = [SKPNetwork shared].certificatePaths[URL.host];
+    if (cert) {
+      NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", cert[@"path"]]];
+      [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+      [SKPNetwork shared].certificatePaths[URL.host] = nil;
+    }
   }
   
   NSURLSessionDataTask * dataTask =[defaultSession dataTaskWithRequest:urlRequest
