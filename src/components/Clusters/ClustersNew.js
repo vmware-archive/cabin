@@ -36,6 +36,7 @@ const {
   ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -129,6 +130,7 @@ export default class ClustersNew extends Component {
   }
 
   renderCertificate() {
+    if (Platform.OS === 'android') { return false; }
     const { certificatePath, certificateUrl, certificatePassword, downloadingCertificate } = this.state;
     return (
       <View>
