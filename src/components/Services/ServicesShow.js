@@ -25,6 +25,7 @@ import NodesActions from 'actions/NodesActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
+import ClustersUtils from 'utils/ClustersUtils';
 import Linking from 'utils/Linking';
 
 const {
@@ -159,10 +160,9 @@ export default class ServicesShow extends Component {
   handleOpenPort(port) {
     const { service, cluster } = this.props;
     if (service.getIn(['spec', 'type']) === 'NodePort') {
-      const nodes = alt.stores.NodesStore.getAll(cluster);
-      if (!this.openServiceWithNodes({nodes, port})) {
-        NodesActions.fetchNodes(this.props.cluster).then(entities => {
-          const succeed = this.openServiceWithNodes({nodes: entities, port});
+      if (!this.openServiceWithPort({port})) {
+        NodesActions.fetchNodes(cluster).then(() => {
+          const succeed = this.openServiceWithPort({port});
           if (!succeed) {
             AlertUtils.showError({message: intl('service_open_browser_no_node')});
           }
@@ -174,14 +174,10 @@ export default class ServicesShow extends Component {
     }
   }
 
-  openServiceWithNodes({port, nodes}) {
-    const ready = nodes.find(node => {
-      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
-    });
-    if (!ready) {
-      return false;
-    }
-    Linking.openURL(`http://${ready.getIn(['spec', 'externalID'])}:${port.get('nodePort')}`);
+  openServiceWithPort({port}) {
+    const url = ClustersUtils.nodeUrlForCluster(this.props.cluster);
+    if (!url) { return false; }
+    Linking.openURL(`http://${url}:${port.get('nodePort')}`);
     return true;
   }
 }

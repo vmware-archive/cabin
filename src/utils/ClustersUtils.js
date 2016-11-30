@@ -107,7 +107,9 @@ export default class ClustersUtils {
         url = externalID;
         return true;
       }
-      const address = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'ExternalIP');
+      const ExternalIP = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'ExternalIP');
+      const InternalIP = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'InternalIP');
+      const address = ExternalIP || InternalIP;
       if (address) {
         url = address.get('address');
         return true;
