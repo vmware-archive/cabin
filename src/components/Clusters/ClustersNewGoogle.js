@@ -27,6 +27,7 @@ import AlertUtils from 'utils/AlertUtils';
 import LocalesUtils from 'utils/LocalesUtils';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
+import _ from 'lodash';
 
 const { PropTypes } = React;
 
@@ -107,8 +108,7 @@ export default class ClustersNewGoogle extends Component {
   render() {
     const choices = this.props.projects.map(p => p.get('name'));
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
-    const policy = this.props.policies.get(projectId, Immutable.Map());
-    const readOnly = policy.getIn(['error', 'status']) === 'PERMISSION_DENIED';
+    const canCreate = this.canCreate(projectId);
     return (
       <View style={styles.flex}>
         <HeaderPicker
@@ -139,7 +139,7 @@ export default class ClustersNewGoogle extends Component {
               return <ListHeader title="Tap to add to cabin" style={{borderBottomWidth: 0, marginBottom: -6}}/>;
             }}/>
         </AltContainer>
-        {!readOnly && <FAB
+        {!!canCreate && <FAB
           backgroundColor={Colors.BLUE}
           onPress={this.createCluster.bind(this)} />}
       </View>
@@ -161,6 +161,21 @@ export default class ClustersNewGoogle extends Component {
         </View>
       </TouchableOpacity>
     );
+  }
+
+  canCreate(projectId) {
+    const policy = this.props.policies.get(projectId, Immutable.Map());
+    if (policy.getIn(['error', 'status']) === 'PERMISSION_DENIED') {
+      return false;
+    }
+    let canCreate = false;
+    const allowedRoles = ['roles/appengine.appAdmin', 'container.clusters.create'];
+    policy.get('bindings', Immutable.List()).map(binding => {
+      if (!canCreate && _.includes(allowedRoles, binding.get('role'))) {
+        canCreate = true;
+      }
+    });
+    return canCreate;
   }
 
   onRefresh() {
