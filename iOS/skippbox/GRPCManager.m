@@ -93,44 +93,13 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     NSLog(@"File decompressed at path %@", toPath.path);
     InstallReleaseRequest *request = [[InstallReleaseRequest alloc] init];
     [request setNamespace_p:@"default"];
-    Chart *chart = [[Chart alloc] init];
     
     // Metadata
-    NSString *chartYamlPath = [self searchFileWithName:@"Chart.yaml" inDirectory:toPath.path];
-    NSData *chartData = [NSData dataWithContentsOfFile: chartYamlPath];
-    NSDictionary *chartYaml = [YATWSerialization YAMLObjectWithData:chartData options:0 error:nil];
-    Metadata *meta = [[Metadata alloc] init];
-    meta.name = chartYaml[@"name"];
-    meta.version = chartYaml[@"version"];
-    meta.keywordsArray = chartYaml[@"keywoard"];
-    meta.home = chartYaml[@"home"];
-    meta.description_p = chartYaml[@"description"];
-    [chart setMetadata:meta];
-    
-    // Templates
-    NSMutableArray *templates = [NSMutableArray new];
-    NSString *templatesPath = [self searchFileWithName:@"templates" inDirectory:toPath.path];
-    NSArray *templatesDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:templatesPath error:nil];
-    for (NSString *templatePath in templatesDir) {
-      NSLog(@"Template: %@", templatePath);
-      if ([templatePath rangeOfString:@".yaml"].location == NSNotFound) {
-        continue;
-      }
-      Template *template = [[Template alloc] init];
-      template.name = templatePath;
-      @try {
-        NSDictionary *templateDic = [YATWSerialization YAMLObjectWithData:[NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]] options:0 error:nil];
-        template.data_p = [self dictionnaryToData:templateDic];
-        [templates addObject:template];
-      } @catch (NSException *exception) {
-        reject(@"0", exception.reason, nil);
-        return;
-      }
-    }
-    [chart setTemplatesArray:templates];
+    NSString* chartFolder = [toPath.path stringByAppendingPathComponent:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:toPath.path error:nil].firstObject];
+    Chart *chart = [self parseChartAtPath:chartFolder];
     [request setChart:chart];
     GRPCProtoCall *call = [service RPCToInstallReleaseWithRequest:request handler:^(InstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
-      [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
+//      [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
       [[NSFileManager defaultManager] removeItemAtPath:filePath.path error:nil];
       if (error) {
         reject([@(error.code) stringValue], error.localizedDescription, error);
@@ -142,6 +111,63 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     [call.requestHeaders setObject:PROTO_VERSION forKey:@"x-helm-api-client"];
     [call start];
   }];
+}
+
+- (Chart*)parseChartAtPath:(NSString *)path {
+  Chart *chart = [[Chart alloc] init];
+  
+  NSString *chartYamlPath = [path stringByAppendingPathComponent:@"Chart.yaml"];// [self searchFileWithName:@"Chart.yaml" inDirectory:toPath.path];
+  NSData *chartData = [NSData dataWithContentsOfFile: chartYamlPath];
+  NSDictionary *chartYaml = [YATWSerialization YAMLObjectWithData:chartData options:0 error:nil];
+  Metadata *meta = [[Metadata alloc] init];
+  meta.name = chartYaml[@"name"];
+  meta.version = chartYaml[@"version"];
+  meta.keywordsArray = chartYaml[@"keywoard"];
+  meta.home = chartYaml[@"home"];
+  meta.description_p = chartYaml[@"description"];
+  [chart setMetadata:meta];
+  
+  NSString *valuesYamlPath = [path stringByAppendingPathComponent:@"values.yaml"];
+  NSData *valuesData = [NSData dataWithContentsOfFile: valuesYamlPath];
+  if (valuesData) {
+    //      NSDictionary *valuesYaml = [YATWSerialization YAMLObjectWithData:valuesData options:0 error:nil];
+    Config* config = [[Config alloc] init];
+    config.raw = [[NSString alloc] initWithData:valuesData encoding:NSUTF8StringEncoding];
+    [chart setValues:config];
+  }
+  
+  //dependencies
+  NSString *requirementsYamlPath = [path stringByAppendingPathComponent:@"requirements.yaml"];
+  NSData *requirementsData = [NSData dataWithContentsOfFile: requirementsYamlPath];
+  NSMutableArray* requirementsArray = [NSMutableArray new];
+  if (requirementsData) {
+    NSDictionary* requirementsYaml = [YATWSerialization YAMLObjectWithData:requirementsData options:0 error:nil];
+    NSArray* dependencies = requirementsYaml[@"dependencies"];
+    for (NSDictionary* dependency in dependencies) {
+      NSString* dPath = [[path stringByAppendingPathComponent:@"charts"] stringByAppendingPathComponent:dependency[@"name"]];
+      if ([[NSFileManager defaultManager] contentsOfDirectoryAtPath:dPath error:nil]) {
+        Chart *subChart = [self parseChartAtPath:dPath];
+        [requirementsArray addObject:subChart];
+      }
+    }
+  }
+  [chart setDependenciesArray:requirementsArray];
+  
+  // Templates
+  NSMutableArray *templates = [NSMutableArray new];
+  NSString *templatesPath = [path stringByAppendingPathComponent:@"templates"];//[self searchFileWithName:@"templates" inDirectory:toPath.path];
+  NSArray *templatesDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:templatesPath error:nil];
+  for (NSString *templatePath in templatesDir) {
+    if ([templatePath rangeOfString:@".yaml"].location == NSNotFound) {
+      continue;
+    }
+    Template *template = [[Template alloc] init];
+    template.name = templatePath;
+      template.data_p = [NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]];//[self dictionnaryToData:templateDic];
+      [templates addObject:template];
+  }
+  [chart setTemplatesArray:templates];
+  return chart;
 }
 
 - (NSString*)searchFileWithName:(NSString*)lastPath inDirectory:(NSString*)directory
