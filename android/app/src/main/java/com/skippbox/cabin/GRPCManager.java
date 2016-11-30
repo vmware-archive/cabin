@@ -55,7 +55,7 @@ import okio.Okio;
 class GRPCManager extends ReactContextBaseJavaModule {
 
     private static final String CHART_FILENAME = "Chart.yaml";
-    private static final String PROTO_VERSION = "v2.0.0-rc.2";
+    private static final String PROTO_VERSION = "v2.0.0";
 
     GRPCManager(ReactApplicationContext reactContext) {
         super(reactContext);

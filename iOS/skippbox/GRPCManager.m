@@ -20,7 +20,7 @@
 #import <YAMLThatWorks/YATWSerialization.h>
 #import "Release+Dictionary.h"
 
-static NSString* PROTO_VERSION = @"v2.0.0-rc.2";
+static NSString* PROTO_VERSION = @"v2.0.0";
 
 @implementation GRPCManager
 
@@ -93,13 +93,13 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     NSLog(@"File decompressed at path %@", toPath.path);
     InstallReleaseRequest *request = [[InstallReleaseRequest alloc] init];
     [request setNamespace_p:@"default"];
-    
+
     // Metadata
     NSString* chartFolder = [toPath.path stringByAppendingPathComponent:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:toPath.path error:nil].firstObject];
     Chart *chart = [self parseChartAtPath:chartFolder];
     [request setChart:chart];
     GRPCProtoCall *call = [service RPCToInstallReleaseWithRequest:request handler:^(InstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
-//      [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
+      [[NSFileManager defaultManager] removeItemAtPath:toPath.path error:nil];
       [[NSFileManager defaultManager] removeItemAtPath:filePath.path error:nil];
       if (error) {
         reject([@(error.code) stringValue], error.localizedDescription, error);
@@ -115,7 +115,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 
 - (Chart*)parseChartAtPath:(NSString *)path {
   Chart *chart = [[Chart alloc] init];
-  
+
   NSString *chartYamlPath = [path stringByAppendingPathComponent:@"Chart.yaml"];// [self searchFileWithName:@"Chart.yaml" inDirectory:toPath.path];
   NSData *chartData = [NSData dataWithContentsOfFile: chartYamlPath];
   NSDictionary *chartYaml = [YATWSerialization YAMLObjectWithData:chartData options:0 error:nil];
@@ -126,7 +126,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   meta.home = chartYaml[@"home"];
   meta.description_p = chartYaml[@"description"];
   [chart setMetadata:meta];
-  
+
   NSString *valuesYamlPath = [path stringByAppendingPathComponent:@"values.yaml"];
   NSData *valuesData = [NSData dataWithContentsOfFile: valuesYamlPath];
   if (valuesData) {
@@ -135,7 +135,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     config.raw = [[NSString alloc] initWithData:valuesData encoding:NSUTF8StringEncoding];
     [chart setValues:config];
   }
-  
+
   //dependencies
   NSString *requirementsYamlPath = [path stringByAppendingPathComponent:@"requirements.yaml"];
   NSData *requirementsData = [NSData dataWithContentsOfFile: requirementsYamlPath];
@@ -152,7 +152,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     }
   }
   [chart setDependenciesArray:requirementsArray];
-  
+
   // Templates
   NSMutableArray *templates = [NSMutableArray new];
   NSString *templatesPath = [path stringByAppendingPathComponent:@"templates"];//[self searchFileWithName:@"templates" inDirectory:toPath.path];
@@ -182,12 +182,12 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 {
   NSError *err;
   NSData *jsonData =[NSJSONSerialization dataWithJSONObject:params options:0 error:&err];
-  
+
   NSString *jsonStr1 = [NSString stringWithUTF8String:[jsonData bytes]];
   jsonStr1 = [jsonStr1 stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
-  
+
   NSData *jsonData2 =[jsonStr1 dataUsingEncoding:NSUTF8StringEncoding];
-  
+
   return jsonData2 != nil ? jsonData2 : jsonData;
 }
 
@@ -195,10 +195,10 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 {
   NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
   AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-  
+
   NSURL *URL = [NSURL URLWithString:url];
   NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-  
+
   NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
     NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = "Helm"
-  s.version  = "2.0.0-rc.2"
+  s.version  = "2.0.0"
   s.authors  = { 'Remi Santos' => 'santos.remi@icloud.com' }
   s.homepage = "www.skippbox.com"
   s.summary  = "Internal gRPC-Helm pod"
