@@ -83,7 +83,8 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
     return defaultCompletionBlock();
   }
   CFStringRef password = certificate[@"password"] ? (__bridge CFStringRef)certificate[@"password"] : CFSTR("");
-  NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:[NSString stringWithFormat:@"/%@", certificate[@"path"]]];
+  NSString *documentPath = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil].path;
+  NSString *path = [documentPath stringByAppendingPathComponent: certificate[@"path"]];
   NSData *certData = [[NSFileManager defaultManager] contentsAtPath:path];
   if (!certData) {
     return defaultCompletionBlock();

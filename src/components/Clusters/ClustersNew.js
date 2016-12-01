@@ -197,7 +197,7 @@ export default class ClustersNew extends Component {
       return;
     }
     this.setState({downloadingCertificate: true});
-    const certPath = RNFS.MainBundlePath + '/' + certName;
+    const certPath = RNFS.DocumentDirectoryPath + '/' + certName;
     RNFS.downloadFile({fromUrl: url, toFile: certPath}).promise.then(() => {
       this.setState({downloadingCertificate: false, certificatePath: certName, certificateUrl: ''});
     }).catch(() => {
