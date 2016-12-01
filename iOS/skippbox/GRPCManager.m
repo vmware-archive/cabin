@@ -95,7 +95,10 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     [request setNamespace_p:@"default"];
 
     // Metadata
-    NSString* chartFolder = [toPath.path stringByAppendingPathComponent:[[NSFileManager defaultManager] contentsOfDirectoryAtPath:toPath.path error:nil].firstObject];
+    NSString* chartFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:toPath
+                                                          includingPropertiesForKeys:@[]
+                                                                             options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                               error:nil].firstObject.path;
     Chart *chart = [self parseChartAtPath:chartFolder];
     [request setChart:chart];
     GRPCProtoCall *call = [service RPCToInstallReleaseWithRequest:request handler:^(InstallReleaseResponse * _Nullable response, NSError * _Nullable error) {
@@ -116,7 +119,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
 - (Chart*)parseChartAtPath:(NSString *)path {
   Chart *chart = [[Chart alloc] init];
 
-  NSString *chartYamlPath = [path stringByAppendingPathComponent:@"Chart.yaml"];// [self searchFileWithName:@"Chart.yaml" inDirectory:toPath.path];
+  NSString *chartYamlPath = [path stringByAppendingPathComponent:@"Chart.yaml"];
   NSData *chartData = [NSData dataWithContentsOfFile: chartYamlPath];
   NSDictionary *chartYaml = [YATWSerialization YAMLObjectWithData:chartData options:0 error:nil];
   Metadata *meta = [[Metadata alloc] init];
@@ -130,9 +133,11 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   NSString *valuesYamlPath = [path stringByAppendingPathComponent:@"values.yaml"];
   NSData *valuesData = [NSData dataWithContentsOfFile: valuesYamlPath];
   if (valuesData) {
-    //      NSDictionary *valuesYaml = [YATWSerialization YAMLObjectWithData:valuesData options:0 error:nil];
+    NSDictionary *valuesYaml = [YATWSerialization YAMLObjectWithData:valuesData options:0 error:nil];
+    NSMutableDictionary *values = [self parseValuesDictionary:valuesYaml];
     Config* config = [[Config alloc] init];
     config.raw = [[NSString alloc] initWithData:valuesData encoding:NSUTF8StringEncoding];
+    config.values = values;
     [chart setValues:config];
   }
 
@@ -151,22 +156,24 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
       }
     }
   }
-  [chart setDependenciesArray:requirementsArray];
+//  [chart setDependenciesArray:requirementsArray];
 
   // Templates
   NSMutableArray *templates = [NSMutableArray new];
-  NSString *templatesPath = [path stringByAppendingPathComponent:@"templates"];//[self searchFileWithName:@"templates" inDirectory:toPath.path];
+  NSString *templatesPath = [path stringByAppendingPathComponent:@"templates"];
   NSArray *templatesDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:templatesPath error:nil];
   for (NSString *templatePath in templatesDir) {
-    if ([templatePath rangeOfString:@".yaml"].location == NSNotFound) {
+    NSData *templateData = [NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]];
+    if ([templatePath rangeOfString:@".tpl"].location == NSNotFound && [templatePath rangeOfString:@".yaml"].location == NSNotFound) {
       continue;
     }
     Template *template = [[Template alloc] init];
     template.name = templatePath;
-      template.data_p = [NSData dataWithContentsOfFile:[templatesPath stringByAppendingPathComponent:templatePath]];//[self dictionnaryToData:templateDic];
+    template.data_p = templateData;
       [templates addObject:template];
   }
   [chart setTemplatesArray:templates];
+
   return chart;
 }
 
@@ -177,8 +184,26 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
   return [directory stringByAppendingPathComponent:matchingPaths.firstObject];
 }
 
+-(NSMutableDictionary<NSString*, Value*>*)parseValuesDictionary:(NSDictionary*)values {
+  NSMutableDictionary *result = [NSMutableDictionary new];
+  for (NSString* key in values) {
+    if ([values[key] isKindOfClass:[NSDictionary class]]) {
+      NSDictionary *subDic = [self parseValuesDictionary:values[key]];
+      for (NSString* subKey in subDic) {
+        Value* v = subDic[subKey];
+        result[[NSString stringWithFormat:@"%@.%@", key, subKey]] = v;
+      }
+    } else {
+      Value* v = [[Value alloc] init];
+      v.value = [NSString stringWithFormat:@"%@", values[key]];
+      result[key] = v;
+    }
+  }
+  NSLog(@"%@", result);
+  return result;
+}
 
--(NSData*)dictionnaryToData:(NSDictionary *)params
+-(NSData*)dictionaryToData:(NSDictionary *)params
 {
   NSError *err;
   NSData *jsonData =[NSJSONSerialization dataWithJSONObject:params options:0 error:&err];
