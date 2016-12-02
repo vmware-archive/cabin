@@ -16,7 +16,7 @@
 import Colors from 'styles/Colors';
 import AlertUtils from 'utils/AlertUtils';
 import NavbarButton from 'components/commons/NavbarButton';
-import YAML from 'yamljs';
+import YAML from 'js-yaml';
 
 const { PropTypes } = React;
 const {
@@ -53,7 +53,7 @@ export default class YamlNavbarButton extends Component {
   render() {
     const { entity, editable } = this.props;
     const { editing } = this.state;
-    const yaml = YAML.stringify(entity.toJS(), 0);
+    const yaml = YAML.safeDump(entity.toJS(), 0);
     const copy = (
       <NavbarButton source={require('images/copy.png')} style={{tintColor: Colors.WHITE}}
         onPress={() => {

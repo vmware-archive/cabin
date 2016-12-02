@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import YAML from 'yamljs';
+import YAML from 'js-yaml';
 import ParsedText from 'react-native-parsed-text';
 
 const { PropTypes } = React;
@@ -80,7 +80,7 @@ export default class YamlView extends Component {
   }
 
   render() {
-    const yaml = YAML.stringify(this.props.entity.remove('kind').toJS(), 8).replace(/(-\n[ ]*)/g, '-');
+    const yaml = YAML.safeDump(this.props.entity.remove('kind').toJS(), 8).replace(/(-\n[ ]*)/g, '-');
     if (this.state.editing) {
       return (
         <ScrollView style={styles.container}>
