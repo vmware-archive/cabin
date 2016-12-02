@@ -19,6 +19,7 @@
 #import "Orientation.h"
 #import "RCTBundleURLProvider.h"
 #import "RNGoogleSignin.h"
+#import "RCTSRWebSocket+SSL.h"
 
 @implementation AppDelegate
 

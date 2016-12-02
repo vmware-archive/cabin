@@ -136,7 +136,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
     NSDictionary *valuesYaml = [YATWSerialization YAMLObjectWithData:valuesData options:0 error:nil];
     NSMutableDictionary *values = [self parseValuesDictionary:valuesYaml];
     Config* config = [[Config alloc] init];
-    config.raw = [[NSString alloc] initWithData:valuesData encoding:NSUTF8StringEncoding];
+//    config.raw = [[NSString alloc] initWithData:valuesData encoding:NSUTF8StringEncoding];
     config.values = values;
     [chart setValues:config];
   }
@@ -156,7 +156,7 @@ RCT_EXPORT_METHOD(deployChartAtURL:(NSString*)chartUrl
       }
     }
   }
-//  [chart setDependenciesArray:requirementsArray];
+  [chart setDependenciesArray:requirementsArray];
 
   // Templates
   NSMutableArray *templates = [NSMutableArray new];

@@ -34,6 +34,7 @@
 		A579E6681BD5451100CD8E2C /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A579E6611BD5420500CD8E2C /* libRCTPushNotification.a */; };
 		A5839BD61D9C0D6C00A932EB /* SKPNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */; };
 		A597EF3A1D629817009298F5 /* libHelm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A597EF391D629817009298F5 /* libHelm.a */; };
+		A5A32C3C1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A32C3B1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.m */; };
 		A5B2F11E1BD62E0100CF6A12 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B2F1121BD62DAC00CF6A12 /* libRCTCameraRoll.a */; };
 		A5C7526F305E4C41BF020DF9 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5B55EBA477B4146B6956C5C /* libRNFS.a */; };
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -309,6 +310,8 @@
 		A5839BD41D9C0D6C00A932EB /* SKPNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPNetwork.h; sourceTree = "<group>"; };
 		A5839BD51D9C0D6C00A932EB /* SKPNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPNetwork.m; sourceTree = "<group>"; };
 		A597EF391D629817009298F5 /* libHelm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHelm.a; path = "Pods/../build/Debug-iphoneos/Helm/libHelm.a"; sourceTree = "<group>"; };
+		A5A32C3A1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTSRWebSocket+SSL.h"; sourceTree = "<group>"; };
+		A5A32C3B1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTSRWebSocket+SSL.m"; sourceTree = "<group>"; };
 		A5B2F10C1BD62DAC00CF6A12 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		A5B2F11F1BD62F7600CF6A12 /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
 		A5C444681BCBE2EF00DEBEFF /* Skippbox-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Skippbox-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -436,6 +439,8 @@
 				A56399791D48F5A9000C7C24 /* GRPCManager.m */,
 				A517A8B51DB8CA7200526A06 /* Release+Dictionary.h */,
 				A517A8B61DB8CA7200526A06 /* Release+Dictionary.m */,
+				A5A32C3A1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.h */,
+				A5A32C3B1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -1052,6 +1057,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5A32C3C1DF1C8A8004D8475 /* RCTSRWebSocket+SSL.m in Sources */,
 				A563997A1D48F5A9000C7C24 /* GRPCManager.m in Sources */,
 				A517A8B71DB8CA7200526A06 /* Release+Dictionary.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
