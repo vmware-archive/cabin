@@ -20,6 +20,7 @@ import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
+import SegmentedControl from 'components/commons/SegmentedControl';
 import AlertUtils from 'utils/AlertUtils';
 import {GoogleSignin} from 'react-native-google-signin';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
@@ -36,6 +37,7 @@ const {
   ActivityIndicator,
   StyleSheet,
   DeviceEventEmitter,
+  Animated,
   Platform,
 } = ReactNative;
 
@@ -61,6 +63,10 @@ const styles = StyleSheet.create({
     marginTop: 3,
     tintColor: Colors.GRAY,
   },
+  authentication: {
+    backgroundColor: Colors.WHITE,
+    paddingTop: 10,
+  },
 });
 
 export default class ClustersNew extends Component {
@@ -72,6 +78,10 @@ export default class ClustersNew extends Component {
   constructor(props) {
     super(props);
     const { cluster } = props;
+    let authenticationIndex = 0;
+    if (cluster && !cluster.getIn(['certificate', 'path'])) {
+      authenticationIndex = cluster.get('token') ? 2 : 1;
+    }
     this.state = {
       url: cluster ? cluster.get('url') : 'https://',
       name: cluster ? cluster.get('name') : '',
@@ -84,8 +94,8 @@ export default class ClustersNew extends Component {
       googleUser: null,
       downloadingCertificate: false,
       loading: false,
+      authenticationIndex,
     };
-    console.log(this.state);
   }
 
   componentDidMount() {
@@ -114,17 +124,51 @@ export default class ClustersNew extends Component {
           <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
             onChangeText={name => this.setState({name})} isLast={true}/>
           <ListHeader title="Authentication" style={{marginTop: 20}}/>
-          {this.renderCertificate()}
-          <ListHeader title="Or"/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
-            onChangeText={username => this.setState({username})}/>
-          <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
-            onChangeText={password => this.setState({password})} isLast={true}/>
-          <ListHeader title="Or"/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
-            onChangeText={token => this.setState({token})} isLast={true}/>
+          {this.renderAuthentication()}
         </ScrollView>
         {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
+      </View>
+    );
+  }
+
+  renderAuthentication() {
+    const controls = ['Certificate', 'Credentials', 'Token'];
+    const { authenticationIndex: index } = this.state;
+    return (
+      <View style={styles.authentication}>
+        <SegmentedControl
+          style={{width: 300, alignSelf: 'center', marginBottom: 4}}
+          borderColor={Colors.BLUE}
+          activeColor={Colors.BLUE}
+          activeTextColor={Colors.WHITE}
+          inactiveTextColor={Colors.BLUE}
+          selectedIndex={new Animated.Value(index)}
+          controls={controls}
+          onPress={(i) => this.setState({authenticationIndex: i})}
+        />
+        {index === 0 && this.renderCertificate()}
+        {index === 1 && this.renderCredentials()}
+        {index === 2 && this.renderToken()}
+      </View>
+    );
+  }
+
+  renderCredentials() {
+    return (
+      <View>
+        <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
+          onChangeText={username => this.setState({username})}/>
+        <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
+          onChangeText={password => this.setState({password})} isLast={true}/>
+      </View>
+    );
+  }
+
+  renderToken() {
+    return (
+      <View>
+        <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
+          onChangeText={token => this.setState({token})} isLast={true}/>
       </View>
     );
   }
