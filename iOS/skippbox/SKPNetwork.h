@@ -12,4 +12,7 @@
 @interface SKPNetwork : NSObject <RCTBridgeModule, NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* certificatePaths;
+
+OSStatus extractIdentityAndTrust(CFStringRef password, CFDataRef inP12data, SecIdentityRef *identity, SecTrustRef *trust);
+
 @end

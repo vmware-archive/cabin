@@ -71,13 +71,18 @@ class BaseApi {
   }
 
   static websocket({url, body, dataUrl, cluster, entity, onMessage}) {
-    const { url: URL, headers } = this.updateParams({url, body, dataUrl, cluster, entity});
+    const { url: URL, headers: defaultHeaders } = this.updateParams({url, body, dataUrl, cluster, entity});
+    const headers = {Authorization: defaultHeaders.Authorization};
+    if (cluster.get('certificate')) {
+      headers['auth-certificate'] = cluster.getIn(['certificate', 'path']);
+      headers['auth-password'] = cluster.getIn(['certificate', 'password']);
+    }
     if (currentWatch) {
       currentWatch.close(0, 'Closing manually before another connection');
     }
     return new Promise((resolve) => {
       let messages = Immutable.List();
-      currentWatch = new WebSocket(URL, null, {Authorization: headers.Authorization});
+      currentWatch = new WebSocket(URL, null, headers);
       currentWatch.onopen = () => {};
       currentWatch.onmessage = (e) => {
         const data = BaseApi.readData(e.data);
