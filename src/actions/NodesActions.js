@@ -35,14 +35,7 @@ class NodesActions {
   }
 
   fetchNodes(cluster) {
-    EntitiesActions.fetchEntitiesStart({cluster, entityType});
-    return ClustersApi.fetchEntities({cluster, entityType}).then(entities => {
-      EntitiesActions.dispatchEntities({cluster, entityType, entities});
-      return entities;
-    })
-    .catch(() => {
-      EntitiesActions.fetchEntitiesFailure({cluster, entityType});
-    });
+    return EntitiesActions.fetchEntities({cluster, entityType});
   }
 
   deleteNode({cluster, node}) {

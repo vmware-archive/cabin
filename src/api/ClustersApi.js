@@ -137,8 +137,12 @@ class ClustersApi {
   /* GENERAL ENTITIES */
   static fetchEntities({cluster, entityType, params = {}}) {
     return BaseApi.get(`/${entityType}`, params, cluster).then(response => {
-      return typeof response.get === 'function' ? response.get('items') : Immutable.List();
+      return typeof response.get === 'function' ? response : Immutable.Map();
     });
+  }
+
+  static watchEntities({cluster, entityType, params = {}, onMessage}) {
+    return BaseApi.websocket(({url: `/${entityType}`, dataUrl: params, cluster, onMessage}));
   }
 
   static createEntity({cluster, params, entity, entityType}) {

@@ -60,6 +60,16 @@ export default class ClusterShow extends Component {
     };
   }
 
+  componentDidMount() {
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
+    this.watchEntities(entitiesToDisplay.get(0));
+  }
+
+  watchEntities(entityType) {
+    if (entityType === 'helmreleases') { return; }
+    EntitiesActions.watchEntities({cluster: this.props.cluster, entityType});
+  }
+
   render() {
     const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
     const { cluster } = this.props;
@@ -75,6 +85,7 @@ export default class ClusterShow extends Component {
             onPress={(i) => {
               Animated.timing(this.state.animatedIndex, {toValue: i, duration: 300}).start();
               this.setState({activePage: i});
+              this.watchEntities(entitiesToDisplay.get(i));
             }}
           />
         </View>

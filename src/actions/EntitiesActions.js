@@ -15,12 +15,14 @@
 */
 import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 class EntitiesActions {
 
   constructor() {
     this.generateActions(
       'dispatchEntities',
+      'dispatchEntity',
       'fetchEntitiesStart',
       'fetchEntitiesFailure',
       'createEntityStart',
@@ -40,13 +42,29 @@ class EntitiesActions {
 
   fetchEntities({cluster, entityType, params}) {
     this.fetchEntitiesStart({cluster, entityType});
-    return ClustersApi.fetchEntities({cluster, entityType, params}).then(entities => {
-      this.dispatchEntities({cluster, entityType, entities});
-      return entities;
+    return ClustersApi.fetchEntities({cluster, entityType, params}).then(response => {
+      response.get('items') &&
+        this.dispatchEntities({cluster, entityType, entities: response.get('items'), resourceVersion: response.getIn(['metadata', 'resourceVersion'])});
+      return response.get('items', Immutable.List());
     })
-    .catch(() => {
+    .catch((e) => {
       this.fetchEntitiesFailure({cluster, entityType});
+      return Promise.reject(e);
     });
+  }
+
+  watchEntities({cluster, entityType}) {
+    const store = EntitiesUtils.storeForType(entityType);
+    let resourceVersion = 0;
+    if (store && store.getResourceVersion) {
+      resourceVersion = store.getResourceVersion(cluster);
+    }
+    return ClustersApi.watchEntities({cluster, entityType, params: {watch: true, resourceVersion}, onMessage: (data) => {
+      if (data && data.get('object')) {
+        const entity = data.get('object');
+        this.dispatchEntity({cluster, entityType, entity});
+      }
+    }});
   }
 
   createEntity({cluster, params, namespace = 'default', entityType}) {
@@ -68,8 +86,8 @@ class EntitiesActions {
     return ClustersApi.deleteEntity({cluster, entity, entityType}).then(() => {
       if (entityType === 'replications' || entityType === 'deployments') {
         Immutable.List(['services', 'pods', 'replicasets']).map(type => {
-          ClustersApi.fetchEntities({cluster, entityType: type, params}).then(entities => {
-            entities.map(e => this.deleteEntity({cluster, entity: e, entityType: type}));
+          ClustersApi.fetchEntities({cluster, entityType: type, params}).then(response => {
+            response.get('items', Immutable.List()).map(e => this.deleteEntity({cluster, entity: e, entityType: type}));
           });
         });
       }

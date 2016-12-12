@@ -29,6 +29,7 @@ export default class BaseEntitiesStore {
     } else {
       this.state = Immutable.fromJS({
         status: {},
+        resourceVersion: {},
         entityType,
       }).set(entityType, Immutable.Map());
     }
@@ -37,6 +38,7 @@ export default class BaseEntitiesStore {
       getAll: this.getAll,
       getStatus: this.getStatus,
       getEntityType: this.getEntityType,
+      getResourceVersion: this.getResourceVersion,
     });
   }
 
@@ -54,12 +56,22 @@ export default class BaseEntitiesStore {
     }
   }
 
-  onDispatchEntities({cluster, entities, entityType}) {
+  onDispatchEntities({cluster, entityType, entities, resourceVersion}) {
     if (entityType === this.getEntityType()) {
       this.setState(
         this.state.setIn([entityType, cluster.get('url')],
           ImmutableUtils.entitiesToMap(entities.map(e => e.set('kind', entityType))))
         .setIn(['status', cluster.get('url')], 'success')
+        .setIn(['resourceVersion', cluster.get('url')], resourceVersion || this.state.getIn(['resourceVersion', cluster.get('url')]))
+      );
+    }
+  }
+
+  onDispatchEntity({cluster, entityType, entity}) {
+    if (entityType === this.getEntityType()) {
+      this.setState(
+        this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'])],
+          entity.set('kind', entityType))
       );
     }
   }
@@ -115,6 +127,10 @@ export default class BaseEntitiesStore {
 
   getStatus(cluster) {
     return this.state.getIn(['status', cluster.get('url')], 'success');
+  }
+
+  getResourceVersion(cluster) {
+    return this.state.getIn(['resourceVersion', cluster.get('url')], 0);
   }
 
   getAll(cluster) {

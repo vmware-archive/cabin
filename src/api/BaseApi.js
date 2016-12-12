@@ -28,7 +28,7 @@ if (NativeModules.SKPNetwork) {
 }
 
 let REQUESTS_COUNT = 0;
-
+let currentWatch = null;
 class BaseApi {
 
   // GRPC
@@ -70,32 +70,40 @@ class BaseApi {
     }
   }
 
-  static websocket({url, method, body, dataUrl, cluster, entity}) {
-    this.showNetworkActivityIndicator();
-    const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
+  static websocket({url, body, dataUrl, cluster, entity, onMessage}) {
+    const { url: URL, headers } = this.updateParams({url, body, dataUrl, cluster, entity});
+    if (currentWatch) {
+      currentWatch.close(0, 'Closing manually before another connection');
+    }
     return new Promise((resolve) => {
       let messages = Immutable.List();
-      const ws = new WebSocket(URL, null, {Authorization: headers.Authorization});
-      ws.onopen = () => {};
-      ws.onmessage = (e) => {
-        messages = messages.push(BaseApi.readData(e.data));
+      currentWatch = new WebSocket(URL, null, {Authorization: headers.Authorization});
+      currentWatch.onopen = () => {};
+      currentWatch.onmessage = (e) => {
+        const data = BaseApi.readData(e.data);
+        onMessage && onMessage(data);
+        messages = messages.push(data);
       };
-      ws.onerror = () => {};
-      ws.onclose = () => {
-        this.hideNetworkActivityIndicator();
+      currentWatch.onerror = () => {};
+      currentWatch.onclose = () => {
         resolve(messages);
       };
     });
   }
 
   static readData(data) {
-    const buffer = data;
-    const arr = new Uint8Array(buffer);
-    const str = String.fromCharCode.apply(String, arr);
-    if (/[\u0080-\uffff]/.test(str)) {
-      throw new Error('this string seems to contain (still encoded) multibytes');
+    try {
+      const object = JSON.parse(data);
+      return Immutable.fromJS(object);
+    } catch (e) {
+      const buffer = data;
+      const arr = new Uint8Array(buffer);
+      const str = String.fromCharCode.apply(String, arr);
+      if (/[\u0080-\uffff]/.test(str)) {
+        throw new Error('this string seems to contain (still encoded) multibytes');
+      }
+      return str;
     }
-    return str;
   }
 
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
