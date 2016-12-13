@@ -21,6 +21,7 @@ import YAML from 'js-yaml';
 import ClustersUtils from 'utils/ClustersUtils';
 const { GRPCManager: grpc } = NativeModules;
 import alt from 'src/alt';
+import FakeData from 'stores/FakeData';
 
 const httpFetch = fetch;
 if (NativeModules.SKPNetwork) {
@@ -114,7 +115,7 @@ class BaseApi {
   static apiFetch({url, method, body, dataUrl, cluster, entity}) {
     this.showNetworkActivityIndicator();
     const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    if (cluster && cluster.get('url') === 'test') {
+    if (cluster && FakeData.getIn(['ClustersStore', cluster.get('url')])) {
       return Promise.resolve();
     }
     return httpFetch(URL, {
