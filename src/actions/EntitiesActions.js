@@ -62,7 +62,11 @@ class EntitiesActions {
     return ClustersApi.watchEntities({cluster, entityType, params: {watch: true, resourceVersion}, onMessage: (data) => {
       if (data && data.get('object')) {
         const entity = data.get('object');
-        this.dispatchEntity({cluster, entityType, entity});
+        if (data.get('type') === 'DELETED') {
+          this.deleteEntityStart({cluster, entityType, entity});
+        } else {
+          this.dispatchEntity({cluster, entityType, entity});
+        }
       }
     }});
   }
