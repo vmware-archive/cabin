@@ -16,16 +16,16 @@
 import { PropTypes } from 'react';
 import Colors from 'styles/Colors';
 import _ from 'lodash';
+import PStyleSheet from 'styles/PStyleSheet';
 
 const {
-  StyleSheet,
   View,
   Text,
   Animated,
   TouchableOpacity,
 } = ReactNative;
 
-const styles = StyleSheet.create({
+const styles = PStyleSheet.create({
   container: {
     height: 30,
     overflow: 'hidden',
@@ -42,13 +42,17 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   firstControl: {
-    borderTopLeftRadius: 3,
-    borderBottomLeftRadius: 3,
+    ios: {
+      borderTopLeftRadius: 3,
+      borderBottomLeftRadius: 3,
+    },
     borderLeftWidth: 1,
   },
   lastControl: {
-    borderTopRightRadius: 3,
-    borderBottomRightRadius: 3,
+    ios: {
+      borderTopRightRadius: 3,
+      borderBottomRightRadius: 3,
+    },
     borderRightWidth: 1,
   },
   control: {

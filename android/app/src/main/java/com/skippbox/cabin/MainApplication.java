@@ -10,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.github.yamill.orientation.OrientationPackage;
+import com.rnfs.RNFSPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new CabinPackage(),
                     new OrientationPackage(),
                     new ReactMaterialKitPackage(),
-                    new RNGoogleSigninPackage()
+                    new RNGoogleSigninPackage(),
+                    new RNFSPackage()
             );
         }
     };
@@ -44,7 +46,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        CabinOkHttpClientProvider.initialize();
+
+        CabinOkHttpClientProvider.initialize(this.getApplicationContext());
     }
 
     @Override

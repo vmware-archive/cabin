@@ -28,7 +28,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -80,12 +83,12 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
         OkHttpClient client = null;
         try {
             client = new OkHttpClient.Builder()
-                    .sslSocketFactory(CabinOkHttpClientProvider.getSocketFactory(), CabinOkHttpClientProvider.getTrustManager())
+                    .sslSocketFactory(CabinOkHttpClientProvider.getSocketFactory(this.getReactApplicationContext()), CabinOkHttpClientProvider.getTrustManager())
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(0, TimeUnit.MINUTES) // Disable timeouts for read
                     .build();
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+        } catch (UnrecoverableKeyException | CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException | KeyManagementException e) {
             return;
         }
 
