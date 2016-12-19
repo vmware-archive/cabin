@@ -121,7 +121,7 @@ class BaseApi {
     return httpFetch(URL, {
       method,
       headers,
-      body: JSON.stringify(body),
+      body: _.isEmpty(body) ? undefined : JSON.stringify(body),
       certificate: cluster && cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
     }).finally( (response = {}) => {
       this.hideNetworkActivityIndicator();
