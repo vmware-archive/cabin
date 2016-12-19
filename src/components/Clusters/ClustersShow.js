@@ -66,8 +66,10 @@ export default class ClusterShow extends Component {
   }
 
   watchEntities(entityType) {
-    if (entityType === 'helmreleases') { return; }
-    EntitiesActions.watchEntities({cluster: this.props.cluster, entityType});
+    EntitiesActions.fetchEntities({cluster: this.props.cluster, entityType}).then(() => {
+      if (entityType === 'helmreleases') { return; }
+      EntitiesActions.watchEntities({cluster: this.props.cluster, entityType});
+    });
   }
 
   render() {

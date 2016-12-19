@@ -69,10 +69,13 @@ export default class BaseEntitiesStore {
 
   onDispatchEntity({cluster, entityType, entity}) {
     if (entityType === this.getEntityType()) {
-      this.setState(
-        this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'])],
+      const resourceVersion = this.state.getIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid']), 'metadata', 'resourceVersion'], -1);
+      if (resourceVersion <= entity.getIn(['metadata', 'resourceVersion'])) {
+        this.setState(
+          this.state.setIn([entityType, cluster.get('url'), entity.getIn(['metadata', 'uid'])],
           entity.set('kind', entityType))
-      );
+        );
+      }
     }
   }
 
