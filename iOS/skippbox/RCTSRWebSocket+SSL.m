@@ -64,12 +64,14 @@
         CFDataRef inCertdata = (__bridge CFDataRef)certData;
         SecIdentityRef myIdentity;
         SecTrustRef myTrust;
-        extractIdentityAndTrust(password, inCertdata, &myIdentity, &myTrust);
-        SecCertificateRef myCertificate;
-        SecIdentityCopyCertificate(myIdentity, &myCertificate);
-        if (myCertificate) {
-          NSArray *certs = [[NSArray alloc] initWithObjects:(__bridge id)myIdentity, (__bridge id)myCertificate, nil];
-          [SSLOptions setObject:certs forKey:(NSString *)kCFStreamSSLCertificates];
+        OSStatus error = extractIdentityAndTrust(password, inCertdata, &myIdentity, &myTrust);
+        if (error == 0) {
+          SecCertificateRef myCertificate;
+          SecIdentityCopyCertificate(myIdentity, &myCertificate);
+          if (myCertificate) {
+            NSArray *certs = [[NSArray alloc] initWithObjects:(__bridge id)myIdentity, (__bridge id)myCertificate, nil];
+            [SSLOptions setObject:certs forKey:(NSString *)kCFStreamSSLCertificates];
+          }
         }
       }
     }

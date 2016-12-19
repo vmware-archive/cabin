@@ -93,7 +93,11 @@ RCT_EXPORT_METHOD(fetch:(NSString*)url
   
   SecIdentityRef myIdentity;
   SecTrustRef myTrust;
-  extractIdentityAndTrust(password, inCertdata, &myIdentity, &myTrust);
+  OSStatus error = extractIdentityAndTrust(password, inCertdata, &myIdentity, &myTrust);
+  
+  if (error != 0) {
+    return defaultCompletionBlock();
+  }
   
   SecCertificateRef myCertificate;
   SecIdentityCopyCertificate(myIdentity, &myCertificate);
