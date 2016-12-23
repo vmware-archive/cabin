@@ -18,7 +18,7 @@ import InitActions from 'actions/InitActions';
 import ClustersActions from 'actions/ClustersActions';
 import Immutable from 'immutable';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, NativeModules, Platform } from 'react-native';
 import FakeData from './FakeData';
 
 class ClustersStore {
@@ -37,6 +37,9 @@ class ClustersStore {
     if (appState.get(this.displayName)) {
       this.setState(this.state.merge(appState.get(this.displayName).filter((value, key) => key && value.get('url'))));
       setTimeout(() => {
+        if (Platform.OS === 'android') {
+          NativeModules.Certificate.initClientWithCertificates(appState.get(this.displayName).toList().filter(c => c.get('certificate')).toJS());
+        }
         this.state.map(cluster => {
           if (cluster.get('status') === Constants.Status.RUNNING) {
             ClustersActions.fetchClusterEntities(cluster);

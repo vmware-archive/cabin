@@ -49,7 +49,7 @@ public class CertificateModule extends ReactContextBaseJavaModule {
 
         for (int i = 0; i < clusters.size(); i++) {
             ReadableMap cluster = clusters.getMap(i);
-            ReadableMap certificate = cluster.getMap("certificate");
+            ReadableMap certificate = cluster.hasKey("certificate") ? cluster.getMap("certificate") : null;
 
             if (certificate != null && certificate.getString("path") != null) {
                 try {
@@ -66,7 +66,7 @@ public class CertificateModule extends ReactContextBaseJavaModule {
         try {
             kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmf.init(new KeyStoreBuilderParameters(keys));
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             // no keys; ignore and don't use it
             kmf = null;
         }

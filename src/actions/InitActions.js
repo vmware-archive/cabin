@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import alt from 'src/alt';
-import { AsyncStorage, NativeModules, Platform } from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 class InitActions {
 
@@ -28,9 +28,6 @@ class InitActions {
 
   initializeApplication() {
     this.initAppStart();
-    if (Platform.OS === 'android') {
-      NativeModules.Certificate.initClientWithCertificates(alt.stores.ClustersStore.getClusters().filter(c => c.get('certificate')).toJS());
-    }
     return AsyncStorage.multiGet(Object.keys(alt.stores)).then(results => {
       return Immutable.fromJS(results)
         .filter(data => data.get(1)) // remove null
