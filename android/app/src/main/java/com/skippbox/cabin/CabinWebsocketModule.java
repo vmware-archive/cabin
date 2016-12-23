@@ -23,21 +23,19 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.modules.network.OkHttpClientProvider;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
+import javax.net.SocketFactory;
 
+import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -80,17 +78,11 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             @Nullable final ReadableArray protocols,
             @Nullable final ReadableMap headers,
             final int id) {
-        OkHttpClient client = null;
-        try {
-            client = new OkHttpClient.Builder()
-                    .sslSocketFactory(CabinOkHttpClientProvider.getSocketFactory(this.getReactApplicationContext()), CabinOkHttpClientProvider.getTrustManager())
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .writeTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(0, TimeUnit.MINUTES) // Disable timeouts for read
-                    .build();
-        } catch (UnrecoverableKeyException | CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException | KeyManagementException e) {
-            return;
-        }
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(0, TimeUnit.MINUTES)
+                .build(); // Disable timeouts for read
 
         Request.Builder builder = new Request.Builder()
                 .tag(id)

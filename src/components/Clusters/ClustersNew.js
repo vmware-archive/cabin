@@ -29,16 +29,18 @@ import RNFS from 'react-native-fs';
 
 const { PropTypes } = React;
 
-const {
-  View,
+import {
+  ActivityIndicator,
+  Animated,
+  DeviceEventEmitter,
   Image,
+  NativeModules,
+  Platform,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
-  StyleSheet,
-  DeviceEventEmitter,
-  Animated,
-} = ReactNative;
+  View,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   flex: {
@@ -265,7 +267,14 @@ export default class ClustersNew extends Component {
     }
     setTimeout(() => {
       const cluster = alt.stores.ClustersStore.get(this.state.url);
-      cluster && ClustersActions.checkCluster(cluster);
+
+      if (Platform.OS === 'android') {
+        NativeModules.Certificate.initClientWithCertificates(alt.stores.ClustersStore.getClusters().filter(c => c.get('certificate')).toJS()).then(() => {
+          cluster && ClustersActions.checkCluster(cluster);
+        });
+      } else {
+        cluster && ClustersActions.checkCluster(cluster);
+      }
     }, 1000);
     NavigationActions.pop();
   }
@@ -273,5 +282,4 @@ export default class ClustersNew extends Component {
   isValidUrl(url) {
     return /(ftp|https?):\/\/[^ "]+$/.test(url);
   }
-
 }

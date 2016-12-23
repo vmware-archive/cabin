@@ -44,13 +44,6 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        CabinOkHttpClientProvider.initialize(this.getApplicationContext());
-    }
-
-    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);

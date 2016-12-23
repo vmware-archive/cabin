@@ -16,7 +16,8 @@ public class CabinPackage implements ReactPackage {
         return Arrays.<NativeModule>asList(
                 new GRPCManager(reactContext),
                 new AlertPromptModule(reactContext),
-                new CabinWebsocketModule(reactContext)
+                new CabinWebsocketModule(reactContext),
+                new CertificateModule(reactContext)
         );
     }
 
