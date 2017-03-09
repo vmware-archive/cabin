@@ -3,7 +3,7 @@
 //  skippbox
 //
 //  Created by Remi Santos on 27/07/16.
-//  Copyright © 2016 Azendoo. All rights reserved.
+//  Copyright © 2016 Skippbox. All rights reserved.
 //
 
 #import "GRPCManager.h"

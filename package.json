@@ -34,7 +34,7 @@
     "react": "^15.4.1",
     "react-native": "0.42.0",
     "react-native-fs": "^2.1.0-rc.1",
-    "react-native-google-signin": "Bhullnatik/react-native-google-signin",
+    "react-native-google-signin": "kemcake/react-native-google-signin",
     "react-native-keyboard-aware-scroll-view": "^0.2.0",
     "react-native-material-kit": "^0.4.0",
     "react-native-message-bar": "^1.6.0",
@@ -42,8 +42,7 @@
     "react-native-parsed-text": "0.0.15",
     "react-native-safari-view": "^1.0.0",
     "react-native-sortable-listview": "0.0.8",
-    "react-native-tag-input": "^0.0.11",
-    "react-tween-state": "^0.1.5"
+    "react-native-tag-input": "^0.0.11"
   },
   "devDependencies": {
     "babel-eslint": "6.1.0",
