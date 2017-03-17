@@ -6,7 +6,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "--"
+    "url": "https://github.com/skippbox/cabin"
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -33,6 +33,7 @@
     "qs": "6.2.0",
     "react": "^15.4.1",
     "react-native": "0.42.0",
+    "react-native-config": "^0.3.1",
     "react-native-fs": "^2.1.0-rc.1",
     "react-native-google-signin": "kemcake/react-native-google-signin",
     "react-native-keyboard-aware-scroll-view": "^0.2.0",

@@ -22,8 +22,8 @@ import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
 import AlertUtils from 'utils/AlertUtils';
-import {GoogleSignin} from 'react-native-google-signin';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
+import GoogleCloudApi from 'api/GoogleCloudApi';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import RNFS from 'react-native-fs';
 
@@ -101,10 +101,7 @@ export default class ClustersNew extends Component {
 
   componentDidMount() {
     this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
-    GoogleSignin.configure({
-      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-      iosClientId: '260396395869-fpar03ln0q3lqmtou94n1iu38ecdok64.apps.googleusercontent.com',
-    });
+    GoogleCloudApi.configureGoogleSignin();
   }
 
   componentWillUnmount() {

@@ -14,8 +14,16 @@
   limitations under the License.
 */
 import BaseApi from './BaseApi';
+import { GoogleSignin } from 'react-native-google-signin';
 
 export default class GoogleCloudApi {
+
+  static configureGoogleSignin() {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
+      iosClientId: APP_CONFIG.GOOGLE_CLIENT_ID,
+    });
+  }
 
   static getProjects(pageToken) {
     return BaseApi.get('https://cloudresourcemanager.googleapis.com/v1/projects',

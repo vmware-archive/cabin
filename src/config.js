@@ -15,6 +15,7 @@
 */
 import ReactNative from 'react-native';
 import React from 'react';
+import RNConfig from 'react-native-config';
 import alt from './alt';
 import {version} from '../package.json';
 import LocalesUtils from './utils/LocalesUtils';
@@ -28,14 +29,15 @@ const _window = global || window;
 
 const CONFIGS = {
   dev: {
-    API_ROOT: 'http://localhost:3000',
-    VERSION: version,
+    VERSION: `${version}-dev`,
+    GOOGLE_CLIENT_ID: RNConfig.GOOGLE_CLIENT_ID,
   },
   prod: {
-    API_ROOT: 'https://google.com',
     VERSION: version,
+    GOOGLE_CLIENT_ID: RNConfig.GOOGLE_CLIENT_ID,
   },
 };
+_window.APP_CONFIG  = CONFIGS.prod;
 
 if (!_window.Intl) {
   _window.Intl = Intl; // polyfill for `Intl`
@@ -52,7 +54,6 @@ _window.Component   = React.Component;
 _window._           = _;
 _window.Immutable   = Immutable;
 _window.alt         = alt;
-_window.APP_CONFIG  = CONFIGS.dev;
 _window.Constants   = Constants;
 _window.intl        = (...args) => LocalesUtils.getLocalizedString(...args);
 _window.intlrd      = (...args) => LocalesUtils.getLocalizedRelativeDate(...args);
