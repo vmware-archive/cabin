@@ -1,9 +1,10 @@
-# Skippbox mobile
+# Cabin, the mobile app for [Kubernetes](https://kubernetes.io)
 
-Mobile app for Skippbox made with React Native.
+Mobile app for Kubernetes made with React Native. It is full of neat features:
 
+[![screencast](https://img.youtube.com/vi/z54uH2gDmso/0.jpg)](https://www.youtube.com/watch?v=z54uH2gDmso)
 
-### How to run the app
+## Run
 
 Install node dependencies:
 
@@ -23,7 +24,7 @@ Run the packager:
 npm start
 ```
 
-#### iOS
+### iOS
 
 Install ios dependencies:
 
@@ -39,8 +40,28 @@ Run the app on iOS for dev:
 react-native run-ios
 ```
 
-#### Android
+### Android
 
 The easiest way is to run the app directly from Android Studio (add `cabin/android` as an existing project).
 
 Or you can use `react-native run-android` if you already have an emulator launched or a device connected (to launch one is `path/to/android/sdk/emulator -avd <emulator name>`)
+
+## Get Cabin
+
+Install Cabin for iOS or Android on the application stores:
+
+* [iTunes](https://itunes.apple.com/us/app/cabin-manage-kubernetes-applications/id1137054392?mt=8)
+* [Play store](https://play.google.com/store/apps/details?id=com.skippbox.cabin&hl=en)
+
+## Contributing
+
+Check our contributing [guidelines](CONTRIBUTING.md) and send your pull requests.
+
+## Code of Conduct
+
+Cabin abides by the Kubernetes [Code of Conduct](code-of-conduct.md)
+
+## Sponsor
+
+Cabin is brought to you thanks to [Bitnami](https://bitnami.com). Cabin was developed by Skippbox and joined the Bitnami portfolio of Kubernetes products after Skippbox's [acquisition](https://thenewstack.io/skippbox-enterprise-building-kubernetes-bitnami/).
+
