@@ -129,7 +129,7 @@ export default class Settings extends Component {
             }}/>
 
           <ListHeader style={{marginTop: 20}} title="Issues"/>
-          <ListItem detailTitle="Github" showArrow={true} isLast={true} onPress={() => Linking.openURL('https://github.com/skippbox/cabin-issues/issues')}
+          <ListItem detailTitle="Github" showArrow={true} isLast={true} onPress={() => Linking.openURL('https://github.com/bitnami/cabin/issues')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
