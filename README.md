@@ -57,6 +57,12 @@ Install Cabin for iOS or Android on the application stores:
 
 Check our contributing [guidelines](CONTRIBUTING.md) and send your pull requests.
 
+## Issues
+
+If you face any issues with Cabin, please create an [issue](https://github.com/bitnami/cabin/issues)
+
+**Note** that to preserve as much history as possible we imported a good number of issues from our private repo and the cabin-issues repository.
+
 ## Code of Conduct
 
 Cabin abides by the Kubernetes [Code of Conduct](code-of-conduct.md)
