@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import { PropTypes } from 'react';
-import ExNavigator from '@exponent/react-native-navigator';
+import ExNavigator from '@expo/react-native-navigator';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import TextInputState from 'TextInputState';
