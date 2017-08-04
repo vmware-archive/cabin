@@ -194,8 +194,9 @@ export default class ClustersNew extends Component {
   }
 
   renderGoogle() {
-    if (this.props.cluster) {
+    if (this.props.cluster || !APP_CONFIG.GOOGLE_CLIENT_ID) {
       // Don't show Google cluster creation when editing cluster
+      // Or if env is not setup
       return false;
     }
     return [

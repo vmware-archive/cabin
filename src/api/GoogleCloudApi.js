@@ -19,6 +19,7 @@ import { GoogleSignin } from 'react-native-google-signin';
 export default class GoogleCloudApi {
 
   static configureGoogleSignin() {
+    if (!APP_CONFIG.GOOGLE_CLIENT_ID) { return; }
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/cloud-platform'],
       iosClientId: APP_CONFIG.GOOGLE_CLIENT_ID,

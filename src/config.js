@@ -18,7 +18,7 @@ import React from 'react';
 import RNConfig from 'react-native-config';
 import alt from './alt';
 import {version} from '../package.json';
-import LocalesUtils from './utils/LocalesUtils';
+import LocalesUtils from 'utils/LocalesUtils';
 import Intl from 'intl';
 import _ from 'lodash';
 import Immutable from 'immutable';
@@ -37,7 +37,7 @@ const CONFIGS = {
     GOOGLE_CLIENT_ID: RNConfig.GOOGLE_CLIENT_ID,
   },
 };
-_window.APP_CONFIG  = CONFIGS.prod;
+_window.APP_CONFIG  = RNConfig.env === 'production' ? CONFIGS.prod : CONFIGS.dev;
 
 if (!_window.Intl) {
   _window.Intl = Intl; // polyfill for `Intl`

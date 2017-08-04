@@ -21,15 +21,14 @@ import Colors from 'styles/Colors';
 
 const {
   TabBarIOS,
-  StyleSheet,
   DeviceEventEmitter,
 } = ReactNative;
 
-const styles = StyleSheet.create({
+const styles = {
   sceneStyle: {
     paddingBottom: 50,
   },
-});
+};
 
 const tabs = Immutable.fromJS([
   {

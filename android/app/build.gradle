@@ -190,3 +190,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

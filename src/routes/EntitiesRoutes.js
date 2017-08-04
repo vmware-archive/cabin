@@ -26,6 +26,7 @@ import DeploymentsShow from 'components/Deployments/DeploymentsShow';
 import DeploymentsNew from 'components/Deployments/DeploymentsNew';
 import DeploymentsHistory from 'components/Deployments/DeploymentsHistory';
 import Navigator from 'components/commons/Navigator';
+import ExNavigator from '@expo/react-native-navigator';
 import NavbarButton from 'components/commons/NavbarButton';
 import YamlView from 'components/YamlView';
 import YamlNavbarButton from 'components/YamlNavbarButton';
@@ -243,7 +244,7 @@ EntitiesRoutes = {
         return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('ServicesNew:submit')} />;
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
     return EntitiesRoutes.getModalRoute(route);
@@ -260,7 +261,7 @@ EntitiesRoutes = {
         return <Navigator initialRoute={route} />;
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
@@ -289,7 +290,7 @@ EntitiesRoutes = {
         );
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
     return EntitiesRoutes.getModalRoute(route);
@@ -384,7 +385,7 @@ EntitiesRoutes = {
         return <NavbarButton title={intl('done')} androidSource={require('images/done.png')} onPress={() => DeviceEventEmitter.emit('DeploymentsNew:submit')} />;
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
     return EntitiesRoutes.getModalRoute(route);

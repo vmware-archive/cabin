@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   barButtonIconStyle: {
     tintColor: Colors.WHITE,
   },
-  sceneStyle: {
-    paddingTop: ReactNative.Platform.OS === 'ios' ? 64 : 0,
-    overflow: 'visible',
-  },
 });
+const sceneStyle = {
+  paddingTop: ReactNative.Platform.OS === 'ios' ? 64 : 0,
+  overflow: 'visible',
+};
 
 class Navigator extends Component {
 
@@ -115,7 +115,7 @@ class Navigator extends Component {
           barButtonTextStyle={styles.barButtonTextStyle}
           titleStyle={styles.titleStyle}
           {...this.props}
-          sceneStyle={[styles.sceneStyle, this.props.sceneStyle]}
+          sceneStyle={[sceneStyle, this.props.sceneStyle]}
           navigationBarStyle={navigationBarStyle}
         />
       </View>
