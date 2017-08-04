@@ -42,7 +42,7 @@
 
 #endif
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleURL moduleName:@"Skippbox" initialProperties:nil launchOptions:nil];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleURL moduleName:@"Cabin" initialProperties:nil launchOptions:nil];
 
   NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil];
   UIView *launchView = [objects objectAtIndex:0];
