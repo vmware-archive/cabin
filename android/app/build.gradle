@@ -98,6 +98,7 @@ android {
         }
         multiDexEnabled true
     }
+
     splits {
         abi {
             reset()
@@ -175,7 +176,6 @@ dependencies {
     // grpc
     compile 'com.google.protobuf:protobuf-java:3.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
-    compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
     compile 'io.grpc:grpc-protobuf:1.0.1'
     compile 'io.grpc:grpc-stub:1.0.1'
     compile 'org.kamranzafar:jtar:2.3'

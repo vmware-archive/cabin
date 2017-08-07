@@ -8,8 +8,6 @@
  */
 package com.skippbox.cabin;
 
-import android.util.Base64;
-
 import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -23,9 +21,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.modules.network.OkHttpClientProvider;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -33,17 +29,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
-import javax.net.SocketFactory;
 
-import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okhttp3.ws.WebSocket;
-import okhttp3.ws.WebSocketCall;
-import okhttp3.ws.WebSocketListener;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 import okio.Buffer;
 import okio.ByteString;
 
@@ -124,7 +115,7 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             }
         }
 
-        WebSocketCall.create(client, builder.build()).enqueue(new WebSocketListener() {
+        client.newWebSocket(builder.build(), new WebSocketListener() {
 
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
@@ -135,7 +126,7 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             }
 
             @Override
-            public void onClose(int code, String reason) {
+            public void onClosing(WebSocket websocket, int code, String reason) {
                 WritableMap params = Arguments.createMap();
                 params.putInt("id", id);
                 params.putInt("code", code);
@@ -144,40 +135,16 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             }
 
             @Override
-            public void onFailure(IOException e, Response response) {
-                notifyWebSocketFailed(id, e.getMessage());
+            public void onFailure(WebSocket websocket, Throwable t, Response response) {
+                notifyWebSocketFailed(id, t.getMessage());
             }
 
             @Override
-            public void onPong(Buffer buffer) {
-            }
-
-            @Override
-            public void onMessage(ResponseBody response) throws IOException {
-                String message;
-                try {
-                    if (response.contentType() == WebSocket.BINARY) {
-                        message = Base64.encodeToString(response.source().readByteArray(), Base64.NO_WRAP);
-                    } else {
-                        message = response.source().readUtf8();
-                    }
-                } catch (IOException e) {
-                    notifyWebSocketFailed(id, e.getMessage());
-                    return;
-                }
-                try {
-                    response.source().close();
-                } catch (IOException e) {
-                    FLog.e(
-                            ReactConstants.TAG,
-                            "Could not close BufferedSource for WebSocket id " + id,
-                            e);
-                }
-
+            public void onMessage(WebSocket websocket, String text) {
                 WritableMap params = Arguments.createMap();
                 params.putInt("id", id);
-                params.putString("data", message);
-                params.putString("type", response.contentType() == WebSocket.BINARY ? "binary" : "text");
+                params.putString("data", text);
+                params.putString("type", "binary");
                 sendEvent("websocketMessage", params);
             }
         });
@@ -213,8 +180,8 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             throw new RuntimeException("Cannot send a message. Unknown WebSocket id " + id);
         }
         try {
-            client.sendMessage(RequestBody.create(WebSocket.TEXT, message));
-        } catch (IOException | IllegalStateException e) {
+            client.send(message);
+        } catch (Exception e) {
             notifyWebSocketFailed(id, e.getMessage());
         }
     }
@@ -227,9 +194,8 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
             throw new RuntimeException("Cannot send a message. Unknown WebSocket id " + id);
         }
         try {
-            client.sendMessage(
-                    RequestBody.create(WebSocket.BINARY, ByteString.decodeBase64(base64String)));
-        } catch (IOException | IllegalStateException e) {
+            client.send(ByteString.decodeBase64(base64String));
+        } catch (Exception e) {
             notifyWebSocketFailed(id, e.getMessage());
         }
     }
@@ -243,8 +209,7 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
         }
         try {
             Buffer buffer = new Buffer();
-            client.sendPing(buffer);
-        } catch (IOException | IllegalStateException e) {
+        } catch (Exception e) {
             notifyWebSocketFailed(id, e.getMessage());
         }
     }
@@ -259,7 +224,6 @@ public class CabinWebsocketModule extends ReactContextBaseJavaModule {
     /**
      * Set a default origin
      *
-     * @param Websocket connection endpoint
      * @return A string of the endpoint converted to HTTP protocol
      */
     private static String setDefaultOrigin(String uri) {
