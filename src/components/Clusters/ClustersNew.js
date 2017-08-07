@@ -201,7 +201,7 @@ export default class ClustersNew extends Component {
     }
     return [
       <ListHeader key="title" title="" style={{marginTop: -10}} />,
-      <ListItem key="action" title="Add cluster from Google GKE" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+      <ListItem key="action" title={intl('gke_signin')} isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
         <Image source={require('images/google.png')}
           style={{width: 30, height: 30, marginTop: -6}}/>
       }/>,
