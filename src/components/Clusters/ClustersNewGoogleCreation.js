@@ -54,6 +54,15 @@ const styles = StyleSheet.create({
   zone: {
     flex: 1,
     justifyContent: 'center',
+    height: 55,
+  },
+  zoneLabel: {
+    color: Colors.GRAY,
+    marginTop: -10,
+    marginBottom: 4,
+  },
+  zoneSubtitle: {
+    fontSize: 16,
   },
   loader: {
     position: 'absolute',
@@ -65,12 +74,12 @@ const styles = StyleSheet.create({
 
 export default class ClustersNewGoogleCreation extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       loading: false,
       name: '',
-      zone: '',
+      zone: props.zones ? props.zones.getIn([0, 'description']) : '',
       description: 'created by Cabin',
       initialNodeCount: 3,
       masterAuth: {
@@ -89,7 +98,7 @@ export default class ClustersNewGoogleCreation extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.zones.isEmpty() && !newProps.zones.isEmpty()) {
+    if ((!this.props.zones && newProps.zones) || (this.props.zones.isEmpty() && !newProps.zones.isEmpty())) {
       this.setState({zone: newProps.zones.getIn([0, 'description'])});
     }
   }
@@ -99,7 +108,7 @@ export default class ClustersNewGoogleCreation extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.scrollView}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps="always">
           <ListHeader title="Cluster" style={{marginTop: 30}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} placeholder="Name"
             onChangeText={name => this.setState({name: name.toLowerCase()})}/>
@@ -108,7 +117,8 @@ export default class ClustersNewGoogleCreation extends Component {
           <ListItem isLast={true} renderTitle={() => {
             return (
               <TouchableOpacity style={styles.zone} onPress={this.showZones.bind(this)}>
-                <Text style={{fontSize: 16}}>{this.state.zone}</Text>
+                <Text style={styles.zoneLabel}>{'Zone'}</Text>
+                <Text style={styles.zoneSubtitle}>{this.state.zone}</Text>
               </TouchableOpacity>
             );
           }} />
@@ -165,6 +175,7 @@ export default class ClustersNewGoogleCreation extends Component {
       this.props.navigator.pop();
     }).catch(e => {
       AlertUtils.showError(e && e.message && {message: e.message});
+      this.setState({loading: false});
     });
   }
 }

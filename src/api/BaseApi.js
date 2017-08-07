@@ -153,6 +153,9 @@ class BaseApi {
       if (yaml) { return yaml; }
       return text;
     }).then( (json) => {
+      if (json.error) {
+        return this.handleError(json.error);
+      }
       if (__DEV__ && !APP_CONFIG.DEBUG_API) {
         console.log(`[BaseApi ${URL}]`, json);
       }

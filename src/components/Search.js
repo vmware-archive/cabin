@@ -92,7 +92,7 @@ export default class Search extends Component {
           style={styles.list}
           contentContainerStyle={styles.listContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}
+          keyboardShouldPersistTaps="always"
           onRefresh={this.refresh.bind(this)}>
           {items}
         </ScrollView>

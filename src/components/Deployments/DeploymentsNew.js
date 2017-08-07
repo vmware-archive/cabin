@@ -80,7 +80,7 @@ export default class DeploymentsNew extends Component {
         <ScrollView style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps="always">
           <ListHeader title=""/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.name} placeholder="Optional name"
           onChangeText={name => this.setState({name})}/>

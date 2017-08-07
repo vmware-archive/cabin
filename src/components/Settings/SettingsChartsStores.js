@@ -82,7 +82,7 @@ export default class SettingsChartsStores extends Component {
     return (
       <ScrollView style={styles.container}
         keyboardDismissMode={'interactive'}
-        keyboardShouldPersistTaps={true}
+        keyboardShouldPersistTaps="always"
         contentContainerStyle={styles.contentContainer}>
         <ListHeader title="" />
         {items}

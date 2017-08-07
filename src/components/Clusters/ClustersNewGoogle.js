@@ -23,6 +23,7 @@ import ClustersActions from 'actions/ClustersActions';
 import FAB from 'components/commons/FAB';
 import Alert from 'utils/Alert';
 import StatusView from 'components/commons/StatusView';
+import EmptyView from 'components/commons/EmptyView';
 import AlertUtils from 'utils/AlertUtils';
 import LocalesUtils from 'utils/LocalesUtils';
 import ClustersRoutes from 'routes/ClustersRoutes';
@@ -136,8 +137,15 @@ export default class ClustersNewGoogle extends Component {
             onRefresh={this.onRefresh.bind(this)}
             renderRow={this.renderItem.bind(this)}
             renderHeader={() => {
-              return <ListHeader title="Tap to add to cabin" style={{borderBottomWidth: 0, marginBottom: -6}}/>;
-            }}/>
+              return <ListHeader title={intl('gke_clusters_list_header')} style={{borderBottomWidth: 0, marginBottom: -6}}/>;
+            }}
+            renderEmpty={() => <EmptyView
+                title={intl('gke_clusters_empty_title')}
+                subtitle={intl('gke_clusters_empty_subtitle')}
+                actionTitle={intl('gke_clusters_empty_action')}
+                onPress={this.onRefresh.bind(this)}
+              />}
+          />
         </AltContainer>
         {!!canCreate && <FAB
           backgroundColor={Colors.BLUE}
@@ -179,7 +187,10 @@ export default class ClustersNewGoogle extends Component {
   }
 
   onRefresh() {
-    GoogleCloudActions.getClusters(this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']));
+    const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
+    GoogleCloudActions.getProjectPolicy(projectId);
+    GoogleCloudActions.getClusters(projectId);
+    GoogleCloudActions.getZones(projectId);
   }
 
   submitCluster(cluster) {
@@ -215,7 +226,6 @@ export default class ClustersNewGoogle extends Component {
 
   createCluster() {
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
-    GoogleCloudActions.getZones(projectId);
     this.props.navigator.push(ClustersRoutes.getClusterGoogleCreationRoute(projectId));
   }
 }

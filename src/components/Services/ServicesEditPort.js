@@ -79,7 +79,7 @@ export default class ServicesEditPort extends Component {
         <ScrollView style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps="always">
           <ListInputItem autoCapitalize="none" defaultValue={this.state.name} placeholder="Optional name"
             onChangeText={name => this.setState({name})}/>
           <ListInputItem defaultValue={this.state.protocol} placeholder="Protocol" editable={false}/>
