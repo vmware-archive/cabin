@@ -14,7 +14,7 @@
   limitations under the License.
 */
 
-#ifndef Skippbox_Bridging_Header_h
-#define Skippbox_Bridging_Header_h
+#ifndef Cabin_Bridging_Header_h
+#define Cabin_Bridging_Header_h
 
-#endif /* Skippbox_Bridging_Header_h */
+#endif /* Cabin_Bridging_Header_h */

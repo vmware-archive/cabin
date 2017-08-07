@@ -1,26 +1,25 @@
 {
-  "name": "skippbox",
+  "name": "cabin",
   "version": "0.3.1",
-  "description": "Skippbox mobile app",
-  "license": "Skippbox",
-  "private": true,
+  "description": "the mobile app for Kubernetes",
+  "license": "Apache-2.0",
+  "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/skippbox/cabin"
+    "url": "https://github.com/bitnami/cabin"
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "lint": "eslint src",
     "pre-commit-lint": "LIST=`git diff --name-only --cached | grep .*\\.js$`;if [ \"$LIST\" ]; then eslint $LIST; fi",
-    "test": "jest",
-    "postinstall": "rm -rf node_modules/intl/.babelrc && echo 'Fix react-native .babelrc issue https://github.com/andyearnshaw/Intl.js/pull/264, should be removed once fixed'"
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-react-native"
   },
   "dependencies": {
-    "@exponent/react-native-action-sheet": "^0.2.0",
-    "@exponent/react-native-navigator": "^0.4.7",
+    "@expo/react-native-action-sheet": "^0.3.1",
+    "@expo/react-native-navigator": "^0.5.1",
     "alt": "0.18.4",
     "alt-container": "1.0.2",
     "alt-utils": "1.0.0",
@@ -32,10 +31,10 @@
     "js-yaml": "^3.7.0",
     "lodash": "4.13.1",
     "qs": "6.2.0",
-    "react": "^15.4.1",
-    "react-native": "0.42.0",
-    "react-native-config": "^0.3.1",
-    "react-native-fs": "^2.1.0-rc.1",
+    "react": "16.0.0-alpha.12",
+    "react-native": "^0.46.0",
+    "react-native-config": "^0.5.0",
+    "react-native-fs": "^2.5.1",
     "react-native-google-signin": "devfd/react-native-google-signin",
     "react-native-keyboard-aware-scroll-view": "^0.2.0",
     "react-native-material-kit": "^0.4.0",

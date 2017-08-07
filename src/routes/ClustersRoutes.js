@@ -23,6 +23,7 @@ import Search from 'components/Search';
 import SearchBar from 'components/SearchBar';
 import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
+import ExNavigator from '@expo/react-native-navigator';
 import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
@@ -128,7 +129,7 @@ const ClustersRoutes = {
         return <Navigator initialRoute={route} />;
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
@@ -156,7 +157,7 @@ const ClustersRoutes = {
         );
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
@@ -230,7 +231,7 @@ const ClustersRoutes = {
         );
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FloatFromBottom;
+        return ExNavigator.SceneConfigs.FloatFromBottom;
       },
     };
   },
@@ -249,7 +250,7 @@ const ClustersRoutes = {
         );
       },
       configureScene() {
-        return ReactNative.Navigator.SceneConfigs.FadeAndroid;
+        return ExNavigator.SceneConfigs.FadeAndroid;
       },
     };
   },

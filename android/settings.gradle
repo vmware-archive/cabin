@@ -1,4 +1,4 @@
-rootProject.name = 'skippbox'
+rootProject.name = 'cabin'
 include ':react-native-google-signin'
 project(':react-native-google-signin').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-google-signin/android')
 include ':react-native-config'

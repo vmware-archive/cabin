@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import { PropTypes } from 'react';
-import ExNavigator from '@exponent/react-native-navigator';
+import ExNavigator from '@expo/react-native-navigator';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import TextInputState from 'TextInputState';
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   barButtonIconStyle: {
     tintColor: Colors.WHITE,
   },
-  sceneStyle: {
-    paddingTop: ReactNative.Platform.OS === 'ios' ? 64 : 0,
-    overflow: 'visible',
-  },
 });
+const sceneStyle = {
+  paddingTop: ReactNative.Platform.OS === 'ios' ? 64 : 0,
+  overflow: 'visible',
+};
 
 class Navigator extends Component {
 
@@ -115,7 +115,7 @@ class Navigator extends Component {
           barButtonTextStyle={styles.barButtonTextStyle}
           titleStyle={styles.titleStyle}
           {...this.props}
-          sceneStyle={[styles.sceneStyle, this.props.sceneStyle]}
+          sceneStyle={[sceneStyle, this.props.sceneStyle]}
           navigationBarStyle={navigationBarStyle}
         />
       </View>

@@ -160,13 +160,12 @@ protobuf {
 }
 
 dependencies {
-    compile project(':react-native-google-signin')
     compile project(':react-native-config')
     compile project(':react-native-fs')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:multidex:1.0.1'
-
-    compile 'com.facebook.react:react-native:+' // From node_modules
+    compile 'com.facebook.react:react-native:+'
+    // From node_modules
     compile project(':react-native-orientation')
     compile project(':react-native-material-kit')
     compile(project(':react-native-google-signin')) {
@@ -176,7 +175,7 @@ dependencies {
     // grpc
     compile 'com.google.protobuf:protobuf-java:3.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
-    compile 'io.grpc:grpc-okhttp:1.0.1'
+    compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
     compile 'io.grpc:grpc-protobuf:1.0.1'
     compile 'io.grpc:grpc-stub:1.0.1'
     compile 'org.kamranzafar:jtar:2.3'
@@ -191,3 +190,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

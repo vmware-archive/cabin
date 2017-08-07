@@ -16,7 +16,7 @@
 import Navigator from 'components/commons/Navigator';
 import Home from 'components/commons/Home';
 import InitActions from 'actions/InitActions';
-import ActionSheet from '@exponent/react-native-action-sheet';
+import ActionSheet from '@expo/react-native-action-sheet';
 import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import ToolbarAugmenter from 'components/commons/ToolbarAugmenter';
 
