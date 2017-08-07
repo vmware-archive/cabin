@@ -224,7 +224,6 @@ export default class ClustersNew extends Component {
         const projectId = projects.getIn([0, 'projectId']);
         GoogleCloudActions.getProjectPolicy(projectId);
         GoogleCloudActions.getClusters(projectId);
-        GoogleCloudActions.getZones(projectId);
         this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
       }
     }).catch(() => {

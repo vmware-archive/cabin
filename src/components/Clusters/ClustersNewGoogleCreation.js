@@ -97,9 +97,9 @@ export default class ClustersNewGoogleCreation extends Component {
     this.submitListener.remove();
   }
 
-  componentWillReceiveProps(newProps) {
-    if ((!this.props.zones && newProps.zones) || (this.props.zones.isEmpty() && !newProps.zones.isEmpty())) {
-      this.setState({zone: newProps.zones.getIn([0, 'description'])});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.zones && !nextProps.zones.isEmpty()) {
+      this.setState({zone: nextProps.zones.getIn([0, 'description'])});
     }
   }
 

@@ -121,6 +121,7 @@ export default class ClustersNewGoogle extends Component {
             GoogleCloudActions.setSelectedProjectId(pId);
             GoogleCloudActions.getClusters(pId);
             GoogleCloudActions.getProjectPolicy(pId);
+            GoogleCloudActions.getZones(pId);
             this.setState({selectedProjectIndex: index});
           }}/>
         <AltContainer stores={{
@@ -226,6 +227,9 @@ export default class ClustersNewGoogle extends Component {
 
   createCluster() {
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
+    GoogleCloudActions.getZones(projectId).catch(e => {
+      AlertUtils.showError({ message: e.message });
+    });
     this.props.navigator.push(ClustersRoutes.getClusterGoogleCreationRoute(projectId));
   }
 }
