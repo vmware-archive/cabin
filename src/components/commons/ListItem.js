@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   right: {
     flexDirection: 'row',
-    paddingVertical: 15,
+    alignItems: 'center',
     paddingLeft: 10,
   },
   titleContainer: {

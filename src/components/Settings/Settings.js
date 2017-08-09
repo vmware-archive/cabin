@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   replicasInput: {
     fontSize: 16,
-    width: 60, height: 25,
+    width: 60,
     alignSelf: 'center',
     textAlign: 'right',
   },

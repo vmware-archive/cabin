@@ -16,6 +16,7 @@
 import Colors from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
 import AlertUtils from 'utils/AlertUtils';
+import PStyleSheet from 'styles/PStyleSheet';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ScrollView from 'components/commons/ScrollView';
@@ -24,12 +25,11 @@ const { PropTypes } = React;
 const {
   View,
   TextInput,
-  StyleSheet,
   Alert,
   ActivityIndicator,
 } = ReactNative;
 
-const styles = StyleSheet.create({
+const styles = PStyleSheet.create({
   container: {
     backgroundColor: Colors.BACKGROUND,
   },
@@ -42,7 +42,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 10,
-    height: 25,
+    android: {
+      height: 40,
+    },
   },
   checking: {
     position: 'absolute',
