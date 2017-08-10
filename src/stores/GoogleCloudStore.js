@@ -109,7 +109,7 @@ class GoogleCloudStore {
   }
 
   static getProjectsPolicies() {
-    return this.state.get('policies', Immutable.List());
+    return this.state.get('policies', Immutable.Map());
   }
 
   static getZones() {

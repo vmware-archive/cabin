@@ -25,9 +25,9 @@ import NavbarButton from 'components/commons/NavbarButton';
 import Navigator from 'components/commons/Navigator';
 import ExNavigator from '@expo/react-native-navigator';
 import NavigationActions from 'actions/NavigationActions';
+import GoogleCloudActions from 'actions/GoogleCloudActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
-// import BaseApi from 'api/BaseApi';
 
 const {
   DeviceEventEmitter,
@@ -170,6 +170,16 @@ const ClustersRoutes = {
         return (
           <NavbarButton title={intl('close')}
             onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton title={intl('gke_signout')}
+            onPress={() => {
+              GoogleCloudActions.signOut();
+              NavigationActions.pop();
+            }}
           />
         );
       },

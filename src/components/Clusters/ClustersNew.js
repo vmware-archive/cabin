@@ -114,7 +114,7 @@ export default class ClustersNew extends Component {
         <ScrollView style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps="always">
           {this.renderGoogle()}
           <ListHeader title="Manual cluster entry" style={{marginTop: 20}}/>
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
@@ -201,7 +201,7 @@ export default class ClustersNew extends Component {
     }
     return [
       <ListHeader key="title" title="" style={{marginTop: -10}} />,
-      <ListItem key="action" title="Add cluster from Google GKE" isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
+      <ListItem key="action" title={intl('gke_signin')} isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
         <Image source={require('images/google.png')}
           style={{width: 30, height: 30, marginTop: -6}}/>
       }/>,
@@ -221,8 +221,9 @@ export default class ClustersNew extends Component {
       this.setState({loading: false});
       const projects = alt.stores.GoogleCloudStore.getProjects();
       if (projects.size > 0) {
-        GoogleCloudActions.getProjectPolicy(projects.getIn([0, 'projectId']));
-        GoogleCloudActions.getClusters(projects.getIn([0, 'projectId']));
+        const projectId = projects.getIn([0, 'projectId']);
+        GoogleCloudActions.getProjectPolicy(projectId);
+        GoogleCloudActions.getClusters(projectId);
         this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
       }
     }).catch(() => {

@@ -112,4 +112,11 @@
   "rolling_update_alert_subtitle": "Current image: ",
   "rolling_update_start": "Update",
   "rolling_update_multiple_containers": "Can't perform rolling update with multiple containers",
+
+  "gke_signin": "Add cluster from Google GKE",
+  "gke_signout": "Log out",
+  "gke_clusters_list_header": "Tap to add to Cabin",
+  "gke_clusters_empty_title": "No cluster found",
+  "gke_clusters_empty_subtitle": "Check permissions on this project and reload",
+  "gke_clusters_empty_action": "Reload"
 }

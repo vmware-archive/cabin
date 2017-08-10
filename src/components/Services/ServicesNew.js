@@ -87,7 +87,7 @@ export default class ServicesNew extends Component {
         <ScrollView style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps={true}>
+          keyboardShouldPersistTaps="always">
           <ListHeader title={intl('service_new_description')} style={{height: null, paddingBottom: 10}}/>
           <ListItem title={deployment ? 'Deployment' : intl('service_new_choose_deployment')} detailTitle={selectedDeploymentTitle} showArrow={true} onPress={this.selectDeployment.bind(this)}/>
           <ListInputItem ref="nameInput" autoCapitalize="none" autoCorrect={false} defaultValue={this.state.name} placeholder="Service name"

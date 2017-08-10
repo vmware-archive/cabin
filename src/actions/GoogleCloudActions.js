@@ -57,6 +57,10 @@ class GoogleCloudActions {
     });
   }
 
+  signOut() {
+    return GoogleSignin.signOut();
+  }
+
   getProjects(pageToken) {
     this.getProjectsStart();
     return GoogleCloudApi.getProjects(pageToken).then((response) => {

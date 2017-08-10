@@ -112,4 +112,11 @@
   "rolling_update_alert_subtitle": "Image actuelle: ",
   "rolling_update_start": "Mettre à jour",
   "rolling_update_multiple_containers": "Il est impossible de faire un rolling update quand il y a plusieurs containers",
+
+  "gke_signin": "Ajouter depuis Google GKE",
+  "gke_signout": "Se déconnecter",
+  "gke_clusters_list_header": "Tap pour ajouter à Cabin",
+  "gke_clusters_empty_title": "Aucun cluster",
+  "gke_clusters_empty_subtitle": "Verifiez les permissions sur ce projet et rafraichissez",
+  "gke_clusters_empty_action": "Rafraichir"
 }

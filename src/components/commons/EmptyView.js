@@ -81,7 +81,7 @@ export default class EmptyView extends Component {
   render() {
     return (
       <View style={styles.emptyContainer}>
-        <Image style={[styles.emptyImage, this.props.imageStyle]} source={this.props.image} />
+        {this.props.image && <Image style={[styles.emptyImage, this.props.imageStyle]} source={this.props.image} />}
         <Text style={styles.emptyTitle}>{this.props.title}</Text>
         <Text style={styles.emptySubtitle}>{this.props.subtitle}</Text>
         {this.props.onPress && <TouchableOpacity style={styles.emptyButton} onPress={this.props.onPress}>
