@@ -55,7 +55,6 @@ const ClustersRoutes = {
       renderRightButton() {
         return (
           <NavbarButton source={require('images/add.png')}
-            // onPress={() => BaseApi.callGRPC('test')}
             onPress={() => NavigationActions.push(ClustersRoutes.getClusterNewRoute())}
           />
         );
@@ -176,6 +175,7 @@ const ClustersRoutes = {
       renderRightButton() {
         return (
           <NavbarButton title={intl('gke_signout')}
+            androidSource={require('images/logout.png')}
             onPress={() => {
               GoogleCloudActions.signOut();
               NavigationActions.pop();

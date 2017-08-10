@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "260396395869",
-    "project_id": "skippbox"
+    "firebase_url": "https://skippbox.firebaseio.com",
+    "project_id": "skippbox",
+    "storage_bucket": "skippbox.appspot.com"
   },
   "client": [
     {
@@ -13,11 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "260396395869-r01202skv52b4r84b66ruuu1f6q8bpfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skippbox.cabin",
+            "certificate_hash": "06410cf30ba31961b08be0f2329e00886ca2373c"
+          }
+        },
+        {
           "client_id": "260396395869-r2e7709trdhto974h9bv8r9up1vrj7vd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.skippbox.cabin",
-            "certificate_hash": "F3ADEAED7367980F87E94EF4D3BCC5818D28DC6E"
+            "certificate_hash": "f3adeaed7367980f87e94ef4d3bcc5818d28dc6e"
           }
         },
         {
@@ -25,8 +35,12 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.skippbox.cabin",
-            "certificate_hash": "B855B3B8F2BF474D041E77F24252EB4F67029B21"
+            "certificate_hash": "b855b3b8f2bf474d041e77f24252eb4f67029b21"
           }
+        },
+        {
+          "client_id": "260396395869-kh48qrsa4chvleupr7kntajal9q5ah6b.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "260396395869-e34egeonia5ud6fj1hvb7hf2uk23otd3.apps.googleusercontent.com",
@@ -35,7 +49,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD2V4CRETvA5G89UoY_29WYVhIoCDY_gCc"
+          "current_key": "AIzaSyCSbdkEQ4AZBnnWlyUZFtC-QSpAs8KY0mM"
         }
       ],
       "services": {
@@ -43,11 +57,23 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260396395869-kh48qrsa4chvleupr7kntajal9q5ah6b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "260396395869-fpar03ln0q3lqmtou94n1iu38ecdok64.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skippbox.cabin"
+              }
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
