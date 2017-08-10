@@ -118,8 +118,6 @@ export default class SegmentedControl extends Component {
       const inputRange = _.range(controlsCount);
       const outputRange = _.times(controlsCount, (i) => i === index ? activeTextColor : inactiveTextColor);
       const textColor = selectedIndex.interpolate({inputRange, outputRange, extrapolateLeft, extrapolateRight});
-      const borderOutputRange = _.times(controlsCount, (i) => i === index ? activeColor : borderColor);
-      const animatedBorderColor = selectedIndex.interpolate({inputRange, outputRange: borderOutputRange, extrapolateLeft, extrapolateRight});
       const separatorOutputRange = _.times(controlsCount, (i) => index === i || index === i - 1 ? activeColor : borderColor);
       const separatorColor = selectedIndex.interpolate({inputRange, outputRange: separatorOutputRange, extrapolateLeft, extrapolateRight});
       const last = index === this.props.controls.length - 1;
@@ -129,7 +127,7 @@ export default class SegmentedControl extends Component {
             styles.control,
             index === 0 && styles.firstControl,
             last && styles.lastControl,
-            {borderColor: animatedBorderColor},
+            { borderColor },
           ]}>
           <Animated.Text
             numberOfLines={1}

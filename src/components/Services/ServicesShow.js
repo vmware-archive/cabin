@@ -113,7 +113,7 @@ export default class ServicesShow extends Component {
     const index = controls.indexOf(this.props.service.getIn(['spec', 'type']));
     return (
       <SegmentedControl
-        style={{width: 280, marginRight: -10, marginTop: -5}}
+        style={{alignSelf: 'center', width: 280, marginRight: -10}}
         borderColor={Colors.BLUE}
         activeColor={Colors.BLUE}
         activeTextColor={Colors.WHITE}
