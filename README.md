@@ -23,19 +23,19 @@ Click on each picture to enlarge.
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/cluster-add.png">
+    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/gke.png">
     <p><b>Create Cluster on GKE</b></p>
     <img src="images/gke.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/cluster-add.png">
+    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/pods.png">
     <p><b>Pods View</b></p>
     <img src="images/pods.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/cluster-add.png">
+    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/charts.png">
     <p><b>Charts View</b></p>
     <img src="images/charts.png" width="170">
     </a>
