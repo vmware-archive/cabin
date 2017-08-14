@@ -1,10 +1,14 @@
 # Cabin, the mobile app for [Kubernetes](https://kubernetes.io)
 
-Mobile app for Kubernetes made with React Native. It is full of neat features:
+Cabin is a Mobile application for Kubernetes, made with [React Native](https://facebook.github.io/react-native/). 
+
+## Screencast
+
+It is full of neat features, check out the screencast below by clicking on the image:
 
 [![screencast](https://img.youtube.com/vi/z54uH2gDmso/0.jpg)](https://www.youtube.com/watch?v=z54uH2gDmso)
 
-## Run
+## Run Locally Using Simulators
 
 Install node dependencies:
 
