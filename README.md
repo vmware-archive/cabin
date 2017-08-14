@@ -2,6 +2,14 @@
 
 Cabin is a Mobile application for Kubernetes, made with [React Native](https://facebook.github.io/react-native/). 
 
+## Screenshots
+
+Click to view.
+
+### Pods view
+
+<img src="images/pods.png" width="170">
+
 ## Screencast
 
 It is full of neat features, check out the screencast below by clicking on the image:
