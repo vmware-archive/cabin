@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import CommonsRoutes from 'routes/CommonsRoutes';
 
 const { PropTypes } = React;
 const {
@@ -64,6 +65,10 @@ export default class HeaderPicker extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  state = {
+    open: false,
+  }
+
   render() {
     const currentChoice = this.props.choices.get(this.props.selectedIndex);
     return (
@@ -79,16 +84,30 @@ export default class HeaderPicker extends Component {
     );
   }
 
+  handleSelect(index) {
+    this.props.navigator.pop();
+    this.props.onChange(index);
+  }
+
   handlePress() {
-    const { choices } = this.props;
-    const onPress = (index) => {
+    const { choices, prefix, selectedIndex } = this.props;
+    if (choices.size > 2 && this.props.navigator) {
+      this.props.navigator.push(CommonsRoutes.getSelectPickerRoute({
+        title: prefix,
+        list: choices,
+        selectedIndex,
+        onSelect: this.handleSelect.bind(this),
+      }));
+      return;
+    }
+    const optionAction = (index) => {
       if (index === 0) { return; }
       this.props.onChange(index - 1);
     };
     const options = [
       { title: intl('cancel') },
       ...choices.map((n, index) => {
-        return {title: n, onPress, destructive: index === this.props.destructiveIndex};
+        return {title: n, onPress: optionAction, destructive: index === this.props.destructiveIndex};
       }),
     ];
     ActionSheetUtils.showActionSheetWithOptions({options});

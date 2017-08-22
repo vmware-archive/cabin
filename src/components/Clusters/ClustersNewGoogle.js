@@ -107,7 +107,7 @@ export default class ClustersNewGoogle extends Component {
   }
 
   render() {
-    const choices = this.props.projects.map(p => p.get('name'));
+    const choices = this.props.projects.map(p => p.get('name') || p.get('projectId'));
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
     const canCreate = this.canCreate(projectId);
     return (
@@ -116,6 +116,7 @@ export default class ClustersNewGoogle extends Component {
           prefix={'Project: '}
           choices={choices}
           selectedIndex={this.state.selectedProjectIndex}
+          navigator={this.props.navigator}
           onChange={(index) => {
             const pId = this.props.projects.getIn([index, 'projectId']);
             GoogleCloudActions.setSelectedProjectId(pId);
