@@ -85,7 +85,7 @@ export default class Search extends Component {
           {list.map(renderItems)}
         </View>
       );
-    });
+    }).toList();
     return (
       <View style={styles.container}>
         <ScrollView

@@ -15,8 +15,9 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
-const { PropTypes } = React;
+import SearchBar from 'components/SearchBar';
 
+const { PropTypes } = React;
 const {
   View,
   Image,
@@ -28,6 +29,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.BACKGROUND,
+  },
+  searchContainer: {
+    paddingBottom: 8,
+    paddingHorizontal: 8,
+    backgroundColor: Colors.BLUE,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  search: {
+    width: 'auto',
+    flex: 1,
+    marginLeft: 0,
   },
   list: {
     flex: 1,
@@ -47,15 +60,33 @@ export default class SelectPicker extends Component {
     onSelect: PropTypes.func.isRequired,
   }
 
+  state = {
+    searchValue: '',
+  }
+
   render() {
     const { list, selectedIndex, onSelect } = this.props;
+    const { searchValue } = this.state;
+    let filteredList = list;
+    if (searchValue) {
+      filteredList = list.filter(e => {
+        return e.toLowerCase().indexOf(searchValue) !== -1;
+      });
+    }
     return (
       <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <SearchBar
+            style={styles.search}
+            placeholder="Search"
+            onChange={text => this.setState({ searchValue: text })}
+          />
+        </View>
         <ScrollView style={styles.list} contentContainerStyle={{paddingBottom: 20}} keyboardDismissMode="interactive">
-          {list.map((e, i) => {
-            const isLast = i >= list.size - 1;
+          {filteredList.map((e, i) => {
+            const isLast = i >= filteredList.size - 1;
             return (
-              <ListItem title={e} isLast={isLast}
+              <ListItem key={i} title={e} isLast={isLast}
                 onPress={() => onSelect(i)}
                 renderDetail={i === selectedIndex && (() => {
                   return <Image source={require('images/done.png')} style={styles.selectedIcon} />;

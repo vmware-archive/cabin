@@ -65,6 +65,10 @@ class GoogleCloudActions {
     this.getProjectsStart();
     return GoogleCloudApi.getProjects(pageToken).then((response) => {
       this.getProjectsSuccess(response);
+      if (response.get('nextPageToken')) {
+        return this.getProjects(response.get('nextPageToken'));
+      }
+      return Promise.resolve();
     }).catch((error) => {
       this.getProjectsFailure(error);
       return Promise.reject(error);

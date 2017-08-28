@@ -26,7 +26,10 @@ class GoogleCloudStore {
   }
 
   onSignInSuccess(user) {
-    this.setState(this.state.set('user', user));
+    this.setState(this.state.set('user', user)
+      .setIn(['projects', 'list'], Immutable.List())
+      .setIn(['projects', 'nextPageToken'], null)
+      .setIn(['projects', 'loading'], false));
   }
 
   onGetProjectsStart() {
