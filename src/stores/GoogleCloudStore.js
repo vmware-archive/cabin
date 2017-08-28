@@ -38,7 +38,7 @@ class GoogleCloudStore {
 
   onGetProjectsSuccess(response) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['projects', 'list'], response.get('projects'))
+      state.setIn(['projects', 'list'], state.getIn(['projects', 'list']).concat(response.get('projects')))
            .setIn(['projects', 'nextPageToken'], response.get('nextPageToken'))
            .setIn(['projects', 'loading'], false);
     });
