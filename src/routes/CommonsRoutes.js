@@ -16,7 +16,7 @@
 import SelectPicker from 'components/commons/SelectPicker';
 
 export default {
-  getSelectPickerRoute({ title, list, selectedIndex, onSelect }) {
+  getSelectPickerRoute({ title, list, selectedId, onSelect }) {
     return {
       name: 'SelectPicker',
       statusBarStyle: 'light-content',
@@ -27,7 +27,7 @@ export default {
           <SelectPicker
             navigator={navigator}
             list={list}
-            selectedIndex={selectedIndex}
+            selectedId={selectedId}
             onSelect={onSelect}
           />
         );

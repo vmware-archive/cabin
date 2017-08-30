@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 export default class SelectPicker extends Component {
   static propTypes = {
     list: PropTypes.instanceOf(Immutable.List).isRequired,
-    selectedIndex: PropTypes.number.isRequired,
+    selectedId: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
   }
 
@@ -65,12 +65,12 @@ export default class SelectPicker extends Component {
   }
 
   render() {
-    const { list, selectedIndex, onSelect } = this.props;
+    const { list, selectedId, onSelect } = this.props;
     const { searchValue } = this.state;
     let filteredList = list;
     if (searchValue) {
       filteredList = list.filter(e => {
-        return e.toLowerCase().indexOf(searchValue) !== -1;
+        return e.name.toLowerCase().indexOf(searchValue) !== -1 || e.id.toLowerCase().indexOf(searchValue) !== -1;
       });
     }
     return (
@@ -79,16 +79,17 @@ export default class SelectPicker extends Component {
           <SearchBar
             style={styles.search}
             placeholder="Search"
-            onChange={text => this.setState({ searchValue: text })}
+            onChange={text => this.setState({ searchValue: text.toLowerCase() })}
           />
         </View>
         <ScrollView style={styles.list} contentContainerStyle={{paddingBottom: 20}} keyboardDismissMode="interactive">
           {filteredList.map((e, i) => {
             const isLast = i >= filteredList.size - 1;
+            const selected = e.id === selectedId;
             return (
-              <ListItem key={i} title={e} isLast={isLast}
-                onPress={() => onSelect(i)}
-                renderDetail={i === selectedIndex && (() => {
+              <ListItem key={e.id} title={e.name} isLast={isLast}
+                onPress={() => onSelect(e)}
+                renderDetail={selected && (() => {
                   return <Image source={require('images/done.png')} style={styles.selectedIcon} />;
                 })}
               />

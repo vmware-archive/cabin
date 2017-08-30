@@ -76,7 +76,7 @@ export default class HeaderPicker extends Component {
         <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
           <Text style={styles.text} numberOfLines={1}>
             {this.props.prefix}
-            <Text style={styles.title}> {currentChoice}</Text>
+            <Text style={styles.title}> {currentChoice.name}</Text>
           </Text>
           <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
         </TouchableOpacity>
@@ -84,9 +84,10 @@ export default class HeaderPicker extends Component {
     );
   }
 
-  handleSelect(index) {
+  handleSelect(choice) {
+    const { choices } = this.props;
     this.props.navigator.pop();
-    this.props.onChange(index);
+    this.props.onChange(choices.findIndex(c => c.id === choice.id));
   }
 
   handlePress() {
@@ -95,7 +96,7 @@ export default class HeaderPicker extends Component {
       this.props.navigator.push(CommonsRoutes.getSelectPickerRoute({
         title: prefix,
         list: choices,
-        selectedIndex,
+        selectedId: choices.get(selectedIndex).id,
         onSelect: this.handleSelect.bind(this),
       }));
       return;
@@ -107,7 +108,7 @@ export default class HeaderPicker extends Component {
     const options = [
       { title: intl('cancel') },
       ...choices.map((n, index) => {
-        return {title: n, onPress: optionAction, destructive: index === this.props.destructiveIndex};
+        return {title: n.name, onPress: optionAction, destructive: index === this.props.destructiveIndex};
       }),
     ];
     ActionSheetUtils.showActionSheetWithOptions({options});

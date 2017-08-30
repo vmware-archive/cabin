@@ -107,7 +107,7 @@ export default class ClustersNewGoogle extends Component {
   }
 
   render() {
-    const choices = this.props.projects.map(p => p.get('name') || p.get('projectId'));
+    const choices = this.props.projects.map(p => ({ name: p.get('name') || p.get('projectId'), id: p.get('projectId') }));
     const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
     const canCreate = this.canCreate(projectId);
     return (
