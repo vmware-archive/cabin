@@ -18,7 +18,7 @@ import BaseApi from './BaseApi';
 export default class ChartsApi {
 
   static fetchCharts(url) {
-    return BaseApi.get(url, {});
+    return BaseApi.fetchFile(url, {});
   }
 
   static fetchReleases({cluster, service}) {
