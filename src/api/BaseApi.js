@@ -18,6 +18,7 @@ import Qs from 'qs';
 import base64 from 'base-64';
 import { StatusBar, Platform, InteractionManager, NativeModules } from 'react-native';
 import YAML from 'js-yaml';
+import RNFetchBlob from 'react-native-fetch-blob';
 import ClustersUtils from 'utils/ClustersUtils';
 const { GRPCManager: grpc } = NativeModules;
 import alt from 'src/alt';
@@ -112,36 +113,23 @@ class BaseApi {
     }
   }
 
-  static apiFetch({url, method, body, dataUrl, cluster, entity}) {
-    this.showNetworkActivityIndicator();
-    const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
-    if (cluster && FakeData.getIn(['ClustersStore', cluster.get('url')])) {
-      return Promise.resolve();
+  static handleNetworkResponse(response, url) {
+    if (typeof response.text !== 'function') {
+      const t = response.text;
+      response.text = () => new Promise(resolve => {
+        resolve(t);
+      });
     }
-    return httpFetch(URL, {
-      method,
-      headers,
-      body: _.isEmpty(body) ? undefined : JSON.stringify(body),
-      certificate: cluster && cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
-    }).finally( (response = {}) => {
-      this.hideNetworkActivityIndicator();
-      if (typeof response.text !== 'function') {
-        const t = response.text;
-        response.text = () => new Promise(resolve => {
-          resolve(t);
-        });
-      }
-      if (!response.ok) {
-        return response.text().then(t => {
-          return this.handleError(BaseApi.parseJSON(t));
-        });
-      }
-      // avoid error when the server doesn't return json
-      if (response.status === StatusCodes.NO_CONTENT) {
-        return {};
-      }
-      return response.text();
-    }).then( (text) => {
+    if (!response.ok) {
+      return response.text().then(t => {
+        return this.handleError(BaseApi.parseJSON(t));
+      });
+    }
+    // avoid error when the server doesn't return json
+    if (response.status === StatusCodes.NO_CONTENT) {
+      return {};
+    }
+    return response.text().then(text => {
       if (typeof text !== 'string' || text.trim() === '') {
         return {};
       }
@@ -165,7 +153,42 @@ class BaseApi {
           resolve(immutableData);
         });
       });
-    }).catch((error) => {
+    }).catch(error => {
+      return this.handleError(error, url);
+    });
+  }
+
+  static apiFetch({url, method, body, dataUrl, cluster, entity}) {
+    this.showNetworkActivityIndicator();
+    const { url: URL, headers } = this.updateParams({url, method, body, dataUrl, cluster, entity});
+    if (cluster && FakeData.getIn(['ClustersStore', cluster.get('url')])) {
+      return Promise.resolve();
+    }
+    return httpFetch(URL, {
+      method,
+      headers,
+      body: _.isEmpty(body) ? undefined : JSON.stringify(body),
+      certificate: cluster && cluster.get('certificate') ? cluster.get('certificate').toJS() : undefined,
+    }).finally( (response = {}) => {
+      this.hideNetworkActivityIndicator();
+      return this.handleNetworkResponse(response, URL);
+    });
+  }
+
+  static fetchFile(url, headers = {}) {
+    this.showNetworkActivityIndicator();
+    return RNFetchBlob.fetch('GET', url, headers)
+    .then(response => {
+      this.hideNetworkActivityIndicator();
+      const text = response.text();
+      let obj = {};
+      const json = BaseApi.parseJSON(text);
+      if (json) { obj = json; }
+      const yaml = BaseApi.parseYAML(text);
+      if (yaml) { obj = yaml; }
+      return Immutable.fromJS(obj);
+    }).catch(error => {
+      this.hideNetworkActivityIndicator();
       return this.handleError(error, url);
     });
   }

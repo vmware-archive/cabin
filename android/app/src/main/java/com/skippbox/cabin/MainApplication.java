@@ -6,6 +6,8 @@ import android.support.multidex.MultiDex;
 
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -31,6 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+            new RNGoogleSigninPackage(),
+            new RNFetchBlobPackage(),
                     new RNGoogleSigninPackage(),
                     new ReactNativeConfigPackage(),
                     new CabinPackage(),
