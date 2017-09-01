@@ -134,13 +134,17 @@ export default class DeployIndex extends Component {
   }
 
   renderStorePicker() {
-    const choices = alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder'));
+    const choices = alt.stores.SettingsStore.getChartsStores()
+      .map(s => ({ name: s.get('name'), id: s.get('name') }))
+      .push({ name: intl('settings_repo_url_placeholder'), id: 'placeholder' });
     return (
       <AltContainer stores={{
         choices: () => {
           return {
             store: alt.stores.SettingsStore,
-            value: alt.stores.SettingsStore.getChartsStores().map(s => s.get('name')).push(intl('settings_repo_url_placeholder')),
+            value: alt.stores.SettingsStore.getChartsStores()
+              .map(s => ({ name: s.get('name'), id: s.get('name') }))
+              .push({ name: intl('settings_repo_url_placeholder'), id: 'placeholder' }),
           };
         },
         destructiveIndex: () => {

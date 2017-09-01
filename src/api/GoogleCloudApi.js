@@ -29,6 +29,7 @@ export default class GoogleCloudApi {
   static getProjects(pageToken) {
     return BaseApi.get('https://cloudresourcemanager.googleapis.com/v1/projects',
       {
+        pageSize: 50,
         pageToken,
       },
     );
