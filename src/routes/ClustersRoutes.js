@@ -252,7 +252,15 @@ const ClustersRoutes = {
       statusBarStyle: 'light-content',
       getBackButtonTitle: () => '',
       renderTitle() {
-        return <SearchBar/>;
+        return (
+          <SearchBar
+            autoFocus={true}
+            placeholder="Search by name or label"
+            onChange={(text) => {
+              DeviceEventEmitter.emit('search:change', {text});
+            }}
+          />
+        );
       },
       renderScene(navigator) {
         return (

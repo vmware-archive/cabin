@@ -26,7 +26,10 @@ class GoogleCloudStore {
   }
 
   onSignInSuccess(user) {
-    this.setState(this.state.set('user', user));
+    this.setState(this.state.set('user', user)
+      .setIn(['projects', 'list'], Immutable.List())
+      .setIn(['projects', 'nextPageToken'], null)
+      .setIn(['projects', 'loading'], false));
   }
 
   onGetProjectsStart() {
@@ -35,7 +38,7 @@ class GoogleCloudStore {
 
   onGetProjectsSuccess(response) {
     const newState = this.state.withMutations(state => {
-      state.setIn(['projects', 'list'], response.get('projects'))
+      state.setIn(['projects', 'list'], state.getIn(['projects', 'list']).concat(response.get('projects')))
            .setIn(['projects', 'nextPageToken'], response.get('nextPageToken'))
            .setIn(['projects', 'loading'], false);
     });

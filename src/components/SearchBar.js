@@ -16,20 +16,19 @@
 import Colors from 'styles/Colors';
 import PStyleSheet from 'styles/PStyleSheet';
 
+const { PropTypes } = React;
 const {
   View,
   Image,
   TextInput,
   Dimensions,
   InteractionManager,
-  DeviceEventEmitter,
   Platform,
 } = ReactNative;
 
 
 const styles = PStyleSheet.create({
   container: {
-    marginLeft: Platform.OS === 'ios' ? 35 : 0,
     flexDirection: 'row',
     alignItems: 'center',
     ios: {
@@ -44,6 +43,7 @@ const styles = PStyleSheet.create({
     android: {
       width: Dimensions.get('window').width - 70,
       height: 45,
+      marginLeft: 0,
     },
   },
   icon: {
@@ -65,27 +65,32 @@ const styles = PStyleSheet.create({
 
 export default class SearchBar extends Component {
 
+  static propTypes = {
+    autoFocus: PropTypes.boolean,
+    placeholder: PropTypes.string,
+    onChange: PropTypes.func,
+  }
+
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      this.refs.input.focus();
+      this.props.autoFocus && this.refs.input.focus();
     });
   }
+
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {Platform.OS === 'ios' && <Image source={require('images/search.png')} style={styles.icon} />}
         <TextInput
           ref="input"
           style={styles.input}
-          placeholder="Search by name or label"
+          placeholder={this.props.placeholder}
           numberOfLines={1}
           placeholderTextColor={'rgba(255, 255, 255, 0.4)'}
           returnKeyType="search"
           autoCapitalize="none"
           clearButtonMode="while-editing"
-          onChangeText={(text) => {
-            DeviceEventEmitter.emit('search:change', {text});
-          }}
+          onChangeText={this.props.onChange}
         />
       </View>
     );

@@ -15,6 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import CommonsRoutes from 'routes/CommonsRoutes';
 
 const { PropTypes } = React;
 const {
@@ -64,6 +65,10 @@ export default class HeaderPicker extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  state = {
+    open: false,
+  }
+
   render() {
     const currentChoice = this.props.choices.get(this.props.selectedIndex);
     return (
@@ -71,7 +76,7 @@ export default class HeaderPicker extends Component {
         <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
           <Text style={styles.text} numberOfLines={1}>
             {this.props.prefix}
-            <Text style={styles.title}> {currentChoice}</Text>
+            <Text style={styles.title}> {currentChoice.name}</Text>
           </Text>
           <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
         </TouchableOpacity>
@@ -79,16 +84,31 @@ export default class HeaderPicker extends Component {
     );
   }
 
-  handlePress() {
+  handleSelect(choice) {
     const { choices } = this.props;
-    const onPress = (index) => {
+    this.props.navigator.pop();
+    this.props.onChange(choices.findIndex(c => c.id === choice.id));
+  }
+
+  handlePress() {
+    const { choices, prefix, selectedIndex } = this.props;
+    if (choices.size > 2 && this.props.navigator) {
+      this.props.navigator.push(CommonsRoutes.getSelectPickerRoute({
+        title: prefix,
+        list: choices,
+        selectedId: choices.get(selectedIndex).id,
+        onSelect: this.handleSelect.bind(this),
+      }));
+      return;
+    }
+    const optionAction = (index) => {
       if (index === 0) { return; }
       this.props.onChange(index - 1);
     };
     const options = [
       { title: intl('cancel') },
       ...choices.map((n, index) => {
-        return {title: n, onPress, destructive: index === this.props.destructiveIndex};
+        return {title: n.name, onPress: optionAction, destructive: index === this.props.destructiveIndex};
       }),
     ];
     ActionSheetUtils.showActionSheetWithOptions({options});
