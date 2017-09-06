@@ -161,7 +161,6 @@ protobuf {
 }
 
 dependencies {
-    compile project(':react-native-google-signin')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-config')
     compile project(':react-native-fs')
