@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.facebook.react.ReactApplication;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -12,7 +13,6 @@ import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.rnfs.RNFSPackage;
 
@@ -33,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+            new ReactMaterialKitPackage(),
                     new RNFetchBlobPackage(),
                     new RNGoogleSigninPackage(),
                     new ReactNativeConfigPackage(),

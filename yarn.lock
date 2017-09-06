@@ -4106,9 +4106,9 @@ react-native-keyboard-aware-scroll-view@^0.3.0:
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
 
-react-native-material-kit@brunsy/react-native-material-kit:
+react-native-material-kit@kemcake/react-native-material-kit:
   version "0.4.1"
-  resolved "https://codeload.github.com/brunsy/react-native-material-kit/tar.gz/a67a52481d0352a4852691395327dc609dbc4f5d"
+  resolved "https://codeload.github.com/kemcake/react-native-material-kit/tar.gz/a0ffe7973cd3e8a2cfceef452d128a1af8e6b671"
   dependencies:
     prop-types "^15.5.10"
     ramda "^0.24.1"
@@ -4137,7 +4137,7 @@ react-native-tag-input@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/react-native-tag-input/-/react-native-tag-input-0.0.14.tgz#742112640a73d11fa8ae87383458c8fc00739775"
 
-react-native@^0.48.0:
+react-native@^0.48.1:
   version "0.48.1"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.48.1.tgz#052ba5a86d3bdb748c288124248727d02b1c0939"
   dependencies:
