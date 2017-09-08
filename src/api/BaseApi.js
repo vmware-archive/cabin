@@ -313,6 +313,8 @@ class BaseApi {
           url.indexOf('/replicasets') === 0
         ) {
           api = '/apis/extensions/v1beta1';
+        } else if (url.indexOf('/horizontalpodautoscalers') === 0) {
+          api = '/apis/autoscaling/v2alpha1';
         }
         let namespace;
         if (url.indexOf('/nodes') === -1) {

@@ -15,11 +15,7 @@
 */
 import Colors from 'styles/Colors';
 
-const {
-  View,
-  Image,
-  StyleSheet,
-} = ReactNative;
+const { View, Image, StyleSheet } = ReactNative;
 
 const { PropTypes } = React;
 const iconPod = require('images/cube.png');
@@ -32,26 +28,28 @@ const iconDisk = require('images/disk.png');
 const iconAccount = require('images/account.png');
 const iconConfig = require('images/config.png');
 const iconRuler = require('images/ruler.png');
+const iconScale = require('images/scale.png');
 
 const styles = StyleSheet.create({
   container: {
-    width: 30, height: 30,
+    width: 30,
+    height: 30,
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
   icon: {
-    width: 15, height: 15,
+    width: 15,
+    height: 15,
     tintColor: Colors.WHITE,
   },
 });
 
 export default class EntityIcon extends Component {
-
   static propTypes = {
     type: PropTypes.string.isRequired,
     status: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  }
+  };
 
   render() {
     const { type } = this.props;
@@ -60,18 +58,29 @@ export default class EntityIcon extends Component {
       status = status.get('phase').toUpperCase();
     }
     return (
-      <View style={[styles.container, {backgroundColor: this.colorForType({type, status})}]}>
-        <Image style={styles.icon} source={this.iconForType(type)}/>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: this.colorForType({ type, status }) },
+        ]}
+      >
+        <Image style={styles.icon} source={this.iconForType(type)} />
       </View>
     );
   }
 
-  colorForType({type, status}) {
+  colorForType({ type, status }) {
     switch (type) {
       case 'pods':
-        if (status === Constants.Status.RUNNING) { return Colors.GREEN; }
-        if (status === Constants.Status.DOWN) { return Colors.RED; }
-        if (status === Constants.Status.PENDING) { return Colors.GRAY; }
+        if (status === Constants.Status.RUNNING) {
+          return Colors.GREEN;
+        }
+        if (status === Constants.Status.DOWN) {
+          return Colors.RED;
+        }
+        if (status === Constants.Status.PENDING) {
+          return Colors.GRAY;
+        }
         return Colors.GREEN;
       case 'services':
         return Colors.ORANGE;
@@ -89,6 +98,7 @@ export default class EntityIcon extends Component {
       case 'persistentvolumeclaims':
         return Colors.PINK;
       case 'ingresses':
+      case 'horizontalpodautoscalers':
         return Colors.GREEN2;
       case 'configmaps':
         return Colors.ORANGE;
@@ -124,9 +134,10 @@ export default class EntityIcon extends Component {
         return iconConfig;
       case 'replicasets':
         return iconReplication;
+      case 'horizontalpodautoscalers':
+        return iconScale;
       default:
         return iconObjects;
     }
   }
-
 }

@@ -25,6 +25,7 @@
   "ingresses": "Ingress Rules",
   "replicasets": "Replica Sets",
   "configmaps": "Config Maps",
+  "horizontalpodautoscalers": "Horizontal Pod Autoscalers",
   "chart": "Chart",
   "history": "Historique",
   "revisions": "Révisions",
