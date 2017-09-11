@@ -15,9 +15,11 @@
 */
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
+import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
 import HorizontalPodAutoscalersActions from 'actions/HorizontalPodAutoscalersActions';
+import AlertUtils from 'utils/AlertUtils';
 
 const { View, StyleSheet } = ReactNative;
 
@@ -43,7 +45,7 @@ export default class HorizontalPodAutoscalersShow extends Component {
   };
 
   render() {
-    const { hpa } = this.props;
+    const { hpa, cluster } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -77,18 +79,44 @@ export default class HorizontalPodAutoscalersShow extends Component {
             <ListHeader title="Metrics" />}
           {this.renderMetrics()}
           <ListHeader title="Replicas" />
-          <ListItem
+          <ListInputItem
             title="Min"
-            detailTitle={`${hpa.getIn(['spec', 'minReplicas'], 0)}`}
+            detailInput={true}
+            placeholder="Min replicas"
+            defaultValue={`${hpa.getIn(['spec', 'minReplicas'], 0)}`}
+            returnKeyType="done"
+            keyboardType="numeric"
+            onEndEditing={e => {
+              const value = parseInt(e.nativeEvent.text, 10);
+              const spec = { minReplicas: value };
+              HorizontalPodAutoscalersActions.updateSpec({
+                cluster,
+                hpa,
+                spec,
+              }).catch(err => AlertUtils.showError({ message: err.message }));
+            }}
           />
-          <ListItem
+          <ListInputItem
             title="Max"
-            detailTitle={`${hpa.getIn(['spec', 'maxReplicas'], 0)}`}
+            detailInput={true}
+            placeholder="Max replicas"
+            defaultValue={`${hpa.getIn(['spec', 'maxReplicas'], 0)}`}
+            returnKeyType="done"
+            keyboardType="numeric"
+            onEndEditing={e => {
+              const value = parseInt(e.nativeEvent.text, 10);
+              const spec = { maxReplicas: value };
+              HorizontalPodAutoscalersActions.updateSpec({
+                cluster,
+                hpa,
+                spec,
+              }).catch(err => AlertUtils.showError({ message: err.message }));
+            }}
           />
           <ListItem
             title="Current"
             detailTitle={`${hpa.getIn(['status', 'currentReplicas'], 0)}`}
-            isLast={true}
+            isLast
           />
         </ScrollView>
       </View>
@@ -100,6 +128,7 @@ export default class HorizontalPodAutoscalersShow extends Component {
     return metrics.map((m, i) => {
       return (
         <ListItem
+          key={i}
           title={m.getIn(['resource', 'name'])}
           detailTitle={`${m.getIn(
             ['resource', 'currentAverageUtilization'],

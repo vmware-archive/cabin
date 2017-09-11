@@ -20,13 +20,7 @@ import SettingsRoutes from 'routes/SettingsRoutes';
 import SettingsActions from 'actions/SettingsActions';
 import Linking from 'utils/Linking';
 
-const {
-  View,
-  Image,
-  TextInput,
-  ScrollView,
-  StyleSheet,
-} = ReactNative;
+const { View, Image, TextInput, ScrollView, StyleSheet } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +37,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   logo: {
-    height: 20, width: 20,
+    height: 20,
+    width: 20,
     resizeMode: 'contain',
     marginRight: 6,
   },
@@ -52,7 +47,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   replicasInput: {
-    fontSize: 16,
     width: 60,
     alignSelf: 'center',
     textAlign: 'right',
@@ -60,83 +54,146 @@ const styles = StyleSheet.create({
 });
 
 export default class Settings extends Component {
-
   render() {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.list} contentContainerStyle={{paddingBottom: 20}} keyboardDismissMode="interactive">
-          <ListHeader title="Customize"/>
-          <ListItem title={intl('settings_entities_list')} showArrow={true} onPress={() => {
-            this.props.navigator.push(SettingsRoutes.getSettingsEntitiesRoute());
-          }}/>
-          <ListItem title="Charts stores" showArrow={true} onPress={() => {
-            this.props.navigator.push(SettingsRoutes.getSettingsChartsStoresRoute());
-          }}/>
-          <ListItem title="Maximum number of replicas" isLast={true} onPress={() => {
-            this.replicasInput && this.replicasInput.focus();
-          }} renderDetail={() => {
-            return (
-              <TextInput ref={t => {this.replicasInput = t;}} style={styles.replicasInput}
-                defaultValue={`${maxReplicas}`}
-                keyboardType="numeric"
-                underlineColorAndroid="transparent"
-                onSubmitEditing={(e) => {
-                  const value = parseInt(e.nativeEvent.text, 10);
-                  if (!value || value <= 0) {
-                    this.replicasInput.setNativeProps({text: `${maxReplicas}`});
-                    return;
-                  }
-                  this.replicasInput.setNativeProps({text: `${value}`});
-                  SettingsActions.updateMaxReplicas(value);
-                }}
-              />
-            );
-          }}/>
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          keyboardDismissMode="interactive"
+        >
+          <ListHeader title="Customize" />
+          <ListItem
+            title={intl('settings_entities_list')}
+            showArrow={true}
+            onPress={() => {
+              this.props.navigator.push(
+                SettingsRoutes.getSettingsEntitiesRoute()
+              );
+            }}
+          />
+          <ListItem
+            title="Charts stores"
+            showArrow={true}
+            onPress={() => {
+              this.props.navigator.push(
+                SettingsRoutes.getSettingsChartsStoresRoute()
+              );
+            }}
+          />
+          <ListItem
+            title="Maximum number of replicas"
+            isLast={true}
+            onPress={() => {
+              this.replicasInput && this.replicasInput.focus();
+            }}
+            renderDetail={() => {
+              return (
+                <TextInput
+                  ref={t => {
+                    this.replicasInput = t;
+                  }}
+                  style={styles.replicasInput}
+                  defaultValue={`${maxReplicas}`}
+                  keyboardType="numeric"
+                  underlineColorAndroid="transparent"
+                  onSubmitEditing={e => {
+                    const value = parseInt(e.nativeEvent.text, 10);
+                    if (!value || value <= 0) {
+                      this.replicasInput.setNativeProps({
+                        text: `${maxReplicas}`,
+                      });
+                      return;
+                    }
+                    this.replicasInput.setNativeProps({ text: `${value}` });
+                    SettingsActions.updateMaxReplicas(value);
+                  }}
+                />
+              );
+            }}
+          />
 
-          <ListHeader style={{marginTop: 20}} title="About us"/>
-          <ListItem detailTitle={APP_CONFIG.VERSION} renderTitle={() => {
-            return (
-              <View style={styles.titleContainer}>
-                <Image style={styles.logo} source={require('images/icon.png')}/>
-                <Image style={[styles.logo, {width: 84}]} source={require('images/logo.png')}/>
-              </View>
-            );
-          }}/>
-          <ListItem detailTitle="@skippbox" onPress={() => Linking.openURL('https://twitter.com/skippbox')}
+          <ListHeader style={{ marginTop: 20 }} title="About us" />
+          <ListItem
+            detailTitle={APP_CONFIG.VERSION}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
-                  <Image style={styles.logo} source={require('images/twitter.png')}/>
+                  <Image
+                    style={styles.logo}
+                    source={require('images/icon.png')}
+                  />
+                  <Image
+                    style={[styles.logo, { width: 84 }]}
+                    source={require('images/logo.png')}
+                  />
                 </View>
               );
-            }}/>
-          <ListItem detailTitle="info@skippbox.com" onPress={() => Linking.openURL('mailto:info@skippbox.com')}
+            }}
+          />
+          <ListItem
+            detailTitle="@skippbox"
+            onPress={() => Linking.openURL('https://twitter.com/skippbox')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
-                  <Image style={[styles.logo, styles.tintColor]} source={require('images/mail.png')}/>
+                  <Image
+                    style={styles.logo}
+                    source={require('images/twitter.png')}
+                  />
                 </View>
               );
-            }}/>
-          <ListItem detailTitle="www.skippbox.com" isLast={true} onPress={() => Linking.openURL('http://www.skippbox.com')}
+            }}
+          />
+          <ListItem
+            detailTitle="info@skippbox.com"
+            onPress={() => Linking.openURL('mailto:info@skippbox.com')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
-                  <Image style={[styles.logo, styles.tintColor]} source={require('images/web.png')}/>
+                  <Image
+                    style={[styles.logo, styles.tintColor]}
+                    source={require('images/mail.png')}
+                  />
                 </View>
               );
-            }}/>
+            }}
+          />
+          <ListItem
+            detailTitle="www.skippbox.com"
+            isLast={true}
+            onPress={() => Linking.openURL('http://www.skippbox.com')}
+            renderTitle={() => {
+              return (
+                <View style={styles.titleContainer}>
+                  <Image
+                    style={[styles.logo, styles.tintColor]}
+                    source={require('images/web.png')}
+                  />
+                </View>
+              );
+            }}
+          />
 
-          <ListHeader style={{marginTop: 20}} title="Issues"/>
-          <ListItem detailTitle="Github" showArrow={true} isLast={true} onPress={() => Linking.openURL('https://github.com/bitnami/cabin/issues')}
+          <ListHeader style={{ marginTop: 20 }} title="Issues" />
+          <ListItem
+            detailTitle="Github"
+            showArrow={true}
+            isLast={true}
+            onPress={() =>
+              Linking.openURL('https://github.com/bitnami/cabin/issues')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
-                  <Image style={[styles.logo, styles.tintColor]} source={require('images/github.png')}/>
+                  <Image
+                    style={[styles.logo, styles.tintColor]}
+                    source={require('images/github.png')}
+                  />
                 </View>
               );
-            }}/>
+            }}
+          />
         </ScrollView>
       </View>
     );

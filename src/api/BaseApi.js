@@ -169,6 +169,9 @@ class BaseApi {
         if (json.error) {
           return this.handleError(json.error);
         }
+        if (json.status === 'Failure') {
+          return this.handleError(json);
+        }
         if (__DEV__ && !APP_CONFIG.DEBUG_API) {
           console.log(`[BaseApi ${url}]`, json);
         }

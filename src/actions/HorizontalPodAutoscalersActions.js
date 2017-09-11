@@ -15,6 +15,7 @@
 */
 import alt from 'src/alt';
 import EntitiesActions from 'actions/EntitiesActions';
+import ClustersApi from 'api/ClustersApi';
 
 const entityType = 'horizontalpodautoscalers';
 
@@ -25,6 +26,10 @@ class HorizontalPodAutoscalersActions {
 
   fetchHorizontalPodAutoscalers(cluster) {
     return EntitiesActions.fetchEntities({ cluster, entityType });
+  }
+
+  updateSpec({ cluster, hpa, spec }) {
+    return ClustersApi.updateHPASpec({ cluster, hpa, spec });
   }
 }
 
