@@ -161,7 +161,7 @@ protobuf {
 }
 
 dependencies {
-    compile project(':react-native-google-signin')
+    compile project(':react-native-material-kit')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-config')
     compile project(':react-native-fs')
@@ -170,7 +170,6 @@ dependencies {
     compile 'com.facebook.react:react-native:+'
     // From node_modules
     compile project(':react-native-orientation')
-    compile project(':react-native-material-kit')
     compile(project(':react-native-google-signin')) {
         exclude group: "com.google.android.gms"
     }

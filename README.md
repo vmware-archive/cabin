@@ -127,10 +127,18 @@ It is full of neat features, check out the screencast below by clicking on the i
 
 ## Run Locally Using Simulators
 
+### Run the packager (for both iOS and Android)
+
 Install node dependencies:
 
 ```
-npm install
+yarn install
+```
+
+Run the packager:
+
+```
+yarn start
 ```
 
 Install React Native cli:
@@ -139,11 +147,7 @@ Install React Native cli:
 npm install -g react-native-cli
 ```
 
-Run the packager:
-
-```
-npm start
-```
+⚠️ Follow the [Getting Started guide](http://facebook.github.io/react-native/releases/0.48/docs/getting-started.html) to make sure you have everything ready to run a react-native app.
 
 ### iOS
 
@@ -154,18 +158,17 @@ gem install cocoapods
 cd iOS/ && pod install
 ```
 
-Run the app on iOS for dev:
-(you need Xcode installed on your mac)
-
+Run the app on iOS:
 ```
 react-native run-ios
 ```
 
 ### Android
 
-The easiest way is to run the app directly from Android Studio (add `cabin/android` as an existing project).
-
-Or you can use `react-native run-android` if you already have an emulator launched or a device connected (to launch one is `path/to/android/sdk/emulator -avd <emulator name>`)
+Run the app on Android:
+```
+react-native run-android
+```
 
 ## Get Cabin
 
@@ -191,4 +194,3 @@ Cabin abides by the Kubernetes [Code of Conduct](code-of-conduct.md)
 ## Sponsor
 
 Cabin is brought to you thanks to [Bitnami](https://bitnami.com). Cabin was developed by Skippbox and joined the Bitnami portfolio of Kubernetes products after Skippbox's [acquisition](https://thenewstack.io/skippbox-enterprise-building-kubernetes-bitnami/).
-
