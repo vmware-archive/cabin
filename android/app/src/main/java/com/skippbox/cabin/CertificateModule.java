@@ -1,5 +1,6 @@
 package com.skippbox.cabin;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
@@ -10,26 +11,37 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 import com.facebook.react.modules.network.ReactCookieJarContainer;
+import com.google.common.collect.Iterables;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.KeyStoreBuilderParameters;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class CertificateModule extends ReactContextBaseJavaModule {
 
@@ -44,24 +56,65 @@ public class CertificateModule extends ReactContextBaseJavaModule {
         return REACT_NAME;
     }
 
+    public static void setupClient(OkHttpClient currentClient) {
+        OkHttpClientProvider.replaceOkHttpClient(CertificateModule.getUnsafeOkHttpClientBuilder(currentClient, null).build());
+    }
+
+    static OkHttpClient.Builder getUnsafeOkHttpClientBuilder(OkHttpClient currentClient, KeyManager[] keyManagers) {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[] { getTrustManager() };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(keyManagers, trustAllCerts, new java.security.SecureRandom());
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient.Builder builder = currentClient.newBuilder();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
+            builder.cookieJar(new ReactCookieJarContainer());
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            return builder
+                    .addInterceptor(logging)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @ReactMethod
     public void initClientWithCertificates(ReadableArray clusters, Promise promise) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyManagementException {
-        List<KeyManager> keys = new ArrayList<>();
-        final X509TrustManager trustManager = getTrustManager();
 
+        /*List<X509KeyManager> keys = new ArrayList<>();
         for (int i = 0; i < clusters.size(); i++) {
             ReadableMap cluster = clusters.getMap(i);
             ReadableMap certificate = cluster.hasKey("certificate") ? cluster.getMap("certificate") : null;
 
             if (certificate != null && certificate.hasKey("path")) {
-                char[] password = certificate.getString("password").toCharArray();
-                try {
-                    KeyStore keyStore = KeyStore.getInstance("PKCS12");
+                String password = cluster.hasKey("password") ? certificate.getString("password") : "";
+                String path = certificate.getString("path");
+                File file = new File(getReactApplicationContext().getFilesDir() + "/" + path);
 
-                    keyStore.load(new FileInputStream(new File(getReactApplicationContext().getFilesDir() + "/" + certificate.getString("path"))), password);
+                try {
+                    FileInputStream fileStream = new FileInputStream(file);
+                    KeyStore keyStore = KeyStore.getInstance("PKCS12");
+                    keyStore.load(fileStream, password.toCharArray());
                     KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                    kmf.init(keyStore, password);
-                    keys.addAll(Arrays.asList(kmf.getKeyManagers()));
+                    kmf.init(keyStore, password.toCharArray());
+                    keys.add(Iterables.getFirst(Iterables.filter(
+                            Arrays.asList(kmf.getKeyManagers()), X509KeyManager.class), null));
                 } catch (Exception e) {
                     Log.e("Cabin", "Error with cluster: " + cluster, e);
                     // wrong passphrase or something, ignore this certificate
@@ -69,17 +122,11 @@ public class CertificateModule extends ReactContextBaseJavaModule {
                 }
             }
         }
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(keys.size() > 0 ? keys.toArray(new KeyManager[keys.size()]) : null, new TrustManager[]{trustManager}, null);
+        KeyManager[] keyManagers = keys.size() > 0 ? keys.toArray(new KeyManager[keys.size()]) : null*/
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(0, TimeUnit.MILLISECONDS)
-                .readTimeout(0, TimeUnit.MILLISECONDS)
-                .writeTimeout(0, TimeUnit.MILLISECONDS)
-                .cookieJar(new ReactCookieJarContainer())
-                .sslSocketFactory(sslContext.getSocketFactory(), trustManager)
-                .build();
+        OkHttpClient.Builder builder = getUnsafeOkHttpClientBuilder(OkHttpClientProvider.getOkHttpClient(), null);
 
+        OkHttpClient client = builder.build();
         OkHttpClientProvider.replaceOkHttpClient(client);
         promise.resolve(true);
     }
@@ -98,6 +145,7 @@ public class CertificateModule extends ReactContextBaseJavaModule {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return new java.security.cert.X509Certificate[]{};
             }
+
         };
     }
 }

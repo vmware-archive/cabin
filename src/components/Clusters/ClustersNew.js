@@ -55,12 +55,17 @@ const styles = StyleSheet.create({
   },
   loader: {
     position: 'absolute',
-    top: 0, left: 0, bottom: 0, right: 0,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    alignItems: 'center', justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   certificateClose: {
-    width: 20, height: 20,
+    width: 20,
+    height: 20,
     marginTop: 3,
     tintColor: Colors.GRAY,
   },
@@ -71,10 +76,9 @@ const styles = StyleSheet.create({
 });
 
 export default class ClustersNew extends Component {
-
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map), // if provided, it will edit cluster instead of create new one
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -90,7 +94,9 @@ export default class ClustersNew extends Component {
       password: cluster ? cluster.get('password') : '',
       token: cluster ? cluster.get('token') : '',
       certificatePath: cluster ? cluster.getIn(['certificate', 'path']) : '',
-      certificatePassword: cluster ? cluster.getIn(['certificate', 'password']) : '',
+      certificatePassword: cluster
+        ? cluster.getIn(['certificate', 'password'])
+        : '',
 
       googleUser: null,
       downloadingCertificate: false,
@@ -100,7 +106,10 @@ export default class ClustersNew extends Component {
   }
 
   componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('ClustersNew:submit', this.onSubmit.bind(this));
+    this.submitListener = DeviceEventEmitter.addListener(
+      'ClustersNew:submit',
+      this.onSubmit.bind(this)
+    );
     GoogleCloudApi.configureGoogleSignin();
   }
 
@@ -111,20 +120,36 @@ export default class ClustersNew extends Component {
   render() {
     return (
       <View style={styles.flex}>
-        <ScrollView style={styles.scrollView}
+        <ScrollView
+          style={styles.scrollView}
           contentContainerStyle={styles.scrollViewContent}
           keyboardDismissMode={'interactive'}
-          keyboardShouldPersistTaps="always">
+          keyboardShouldPersistTaps="always"
+        >
           {this.renderGoogle()}
-          <ListHeader title="Manual cluster entry" style={{marginTop: 20}}/>
-          <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.url} placeholder="URL"
-            onChangeText={url => this.setState({url})}/>
-          <ListInputItem defaultValue={this.state.name} placeholder="Optional name"
-            onChangeText={name => this.setState({name})} isLast={true}/>
-          <ListHeader title="Authentication" style={{marginTop: 20}}/>
+          <ListHeader title="Manual cluster entry" style={{ marginTop: 20 }} />
+          <ListInputItem
+            autoCapitalize="none"
+            autoCorrect={false}
+            defaultValue={this.state.url}
+            placeholder="URL"
+            onChangeText={url => this.setState({ url })}
+          />
+          <ListInputItem
+            defaultValue={this.state.name}
+            placeholder="Optional name"
+            onChangeText={name => this.setState({ name })}
+            isLast={true}
+          />
+          <ListHeader title="Authentication" style={{ marginTop: 20 }} />
           {this.renderAuthentication()}
         </ScrollView>
-        {this.state.loading && <ActivityIndicator style={styles.loader} color={Colors.WHITE} size="large"/>}
+        {this.state.loading &&
+          <ActivityIndicator
+            style={styles.loader}
+            color={Colors.WHITE}
+            size="large"
+          />}
       </View>
     );
   }
@@ -135,14 +160,14 @@ export default class ClustersNew extends Component {
     return (
       <View style={styles.authentication}>
         <SegmentedControl
-          style={{width: 300, alignSelf: 'center', marginBottom: 4}}
+          style={{ width: 300, alignSelf: 'center', marginBottom: 4 }}
           borderColor={Colors.BLUE}
           activeColor={Colors.BLUE}
           activeTextColor={Colors.WHITE}
           inactiveTextColor={Colors.BLUE}
           selectedIndex={new Animated.Value(index)}
           controls={controls}
-          onPress={(i) => this.setState({authenticationIndex: i})}
+          onPress={i => this.setState({ authenticationIndex: i })}
         />
         {index === 0 && this.renderCertificate()}
         {index === 1 && this.renderCredentials()}
@@ -154,10 +179,22 @@ export default class ClustersNew extends Component {
   renderCredentials() {
     return (
       <View>
-        <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.username} placeholder="Username"
-          onChangeText={username => this.setState({username})}/>
-        <ListInputItem secureTextEntry={true} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.password} placeholder="Password"
-          onChangeText={password => this.setState({password})} isLast={true}/>
+        <ListInputItem
+          autoCapitalize="none"
+          autoCorrect={false}
+          defaultValue={this.state.username}
+          placeholder="Username"
+          onChangeText={username => this.setState({ username })}
+        />
+        <ListInputItem
+          secureTextEntry={true}
+          autoCapitalize="none"
+          autoCorrect={false}
+          defaultValue={this.state.password}
+          placeholder="Password"
+          onChangeText={password => this.setState({ password })}
+          isLast={true}
+        />
       </View>
     );
   }
@@ -165,30 +202,80 @@ export default class ClustersNew extends Component {
   renderToken() {
     return (
       <View>
-        <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token} placeholder="Access Token"
-          onChangeText={token => this.setState({token})} isLast={true}/>
+        <ListInputItem
+          autoCapitalize="none"
+          autoCorrect={false}
+          defaultValue={this.state.token}
+          placeholder="Access Token"
+          onChangeText={token => this.setState({ token })}
+          isLast={true}
+        />
       </View>
     );
   }
 
   renderCertificate() {
-    const { certificatePath, certificateUrl, certificatePassword, downloadingCertificate } = this.state;
+    const {
+      certificatePath,
+      certificateUrl,
+      certificatePassword,
+      downloadingCertificate,
+    } = this.state;
     return (
       <View>
-        {!certificatePath && !downloadingCertificate && <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={this.state.token}
-          placeholder="Paste certificate url (.p12)"
-          onChangeText={t => this.setState({certificateUrl: t})}
-          returnKeyType="done" onSubmitEditing={this.downloadCert.bind(this)} isLast={!certificateUrl}/>}
-        {downloadingCertificate && <ListItem title="Downloading certificate..."  isLast={true}/>}
-        {!certificatePath && !downloadingCertificate && !!certificateUrl && <ListItem title="Download certficate" showArrow={true} onPress={this.downloadCert.bind(this)} isLast={true}/>}
-        {!!certificatePath && <ListInputItem defaultValue={certificatePath} editable={false} placeholder="Certificate"
-          renderDetail={() => {
-            return <TouchableOpacity onPress={() => this.setState({certificatePath: null})}><Image source={require('images/close.png')} style={styles.certificateClose}/></TouchableOpacity>;
-          }}/>
-        }
-        {!!certificatePath && <ListInputItem style={{marginBottom: 20}} autoCapitalize="none" autoCorrect={false} defaultValue={certificatePassword}
-          placeholder="Passphrase" isLast={true} secureTextEntry={true}
-          onChangeText={t => this.setState({certificatePassword: t})} />}
+        {!certificatePath &&
+          !downloadingCertificate &&
+          <ListInputItem
+            style={{ marginBottom: 20 }}
+            autoCapitalize="none"
+            autoCorrect={false}
+            defaultValue={this.state.token}
+            placeholder="Paste certificate url (.p12)"
+            onChangeText={t => this.setState({ certificateUrl: t })}
+            returnKeyType="done"
+            onSubmitEditing={this.downloadCert.bind(this)}
+            isLast={!certificateUrl}
+          />}
+        {downloadingCertificate &&
+          <ListItem title="Downloading certificate..." isLast={true} />}
+        {!certificatePath &&
+          !downloadingCertificate &&
+          !!certificateUrl &&
+          <ListItem
+            title="Download certficate"
+            showArrow={true}
+            onPress={this.downloadCert.bind(this)}
+            isLast={true}
+          />}
+        {!!certificatePath &&
+          <ListInputItem
+            defaultValue={certificatePath}
+            editable={false}
+            placeholder="Certificate"
+            renderDetail={() => {
+              return (
+                <TouchableOpacity
+                  onPress={() => this.setState({ certificatePath: null })}
+                >
+                  <Image
+                    source={require('images/close.png')}
+                    style={styles.certificateClose}
+                  />
+                </TouchableOpacity>
+              );
+            }}
+          />}
+        {!!certificatePath &&
+          <ListInputItem
+            style={{ marginBottom: 20 }}
+            autoCapitalize="none"
+            autoCorrect={false}
+            defaultValue={certificatePassword}
+            placeholder="Passphrase"
+            isLast={true}
+            secureTextEntry={true}
+            onChangeText={t => this.setState({ certificatePassword: t })}
+          />}
       </View>
     );
   }
@@ -200,67 +287,105 @@ export default class ClustersNew extends Component {
       return false;
     }
     return [
-      <ListHeader key="title" title="" style={{marginTop: -10}} />,
-      <ListItem key="action" title={intl('gke_signin')} isLast={true} onPress={this.signInGoogle.bind(this)} renderDetail={() =>
-        <Image source={require('images/google.png')}
-          style={{width: 30, height: 30, marginTop: -6}}/>
-      }/>,
-      (<View key="border" style={{height: 30, marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
-        <Text style={{marginHorizontal: 10, color: Colors.GRAY}}>{'Or'}</Text>
-        <View style={{height: 1, flex: 1, backgroundColor: '#BBBBBB'}}/>
-      </View>),
+      <ListHeader key="title" title="" style={{ marginTop: -10 }} />,
+      <ListItem
+        key="action"
+        title={intl('gke_signin')}
+        isLast={true}
+        onPress={this.signInGoogle.bind(this)}
+        renderDetail={() =>
+          <Image
+            source={require('images/google.png')}
+            style={{ width: 30, height: 30, marginTop: -6 }}
+          />}
+      />,
+      <View
+        key="border"
+        style={{
+          height: 30,
+          marginTop: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <View style={{ height: 1, flex: 1, backgroundColor: '#BBBBBB' }} />
+        <Text style={{ marginHorizontal: 10, color: Colors.GRAY }}>{'Or'}</Text>
+        <View style={{ height: 1, flex: 1, backgroundColor: '#BBBBBB' }} />
+      </View>,
     ];
   }
 
   signInGoogle() {
-    this.setState({loading: true});
-    GoogleCloudActions.signIn().then(() => {
-      return GoogleCloudActions.getProjects();
-    }).then(() => {
-      this.setState({loading: false});
-      const projects = alt.stores.GoogleCloudStore.getProjects();
-      if (projects.size > 0) {
-        const projectId = projects.getIn([0, 'projectId']);
-        GoogleCloudActions.getProjectPolicy(projectId);
-        GoogleCloudActions.getClusters(projectId);
-        this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
-      }
-    }).catch(() => {
-      this.setState({loading: false});
-      AlertUtils.showError();
-    });
+    this.setState({ loading: true });
+    GoogleCloudActions.signIn()
+      .then(() => {
+        return GoogleCloudActions.getProjects();
+      })
+      .then(() => {
+        this.setState({ loading: false });
+        const projects = alt.stores.GoogleCloudStore.getProjects();
+        if (projects.size > 0) {
+          const projectId = projects.getIn([0, 'projectId']);
+          GoogleCloudActions.getProjectPolicy(projectId);
+          GoogleCloudActions.getClusters(projectId);
+          this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
+        }
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+        AlertUtils.showError();
+      });
   }
 
   downloadCert() {
     const url = this.state.certificateUrl;
     const certName = url.substr(url.lastIndexOf('/') + 1);
     if (!this.isValidUrl(url) || certName === '') {
-      AlertUtils.showError({message: 'Wrong url'});
+      AlertUtils.showError({ message: 'Wrong url' });
       return;
     }
-    this.setState({downloadingCertificate: true});
+    this.setState({ downloadingCertificate: true });
     const certPath = RNFS.DocumentDirectoryPath + '/' + certName;
-    RNFS.downloadFile({fromUrl: url, toFile: certPath}).promise.then(() => {
-      this.setState({downloadingCertificate: false, certificatePath: certName, certificateUrl: ''});
-    }).catch(() => {
-      AlertUtils.showError();
-      this.setState({downloadingCertificate: false});
-    });
+    RNFS.downloadFile({ fromUrl: url, toFile: certPath })
+      .promise.then(() => {
+        this.setState({
+          downloadingCertificate: false,
+          certificatePath: certName,
+          certificateUrl: '',
+        });
+      })
+      .catch(() => {
+        AlertUtils.showError();
+        this.setState({ downloadingCertificate: false });
+      });
   }
 
   onSubmit() {
     if (!this.isValidUrl(this.state.url)) {
-      AlertUtils.showWarning({message: intl('cluster_new_wrong_url')});
+      AlertUtils.showWarning({ message: intl('cluster_new_wrong_url') });
       return;
     }
-    const { url, name, username, password, token, certificatePath, certificatePassword} = this.state;
+    const {
+      url,
+      name,
+      username,
+      password,
+      token,
+      certificatePath,
+      certificatePassword,
+    } = this.state;
     const params = Immutable.fromJS({
-      url, name, username, password, token,
-      certificate: certificatePath ? { path: certificatePath, password: certificatePassword} : undefined,
+      url,
+      name,
+      username,
+      password,
+      token,
+      certificate: certificatePath
+        ? { path: certificatePath, password: certificatePassword }
+        : undefined,
     });
     if (this.props.cluster) {
-      ClustersActions.editCluster({cluster: this.props.cluster, params});
+      ClustersActions.editCluster({ cluster: this.props.cluster, params });
     } else {
       ClustersActions.addCluster(params.toJS());
     }
@@ -268,9 +393,16 @@ export default class ClustersNew extends Component {
       const cluster = alt.stores.ClustersStore.get(this.state.url);
 
       if (Platform.OS === 'android') {
-        NativeModules.Certificate.initClientWithCertificates(alt.stores.ClustersStore.getClusters().filter(c => c.get('certificate')).toJS()).then(() => {
-          cluster && ClustersActions.checkCluster(cluster);
-        });
+        NativeModules.Certificate
+          .initClientWithCertificates(
+            alt.stores.ClustersStore
+              .getClusters()
+              .filter(c => c.get('certificate'))
+              .toJS()
+          )
+          .then(() => {
+            cluster && ClustersActions.checkCluster(cluster);
+          });
       } else {
         cluster && ClustersActions.checkCluster(cluster);
       }
