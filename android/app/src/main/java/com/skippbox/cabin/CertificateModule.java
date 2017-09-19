@@ -97,7 +97,7 @@ public class CertificateModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void initClientWithCertificates(ReadableArray clusters, Promise promise) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, KeyManagementException {
 
-        /*List<X509KeyManager> keys = new ArrayList<>();
+        List<X509KeyManager> keys = new ArrayList<>();
         for (int i = 0; i < clusters.size(); i++) {
             ReadableMap cluster = clusters.getMap(i);
             ReadableMap certificate = cluster.hasKey("certificate") ? cluster.getMap("certificate") : null;
@@ -122,9 +122,9 @@ public class CertificateModule extends ReactContextBaseJavaModule {
                 }
             }
         }
-        KeyManager[] keyManagers = keys.size() > 0 ? keys.toArray(new KeyManager[keys.size()]) : null*/
+        KeyManager[] keyManagers = keys.size() > 0 ? keys.toArray(new KeyManager[keys.size()]) : null;
 
-        OkHttpClient.Builder builder = getUnsafeOkHttpClientBuilder(OkHttpClientProvider.getOkHttpClient(), null);
+        OkHttpClient.Builder builder = getUnsafeOkHttpClientBuilder(OkHttpClientProvider.getOkHttpClient(), keyManagers);
 
         OkHttpClient client = builder.build();
         OkHttpClientProvider.replaceOkHttpClient(client);

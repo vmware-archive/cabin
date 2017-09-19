@@ -120,7 +120,7 @@ OSStatus extractIdentityAndTrust(CFStringRef password, CFDataRef inP12data, SecI
   CFArrayRef items = CFArrayCreate(NULL, 0, 0, NULL);
   securityError = SecPKCS12Import(inP12data, options, &items);
   
-  if (securityError == 0) {
+  if (securityError == 0 && CFArrayGetCount(items) > 0) {
     CFDictionaryRef myIdentityAndTrust = CFArrayGetValueAtIndex(items, 0);
     const void *tempIdentity = NULL;
     tempIdentity = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemIdentity);
@@ -128,6 +128,9 @@ OSStatus extractIdentityAndTrust(CFStringRef password, CFDataRef inP12data, SecI
     const void *tempTrust = NULL;
     tempTrust = CFDictionaryGetValue(myIdentityAndTrust, kSecImportItemTrust);
     *trust = (SecTrustRef)tempTrust;
+  } else {
+    NSLog(@"Certificate Error, unsupported certificate");
+    securityError = errSecInvalidKeyRef;
   }
   
   if (options) {

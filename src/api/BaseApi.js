@@ -138,7 +138,7 @@ class BaseApi {
     }
     if (!response.ok) {
       return response.text().then(t => {
-        return this.handleError(BaseApi.parseJSON(t));
+        return this.handleError(BaseApi.parseJSON(t) || t, url);
       });
     }
     // avoid error when the server doesn't return json
@@ -170,7 +170,7 @@ class BaseApi {
           return this.handleError(json.error);
         }
         if (__DEV__ && !APP_CONFIG.DEBUG_API) {
-          console.log(`[BaseApi ${URL}]`, json);
+          console.log(`[BaseApi ${url}]`, json);
         }
         return new Promise(resolve => {
           InteractionManager.runAfterInteractions(() => {
@@ -250,11 +250,8 @@ class BaseApi {
     }
   }
 
-  static handleError(error) {
-    return Promise.reject({
-      status: BaseApi.getStatus(error),
-      message: error.message,
-    });
+  static handleError(message, url) {
+    return Promise.reject(new Error(`${url} - ${message}`));
   }
 
   static post(url, body = {}, cluster, entity) {
