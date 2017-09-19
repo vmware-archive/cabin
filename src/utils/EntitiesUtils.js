@@ -15,7 +15,6 @@
 */
 
 export default class EntitiesUtils {
-
   static storeForType(entityType) {
     let find;
     if (entityType === 'helmreleases') {
@@ -32,19 +31,24 @@ export default class EntitiesUtils {
     return find;
   }
 
-  static newDeploymentParams({name, image, namespace = 'default', args = {}}) {
+  static newDeploymentParams({
+    name,
+    image,
+    namespace = 'default',
+    args = {},
+  }) {
     return Immutable.fromJS({
       kind: 'Deployment',
       apiVersion: 'extensions/v1beta1',
-      metadata: { name, namespace, labels: {run: name} },
+      metadata: { name, namespace, labels: { run: name } },
       spec: {
         replicas: 1,
-        selector: { matchLabels: {run: name}},
+        selector: { matchLabels: { run: name } },
         template: {
-          metadata: { labels: {run: name}},
-          spec: { containers: [
-            {name, image, resources: {}, args},
-          ]},
+          metadata: { labels: { run: name } },
+          spec: {
+            containers: [{ name, image, resources: {}, args }],
+          },
         },
         strategy: {},
       },
@@ -52,33 +56,61 @@ export default class EntitiesUtils {
     });
   }
 
-  static newServiceParams({port, name, type = 'ClusterIP', labels = {}, selector, deployment}) {
+  static newServiceParams({
+    port,
+    name,
+    type = 'ClusterIP',
+    labels = {},
+    selector,
+    deployment,
+  }) {
     port = parseInt(port, 10);
     let serviceParams = Immutable.fromJS({
       kind: 'Service',
       apiVersion: 'v1',
-      metadata: {name, labels},
+      metadata: { name, labels },
       spec: {
-        ports: port ? [{protocol: 'TCP', port, targetPort: port}] : [],
+        ports: port ? [{ protocol: 'TCP', port, targetPort: port }] : [],
         selector: selector ? selector : {},
         type,
       },
-      status: {loadBalancer: {}},
+      status: { loadBalancer: {} },
     });
     if (deployment) {
       const deploymentName = deployment.getIn(['metadata', 'name']);
-      serviceParams = serviceParams.setIn(['metadata', 'labels', 'run'], deploymentName)
+      serviceParams = serviceParams
+        .setIn(['metadata', 'labels', 'run'], deploymentName)
         .setIn(['spec', 'selector', 'run'], deploymentName);
     }
     return serviceParams;
   }
 
-  static newSecretParams({name, data}) {
+  static newSecretParams({ name, data }) {
     return Immutable.fromJS({
       kind: 'Secret',
       apiVersion: 'v1',
-      metadata: {name},
+      metadata: { name },
       data,
+    });
+  }
+
+  static newHPAParams({ deployment, name, min, max }) {
+    const deploymentName = deployment && deployment.getIn(['metadata', 'name']);
+    return Immutable.fromJS({
+      kind: 'HorizontalPodAutoscaler',
+      apiVersion: 'autoscaling/v2alpha1',
+      metadata: {
+        name: name || deploymentName,
+      },
+      spec: {
+        scaleTargetRef: {
+          kind: 'Deployment',
+          name: deploymentName,
+          apiVersion: 'extensions/v1beta1',
+        },
+        minReplicas: min,
+        maxReplicas: max,
+      },
     });
   }
 
@@ -89,9 +121,17 @@ export default class EntitiesUtils {
       if (status.get('phase')) {
         status = status.get('phase').toUpperCase();
       } else if (status.get('conditions')) {
-        const condition = status.get('conditions').find(c => c.get('type') === 'Ready');
-        status = condition.get('status') === 'True' ? Status.READY : Status.NOTREADY;
-        if (status === Status.READY && entity.get('kind') === 'nodes' && entity.getIn(['spec', 'unschedulable'])) {
+        const condition = status
+          .get('conditions')
+          .find(c => c.get('type') === 'Ready');
+        status = condition.get('status') === 'True'
+          ? Status.READY
+          : Status.NOTREADY;
+        if (
+          status === Status.READY &&
+          entity.get('kind') === 'nodes' &&
+          entity.getIn(['spec', 'unschedulable'])
+        ) {
           status = Status.READY_UNSCHEDULABLE;
         }
       }
@@ -100,7 +140,8 @@ export default class EntitiesUtils {
   }
 
   static spartakusArgs() {
-    const generatedId = new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cabin';
+    const generatedId =
+      new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cabin';
     return ['volunteer', `--cluster-id=${generatedId}`];
   }
 }

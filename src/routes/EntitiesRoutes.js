@@ -23,6 +23,7 @@ import ServicesNew from 'components/Services/ServicesNew';
 import ServicesEditPort from 'components/Services/ServicesEditPort';
 import ReplicationsShow from 'components/Replications/ReplicationsShow';
 import HorizontalPodAutoscalersShow from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersShow';
+import HorizontalPodAutoscalersNew from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersNew';
 import DeploymentsShow from 'components/Deployments/DeploymentsShow';
 import DeploymentsNew from 'components/Deployments/DeploymentsNew';
 import DeploymentsHistory from 'components/Deployments/DeploymentsHistory';
@@ -504,6 +505,44 @@ EntitiesRoutes = {
         );
       },
     };
+  },
+
+  getHPANewRoute({ cluster }) {
+    const route = {
+      name: 'HorizontalPodAutoscalersNew',
+      statusBarStyle: 'light-content',
+      getTitle: () => intl('hpa_new'),
+      renderScene(navigator) {
+        return (
+          <HorizontalPodAutoscalersNew
+            cluster={cluster}
+            navigator={navigator}
+          />
+        );
+      },
+      renderLeftButton() {
+        return (
+          <NavbarButton
+            title={intl('cancel')}
+            onPress={() => NavigationActions.pop()}
+          />
+        );
+      },
+      renderRightButton() {
+        return (
+          <NavbarButton
+            title={intl('done')}
+            androidSource={require('images/done.png')}
+            onPress={() =>
+              DeviceEventEmitter.emit('HorizontalPodAutoscalersNew:submit')}
+          />
+        );
+      },
+      configureScene() {
+        return ExNavigator.SceneConfigs.FloatFromBottom;
+      },
+    };
+    return EntitiesRoutes.getModalRoute(route);
   },
 
   getDeploymentsShowRoute({ deployment, cluster }) {

@@ -170,7 +170,7 @@ class BaseApi {
           return this.handleError(json.error);
         }
         if (json.status === 'Failure') {
-          return this.handleError(json);
+          return this.handleError(json.message);
         }
         if (__DEV__ && !APP_CONFIG.DEBUG_API) {
           console.log(`[BaseApi ${url}]`, json);
@@ -253,8 +253,8 @@ class BaseApi {
     }
   }
 
-  static handleError(message, url) {
-    return Promise.reject(new Error(`${url} - ${message}`));
+  static handleError(message) {
+    return Promise.reject(new Error(message));
   }
 
   static post(url, body = {}, cluster, entity) {

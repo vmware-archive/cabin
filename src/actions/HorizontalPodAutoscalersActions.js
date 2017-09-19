@@ -16,6 +16,7 @@
 import alt from 'src/alt';
 import EntitiesActions from 'actions/EntitiesActions';
 import ClustersApi from 'api/ClustersApi';
+import EntitiesUtils from 'utils/EntitiesUtils';
 
 const entityType = 'horizontalpodautoscalers';
 
@@ -26,6 +27,16 @@ class HorizontalPodAutoscalersActions {
 
   fetchHorizontalPodAutoscalers(cluster) {
     return EntitiesActions.fetchEntities({ cluster, entityType });
+  }
+
+  createHPA({ cluster, deployment, name, min, max }) {
+    const params = EntitiesUtils.newHPAParams({ deployment, name, min, max });
+    return EntitiesActions.createEntity({
+      cluster,
+      entityType,
+      params,
+      namespace: deployment.getIn(['metadata', 'namespace']),
+    });
   }
 
   updateSpec({ cluster, hpa, spec }) {

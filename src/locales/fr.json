@@ -58,6 +58,9 @@
   "deployment_rollback_action": "Oui, rollback !",
   "deployment_rollback_succeed": "Rollback effectué !",
 
+  "hpa_new": "Nouvel Autoscaler",
+  "hpa_new_description": "Select a deployment to enable autoscaling",
+
   "deploy_index_failed_title": "Impossible de récupérer les données, verifiez votre connexion ou essayez une autre url",
   "deploy_index_failed_action": "Réessayer",
   "deploy_choose_cluster": "Choisissez un cluster",
