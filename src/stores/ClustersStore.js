@@ -22,7 +22,6 @@ import { AsyncStorage, NativeModules, Platform } from 'react-native';
 import FakeData from './FakeData';
 
 class ClustersStore {
-
   constructor() {
     this.bindActions(InitActions);
     this.bindActions(ClustersActions);
@@ -35,10 +34,22 @@ class ClustersStore {
 
   onInitAppSuccess(appState) {
     if (appState.get(this.displayName)) {
-      this.setState(this.state.merge(appState.get(this.displayName).filter((value, key) => key && value.get('url'))));
+      this.setState(
+        this.state.merge(
+          appState
+            .get(this.displayName)
+            .filter((value, key) => key && value.get('url'))
+        )
+      );
       setTimeout(() => {
         if (Platform.OS === 'android') {
-          NativeModules.Certificate.initClientWithCertificates(appState.get(this.displayName).toList().filter(c => c.get('certificate')).toJS());
+          NativeModules.Certificate.initClientWithCertificates(
+            appState
+              .get(this.displayName)
+              .toList()
+              .filter(c => c.get('certificate'))
+              .toJS()
+          );
         }
         this.state.map(cluster => {
           if (cluster.get('status') === Constants.Status.RUNNING) {
@@ -52,32 +63,56 @@ class ClustersStore {
   }
 
   onCheckClusterStart(cluster) {
-    if (this.state.get(cluster.get('url')) && !this.state.getIn([cluster.get('url'), 'status'])) {
-      this.setState(this.state.setIn([cluster.get('url'), 'status'], Constants.Status.CHECKING));
+    if (
+      this.state.get(cluster.get('url')) &&
+      !this.state.getIn([cluster.get('url'), 'status'])
+    ) {
+      this.setState(
+        this.state.setIn(
+          [cluster.get('url'), 'status'],
+          Constants.Status.CHECKING
+        )
+      );
     }
   }
 
-  onCheckClusterSuccess({cluster, up}) {
+  onCheckClusterSuccess({ cluster, up }) {
     const previousStatus = this.state.getIn([cluster.get('url'), 'status']);
     if (up && previousStatus !== Constants.Status.RUNNING) {
       ClustersActions.fetchClusterEntities(cluster);
     }
     if (this.state.get(cluster.get('url'))) {
-      this.setState(this.state.setIn([cluster.get('url'), 'status'], up ? Constants.Status.RUNNING : Constants.Status.DOWN));
+      this.setState(
+        this.state.setIn(
+          [cluster.get('url'), 'status'],
+          up ? Constants.Status.RUNNING : Constants.Status.DOWN
+        )
+      );
     }
     this.saveStore();
   }
 
-  onAddCluster({url, name, username, password, token, certificate}) {
-    const cluster = Immutable.fromJS({url, username, password, name: name ? name : url, status: Constants.Status.CHECKING, token, certificate});
+  onAddCluster({ url, name, username, password, token, certificate }) {
+    const cluster = Immutable.fromJS({
+      url,
+      username,
+      password,
+      name: name ? name : url,
+      status: Constants.Status.CHECKING,
+      token,
+      certificate,
+    });
     this.setState(this.state.set(cluster.get('url'), cluster));
     this.saveStore();
     return Promise.resolve(cluster);
   }
 
-  onEditCluster({cluster, params}) {
-    this.setState(this.state.remove(cluster.get('url'))
-      .set(params.get('url'), cluster.merge(params)));
+  onEditCluster({ cluster, params }) {
+    this.setState(
+      this.state
+        .remove(cluster.get('url'))
+        .set(params.get('url'), cluster.merge(params))
+    );
     this.saveStore();
   }
 
@@ -86,20 +121,26 @@ class ClustersStore {
     this.saveStore();
   }
 
-  onSetCurrentNamespace({cluster, namespace}) {
-    this.setState(this.state.setIn([cluster.get('url'), 'currentNamespace'], namespace));
+  onSetCurrentNamespace({ cluster, namespace }) {
+    this.setState(
+      this.state.setIn([cluster.get('url'), 'currentNamespace'], namespace)
+    );
     this.saveStore();
   }
 
-  onFetchNamespacesSuccess({cluster, namespaces}) {
-    this.setState(this.state.setIn([cluster.get('url'), 'namespaces'], namespaces));
+  onFetchNamespacesSuccess({ cluster, namespaces }) {
+    this.setState(
+      this.state.setIn([cluster.get('url'), 'namespaces'], namespaces)
+    );
     this.saveStore();
   }
 
-  onCreateNamespaceSuccess({cluster, namespace}) {
-    this.setState(this.state.updateIn([cluster.get('url'), 'namespaces'], namespaces => {
-      return namespaces.push(namespace);
-    }));
+  onCreateNamespaceSuccess({ cluster, namespace }) {
+    this.setState(
+      this.state.updateIn([cluster.get('url'), 'namespaces'], namespaces => {
+        return namespaces.push(namespace);
+      })
+    );
     this.saveStore();
   }
 
@@ -116,4 +157,5 @@ class ClustersStore {
   }
 }
 
-export default alt.stores.ClustersStore || alt.createStore(immutableUtil(ClustersStore), 'ClustersStore');
+export default alt.stores.ClustersStore ||
+  alt.createStore(immutableUtil(ClustersStore), 'ClustersStore');
