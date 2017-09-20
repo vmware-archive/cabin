@@ -229,7 +229,7 @@ export default class ClustersNew extends Component {
             style={{ marginBottom: 20 }}
             autoCapitalize="none"
             autoCorrect={false}
-            defaultValue={this.state.token}
+            defaultValue={this.state.certificateUrl}
             placeholder="Paste certificate url (.p12)"
             onChangeText={t => this.setState({ certificateUrl: t })}
             returnKeyType="done"

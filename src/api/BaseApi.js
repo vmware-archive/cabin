@@ -178,7 +178,6 @@ class BaseApi {
         return new Promise(resolve => {
           InteractionManager.runAfterInteractions(() => {
             const immutableData = Immutable.fromJS(json);
-            console.log('Resolving', immutableData);
             resolve(immutableData);
           });
         });

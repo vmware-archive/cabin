@@ -19,7 +19,12 @@ class ClustersApi {
   static checkCluster(cluster) {
     return BaseApi.get(`${cluster.get('url')}/api/v1`, {}, cluster)
       .then(response => Promise.resolve({ up: true, response }))
-      .catch(() => Promise.resolve({ up: false }));
+      .catch(error => {
+        if (error.message.indexOf('Unauthorized') === 0) {
+          return Promise.resolve({ up: true, response: 'Unauthorized' });
+        }
+        return Promise.resolve({ up: false });
+      });
   }
 
   static fetchNamespaces(cluster) {
