@@ -110,6 +110,7 @@
   "status_pending": "En attente..",
   "status_creating": "Création..",
   "status_terminating": "Finalisation..",
+  "status_unauthorized": "Non autorisé",
 
   "alert_error": "Une erreur s'est produite, réessayez plus tard",
   "rolling_update_alert": "Nouvelle image",

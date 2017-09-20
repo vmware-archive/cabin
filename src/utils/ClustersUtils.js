@@ -20,7 +20,6 @@ import ClustersActions from 'actions/ClustersActions';
 import Alert from 'utils/Alert';
 
 export default class ClustersUtils {
-
   static colorForStatus(status) {
     const { Status } = Constants;
     switch (status) {
@@ -31,6 +30,8 @@ export default class ClustersUtils {
       case Status.DOWN:
       case Status.NOTREADY:
         return Colors.RED;
+      case Status.UNAUTHORIZED:
+        return Colors.ORANGE;
       default:
         return Colors.GRAY;
     }
@@ -55,42 +56,58 @@ export default class ClustersUtils {
         return intl('status_terminating');
       case Status.CONTAINERCREATING:
         return intl('status_creating');
+      case Status.UNAUTHORIZED:
+        return intl('status_unauthorized');
       default:
         return intl('status_checking');
     }
   }
 
-  static showNamespaceActionSheet({cluster, all = true, create = false}) {
+  static showNamespaceActionSheet({ cluster, all = true, create = false }) {
     return new Promise(resolve => {
       const handleCreateNamespace = () => {
-        Alert.prompt(
-          intl('namespaces_create'),
-          null,
-          [{text: intl('cancel')},
-          {text: intl('create'), onPress: text => {
-            ClustersActions.createNamespace({cluster, namespace: text})
-            .then(() => resolve(text))
-            .catch(e => AlertUtils.showError({message: e.message}));
-          }},
-          ]
-        );
+        Alert.prompt(intl('namespaces_create'), null, [
+          { text: intl('cancel') },
+          {
+            text: intl('create'),
+            onPress: text => {
+              ClustersActions.createNamespace({ cluster, namespace: text })
+                .then(() => resolve(text))
+                .catch(e => AlertUtils.showError({ message: e.message }));
+            },
+          },
+        ]);
       };
-      const namespaces = alt.stores.ClustersStore.get(cluster.get('url')).get('namespaces', Immutable.List());
-      const onPress = (index) => {
+      const namespaces = alt.stores.ClustersStore
+        .get(cluster.get('url'))
+        .get('namespaces', Immutable.List());
+      const onPress = index => {
         let namespace;
-        if (!all || index > 1) { namespace = namespaces.get(index - (all ? 2 : 1)); } // 1 == all namespaces
+        if (!all || index > 1) {
+          namespace = namespaces.get(index - (all ? 2 : 1));
+        } // 1 == all namespaces
         resolve(namespace);
       };
       const options = [{ title: intl('cancel') }];
-      all && options.push({ title: intl('namespaces_all'), onPress});
-      options.push(...namespaces.map(n => { return {title: n, onPress};}));
-      create && options.push({ title: intl('namespaces_create'), destructive: true, onPress: handleCreateNamespace});
-      ActionSheetUtils.showActionSheetWithOptions({options});
+      all && options.push({ title: intl('namespaces_all'), onPress });
+      options.push(
+        ...namespaces.map(n => {
+          return { title: n, onPress };
+        })
+      );
+      create &&
+        options.push({
+          title: intl('namespaces_create'),
+          destructive: true,
+          onPress: handleCreateNamespace,
+        });
+      ActionSheetUtils.showActionSheetWithOptions({ options });
     });
   }
 
   static hasSpartakusDeployment(cluster) {
-    const spartakus = alt.stores.DeploymentsStore.getAll(cluster)
+    const spartakus = alt.stores.DeploymentsStore
+      .getAll(cluster)
       .find(d => d.getIn(['metadata', 'name']) === 'spartakus');
     return spartakus ? true : false;
   }
@@ -98,17 +115,28 @@ export default class ClustersUtils {
   static nodeUrlForCluster(cluster) {
     const nodes = alt.stores.NodesStore.getAll(cluster);
     const readyNodes = nodes.filter(node => {
-      return node.getIn(['status', 'conditions']).find(c => c.get('type') === 'Ready').get('status') === 'True';
+      return (
+        node
+          .getIn(['status', 'conditions'])
+          .find(c => c.get('type') === 'Ready')
+          .get('status') === 'True'
+      );
     });
     let url;
     const ready = readyNodes.find(node => {
       const externalID = node.getIn(['spec', 'externalID']);
-      if (/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(externalID)) {
+      if (
+        /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(externalID)
+      ) {
         url = externalID;
         return true;
       }
-      const ExternalIP = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'ExternalIP');
-      const InternalIP = node.getIn(['status', 'addresses']).find(addr => addr.get('type') === 'InternalIP');
+      const ExternalIP = node
+        .getIn(['status', 'addresses'])
+        .find(addr => addr.get('type') === 'ExternalIP');
+      const InternalIP = node
+        .getIn(['status', 'addresses'])
+        .find(addr => addr.get('type') === 'InternalIP');
       const address = ExternalIP || InternalIP;
       if (address) {
         url = address.get('address');
@@ -119,12 +147,11 @@ export default class ClustersUtils {
     return ready ? url : false;
   }
 
-  static hostForCluster({cluster, service}) {
+  static hostForCluster({ cluster, service }) {
     let url = ClustersUtils.nodeUrlForCluster(cluster);
     if (!url) {
       url = cluster.get('url').split(':')[0];
     }
     return `${url}:${service.getIn(['spec', 'ports', 0, 'nodePort'])}`;
   }
-
 }

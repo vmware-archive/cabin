@@ -76,17 +76,18 @@ class ClustersStore {
     }
   }
 
-  onCheckClusterSuccess({ cluster, up }) {
+  onCheckClusterSuccess({ cluster, up, response }) {
     const previousStatus = this.state.getIn([cluster.get('url'), 'status']);
     if (up && previousStatus !== Constants.Status.RUNNING) {
       ClustersActions.fetchClusterEntities(cluster);
     }
     if (this.state.get(cluster.get('url'))) {
+      const newStatus = up ? Constants.Status.RUNNING : Constants.Status.DOWN;
+      if (response === 'Unauthorized') {
+        newStatus = Constants.Status.UNAUTHORIZED;
+      }
       this.setState(
-        this.state.setIn(
-          [cluster.get('url'), 'status'],
-          up ? Constants.Status.RUNNING : Constants.Status.DOWN
-        )
+        this.state.setIn([cluster.get('url'), 'status'], newStatus)
       );
     }
     this.saveStore();

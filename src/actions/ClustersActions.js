@@ -19,7 +19,6 @@ import EntitiesActions from 'actions/EntitiesActions';
 import ReleasesActions from 'actions/ReleasesActions';
 
 class ClustersActions {
-
   constructor() {
     this.generateActions(
       'checkClusterStart',
@@ -31,27 +30,31 @@ class ClustersActions {
       'fetchNamespacesSuccess',
       'createNamespaceStart',
       'createNamespaceSuccess',
-      'createNamespaceFailure',
+      'createNamespaceFailure'
     );
   }
 
   checkClusters() {
-    return Promise.all(alt.stores.ClustersStore.getClusters().map(cluster => {
-      return this.checkCluster(cluster);
-    }));
+    return Promise.all(
+      alt.stores.ClustersStore.getClusters().map(cluster => {
+        return this.checkCluster(cluster);
+      })
+    );
   }
 
   checkCluster(cluster) {
     this.checkClusterStart(cluster);
-    return ClustersApi.checkCluster(cluster).then(up => {
-      this.checkClusterSuccess({cluster, up});
+    return ClustersApi.checkCluster(cluster).then(({ up, response }) => {
+      this.checkClusterSuccess({ cluster, up, response });
     });
   }
 
   fetchAllClustersEntities() {
-    return Promise.all(alt.stores.ClustersStore.getClusters().map(cluster => {
-      return this.fetchClusterEntities(cluster);
-    }));
+    return Promise.all(
+      alt.stores.ClustersStore.getClusters().map(cluster => {
+        return this.fetchClusterEntities(cluster);
+      })
+    );
   }
 
   fetchClusterEntities(cluster) {
@@ -61,25 +64,30 @@ class ClustersActions {
           ReleasesActions.fetchReleases.defer(cluster);
         }, 2000);
       } else {
-        EntitiesActions.fetchEntities.defer({cluster, entityType: entity.get('name')});
+        EntitiesActions.fetchEntities.defer({
+          cluster,
+          entityType: entity.get('name'),
+        });
       }
     });
   }
 
   fetchNamespaces(cluster) {
     return ClustersApi.fetchNamespaces(cluster).then(namespaces => {
-      this.fetchNamespacesSuccess({cluster, namespaces});
+      this.fetchNamespacesSuccess({ cluster, namespaces });
     });
   }
 
-  createNamespace({cluster, namespace}) {
-    this.createNamespaceStart({cluster, namespace});
-    return ClustersApi.createNamespace({cluster, namespace}).then(() => {
-      this.createNamespaceSuccess({cluster, namespace});
-    }).catch(e => {
-      this.createNamespaceFailure({cluster, e});
-      return Promise.reject(e);
-    });
+  createNamespace({ cluster, namespace }) {
+    this.createNamespaceStart({ cluster, namespace });
+    return ClustersApi.createNamespace({ cluster, namespace })
+      .then(() => {
+        this.createNamespaceSuccess({ cluster, namespace });
+      })
+      .catch(e => {
+        this.createNamespaceFailure({ cluster, e });
+        return Promise.reject(e);
+      });
   }
 }
 

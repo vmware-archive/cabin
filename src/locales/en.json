@@ -110,6 +110,7 @@
   "status_pending": "Pending..",
   "status_creating": "Creating..",
   "status_terminating": "Terminating..",
+  "status_unauthorized": "Unauthorized",
 
   "alert_error": "Something went wrong, try again later",
   "rolling_update_alert": "New image",
