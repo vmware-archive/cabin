@@ -4192,8 +4192,8 @@ qs@4.0.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-4.0.0.tgz#c31d9b74ec27df75e543a86c78728ed8d4623607"
 
 qs@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
 qs@~6.4.0:
   version "6.4.0"
@@ -4258,8 +4258,8 @@ react-devtools-core@^2.5.0:
     ws "^2.0.3"
 
 react-native-config@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.6.0.tgz#0f71631ab5ac4b568637dcb8e9f6ab85ffb380ed"
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.6.1.tgz#0a4c0a6ef8d086aeac9902ac4c3c9d9d19fa888a"
 
 react-native-deprecated-custom-components@^0.1.0:
   version "0.1.1"
@@ -4320,9 +4320,9 @@ react-native-safari-view@naoufal/react-native-safari-view:
   version "2.0.0"
   resolved "https://codeload.github.com/naoufal/react-native-safari-view/tar.gz/9b7cf6cefb50a40bfe1d83ba05a408141a94af38"
 
-react-native-sortable-listview@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.0.8.tgz#8740ac49641ba6bfe7d52c1ece74c59d6b94daea"
+react-native-sortable-listview@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.2.5.tgz#10428c681e6fa8140173bbcafcf48914b88e38e9"
 
 react-native-tag-input@^0.0.14:
   version "0.0.14"

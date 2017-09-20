@@ -25,11 +25,7 @@ import NamespacePicker from 'components/commons/NamespacePicker';
 import DeployReleases from 'components/Deploy/DeployReleases';
 import EntitiesUtils from 'utils/EntitiesUtils';
 
-const {
-  View,
-  Animated,
-  StyleSheet,
-} = ReactNative;
+const { View, Animated, StyleSheet } = ReactNative;
 
 const styles = StyleSheet.create({
   flex: {
@@ -40,17 +36,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   clusterStatus: {
-    width: 40, height: 40,
+    width: 40,
+    height: 40,
     backgroundColor: Colors.GREEN,
   },
 });
 
 export default class ClusterShow extends Component {
-
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     entitiesToDisplay: PropTypes.instanceOf(Immutable.List).isRequired,
-  }
+  };
 
   constructor() {
     super();
@@ -61,32 +57,47 @@ export default class ClusterShow extends Component {
   }
 
   componentDidMount() {
-    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e =>
+      e.get('name')
+    );
     this.watchEntities(entitiesToDisplay.get(0));
   }
 
   watchEntities(entityType) {
-    EntitiesActions.fetchEntities({cluster: this.props.cluster, entityType}).then(() => {
-      if (entityType === 'helmreleases') { return; }
-      EntitiesActions.watchEntities({cluster: this.props.cluster, entityType});
+    EntitiesActions.fetchEntities({
+      cluster: this.props.cluster,
+      entityType,
+    }).then(() => {
+      if (entityType === 'helmreleases') {
+        return;
+      }
+      EntitiesActions.watchEntities({
+        cluster: this.props.cluster,
+        entityType,
+      });
     });
   }
 
   render() {
-    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e =>
+      e.get('name')
+    );
     const { cluster } = this.props;
     const active = entitiesToDisplay.get(this.state.activePage);
     return (
       <View style={styles.flex}>
         <View style={styles.header}>
-          <NamespacePicker cluster={cluster}/>
+          <NamespacePicker cluster={cluster} />
           <SegmentedTabs
             isScrollable={true}
             selectedIndex={this.state.animatedIndex}
             controls={entitiesToDisplay.map(e => intl(e))}
-            onPress={(i) => {
-              Animated.timing(this.state.animatedIndex, {toValue: i, duration: 300}).start();
-              this.setState({activePage: i});
+            onPress={i => {
+              Animated.timing(this.state.animatedIndex, {
+                toValue: i,
+                duration: 300,
+              }).start();
+              this.setState({ activePage: i });
               this.watchEntities(entitiesToDisplay.get(i));
             }}
           />
@@ -98,35 +109,65 @@ export default class ClusterShow extends Component {
 
   renderGeneralEntities(active) {
     const { cluster } = this.props;
-    const entitiesToDisplay = this.props.entitiesToDisplay.map(e => e.get('name'));
+    const entitiesToDisplay = this.props.entitiesToDisplay.map(e =>
+      e.get('name')
+    );
     return entitiesToDisplay.map(entityType => {
-      if (active !== entityType) { return false; }
-      if (entityType === 'helmreleases') { return this.renderHelmRelease(); }
+      if (active !== entityType) {
+        return false;
+      }
+      if (entityType === 'helmreleases') {
+        return this.renderHelmRelease();
+      }
       const store = EntitiesUtils.storeForType(entityType);
-      let onCreate; let actionColor;
-      if (entityType === 'deployments') { onCreate = this.showDeploymentsNew.bind(this); actionColor = Colors.PURPLE;}
-      if (entityType === 'services') { onCreate = this.showServicesNew.bind(this); actionColor = Colors.ORANGE; }
+      let onCreate;
+      let actionColor;
+      if (entityType === 'deployments') {
+        onCreate = this.showDeploymentsNew.bind(this);
+        actionColor = Colors.PURPLE;
+      }
+      if (entityType === 'services') {
+        onCreate = this.showServicesNew.bind(this);
+        actionColor = Colors.ORANGE;
+      }
+      if (entityType === 'horizontalpodautoscalers') {
+        onCreate = this.showHPANew.bind(this);
+        actionColor = Colors.GREEN2;
+      }
       return (
-        <AltContainer key={entityType} stores={{
-          entities: () => {
-            return {
-              store,
-              value: store.getAll(cluster),
-            };
-          },
-          status: () => {
-            return {
-              store,
-              value: store.getStatus(cluster),
-            };
-          }}}>
+        <AltContainer
+          key={entityType}
+          stores={{
+            entities: () => {
+              return {
+                store,
+                value: store.getAll(cluster),
+              };
+            },
+            status: () => {
+              return {
+                store,
+                value: store.getStatus(cluster),
+              };
+            },
+          }}
+        >
           <EntitiesList
             navigator={this.props.navigator}
             status={store.getStatus(cluster)}
             entities={store.getAll(cluster)}
-            onPress={entity => this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, cluster, entityType}))}
-            onRefresh={() => EntitiesActions.fetchEntities({cluster, entityType})}
-            onDelete={entity => EntitiesActions.deleteEntity({cluster, entity, entityType})}
+            onPress={entity =>
+              this.props.navigator.push(
+                EntitiesRoutes.getEntitiesShowRoute({
+                  entity,
+                  cluster,
+                  entityType,
+                })
+              )}
+            onRefresh={() =>
+              EntitiesActions.fetchEntities({ cluster, entityType })}
+            onDelete={entity =>
+              EntitiesActions.deleteEntity({ cluster, entity, entityType })}
             onCreate={onCreate}
             actionColor={actionColor}
           />
@@ -138,41 +179,55 @@ export default class ClusterShow extends Component {
   renderHelmRelease() {
     const { cluster } = this.props;
     return (
-      <AltContainer key="helmreleases" stores={{
-        releases: () => {
-          return {
-            store: alt.stores.ReleasesStore,
-            value: alt.stores.ReleasesStore.getAll(cluster),
-          };
-        },
-        status: () => {
-          return {
-            store: alt.stores.ReleasesStore,
-            value: alt.stores.ReleasesStore.getStatus(cluster),
-          };
-        },
-        error: () => {
-          return {
-            store: alt.stores.ReleasesStore,
-            value: alt.stores.ReleasesStore.getError(cluster),
-          };
-        },
-      }}>
-        <DeployReleases cluster={cluster}
+      <AltContainer
+        key="helmreleases"
+        stores={{
+          releases: () => {
+            return {
+              store: alt.stores.ReleasesStore,
+              value: alt.stores.ReleasesStore.getAll(cluster),
+            };
+          },
+          status: () => {
+            return {
+              store: alt.stores.ReleasesStore,
+              value: alt.stores.ReleasesStore.getStatus(cluster),
+            };
+          },
+          error: () => {
+            return {
+              store: alt.stores.ReleasesStore,
+              value: alt.stores.ReleasesStore.getError(cluster),
+            };
+          },
+        }}
+      >
+        <DeployReleases
+          cluster={cluster}
           releases={alt.stores.ReleasesStore.getAll(cluster)}
           status={alt.stores.ReleasesStore.getStatus(cluster)}
           error={alt.stores.ReleasesStore.getError(cluster)}
-          navigator={this.props.navigator}/>
+          navigator={this.props.navigator}
+        />
       </AltContainer>
     );
   }
 
   showDeploymentsNew() {
-    NavigationActions.push(EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster));
+    NavigationActions.push(
+      EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster)
+    );
   }
 
   showServicesNew() {
-    NavigationActions.push(EntitiesRoutes.getServicesNewRoute({cluster: this.props.cluster}));
+    NavigationActions.push(
+      EntitiesRoutes.getServicesNewRoute({ cluster: this.props.cluster })
+    );
   }
 
+  showHPANew() {
+    NavigationActions.push(
+      EntitiesRoutes.getHPANewRoute({ cluster: this.props.cluster })
+    );
+  }
 }

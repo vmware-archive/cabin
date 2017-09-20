@@ -44,7 +44,7 @@
     "react-native-orientation": "yamill/react-native-orientation",
     "react-native-parsed-text": "^0.0.18",
     "react-native-safari-view": "naoufal/react-native-safari-view",
-    "react-native-sortable-listview": "0.0.8",
+    "react-native-sortable-listview": "0.2.5",
     "react-native-tag-input": "^0.0.14"
   },
   "devDependencies": {

@@ -25,6 +25,7 @@
   "ingresses": "Ingress Rules",
   "replicasets": "Replica Sets",
   "configmaps": "Config Maps",
+  "horizontalpodautoscalers": "Horizontal Pod Autoscalers",
   "chart": "Chart",
   "history": "Historique",
   "revisions": "Révisions",
@@ -56,6 +57,9 @@
   "deployment_rollback_alert": "Voulez-vous rollback à la révision #{revision}?",
   "deployment_rollback_action": "Oui, rollback !",
   "deployment_rollback_succeed": "Rollback effectué !",
+
+  "hpa_new": "Nouvel Autoscaler",
+  "hpa_new_description": "Select a deployment to enable autoscaling",
 
   "deploy_index_failed_title": "Impossible de récupérer les données, verifiez votre connexion ou essayez une autre url",
   "deploy_index_failed_action": "Réessayer",

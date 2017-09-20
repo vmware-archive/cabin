@@ -187,6 +187,17 @@ class ClustersApi {
     );
   }
 
+  /* HORIZONTAL POD AUTOSCALERS */
+  static updateHPASpec({ cluster, hpa, spec }) {
+    const body = { spec };
+    return BaseApi.patch(
+      `/horizontalpodautoscalers/${hpa.getIn(['metadata', 'name'])}`,
+      body,
+      cluster,
+      hpa
+    );
+  }
+
   /* SERVICES */
   static fetchService({ cluster, service }) {
     return BaseApi.get(

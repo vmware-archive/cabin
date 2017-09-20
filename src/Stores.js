@@ -17,6 +17,7 @@ import 'stores/ChartsStore';
 import 'stores/ClustersStore';
 import 'stores/ConfigMapsStore';
 import 'stores/DeploymentsStore';
+import 'stores/HorizontalPodAutoscalersStore';
 import 'stores/IngressesStore';
 import 'stores/NodesStore';
 import 'stores/PodsStore';
