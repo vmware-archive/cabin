@@ -16,7 +16,7 @@
 import Colors from 'styles/Colors';
 import PStyleSheet from 'styles/PStyleSheet';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Image,

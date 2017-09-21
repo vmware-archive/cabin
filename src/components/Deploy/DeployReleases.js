@@ -22,7 +22,7 @@ import NavigationActions from 'actions/NavigationActions';
 import ChartsUtils from 'utils/ChartsUtils';
 import DeployRoutes from 'routes/DeployRoutes';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Image,

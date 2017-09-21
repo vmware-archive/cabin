@@ -19,19 +19,17 @@ import ListHeader from 'components/commons/ListHeader';
 import TagInput from 'react-native-tag-input';
 import AlertUtils from 'utils/AlertUtils';
 
-const {
-  View,
-  StyleSheet,
-} = ReactNative;
+const { View, StyleSheet } = ReactNative;
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   close: {
-    width: 10, height: 10,
+    width: 10,
+    height: 10,
     tintColor: Colors.GRAY,
   },
   closeContainer: {
@@ -43,11 +41,10 @@ const styles = StyleSheet.create({
 });
 
 export default class LabelsView extends Component {
-
   static propTypes = {
     entity: PropTypes.instanceOf(Immutable.Map),
     onSubmit: PropTypes.func,
-  }
+  };
 
   constructor() {
     super();
@@ -58,36 +55,48 @@ export default class LabelsView extends Component {
     const { entity } = this.props;
 
     const labels = entity.getIn(['metadata', 'labels'], Immutable.List());
-    const values = labels.map((value, key) => {
-      return `${key}:${value}`;
-    }).toArray();
+    const values = labels
+      .map((value, key) => {
+        return `${key}:${value}`;
+      })
+      .toArray();
     return (
       <View style={styles.container}>
         <ListHeader title="Labels" />
-        <ListItem isLast={true} style={{height: null}} renderTitle={() => {
-          return (
-            <TagInput style={{flex: 1}} ref={(e) => {this.input = e;}}
-              autoCapitalize="none" autoCorrect={false}
-              placeholder="new:label"
-              returnKeyType="done"
-              keyboardType="ascii-capable"
-              value={values}
-              regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
-              onChange={(e) => {
-                if (e.length < values.length) {
-                  const deletedKey = '';
-                  values.forEach(v => {
-                    if (e.indexOf(v) === -1) {
-                      deletedKey = v.split(':')[0];
-                    }
-                  });
-                  this.handleDelete(deletedKey);
-                } else {
-                  this.handleSubmit(e[e.length - 1]);
-                }
-              }}/>
-          );
-        }}/>
+        <ListItem
+          isLast
+          style={{ height: null }}
+          renderTitle={() => {
+            return (
+              <TagInput
+                style={{ flex: 1, backgroundColor: 'red' }}
+                ref={e => {
+                  this.input = e;
+                }}
+                autoCapitalize="none"
+                autoCorrect={false}
+                placeholder="new:label"
+                returnKeyType="done"
+                keyboardType="ascii-capable"
+                value={values}
+                regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
+                onChange={e => {
+                  if (e.length < values.length) {
+                    const deletedKey = '';
+                    values.forEach(v => {
+                      if (e.indexOf(v) === -1) {
+                        deletedKey = v.split(':')[0];
+                      }
+                    });
+                    this.handleDelete(deletedKey);
+                  } else {
+                    this.handleSubmit(e[e.length - 1]);
+                  }
+                }}
+              />
+            );
+          }}
+        />
       </View>
     );
   }
@@ -98,11 +107,15 @@ export default class LabelsView extends Component {
       this.showError();
       return;
     }
-    this.props.onSubmit && this.props.onSubmit({key, value}).then(() => {
-      return true;
-    }).catch(() => {
-      this.showError();
-    });
+    this.props.onSubmit &&
+      this.props
+        .onSubmit({ key, value })
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          this.showError();
+        });
   }
 
   handleDelete(key) {
@@ -115,5 +128,4 @@ export default class LabelsView extends Component {
       message: 'Separate key and value with ":" \n(ex: foo:bar)',
     });
   }
-
 }

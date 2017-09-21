@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import ListHeader from 'components/commons/ListHeader';
@@ -30,14 +31,7 @@ import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
 import _ from 'lodash';
 
-const { PropTypes } = React;
-
-const {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} = ReactNative;
+const { View, StyleSheet, Text, TouchableOpacity } = ReactNative;
 
 const styles = StyleSheet.create({
   flex: {
@@ -78,18 +72,21 @@ const styles = StyleSheet.create({
 });
 
 const dateOptions = {
-  year: 'numeric', month: 'numeric', day: 'numeric',
-  hour: 'numeric', minute: 'numeric', second: 'numeric',
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
   hour12: false,
 };
 
 export default class ClustersNewGoogle extends Component {
-
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
     policies: PropTypes.instanceOf(Immutable.Map),
     selectedProjectId: PropTypes.string,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -107,8 +104,14 @@ export default class ClustersNewGoogle extends Component {
   }
 
   render() {
-    const choices = this.props.projects.map(p => ({ name: p.get('name') || p.get('projectId'), id: p.get('projectId') }));
-    const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
+    const choices = this.props.projects.map(p => ({
+      name: p.get('name') || p.get('projectId'),
+      id: p.get('projectId'),
+    }));
+    const projectId = this.props.projects.getIn([
+      this.state.selectedProjectIndex,
+      'projectId',
+    ]);
     const canCreate = this.canCreate(projectId);
     return (
       <View style={styles.flex}>
@@ -117,21 +120,25 @@ export default class ClustersNewGoogle extends Component {
           choices={choices}
           selectedIndex={this.state.selectedProjectIndex}
           navigator={this.props.navigator}
-          onChange={(index) => {
+          onChange={index => {
             const pId = this.props.projects.getIn([index, 'projectId']);
             GoogleCloudActions.setSelectedProjectId(pId);
             GoogleCloudActions.getClusters(pId);
             GoogleCloudActions.getProjectPolicy(pId);
             GoogleCloudActions.getZones(pId);
-            this.setState({selectedProjectIndex: index});
-          }}/>
-        <AltContainer stores={{
-          list: () => {
-            return {
-              store: alt.stores.GoogleCloudStore,
-              value: alt.stores.GoogleCloudStore.getClusters(projectId),
-            };
-          }}}>
+            this.setState({ selectedProjectIndex: index });
+          }}
+        />
+        <AltContainer
+          stores={{
+            list: () => {
+              return {
+                store: alt.stores.GoogleCloudStore,
+                value: alt.stores.GoogleCloudStore.getClusters(projectId),
+              };
+            },
+          }}
+        >
           <CollectionView
             style={styles.list}
             contentContainerStyle={styles.listContent}
@@ -139,9 +146,15 @@ export default class ClustersNewGoogle extends Component {
             onRefresh={this.onRefresh.bind(this)}
             renderRow={this.renderItem.bind(this)}
             renderHeader={() => {
-              return <ListHeader title={intl('gke_clusters_list_header')} style={{borderBottomWidth: 0, marginBottom: -6}}/>;
+              return (
+                <ListHeader
+                  title={intl('gke_clusters_list_header')}
+                  style={{ borderBottomWidth: 0, marginBottom: -6 }}
+                />
+              );
             }}
-            renderEmpty={() => <EmptyView
+            renderEmpty={() =>
+              <EmptyView
                 title={intl('gke_clusters_empty_title')}
                 subtitle={intl('gke_clusters_empty_subtitle')}
                 actionTitle={intl('gke_clusters_empty_action')}
@@ -149,24 +162,38 @@ export default class ClustersNewGoogle extends Component {
               />}
           />
         </AltContainer>
-        {!!canCreate && <FAB
-          backgroundColor={Colors.BLUE}
-          onPress={this.createCluster.bind(this)} />}
+        {!!canCreate &&
+          <FAB
+            backgroundColor={Colors.BLUE}
+            onPress={this.createCluster.bind(this)}
+          />}
       </View>
     );
   }
 
   renderItem(cluster) {
     return (
-      <TouchableOpacity style={styles.clusterContainer} onPress={() => this.submitCluster(cluster)}>
+      <TouchableOpacity
+        style={styles.clusterContainer}
+        onPress={() => this.submitCluster(cluster)}
+      >
         <View style={styles.header}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
             <Text style={styles.title}>{cluster.get('name')}</Text>
             <StatusView status={cluster.get('status')} />
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
             <Text style={styles.subtitle}>{cluster.get('zone')}</Text>
-            <Text style={styles.subtitle}>{LocalesUtils.getLocalizedDate(new Date(cluster.get('createTime')), dateOptions)}</Text>
+            <Text style={styles.subtitle}>
+              {LocalesUtils.getLocalizedDate(
+                new Date(cluster.get('createTime')),
+                dateOptions
+              )}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -179,7 +206,10 @@ export default class ClustersNewGoogle extends Component {
       return false;
     }
     let canCreate = false;
-    const allowedRoles = ['roles/appengine.appAdmin', 'container.clusters.create'];
+    const allowedRoles = [
+      'roles/appengine.appAdmin',
+      'container.clusters.create',
+    ];
     policy.get('bindings', Immutable.List()).map(binding => {
       if (!canCreate && _.includes(allowedRoles, binding.get('role'))) {
         canCreate = true;
@@ -189,7 +219,10 @@ export default class ClustersNewGoogle extends Component {
   }
 
   onRefresh() {
-    const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
+    const projectId = this.props.projects.getIn([
+      this.state.selectedProjectIndex,
+      'projectId',
+    ]);
     GoogleCloudActions.getProjectPolicy(projectId);
     GoogleCloudActions.getClusters(projectId);
     GoogleCloudActions.getZones(projectId);
@@ -198,18 +231,28 @@ export default class ClustersNewGoogle extends Component {
   submitCluster(cluster) {
     if (!cluster.get('endpoint')) {
       this.onRefresh();
-      Alert.alert('Add cluster', 'Can\'t add this cluster to cabin, it has no url yet. \n Please try again in few seconds.', [
-        {'text': intl('ok')},
-      ]);
+      Alert.alert(
+        'Add cluster',
+        "Can't add this cluster to cabin, it has no url yet. \n Please try again in few seconds.",
+        [{ text: intl('ok') }]
+      );
       return;
-    } else if (alt.stores.ClustersStore.get(`https://${cluster.get('endpoint')}:443`)) {
-      AlertUtils.showWarning({message: 'You\'ve already added this cluster to Cabin'});
+    } else if (
+      alt.stores.ClustersStore.get(`https://${cluster.get('endpoint')}:443`)
+    ) {
+      AlertUtils.showWarning({
+        message: "You've already added this cluster to Cabin",
+      });
       return;
     }
-    Alert.alert('Add cluster', `Do you want to add cluster '${cluster.get('name')}' from GKE to Cabin ?`, [
-      {'text': intl('cancel')},
-      {'text': intl('ok'), onPress: () => this.addCluster(cluster)},
-    ]);
+    Alert.alert(
+      'Add cluster',
+      `Do you want to add cluster '${cluster.get('name')}' from GKE to Cabin ?`,
+      [
+        { text: intl('cancel') },
+        { text: intl('ok'), onPress: () => this.addCluster(cluster) },
+      ]
+    );
   }
 
   addCluster(googleCluster) {
@@ -220,17 +263,22 @@ export default class ClustersNewGoogle extends Component {
       password: googleCluster.getIn(['masterAuth', 'password']),
     });
     ClustersActions.addCluster(cluster.toJS());
-    AlertUtils.showSuccess({message: 'Cluster added to Cabin'});
+    AlertUtils.showSuccess({ message: 'Cluster added to Cabin' });
     setTimeout(() => {
       ClustersActions.checkCluster(cluster);
     }, 1000);
   }
 
   createCluster() {
-    const projectId = this.props.projects.getIn([this.state.selectedProjectIndex, 'projectId']);
+    const projectId = this.props.projects.getIn([
+      this.state.selectedProjectIndex,
+      'projectId',
+    ]);
     GoogleCloudActions.getZones(projectId).catch(e => {
       AlertUtils.showError({ message: e.message });
     });
-    this.props.navigator.push(ClustersRoutes.getClusterGoogleCreationRoute(projectId));
+    this.props.navigator.push(
+      ClustersRoutes.getClusterGoogleCreationRoute(projectId)
+    );
   }
 }

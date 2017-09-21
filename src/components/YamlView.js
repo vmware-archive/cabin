@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import YAML from 'js-yaml';
 import ParsedText from 'react-native-parsed-text';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   Dimensions,
   ScrollView,

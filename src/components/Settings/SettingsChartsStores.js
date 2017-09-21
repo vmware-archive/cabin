@@ -21,7 +21,7 @@ import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ScrollView from 'components/commons/ScrollView';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   TextInput,

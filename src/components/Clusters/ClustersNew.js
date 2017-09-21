@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
@@ -26,8 +27,6 @@ import GoogleCloudActions from 'actions/GoogleCloudActions';
 import GoogleCloudApi from 'api/GoogleCloudApi';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import RNFS from 'react-native-fs';
-
-const { PropTypes } = React;
 
 import {
   ActivityIndicator,

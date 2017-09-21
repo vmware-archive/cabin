@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 
 const { View, Image, StyleSheet } = ReactNative;
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const iconPod = require('images/cube.png');
 const iconService = require('images/tool.png');
 const iconReplication = require('images/duplicate.png');

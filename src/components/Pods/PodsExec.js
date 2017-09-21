@@ -28,7 +28,7 @@ const {
   Animated,
 } = ReactNative;
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const styles = PStyleSheet.create({
   container: {

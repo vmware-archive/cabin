@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Image,

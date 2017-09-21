@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import CommonsRoutes from 'routes/CommonsRoutes';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Text,
@@ -49,36 +49,42 @@ const styles = StyleSheet.create({
   },
   arrow: {
     tintColor: Colors.WHITE,
-    width: 10, height: 10,
+    width: 10,
+    height: 10,
     marginLeft: 4,
     resizeMode: 'contain',
   },
 });
 
 export default class HeaderPicker extends Component {
-
   static propTypes = {
     choices: PropTypes.instanceOf(Immutable.List),
     selectedIndex: PropTypes.number.isRequired,
     destructiveIndex: PropTypes.number,
     prefix: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     open: false,
-  }
+  };
 
   render() {
     const currentChoice = this.props.choices.get(this.props.selectedIndex);
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.innerContainer} onPress={this.handlePress.bind(this)}>
+        <TouchableOpacity
+          style={styles.innerContainer}
+          onPress={this.handlePress.bind(this)}
+        >
           <Text style={styles.text} numberOfLines={1}>
             {this.props.prefix}
             <Text style={styles.title}> {currentChoice.name}</Text>
           </Text>
-          <Image source={require('images/arrow-down.png')} style={styles.arrow}/>
+          <Image
+            source={require('images/arrow-down.png')}
+            style={styles.arrow}
+          />
         </TouchableOpacity>
       </View>
     );
@@ -92,26 +98,34 @@ export default class HeaderPicker extends Component {
 
   handlePress() {
     const { choices, prefix, selectedIndex } = this.props;
-    if (choices.size > 2 && this.props.navigator) {
-      this.props.navigator.push(CommonsRoutes.getSelectPickerRoute({
-        title: prefix,
-        list: choices,
-        selectedId: choices.get(selectedIndex).id,
-        onSelect: this.handleSelect.bind(this),
-      }));
+    const showFullScreenSelectPicker = choices.size > 9;
+    if (showFullScreenSelectPicker && this.props.navigator) {
+      this.props.navigator.push(
+        CommonsRoutes.getSelectPickerRoute({
+          title: prefix,
+          list: choices,
+          selectedId: choices.get(selectedIndex).id,
+          onSelect: this.handleSelect.bind(this),
+        })
+      );
       return;
     }
-    const optionAction = (index) => {
-      if (index === 0) { return; }
+    const optionAction = index => {
+      if (index === 0) {
+        return;
+      }
       this.props.onChange(index - 1);
     };
     const options = [
       { title: intl('cancel') },
       ...choices.map((n, index) => {
-        return {title: n.name, onPress: optionAction, destructive: index === this.props.destructiveIndex};
+        return {
+          title: n.name,
+          onPress: optionAction,
+          destructive: index === this.props.destructiveIndex,
+        };
       }),
     ];
-    ActionSheetUtils.showActionSheetWithOptions({options});
+    ActionSheetUtils.showActionSheetWithOptions({ options });
   }
-
 }

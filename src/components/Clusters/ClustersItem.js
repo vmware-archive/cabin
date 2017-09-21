@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import PropTypes from 'prop-types';
 import SwipeRow from 'components/commons/SwipeRow';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
@@ -26,15 +27,7 @@ import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import AlertUtils from 'utils/AlertUtils';
 
-const { PropTypes } = React;
-const {
-  View,
-  Text,
-  Image,
-  Alert,
-  TouchableOpacity,
-  StyleSheet,
-} = ReactNative;
+const { View, Text, Image, Alert, TouchableOpacity, StyleSheet } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -104,40 +97,74 @@ class Counter extends Component {
 }
 
 export default class ClusterItem extends Component {
-
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     compactSize: PropTypes.bool,
     onSwipeStart: PropTypes.func,
     onSwipeEnd: PropTypes.func,
-  }
+  };
 
   render() {
     const { cluster } = this.props;
     const showReport = !ClustersUtils.hasSpartakusDeployment(cluster);
     const buttons = [];
-    showReport && buttons.push({ text: intl('report'), style: {backgroundColor: Colors.BLUE, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleReport.bind(this)});
-    buttons.push({ text: intl('edit'), style: {backgroundColor: Colors.YELLOW, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleEdit.bind(this)});
-    buttons.push({ text: intl('delete'), style: {backgroundColor: Colors.RED, marginVertical: 8}, textStyle: {color: Colors.WHITE}, onPress: this.handleDelete.bind(this)});
+    showReport &&
+      buttons.push({
+        text: intl('report'),
+        style: { backgroundColor: Colors.BLUE, marginVertical: 8 },
+        textStyle: { color: Colors.WHITE },
+        onPress: this.handleReport.bind(this),
+      });
+    buttons.push({
+      text: intl('edit'),
+      style: { backgroundColor: Colors.YELLOW, marginVertical: 8 },
+      textStyle: { color: Colors.WHITE },
+      onPress: this.handleEdit.bind(this),
+    });
+    buttons.push({
+      text: intl('delete'),
+      style: { backgroundColor: Colors.RED, marginVertical: 8 },
+      textStyle: { color: Colors.WHITE },
+      onPress: this.handleDelete.bind(this),
+    });
 
     return (
       <SwipeRow
-        onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
-        right={buttons} backgroundColor="transparent" autoClose={true}>
+        onSwipeStart={this.props.onSwipeStart}
+        onSwipeEnd={this.props.onSwipeEnd}
+        right={buttons}
+        backgroundColor="transparent"
+        autoClose={true}
+      >
         <View style={styles.container}>
-          <TouchableOpacity style={styles.innerContainer} onPress={this.props.onPress} onLongPress={this.handleLongPress.bind(this)}>
-            <View style={[styles.header, this.props.compactSize && styles.compactHeader]}>
+          <TouchableOpacity
+            style={styles.innerContainer}
+            onPress={this.props.onPress}
+            onLongPress={this.handleLongPress.bind(this)}
+          >
+            <View
+              style={[
+                styles.header,
+                this.props.compactSize && styles.compactHeader,
+              ]}
+            >
               <Text style={styles.title}>
                 {cluster.get('name')}
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <StatusView status={cluster.get('status')} />
                 <TouchableOpacity onPress={this.showActionSheet.bind(this)}>
-                  <Image source={require('images/more.png')} style={styles.moreIcon} />
+                  <Image
+                    source={require('images/more.png')}
+                    style={styles.moreIcon}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
-            {cluster.get('currentNamespace') && <Text style={styles.namespace}>Namespace: {cluster.get('currentNamespace')}</Text>}
+            {cluster.get('currentNamespace') &&
+              <Text style={styles.namespace}>
+                Namespace: {cluster.get('currentNamespace')}
+              </Text>}
             {this.renderCounters()}
           </TouchableOpacity>
         </View>
@@ -149,25 +176,41 @@ export default class ClusterItem extends Component {
     const entities = alt.stores.SettingsStore.getEntitiesToDisplay().take(3);
     const counters = entities.map(entity => {
       return (
-        <AltContainer key={entity.get('name')} stores={{
-          value: () => this.countForEntity(entity)}}>
-          <Counter value=".."/>
+        <AltContainer
+          key={entity.get('name')}
+          stores={{
+            value: () => this.countForEntity(entity),
+          }}
+        >
+          <Counter value=".." />
         </AltContainer>
       );
     });
-    return <View style={[styles.stats, this.props.compactSize && styles.compactStats]}>{counters}</View>;
+    return (
+      <View
+        style={[styles.stats, this.props.compactSize && styles.compactStats]}
+      >
+        {counters}
+      </View>
+    );
   }
 
   countForEntity(entity) {
     const { cluster } = this.props;
     switch (entity.get('name')) {
       case 'helmreleases':
-        return { store: alt.stores.ReleasesStore,
-          value: `${alt.stores.ReleasesStore.getAll(cluster).size} ${intl('helmreleases')}`};
+        return {
+          store: alt.stores.ReleasesStore,
+          value: `${alt.stores.ReleasesStore.getAll(cluster).size} ${intl(
+            'helmreleases'
+          )}`,
+        };
       default:
         const store = EntitiesUtils.storeForType(entity.get('name'));
-        return { store,
-          value: `${store.getAll(cluster).size} ${intl(entity.get('name'))}`};
+        return {
+          store,
+          value: `${store.getAll(cluster).size} ${intl(entity.get('name'))}`,
+        };
     }
   }
 
@@ -176,29 +219,40 @@ export default class ClusterItem extends Component {
   }
 
   showActionSheet() {
-    const showReport = !ClustersUtils.hasSpartakusDeployment(this.props.cluster);
-    const options = [{title: intl('cancel')}];
-    showReport && options.push({title: intl('report'), onPress: this.handleReport.bind(this)});
-    options.push({title: intl('edit'), onPress: this.handleEdit.bind(this)});
-    options.push({title: intl('delete'), onPress: this.handleDelete.bind(this), destructive: true});
-    ActionSheetUtils.showActionSheetWithOptions({options});
+    const showReport = !ClustersUtils.hasSpartakusDeployment(
+      this.props.cluster
+    );
+    const options = [{ title: intl('cancel') }];
+    showReport &&
+      options.push({
+        title: intl('report'),
+        onPress: this.handleReport.bind(this),
+      });
+    options.push({ title: intl('edit'), onPress: this.handleEdit.bind(this) });
+    options.push({
+      title: intl('delete'),
+      onPress: this.handleDelete.bind(this),
+      destructive: true,
+    });
+    ActionSheetUtils.showActionSheetWithOptions({ options });
   }
 
   handleDelete() {
-    Alert.alert(
-      intl('cluster_remove_title'),
-      intl('cluster_remove_subtitle'),
-      [
-        {text: intl('cancel'), style: 'cancel', onPress: () => {}},
-        {text: intl('yes'), onPress: () => {
+    Alert.alert(intl('cluster_remove_title'), intl('cluster_remove_subtitle'), [
+      { text: intl('cancel'), style: 'cancel', onPress: () => {} },
+      {
+        text: intl('yes'),
+        onPress: () => {
           ClustersActions.removeCluster(this.props.cluster);
-        }},
-      ],
-    );
+        },
+      },
+    ]);
   }
 
   handleEdit() {
-    NavigationActions.push(ClustersRoutes.getClusterNewRoute(this.props.cluster));
+    NavigationActions.push(
+      ClustersRoutes.getClusterNewRoute(this.props.cluster)
+    );
   }
 
   handleReport() {
@@ -212,11 +266,12 @@ export default class ClusterItem extends Component {
       image: 'gcr.io/google_containers/spartakus-amd64:v1.0.0',
       namespace: 'default',
       args: EntitiesUtils.spartakusArgs(),
-    }).then(() => {
-      AlertUtils.showSuccess({message: intl('cluster_report_success')});
-    }).catch(e => {
-      AlertUtils.showError({message: e.message});
-    });
+    })
+      .then(() => {
+        AlertUtils.showSuccess({ message: intl('cluster_report_success') });
+      })
+      .catch(e => {
+        AlertUtils.showError({ message: e.message });
+      });
   }
-
 }

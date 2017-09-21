@@ -18,7 +18,7 @@ import AlertUtils from 'utils/AlertUtils';
 import NavbarButton from 'components/commons/NavbarButton';
 import YAML from 'js-yaml';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   StyleSheet,

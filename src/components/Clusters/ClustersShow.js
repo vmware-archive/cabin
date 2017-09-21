@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import EntitiesList from 'components/EntitiesList';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import EntitiesActions from 'actions/EntitiesActions';

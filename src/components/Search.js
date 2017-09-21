@@ -22,7 +22,7 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   StyleSheet,

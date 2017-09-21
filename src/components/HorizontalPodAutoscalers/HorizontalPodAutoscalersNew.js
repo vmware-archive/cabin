@@ -24,7 +24,7 @@ import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const { View, ActivityIndicator, StyleSheet, DeviceEventEmitter } = ReactNative;
 

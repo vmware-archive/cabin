@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
 import ClustersActions from 'actions/ClustersActions';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Text,

@@ -13,21 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { Children, PropTypes } from 'react';
+import { Children } from 'react';
+import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import NavigationActions from 'actions/NavigationActions';
 import DeployRoutes from 'routes/DeployRoutes';
 import SettingsRoutes from 'routes/SettingsRoutes';
 
-const {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  ToolbarAndroid,
-  View,
-} = ReactNative;
+const { Image, Platform, StyleSheet, Text, ToolbarAndroid, View } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +39,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     resizeMode: 'contain',
-    width: 32, height: 32,
+    width: 32,
+    height: 32,
     tintColor: Colors.WHITE,
     marginRight: 24,
   },
@@ -64,7 +59,6 @@ const styles = StyleSheet.create({
 
 /* Augments a scene by providing a Toolbar on Android */
 export default class ToolbarAugmenter extends Component {
-
   static propTypes = {
     /* current scene to render */
     scene: PropTypes.object.isRequired,
@@ -74,17 +68,22 @@ export default class ToolbarAugmenter extends Component {
 
   constructor() {
     super();
-    this.defaultActions = [{
-      title: 'Deploy',
-      icon: require('images/upload.png'),
-      show: 'always',
-      onPress: () => NavigationActions.push(DeployRoutes.getDeployIndexRoute()),
-    }, {
-      title: 'Settings',
-      icon: require('images/settings.png'),
-      show: 'never',
-      onPress: () => NavigationActions.push(SettingsRoutes.getSettingsIndexRoute()),
-    }];
+    this.defaultActions = [
+      {
+        title: 'Deploy',
+        icon: require('images/upload.png'),
+        show: 'always',
+        onPress: () =>
+          NavigationActions.push(DeployRoutes.getDeployIndexRoute()),
+      },
+      {
+        title: 'Settings',
+        icon: require('images/settings.png'),
+        show: 'never',
+        onPress: () =>
+          NavigationActions.push(SettingsRoutes.getSettingsIndexRoute()),
+      },
+    ];
   }
 
   getAction(component) {
@@ -105,10 +104,20 @@ export default class ToolbarAugmenter extends Component {
     }
     if (route.name === 'Home') {
       toolbar = (
-        <ToolbarAndroid style={styles.toolbar} actions={this.defaultActions} onActionSelected={i => this.defaultActions[i].onPress()}>
+        <ToolbarAndroid
+          style={styles.toolbar}
+          actions={this.defaultActions}
+          onActionSelected={i => this.defaultActions[i].onPress()}
+        >
           <View style={styles.titleContainer}>
-            <Image style={styles.logo} source={require('images/kubernetes.png')} />
-            <Image style={styles.titleImage} source={require('images/cabin.png')} />
+            <Image
+              style={styles.logo}
+              source={require('images/kubernetes.png')}
+            />
+            <Image
+              style={styles.titleImage}
+              source={require('images/cabin.png')}
+            />
           </View>
         </ToolbarAndroid>
       );
@@ -123,11 +132,21 @@ export default class ToolbarAugmenter extends Component {
         }
       }
       toolbar = (
-        <ToolbarAndroid style={styles.toolbar} navIcon={require('images/ic-back-white-48.png')} onIconClicked={() => {
-          NavigationActions.pop();
-        }} actions={actions} onActionSelected={(i) => actions[i].onPress()}>
+        <ToolbarAndroid
+          style={styles.toolbar}
+          navIcon={require('images/ic-back-white-48.png')}
+          onIconClicked={() => {
+            NavigationActions.pop();
+          }}
+          actions={actions}
+          onActionSelected={i => actions[i].onPress()}
+        >
           <View style={styles.titleContainer}>
-            {route.renderTitle ? route.renderTitle() : <Text style={styles.title}>{route.getTitle && route.getTitle()}</Text>}
+            {route.renderTitle
+              ? route.renderTitle()
+              : <Text style={styles.title}>
+                  {route.getTitle && route.getTitle()}
+                </Text>}
           </View>
         </ToolbarAndroid>
       );

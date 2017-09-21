@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import SearchBar from 'components/SearchBar';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Image,

@@ -20,7 +20,7 @@ import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import AlertUtils from 'utils/AlertUtils';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const {
   View,

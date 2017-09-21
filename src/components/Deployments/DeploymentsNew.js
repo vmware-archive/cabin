@@ -24,7 +24,7 @@ import AlertUtils from 'utils/AlertUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import ScrollView from 'components/commons/ScrollView';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const {
   View,

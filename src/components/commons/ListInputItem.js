@@ -16,7 +16,7 @@
 import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const { Text, View, StyleSheet, TextInput } = ReactNative;
 
 const styles = StyleSheet.create({

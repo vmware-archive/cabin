@@ -1,7 +1,4 @@
-import React, {
-  PropTypes,
-} from 'react';
-
+import PropTypes from 'prop-types';
 import {
   TouchableWithoutFeedback,
   TouchableNativeFeedback,
@@ -28,7 +25,6 @@ const styles = StyleSheet.create({
 });
 
 class NativeButton extends Component {
-
   static propTypes = {
     // Extract parent props
     ...TouchableWithoutFeedback.propTypes,
@@ -36,10 +32,12 @@ class NativeButton extends Component {
     disabledStyle: Text.propTypes.style,
     children: PropTypes.node.isRequired,
     underlayColor: PropTypes.string,
-    background: (TouchableNativeFeedback.propTypes) ? TouchableNativeFeedback.propTypes.background : PropTypes.any,
+    background: TouchableNativeFeedback.propTypes
+      ? TouchableNativeFeedback.propTypes.background
+      : PropTypes.any,
   };
 
-  static isAndroid = (Platform.OS === 'android');
+  static isAndroid = Platform.OS === 'android';
 
   static defaultProps = {
     textStyle: null,
@@ -54,14 +52,20 @@ class NativeButton extends Component {
     }
 
     return (
-      <Text style={ [ styles.textButton, this.props.textStyle ] } numberOfLines={1} ellipsizeMode={Platform.OS === 'ios' ? 'clip' : 'tail'}>
-        { this.props.children }
+      <Text
+        style={[styles.textButton, this.props.textStyle]}
+        numberOfLines={1}
+        ellipsizeMode={Platform.OS === 'ios' ? 'clip' : 'tail'}
+      >
+        {this.props.children}
       </Text>
     );
   }
 
   render() {
-    const disabledStyle = this.props.disabled ? (this.props.disabledStyle || styles.opacity) : {};
+    const disabledStyle = this.props.disabled
+      ? this.props.disabledStyle || styles.opacity
+      : {};
 
     // Extract Button props
     let buttonProps = {
@@ -84,12 +88,13 @@ class NativeButton extends Component {
     // Render Native Android Button
     if (NativeButton.isAndroid) {
       buttonProps = Object.assign(buttonProps, {
-        background: this.props.background || TouchableNativeFeedback.SelectableBackground(),
+        background:
+          this.props.background ||
+            TouchableNativeFeedback.SelectableBackground(),
       });
 
       return (
-        <TouchableNativeFeedback
-          {...buttonProps}>
+        <TouchableNativeFeedback {...buttonProps}>
           <View style={[styles.button, this.props.style, disabledStyle]}>
             {this._renderText()}
           </View>
@@ -102,8 +107,9 @@ class NativeButton extends Component {
       <TouchableHighlight
         {...buttonProps}
         style={[styles.button, this.props.style, disabledStyle]}
-        underlayColor={ this.props.underlayColor }>
-        { this._renderText() }
+        underlayColor={this.props.underlayColor}
+      >
+        {this._renderText()}
       </TouchableHighlight>
     );
   }

@@ -35,7 +35,7 @@ const {
   Dimensions,
 } = ReactNative;
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {

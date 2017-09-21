@@ -13,15 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
 import PStyleSheet from 'styles/PStyleSheet';
 
-const {
-  View,
-  Text,
-} = ReactNative;
+const { View, Text } = ReactNative;
 
 const styles = PStyleSheet.create({
   container: {
@@ -33,7 +30,8 @@ const styles = PStyleSheet.create({
     },
   },
   dot: {
-    width: 10, height: 10,
+    width: 10,
+    height: 10,
     borderRadius: 5,
     ios: {
       marginRight: 6,
@@ -50,18 +48,25 @@ const styles = PStyleSheet.create({
 });
 
 export default class ClustersNavbarTitle extends Component {
-
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={[styles.dot, {backgroundColor: ClustersUtils.colorForStatus(this.props.cluster.get('status'))}]}/>
+        <View
+          style={[
+            styles.dot,
+            {
+              backgroundColor: ClustersUtils.colorForStatus(
+                this.props.cluster.get('status')
+              ),
+            },
+          ]}
+        />
         <Text style={styles.text}>{this.props.cluster.get('name')}</Text>
       </View>
     );
   }
-
 }

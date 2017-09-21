@@ -23,7 +23,7 @@ import HeaderPicker from 'components/commons/HeaderPicker';
 import ChartItem from './ChartItem';
 import AltContainer from 'alt-container';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Text,

@@ -19,7 +19,7 @@ import _ from 'lodash';
 import PStyleSheet from 'styles/PStyleSheet';
 import NativeTouchable from 'components/commons/NativeTouchable';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 import {
   Animated,
   Dimensions,

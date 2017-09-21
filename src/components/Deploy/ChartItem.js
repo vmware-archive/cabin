@@ -16,7 +16,7 @@
 import Colors from 'styles/Colors';
 import ChartsUtils from 'utils/ChartsUtils';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Text,

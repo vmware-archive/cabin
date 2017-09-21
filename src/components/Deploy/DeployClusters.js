@@ -24,7 +24,7 @@ import ClustersActions from 'actions/ClustersActions';
 import NavigationActions from 'actions/NavigationActions';
 import BaseApi from 'api/BaseApi';
 
-const { PropTypes } = React;
+import PropTypes from 'prop-types';
 const {
   View,
   Text,
