@@ -121,11 +121,7 @@ export default class Settings extends Component {
               return (
                 <View style={styles.titleContainer}>
                   <Image
-                    style={styles.logo}
-                    source={require('images/icon.png')}
-                  />
-                  <Image
-                    style={[styles.logo, { width: 84 }]}
+                    style={[styles.logo, { height: 30, width: 81 }]}
                     source={require('images/logo.png')}
                   />
                 </View>
@@ -133,8 +129,8 @@ export default class Settings extends Component {
             }}
           />
           <ListItem
-            detailTitle="@skippbox"
-            onPress={() => Linking.openURL('https://twitter.com/skippbox')}
+            detailTitle="@bitnami"
+            onPress={() => Linking.openURL('https://twitter.com/bitnami')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
@@ -147,8 +143,8 @@ export default class Settings extends Component {
             }}
           />
           <ListItem
-            detailTitle="info@skippbox.com"
-            onPress={() => Linking.openURL('mailto:info@skippbox.com')}
+            detailTitle="kubernetes@bitnami.com"
+            onPress={() => Linking.openURL('mailto:kubernetes@bitnami.com')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
@@ -161,9 +157,9 @@ export default class Settings extends Component {
             }}
           />
           <ListItem
-            detailTitle="www.skippbox.com"
+            detailTitle="https://bitnami.com"
             isLast={true}
-            onPress={() => Linking.openURL('http://www.skippbox.com')}
+            onPress={() => Linking.openURL('https://bitnami.com')}
             renderTitle={() => {
               return (
                 <View style={styles.titleContainer}>
