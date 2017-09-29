@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
 import AlertUtils from 'utils/AlertUtils';
@@ -51,6 +52,23 @@ const styles = PStyleSheet.create({
     left: 0, right: 0, top: 0, bottom: 0,
   },
 });
+
+export class SettingsChartsStoresContainer extends Component {
+
+  render() {
+    return (
+      <AltContainer stores={{
+        chartsStores: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getChartsStores(),
+          };
+        }}}>
+        <SettingsChartsStores chartsStores={alt.stores.SettingsStore.getChartsStores()} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class SettingsChartsStores extends Component {
 

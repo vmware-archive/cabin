@@ -46,6 +46,12 @@ const styles = StyleSheet.create({
 
 export default class ClustersIndex extends Component {
 
+  static navigatorStyle = {
+    navBarBackgroundColor: Colors.BLUE,
+    navBarTextColor: Colors.WHITE,
+    screenBackgroundColor: Colors.BACKGROUND,
+  }
+
   constructor() {
     super();
     this.state = {
