@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import DraggableItem from 'components/commons/DraggableItem';
 import EntityIcon from 'components/commons/EntityIcon';
@@ -51,7 +52,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Settings extends Component {
+export class SettingsEntitiesContainer extends Component {
+
+  render() {
+    return (
+      <AltContainer stores={{
+        entities: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getEntities(),
+          };
+        }}}>
+        <SettingsEntities entities={alt.stores.SettingsStore.getEntities()}/>
+      </AltContainer>
+    );
+  }
+}
+
+export default class SettingsEntities extends Component {
 
   constructor() {
     super();

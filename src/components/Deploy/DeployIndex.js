@@ -17,7 +17,6 @@ import Colors from 'styles/Colors';
 import ChartsActions from 'actions/ChartsActions';
 import SettingsActions from 'actions/SettingsActions';
 import DeployRoutes from 'routes/DeployRoutes';
-import SettingsRoutes from 'routes/SettingsRoutes';
 import ScrollView from 'components/commons/ScrollView';
 import HeaderPicker from 'components/commons/HeaderPicker';
 import ChartItem from './ChartItem';
@@ -83,6 +82,29 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
 });
+
+export class DeployIndexContainer extends Component {
+
+  static navigatorStyle = {
+    navBarBackgroundColor: Colors.BLUE,
+    navBarTextColor: Colors.WHITE,
+    screenBackgroundColor: Colors.BACKGROUND,
+  }
+
+  render() {
+    return (
+      <AltContainer stores={{
+        charts: () => {
+          return {
+            store: alt.stores.ChartsStore,
+            value: alt.stores.ChartsStore.getAll(),
+          };
+        }}}>
+        <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={this.props.navigator} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class DeployIndex extends Component {
 
@@ -162,7 +184,7 @@ export default class DeployIndex extends Component {
             destructiveIndex={choices.size}
             onChange={(index) => {
               if (index === alt.stores.SettingsStore.getChartsStores().size) {
-                this.props.navigator.push(SettingsRoutes.getSettingsChartsStoresRoute());
+                this.props.navigator.push({screen: 'cabin.SettingsChartsStores', title: 'Charts Stores'});
                 return;
               }
               SettingsActions.updateSelectedChartsStoreIndex(index);

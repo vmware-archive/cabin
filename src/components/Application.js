@@ -30,6 +30,10 @@ const {
 
 export default class Application extends Component {
 
+  static navigatorStyle = {
+    navBarHidden: true,
+  }
+
   constructor() {
     super();
     this.handleBackAndroid = this.handleBackAndroid.bind(this);
@@ -78,8 +82,8 @@ export default class Application extends Component {
             initialRoute={{
               name: 'Home',
               statusBarStyle: 'light-content',
-              getSceneClass() {
-                return Home;
+              renderScene() {
+                return <Home mainNavigator={this.props.navigator} />;
               },
             }}
             augmentScene={(scene, route) => <ToolbarAugmenter scene={scene} route={route} navigator={this.refs.navigator} />}

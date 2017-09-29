@@ -13,32 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import DeployIndex from 'components/Deploy/DeployIndex';
 import DeployClusters from 'components/Deploy/DeployClusters';
 import DeployReleasesShow from 'components/Deploy/DeployReleasesShow';
 import AltContainer from 'alt-container';
 
 export default {
-  getDeployIndexRoute() {
-    return {
-      name: 'DeployIndex',
-      statusBarStyle: 'light-content',
-      getTitle: () => 'Deploy',
-      renderScene(navigator) {
-        return (
-          <AltContainer stores={{
-            charts: () => {
-              return {
-                store: alt.stores.ChartsStore,
-                value: alt.stores.ChartsStore.getAll(),
-              };
-            }}}>
-            <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={navigator} />
-          </AltContainer>
-        );
-      },
-    };
-  },
 
   getDeployReleasesShowRoute({cluster, release}) {
     return {
