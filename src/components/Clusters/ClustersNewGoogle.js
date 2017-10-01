@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import PropTypes from 'prop-types';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import ListHeader from 'components/commons/ListHeader';
 import HeaderPicker from 'components/commons/HeaderPicker';
@@ -81,6 +81,44 @@ const dateOptions = {
   hour12: false,
 };
 
+export class ClustersNewGoogleContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'close',
+      title: intl('close'),
+    }],
+    rightButtons: [{
+      id: 'logout',
+      title: intl('gke_signout'),
+    }],
+  };
+
+  render() {
+    return (
+      <AltContainer stores={{
+        projects: () => {
+          return {
+            store: alt.stores.GoogleCloudStore,
+            value: alt.stores.GoogleCloudStore.getProjects(),
+          };
+        }, policies: () => {
+          return {
+            store: alt.stores.GoogleCloudStore,
+            value: alt.stores.GoogleCloudStore.getProjectsPolicies(),
+          };
+        }}}>
+        <ClustersNewGoogle navigator={this.props.navigator}
+          selectedProjectId={alt.stores.GoogleCloudStore.getSelectedProjectId()}
+          projects={alt.stores.GoogleCloudStore.getProjects()}
+          policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}/>
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClustersNewGoogle extends Component {
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
@@ -101,6 +139,19 @@ export default class ClustersNewGoogle extends Component {
     this.state = {
       selectedProjectIndex,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'close':
+        this.props.navigator.dismissAllModals();
+        break;
+      case 'logout':
+        GoogleCloudActions.signOut();
+        this.props.navigator.dismissAllModals();
+        break;
+    }
   }
 
   render() {

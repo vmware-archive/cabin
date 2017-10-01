@@ -45,6 +45,17 @@ const styles = StyleSheet.create({
 
 export default class Search extends Component {
 
+  static navigatorStyle = {
+    navBarCustomView: 'cabin.ClustersSearch.SearchBar',
+    navBarCustomViewInitialProps: {
+      autoFocus: true,
+      placeholder: 'Search by name or label',
+      onChange: (text) => {
+        DeviceEventEmitter.emit('search:change', {text});
+      },
+    },
+  };
+
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     entities: PropTypes.instanceOf(Immutable.Map),
