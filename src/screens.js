@@ -17,6 +17,7 @@ import { Navigation } from 'react-native-navigation';
 
 import ClustersIndex from 'components/Clusters/ClustersIndex';
 import { DeployIndexContainer } from 'components/Deploy/DeployIndex';
+import { DeployClustersContainer } from 'components/Deploy/DeployClusters';
 import SettingsIndex from 'components/Settings/Settings';
 import { SettingsEntitiesContainer } from 'components/Settings/SettingsEntities';
 import { SettingsChartsStoresContainer } from 'components/Settings/SettingsChartsStores';
@@ -24,7 +25,12 @@ import { SettingsChartsStoresContainer } from 'components/Settings/SettingsChart
 // register all screens of the app (including internal ones)
 export function registerScreens() {
   Navigation.registerComponent('cabin.ClustersIndex', () => ClustersIndex);
+
+  // Deploy
   Navigation.registerComponent('cabin.DeployIndex', () => DeployIndexContainer);
+  Navigation.registerComponent('cabin.DeployClusters', () => DeployClustersContainer);
+
+  // Settings
   Navigation.registerComponent('cabin.SettingsIndex', () => SettingsIndex);
   Navigation.registerComponent('cabin.SettingsEntities', () => SettingsEntitiesContainer);
   Navigation.registerComponent('cabin.SettingsChartsStores', () => SettingsChartsStoresContainer);

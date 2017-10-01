@@ -13,14 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import ChartsActions from 'actions/ChartsActions';
 import SettingsActions from 'actions/SettingsActions';
-import DeployRoutes from 'routes/DeployRoutes';
 import ScrollView from 'components/commons/ScrollView';
 import HeaderPicker from 'components/commons/HeaderPicker';
 import ChartItem from './ChartItem';
-import AltContainer from 'alt-container';
 
 import PropTypes from 'prop-types';
 const {
@@ -88,6 +87,9 @@ export class DeployIndexContainer extends Component {
   static navigatorStyle = {
     navBarBackgroundColor: Colors.BLUE,
     navBarTextColor: Colors.WHITE,
+    navBarLeftButtonColor: Colors.WHITE,
+    navBarRightButtonColor: Colors.WHITE,
+    navBarButtonColor: Colors.WHITE,
     screenBackgroundColor: Colors.BACKGROUND,
   }
 
@@ -202,7 +204,12 @@ export default class DeployIndex extends Component {
   }
 
   handleSelectChart(chart) {
-    this.props.navigator.push(DeployRoutes.getDeployClustersRoute(chart));
+    this.props.navigator.push({
+      screen: 'cabin.DeployClusters',
+      title: intl('deploy_choose_cluster'),
+      backButtonTitle: intl('deploy_choose_cluster_back'),
+      passProps: { chart },
+    });
   }
 
 }
