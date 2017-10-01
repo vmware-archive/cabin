@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
@@ -102,6 +103,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+export class DeployClustersContainer extends Component {
+
+  render() {
+    return (
+      <AltContainer stores={{
+        clusters: () => {
+          return {
+            store: alt.stores.ClustersStore,
+            value: alt.stores.ClustersStore.getClusters(),
+          };
+        }}}>
+        <DeployClusters chart={this.props.chart} clusters={alt.stores.ClustersStore.getClusters()} navigator={this.props.navigator} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class DeployClusters extends Component {
 
@@ -309,7 +327,7 @@ export default class DeployClusters extends Component {
   }
 
   openCluster(cluster) {
-    this.props.navigator.popToTop();
+    this.props.navigator.popToRoot();
     NavigationActions.showCluster(cluster);
   }
 }

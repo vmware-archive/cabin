@@ -13,9 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import DeployClusters from 'components/Deploy/DeployClusters';
 import DeployReleasesShow from 'components/Deploy/DeployReleasesShow';
-import AltContainer from 'alt-container';
 
 export default {
 
@@ -33,25 +31,4 @@ export default {
     };
   },
 
-  getDeployClustersRoute(chart) {
-    return {
-      name: 'DeployClusters',
-      statusBarStyle: 'light-content',
-      getTitle: () => intl('deploy_choose_cluster'),
-      getBackButtonTitle: () => intl('deploy_choose_cluster_back'),
-      renderScene(navigator) {
-        return (
-          <AltContainer stores={{
-            clusters: () => {
-              return {
-                store: alt.stores.ClustersStore,
-                value: alt.stores.ClustersStore.getClusters(),
-              };
-            }}}>
-            <DeployClusters chart={chart} clusters={alt.stores.ClustersStore.getClusters()} navigator={navigator} />
-          </AltContainer>
-        );
-      },
-    };
-  },
 };
