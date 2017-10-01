@@ -14,24 +14,22 @@
   limitations under the License.
 */
 import PropTypes from 'prop-types';
-import Colors from 'styles/Colors';
+import { MessageBar, MessageBarManager } from 'react-native-message-bar';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
 import AlertUtils from 'utils/AlertUtils';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import GoogleCloudApi from 'api/GoogleCloudApi';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import RNFS from 'react-native-fs';
 
 import {
   ActivityIndicator,
   Animated,
-  DeviceEventEmitter,
   Image,
   NativeModules,
   Platform,
@@ -75,6 +73,20 @@ const styles = StyleSheet.create({
 });
 
 export default class ClustersNew extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [{
+      id: 'done',
+      title: intl('done'),
+    }],
+  };
+
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map), // if provided, it will edit cluster instead of create new one
   };
@@ -102,18 +114,27 @@ export default class ClustersNew extends Component {
       loading: false,
       authenticationIndex,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener(
-      'ClustersNew:submit',
-      this.onSubmit.bind(this)
-    );
+    MessageBarManager.registerMessageBar(this.refs.messageBar);
     GoogleCloudApi.configureGoogleSignin();
   }
 
   componentWillUnmount() {
-    this.submitListener.remove();
+    MessageBarManager.unregisterMessageBar();
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        this.props.navigator.dismissModal();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {
@@ -143,6 +164,7 @@ export default class ClustersNew extends Component {
           <ListHeader title="Authentication" style={{ marginTop: 20 }} />
           {this.renderAuthentication()}
         </ScrollView>
+        <MessageBar ref="messageBar"/>
         {this.state.loading &&
           <ActivityIndicator
             style={styles.loader}
@@ -327,7 +349,10 @@ export default class ClustersNew extends Component {
           const projectId = projects.getIn([0, 'projectId']);
           GoogleCloudActions.getProjectPolicy(projectId);
           GoogleCloudActions.getClusters(projectId);
-          this.props.navigator.replace(ClustersRoutes.getClustersGoogleRoute());
+          this.props.navigator.showModal({
+            screen: 'cabin.ClustersNewGoogle',
+            title: 'GKE Clusters',
+          });
         }
       })
       .catch(() => {
@@ -406,7 +431,7 @@ export default class ClustersNew extends Component {
         cluster && ClustersActions.checkCluster(cluster);
       }
     }, 1000);
-    NavigationActions.pop();
+    this.props.navigator.dismissModal();
   }
 
   isValidUrl(url) {

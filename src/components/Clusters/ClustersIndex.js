@@ -15,7 +15,7 @@
 */
 import CollectionView from 'components/commons/CollectionView';
 import ClustersRoutes from 'routes/ClustersRoutes';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
 import EmptyView from 'components/commons/EmptyView';
 import AltContainer from 'alt-container';
@@ -46,17 +46,21 @@ const styles = StyleSheet.create({
 
 export default class ClustersIndex extends Component {
 
-  static navigatorStyle = {
-    navBarBackgroundColor: Colors.BLUE,
-    navBarTextColor: Colors.WHITE,
-    screenBackgroundColor: Colors.BACKGROUND,
-  }
+  static navigatorStyle = defaultNavigatorStyle;
 
-  constructor() {
-    super();
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'add',
+      icon: require('images/add.png'),
+    }],
+  };
+
+  constructor(props) {
+    super(props);
     this.state = {
       scrollEnabled: true,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -67,6 +71,15 @@ export default class ClustersIndex extends Component {
   componentWillUnmount() {
     this.navigationEventListener.remove();
     clearTimeout(this.checkTimeout);
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'add') {
+      this.props.navigator.showModal({
+        screen: 'cabin.ClustersNew',
+        title: 'New Cluster',
+      });
+    }
   }
 
   render() {
@@ -132,7 +145,7 @@ export default class ClustersIndex extends Component {
   }
 
   handleShowCluster(cluster) {
-    this.props.navigator.popToTop();
+    this.props.navigator.popToRoot();
     InteractionManager.runAfterInteractions(() => {
       this.onSelectCluster(cluster);
     });
@@ -141,6 +154,11 @@ export default class ClustersIndex extends Component {
   onSelectCluster(cluster) {
     ClustersActions.fetchClusterEntities(cluster);
     ClustersActions.fetchNamespaces(cluster);
-    this.props.navigator.push(ClustersRoutes.getClusterShowRoute(cluster));
+    this.props.navigator.push({
+      screen: 'cabin.ClustersShow',
+      title: cluster.get('name'),
+      backButtonTitle: '',
+      passProps: { cluster },
+    });
   }
 }

@@ -42,18 +42,60 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ClustersShowContainer extends Component {
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'search',
+      icon: require('images/search.png'),
+    }],
+  };
+
+  componentDidMount() {
+    this.props.navigator.setStyle({
+      navBarCustomView: 'cabin.ClustersShow.Navbar',
+      navBarCustomViewInitialProps: { clusterUrl: this.props.cluster.get('url') },
+    });
+  }
+
+  render() {
+    return (
+      <AltContainer stores={{
+        cluster: () => {
+          return {
+            store: alt.stores.ClustersStore,
+            value: alt.stores.ClustersStore.get(this.props.cluster.get('url')),
+          };
+        },
+        entitiesToDisplay: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getEntitiesToDisplay(),
+          };
+        }}}>
+        <ClusterShow
+          navigator={this.props.navigator}
+          entitiesToDisplay={alt.stores.SettingsStore.getEntitiesToDisplay()}
+          cluster={alt.stores.ClustersStore.get(this.props.cluster.get('url'))}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClusterShow extends Component {
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     entitiesToDisplay: PropTypes.instanceOf(Immutable.List).isRequired,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -61,6 +103,15 @@ export default class ClusterShow extends Component {
       e.get('name')
     );
     this.watchEntities(entitiesToDisplay.get(0));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'search') {
+      this.props.navigator.push({
+        screen: 'cabin.ClustersSearch',
+        passProps: { cluster: this.props.cluster },
+      });
+    }
   }
 
   watchEntities(entityType) {

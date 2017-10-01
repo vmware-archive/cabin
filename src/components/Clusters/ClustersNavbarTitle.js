@@ -14,6 +14,7 @@
   limitations under the License.
 */
 import PropTypes from 'prop-types';
+import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import ClustersUtils from 'utils/ClustersUtils';
 import PStyleSheet from 'styles/PStyleSheet';
@@ -47,12 +48,30 @@ const styles = PStyleSheet.create({
   },
 });
 
+export class ClustersNavbarTitleContainer extends Component {
+
+  render() {
+    return (
+      <AltContainer stores={{
+        cluster: () => {
+          return {
+            store: alt.stores.ClustersStore,
+            value: alt.stores.ClustersStore.get(this.props.clusterUrl),
+          };
+        }}}>
+        <ClustersNavbarTitle cluster={alt.stores.ClustersStore.get(this.props.clusterUrl)}/>
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClustersNavbarTitle extends Component {
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   };
 
   render() {
+    const { cluster } = this.props;
     return (
       <View style={styles.container}>
         <View
@@ -60,12 +79,12 @@ export default class ClustersNavbarTitle extends Component {
             styles.dot,
             {
               backgroundColor: ClustersUtils.colorForStatus(
-                this.props.cluster.get('status')
+                cluster ? cluster.get('status') : ''
               ),
             },
           ]}
         />
-        <Text style={styles.text}>{this.props.cluster.get('name')}</Text>
+        <Text style={styles.text}>{cluster ? cluster.get('name') : '-'}</Text>
       </View>
     );
   }

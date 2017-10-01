@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ChartsActions from 'actions/ChartsActions';
 import SettingsActions from 'actions/SettingsActions';
 import ScrollView from 'components/commons/ScrollView';
@@ -84,14 +84,7 @@ const styles = StyleSheet.create({
 
 export class DeployIndexContainer extends Component {
 
-  static navigatorStyle = {
-    navBarBackgroundColor: Colors.BLUE,
-    navBarTextColor: Colors.WHITE,
-    navBarLeftButtonColor: Colors.WHITE,
-    navBarRightButtonColor: Colors.WHITE,
-    navBarButtonColor: Colors.WHITE,
-    screenBackgroundColor: Colors.BACKGROUND,
-  }
+  static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     return (

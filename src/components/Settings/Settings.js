@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import SettingsActions from 'actions/SettingsActions';
@@ -54,14 +54,7 @@ const styles = StyleSheet.create({
 
 export default class Settings extends Component {
 
-  static navigatorStyle = {
-    navBarBackgroundColor: Colors.BLUE,
-    navBarTextColor: Colors.WHITE,
-    navBarLeftButtonColor: Colors.WHITE,
-    navBarRightButtonColor: Colors.WHITE,
-    navBarButtonColor: Colors.WHITE,
-    screenBackgroundColor: Colors.BACKGROUND,
-  }
+  static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
