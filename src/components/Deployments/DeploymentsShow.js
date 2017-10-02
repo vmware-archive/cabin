@@ -22,7 +22,6 @@ import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import PodsActions from 'actions/PodsActions';
 import EntitiesActions from 'actions/EntitiesActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import Alert from 'utils/Alert';
 import AlertUtils from 'utils/AlertUtils';
@@ -154,7 +153,7 @@ export default class DeploymentsShow extends Component {
   handleShowHistory() {
     const { cluster, deployment } = this.props;
     DeploymentsActions.fetchHistory({cluster, deployment});
-    this.props.navigator.push(EntitiesRoutes.getDeploymentsHistoryRoute({cluster, deployment}));
+    this.props.navigator.push({ screen: 'cabin.DeploymentsHistory', title: intl('history'), passProps: {cluster, deployment} });
   }
 
   handleLabelSubmit({key, value}) {

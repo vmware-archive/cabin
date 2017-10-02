@@ -15,15 +15,13 @@
 */
 import PropTypes from 'prop-types';
 import EntitiesList from 'components/EntitiesList';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
+import EntitiesUtils from 'utils/EntitiesUtils';
 import EntitiesActions from 'actions/EntitiesActions';
-import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
 import Colors from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
 import NamespacePicker from 'components/commons/NamespacePicker';
 import DeployReleases from 'components/Deploy/DeployReleases';
-import EntitiesUtils from 'utils/EntitiesUtils';
 
 const { View, Animated, StyleSheet } = ReactNative;
 
@@ -209,7 +207,7 @@ export default class ClusterShow extends Component {
             entities={store.getAll(cluster)}
             onPress={entity =>
               this.props.navigator.push(
-                EntitiesRoutes.getEntitiesShowRoute({
+                EntitiesUtils.getEntitiesShowRoute({
                   entity,
                   cluster,
                   entityType,
@@ -265,20 +263,23 @@ export default class ClusterShow extends Component {
   }
 
   showDeploymentsNew() {
-    NavigationActions.push(
-      EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster)
-    );
+    this.props.navigator.showModal({ screen: 'cabin.DeploymentsNew', title: intl('deployment_new'), passProps: {
+      cluster: this.props.cluster,
+    }});
   }
 
   showServicesNew() {
-    NavigationActions.push(
-      EntitiesRoutes.getServicesNewRoute({ cluster: this.props.cluster })
-    );
+    const { cluster } = this.props;
+    const deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
+    this.props.navigator.showModal({ screen: 'cabin.ServicesNew', title: intl('service_new'), passProps: {
+      cluster,
+      deployment,
+    }});
   }
 
   showHPANew() {
-    NavigationActions.push(
-      EntitiesRoutes.getHPANewRoute({ cluster: this.props.cluster })
-    );
+    this.props.navigator.showModal({ screen: 'cabin.HPAsNew', title: intl('hpa_new'), passProps: {
+      cluster: this.props.cluster,
+    }});
   }
 }
