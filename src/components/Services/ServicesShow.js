@@ -20,9 +20,7 @@ import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
 import ServicesActions from 'actions/ServicesActions';
-import NavigationActions from 'actions/NavigationActions';
 import NodesActions from 'actions/NodesActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
 import ClustersUtils from 'utils/ClustersUtils';
@@ -203,7 +201,7 @@ export default class ServicesShow extends Component {
   }
 
   handleEdit(port) {
-    NavigationActions.push(EntitiesRoutes.getServicesEditPortRoute({service: this.props.service, cluster: this.props.cluster, port}));
+    this.props.navigator.push({ screen: 'cabin.ServicesEditPort', title: 'Edit Port', passProps: {service: this.props.service, cluster: this.props.cluster, port} });
   }
 
   handleOpenPort(port) {

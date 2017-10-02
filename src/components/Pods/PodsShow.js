@@ -20,7 +20,6 @@ import StatusView from 'components/commons/StatusView';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import AltContainer from 'alt-container';
 
@@ -146,10 +145,10 @@ export default class PodsShow extends Component {
   }
 
   showLogs(container) {
-    this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
+    this.props.navigator.push({screen: 'cabin.PodsLogs', title: 'Logs', passProps: {pod: this.props.pod, cluster: this.props.cluster, container}});
   }
 
   showExec(container) {
-    this.props.navigator.push(EntitiesRoutes.getPodsExecRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
+    this.props.navigator.push({screen: 'cabin.PodsExec', title: 'Exec', passProps: {pod: this.props.pod, cluster: this.props.cluster, container}});
   }
 }

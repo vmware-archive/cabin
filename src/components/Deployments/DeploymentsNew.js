@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
@@ -30,7 +30,6 @@ const {
   View,
   ActivityIndicator,
   StyleSheet,
-  DeviceEventEmitter,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -56,6 +55,19 @@ export default class DeploymentsNew extends Component {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [{
+      id: 'done',
+      title: intl('done'),
+    }],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,14 +76,18 @@ export default class DeploymentsNew extends Component {
       namespace: props.cluster.get('currentNamespace') || 'default',
       loading: false,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
-  componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('DeploymentsNew:submit', this.onSubmit.bind(this));
-  }
-
-  componentWillUnmount() {
-    this.submitListener.remove();
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        this.props.navigator.dismissModal();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {

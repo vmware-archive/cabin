@@ -144,4 +144,46 @@ export default class EntitiesUtils {
       new Date().valueOf() + Math.random().toFixed(8).substring(2) + '-cabin';
     return ['volunteer', `--cluster-id=${generatedId}`];
   }
+
+  static getEntitiesShowRoute({ entity, entityType, cluster }) {
+    const title = entity.getIn(['metadata', 'name']);
+    const backButtonTitle = '';
+    switch (entityType) {
+      case 'pods':
+        return {
+          screen: 'cabin.PodsShow', title, backButtonTitle,
+          passProps: { pod: entity, cluster },
+        };
+      case 'nodes':
+        return {
+          screen: 'cabin.NodesShow', title, backButtonTitle,
+          passProps: { node: entity, cluster },
+        };
+      case 'services':
+        return {
+          screen: 'cabin.ServicesShow', title, backButtonTitle,
+          passProps: { service: entity, cluster },
+        };
+      case 'replicationcontrollers':
+        return {
+          screen: 'cabin.ReplicationsShow', title, backButtonTitle,
+          passProps: { replication: entity, cluster },
+        };
+      case 'horizontalpodautoscalers':
+        return {
+          screen: 'cabin.HPAsShow', title, backButtonTitle,
+          passProps: { hpa: entity, cluster },
+        };
+      case 'deployments':
+        return {
+          screen: 'cabin.DeploymentsShow', title, backButtonTitle,
+          passProps: { deployment: entity, cluster },
+        };
+      default:
+        return {
+          screen: 'cabin.EntitiesShow', title, backButtonTitle,
+          passProps: { entity, cluster },
+        };
+    }
+  }
 }

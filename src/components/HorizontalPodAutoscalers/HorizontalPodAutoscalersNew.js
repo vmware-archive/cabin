@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
@@ -26,7 +26,7 @@ import AlertUtils from 'utils/AlertUtils';
 
 import PropTypes from 'prop-types';
 
-const { View, ActivityIndicator, StyleSheet, DeviceEventEmitter } = ReactNative;
+const { View, ActivityIndicator, StyleSheet } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +57,19 @@ export default class HorizontalPodAutoscalersNew extends Component {
     defaultDeployment: PropTypes.instanceOf(Immutable.Map),
   };
 
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [{
+      id: 'done',
+      title: intl('done'),
+    }],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,18 +81,22 @@ export default class HorizontalPodAutoscalersNew extends Component {
       max: 10,
       loading: false,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
     DeploymentsActions.fetchDeployments(this.props.cluster);
-    this.submitListener = DeviceEventEmitter.addListener(
-      'HorizontalPodAutoscalersNew:submit',
-      this.onSubmit.bind(this)
-    );
   }
 
-  componentWillUnmount() {
-    this.submitListener.remove();
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        this.props.navigator.dismissModal();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {

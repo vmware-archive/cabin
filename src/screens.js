@@ -25,11 +25,18 @@ import Search from 'components/Search';
 import SearchBar from 'components/SearchBar';
 
 import { PodsShowContainer } from 'components/Pods/PodsShow';
+import { PodsLogsContainer } from 'components/Pods/PodsLogs';
+import { PodsExecContainer } from 'components/Pods/PodsExec';
 import { NodesShowContainer } from 'components/Nodes/NodesShow';
 import { ServicesShowContainer } from 'components/Services/ServicesShow';
+import ServicesNew from 'components/Services/ServicesNew';
+import ServicesEditPort from 'components/Services/ServicesEditPort';
 import { ReplicationsShowContainer } from 'components/Replications/ReplicationsShow';
 import { DeploymentsShowContainer } from 'components/Deployments/DeploymentsShow';
+import { DeploymentsHistoryContainer } from 'components/Deployments/DeploymentsHistory';
+import DeploymentsNew from 'components/Deployments/DeploymentsNew';
 import { HorizontalPodAutoscalersShowContainer } from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersShow';
+import HorizontalPodAutoscalersNew from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersNew';
 import EntitiesShow from 'components/EntitiesShow';
 import YamlView from 'components/YamlView';
 
@@ -53,11 +60,18 @@ export function registerScreens() {
 
   // Entities
   Navigation.registerComponent('cabin.PodsShow', () => PodsShowContainer);
+  Navigation.registerComponent('cabin.PodsLogs', () => PodsLogsContainer);
+  Navigation.registerComponent('cabin.PodsExec', () => PodsExecContainer);
   Navigation.registerComponent('cabin.NodesShow', () => NodesShowContainer);
   Navigation.registerComponent('cabin.ServicesShow', () => ServicesShowContainer);
+  Navigation.registerComponent('cabin.ServicesNew', () => ServicesNew);
+  Navigation.registerComponent('cabin.ServicesEditPort', () => ServicesEditPort);
   Navigation.registerComponent('cabin.ReplicationsShow', () => ReplicationsShowContainer);
   Navigation.registerComponent('cabin.DeploymentsShow', () => DeploymentsShowContainer);
+  Navigation.registerComponent('cabin.DeploymentsNew', () => DeploymentsNew);
+  Navigation.registerComponent('cabin.DeploymentsHistory', () => DeploymentsHistoryContainer);
   Navigation.registerComponent('cabin.HPAsShow', () => HorizontalPodAutoscalersShowContainer);
+  Navigation.registerComponent('cabin.HPAsNew', () => HorizontalPodAutoscalersNew);
   Navigation.registerComponent('cabin.EntitiesShow', () => EntitiesShow);
   Navigation.registerComponent('cabin.EntitiesYaml', () => YamlView);
 

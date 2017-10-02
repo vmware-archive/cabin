@@ -19,6 +19,7 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import AlertUtils from 'utils/AlertUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -65,6 +66,45 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
+export class DeploymentsHistoryContainer extends Component {
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { deployment, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          replicas: () => {
+            return {
+              store: alt.stores.DeploymentsStore,
+              value: alt.stores.DeploymentsStore.getDeploymentReplicas({
+                deployment,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <DeploymentsHistory
+          deployment={deployment}
+          cluster={cluster}
+          navigator={navigator}
+          replicas={alt.stores.DeploymentsStore.getDeploymentReplicas({
+            deployment,
+            cluster,
+          })}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class DeploymentsHistory extends Component {
 
