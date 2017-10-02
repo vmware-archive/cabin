@@ -31,6 +31,7 @@ import { ReplicationsShowContainer } from 'components/Replications/ReplicationsS
 import { DeploymentsShowContainer } from 'components/Deployments/DeploymentsShow';
 import { HorizontalPodAutoscalersShowContainer } from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersShow';
 import EntitiesShow from 'components/EntitiesShow';
+import YamlView from 'components/YamlView';
 
 import { DeployIndexContainer } from 'components/Deploy/DeployIndex';
 import { DeployClustersContainer } from 'components/Deploy/DeployClusters';
@@ -58,6 +59,7 @@ export function registerScreens() {
   Navigation.registerComponent('cabin.DeploymentsShow', () => DeploymentsShowContainer);
   Navigation.registerComponent('cabin.HPAsShow', () => HorizontalPodAutoscalersShowContainer);
   Navigation.registerComponent('cabin.EntitiesShow', () => EntitiesShow);
+  Navigation.registerComponent('cabin.EntitiesYaml', () => YamlView);
 
   // Deploy
   Navigation.registerComponent('cabin.DeployIndex', () => DeployIndexContainer);
