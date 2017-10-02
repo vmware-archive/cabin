@@ -24,6 +24,7 @@ import PodsActions from 'actions/PodsActions';
 import EntitiesActions from 'actions/EntitiesActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
+import Alert from 'utils/Alert';
 import AlertUtils from 'utils/AlertUtils';
 import AltContainer from 'alt-container';
 
@@ -49,65 +50,15 @@ const styles = StyleSheet.create({
 
 export class DeploymentsShowContainer extends Component {
 
-  // TODO: RIGHT BUTTONS
-  // const options = [
-  //   { title: intl('cancel') },
-  //   {
-  //     title: intl('deployment_rolling_update_action'),
-  //     onPress: () => {
-  //       const containers = deployment.getIn(
-  //         ['spec', 'template', 'spec', 'containers'],
-  //         Immutable.List()
-  //       );
-  //       if (containers.size !== 1) {
-  //         Alert.alert(null, intl('rolling_update_multiple_containers'));
-  //         return;
-  //       }
-  //       Alert.prompt(
-  //         intl('rolling_update_alert'),
-  //         `${intl(
-  //           'rolling_update_alert_subtitle'
-  //         )} ${containers.first().get('image')}`,
-  //         [
-  //           { text: intl('cancel') },
-  //           {
-  //             text: intl('rolling_update_start'),
-  //             onPress: text => {
-  //               DeploymentsActions.rollingUpdate({
-  //                 cluster,
-  //                 deployment,
-  //                 image: text,
-  //               });
-  //             },
-  //           },
-  //         ]
-  //       );
-  //     },
-  //   },
-  // ];
-  // return (
-  //   <View
-  //     style={{
-  //       flex: 1,
-  //       flexDirection: 'row',
-  //       alignItems: 'center',
-  //       paddingRight: 10,
-  //     }}
-  //   >
-  //     {yamlRightButton({
-  //       cluster,
-  //       navigator,
-  //       entity: deployment,
-  //       store: alt.stores.DeploymentsStore,
-  //     })}
-  //     <NavbarButton
-  //       source={require('images/more.png')}
-  //       style={{ tintColor: Colors.WHITE, marginLeft: 15 }}
-  //       onPress={() =>
-  //         ActionSheetUtils.showActionSheetWithOptions({ options })}
-  //     />
-  //   </View>
-  // );
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'more',
+      icon: require('images/more.png'),
+    }, {
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   render() {
     const { deployment, cluster, navigator } = this.props;
@@ -147,6 +98,30 @@ export default class DeploymentsShow extends Component {
     this.state = {
       sliderValue: props.deployment.getIn(['spec', 'replicas']),
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'yaml':
+        this.props.navigator.push({
+          screen: 'cabin.EntitiesYaml',
+          passProps: { cluster: this.props.cluster, entity: this.props.deployment },
+        });
+        break;
+      case 'more':
+        const options = [
+          { title: intl('cancel') },
+          {
+            title: intl('deployment_rolling_update_action'),
+            onPress: () => {
+              this.performRollingUpdate();
+            },
+          },
+        ];
+        ActionSheetUtils.showActionSheetWithOptions({options});
+        break;
+    }
   }
 
   render() {
@@ -219,6 +194,37 @@ export default class DeploymentsShow extends Component {
     EntitiesActions.createEntity({cluster, params: Immutable.fromJS(params), entityType: 'deployments'}).then(() => {
       AlertUtils.showSuccess({message: `Deployment copied to ${cluster.get('name')}`});
     });
+  }
+
+  performRollingUpdate() {
+    const { cluster, deployment } = this.props;
+    const containers = deployment.getIn(
+      ['spec', 'template', 'spec', 'containers'],
+      Immutable.List()
+    );
+    if (containers.size !== 1) {
+      Alert.alert(null, intl('rolling_update_multiple_containers'));
+      return;
+    }
+    Alert.prompt(
+      intl('rolling_update_alert'),
+      `${intl(
+        'rolling_update_alert_subtitle'
+      )} ${containers.first().get('image')}`,
+      [
+        { text: intl('cancel') },
+        {
+          text: intl('rolling_update_start'),
+          onPress: text => {
+            DeploymentsActions.rollingUpdate({
+              cluster,
+              deployment,
+              image: text,
+            });
+          },
+        },
+      ]
+    );
   }
 
 }

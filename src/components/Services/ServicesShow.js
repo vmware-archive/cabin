@@ -53,7 +53,12 @@ const styles = StyleSheet.create({
 
 export class ServicesShowContainer extends Component {
 
-  // TODO: YAML RIGHT BUTTON
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   render() {
     const { service, cluster, navigator } = this.props;
@@ -86,6 +91,19 @@ export default class ServicesShow extends Component {
   static propTypes = {
     service: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
+  }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.service },
+      });
+    }
   }
 
   render() {

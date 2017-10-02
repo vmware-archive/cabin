@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import StatusView from 'components/commons/StatusView';
 import NodesActions from 'actions/NodesActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AltContainer from 'alt-container';
 
 const {
@@ -49,41 +50,16 @@ const styles = StyleSheet.create({
 
 export class NodesShowContainer extends Component {
 
-  // TODO: Right buttons
-  // renderRightButton(navigator) {
-  //   const options = [
-  //     { title: intl('cancel') },
-  //     {
-  //       title: 'Put in maintenance',
-  //       onPress: () => NodesActions.putInMaintenance({ cluster, node }),
-  //     },
-  //   ];
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         flexDirection: 'row',
-  //         alignItems: 'center',
-  //         paddingRight: 10,
-  //       }}
-  //     >
-  //       <NavbarButton
-  //         source={require('images/view.png')}
-  //         style={{ tintColor: Colors.WHITE }}
-  //         onPress={() =>
-  //           navigator.push(
-  //             EntitiesRoutes.getEntitiesYamlRoute({ entity: node })
-  //           )}
-  //       />
-  //       <NavbarButton
-  //         source={require('images/more.png')}
-  //         style={{ tintColor: Colors.WHITE, marginLeft: 15 }}
-  //         onPress={() =>
-  //           ActionSheetUtils.showActionSheetWithOptions({ options })}
-  //       />
-  //     </View>
-  //   );
-  // },
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'more',
+      icon: require('images/more.png'),
+    }, {
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
   render() {
     const { node, cluster, navigator } = this.props;
     return (
@@ -108,6 +84,32 @@ export default class NodesShow extends Component {
   static propTypes = {
     node: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
+  }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    const { cluster, node } = this.props;
+    switch (event.id) {
+      case 'yaml':
+        this.props.navigator.push({
+          screen: 'cabin.EntitiesYaml',
+          passProps: { cluster, entity: node },
+        });
+        break;
+      case 'more':
+        const options = [
+          { title: intl('cancel') },
+          {
+            title: 'Put in maintenance',
+            onPress: () => NodesActions.putInMaintenance({ cluster, node }),
+          },
+        ];
+        ActionSheetUtils.showActionSheetWithOptions({options});
+        break;
+    }
   }
 
   render() {

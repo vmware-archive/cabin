@@ -45,7 +45,12 @@ const styles = StyleSheet.create({
 
 export class ReplicationsShowContainer extends Component {
 
-  // TODO: YAML RIGHT BUTTON
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   render() {
     const { replication, cluster, navigator } = this.props;
@@ -85,6 +90,16 @@ export default class ReplicationsShow extends Component {
     this.state = {
       sliderValue: props.replication.getIn(['spec', 'replicas']),
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.replication },
+      });
+    }
   }
 
   render() {

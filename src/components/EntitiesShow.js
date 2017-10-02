@@ -49,11 +49,30 @@ const styles = StyleSheet.create({
 
 export default class EntitiesShow extends Component {
 
-  // TODO: RIGHT YAML BUTTON
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   static propTypes = {
     entity: PropTypes.instanceOf(Immutable.Map),
   }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.entity },
+      });
+    }
+  }
+
 
   render() {
     const { entity } = this.props;

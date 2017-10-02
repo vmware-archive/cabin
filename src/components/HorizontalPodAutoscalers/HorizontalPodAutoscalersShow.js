@@ -41,7 +41,12 @@ const styles = StyleSheet.create({
 
 export class HorizontalPodAutoscalersShowContainer extends Component {
 
-  // TODO: YAML RIGHT BUTTON
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   render() {
     const { hpa, cluster, navigator } = this.props;
@@ -74,6 +79,19 @@ export default class HorizontalPodAutoscalersShow extends Component {
     hpa: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
   };
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.hpa },
+      });
+    }
+  }
 
   render() {
     const { hpa, cluster } = this.props;

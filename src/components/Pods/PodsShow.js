@@ -46,7 +46,12 @@ const styles = StyleSheet.create({
 
 export class PodsShowContainer extends Component {
 
-  // TODO: YAML RIGHT BUTTON
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
 
   render() {
     const { pod, cluster, navigator } = this.props;
@@ -72,6 +77,19 @@ export default class PodsShow extends Component {
   static propTypes = {
     pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
+  }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.pod },
+      });
+    }
   }
 
   render() {
