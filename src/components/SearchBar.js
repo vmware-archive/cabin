@@ -24,6 +24,7 @@ const {
   Dimensions,
   InteractionManager,
   Platform,
+  DeviceEventEmitter,
 } = ReactNative;
 
 
@@ -69,6 +70,7 @@ export default class SearchBar extends Component {
     autoFocus: PropTypes.boolean,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
+    onChangEventName: PropTypes.string,
   }
 
   componentDidMount() {
@@ -77,7 +79,15 @@ export default class SearchBar extends Component {
     });
   }
 
+  onChange(text) {
+    if (this.props.onChange) {
+      this.props.onChange(text);
+    } else if (this.props.onChangeEventName) {
+      DeviceEventEmitter.emit(this.props.onChangeEventName, {text});
+    }
+  }
   render() {
+    console.log('OnChange', this.props);
     return (
       <View style={[styles.container, this.props.style]}>
         {Platform.OS === 'ios' && <Image source={require('images/search.png')} style={styles.icon} />}
@@ -90,7 +100,7 @@ export default class SearchBar extends Component {
           returnKeyType="search"
           autoCapitalize="none"
           clearButtonMode="while-editing"
-          onChangeText={this.props.onChange}
+          onChangeText={this.onChange.bind(this)}
         />
       </View>
     );

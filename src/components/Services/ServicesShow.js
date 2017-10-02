@@ -27,6 +27,7 @@ import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import Linking from 'utils/Linking';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -49,6 +50,36 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export class ServicesShowContainer extends Component {
+
+  // TODO: YAML RIGHT BUTTON
+
+  render() {
+    const { service, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          service: () => {
+            return {
+              store: alt.stores.ServicesStore,
+              value: alt.stores.ServicesStore.get({
+                entity: service,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <ServicesShow
+          service={service}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class ServicesShow extends Component {
 

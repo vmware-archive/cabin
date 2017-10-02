@@ -25,6 +25,7 @@ import FAB from 'components/commons/FAB';
 
 const {
   View,
+  Image,
   InteractionManager,
   Platform,
   StyleSheet,
@@ -44,9 +45,23 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ClustersIndexNavBarTitle extends Component {
+  render() {
+    return (
+      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <Image style={{resizeMode: 'contain', width: 32, height: 32, tintColor: Colors.WHITE, marginRight: 6}} source={require('images/kubernetes.png')} />
+        <Image style={{resizeMode: 'contain', width: 60, tintColor: Colors.WHITE}} source={require('images/cabin.png')}/>
+      </View>
+    );
+  }
+}
+
 export default class ClustersIndex extends Component {
 
-  static navigatorStyle = defaultNavigatorStyle;
+  static navigatorStyle = {
+    ...defaultNavigatorStyle,
+    navBarCustomView: 'cabin.ClustersIndex.Title',
+  };
 
   static navigatorButtons = {
     rightButtons: [{

@@ -22,6 +22,7 @@ import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -42,6 +43,29 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export class PodsShowContainer extends Component {
+
+  // TODO: YAML RIGHT BUTTON
+
+  render() {
+    const { pod, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          pod: () => {
+            return {
+              store: alt.stores.PodsStore,
+              value: alt.stores.PodsStore.get({ entity: pod, cluster }),
+            };
+          },
+        }}
+      >
+        <PodsShow pod={pod} cluster={cluster} navigator={navigator} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class PodsShow extends Component {
 

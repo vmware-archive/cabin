@@ -80,6 +80,7 @@ export default class LabelsView extends Component {
                 keyboardType="ascii-capable"
                 value={values}
                 regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
+                labelExtractor={(label) => label}
                 onChange={e => {
                   if (e.length < values.length) {
                     const deletedKey = '';

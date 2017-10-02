@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import ReplicationsActions from 'actions/ReplicationsActions';
 import PodsActions from 'actions/PodsActions';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -41,6 +42,36 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export class ReplicationsShowContainer extends Component {
+
+  // TODO: YAML RIGHT BUTTON
+
+  render() {
+    const { replication, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          replication: () => {
+            return {
+              store: alt.stores.ReplicationsStore,
+              value: alt.stores.ReplicationsStore.get({
+                entity: replication,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <ReplicationsShow
+          replication={replication}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class ReplicationsShow extends Component {
 

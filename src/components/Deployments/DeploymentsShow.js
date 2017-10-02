@@ -25,6 +25,7 @@ import EntitiesActions from 'actions/EntitiesActions';
 import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import AlertUtils from 'utils/AlertUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -45,6 +46,94 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export class DeploymentsShowContainer extends Component {
+
+  // TODO: RIGHT BUTTONS
+  // const options = [
+  //   { title: intl('cancel') },
+  //   {
+  //     title: intl('deployment_rolling_update_action'),
+  //     onPress: () => {
+  //       const containers = deployment.getIn(
+  //         ['spec', 'template', 'spec', 'containers'],
+  //         Immutable.List()
+  //       );
+  //       if (containers.size !== 1) {
+  //         Alert.alert(null, intl('rolling_update_multiple_containers'));
+  //         return;
+  //       }
+  //       Alert.prompt(
+  //         intl('rolling_update_alert'),
+  //         `${intl(
+  //           'rolling_update_alert_subtitle'
+  //         )} ${containers.first().get('image')}`,
+  //         [
+  //           { text: intl('cancel') },
+  //           {
+  //             text: intl('rolling_update_start'),
+  //             onPress: text => {
+  //               DeploymentsActions.rollingUpdate({
+  //                 cluster,
+  //                 deployment,
+  //                 image: text,
+  //               });
+  //             },
+  //           },
+  //         ]
+  //       );
+  //     },
+  //   },
+  // ];
+  // return (
+  //   <View
+  //     style={{
+  //       flex: 1,
+  //       flexDirection: 'row',
+  //       alignItems: 'center',
+  //       paddingRight: 10,
+  //     }}
+  //   >
+  //     {yamlRightButton({
+  //       cluster,
+  //       navigator,
+  //       entity: deployment,
+  //       store: alt.stores.DeploymentsStore,
+  //     })}
+  //     <NavbarButton
+  //       source={require('images/more.png')}
+  //       style={{ tintColor: Colors.WHITE, marginLeft: 15 }}
+  //       onPress={() =>
+  //         ActionSheetUtils.showActionSheetWithOptions({ options })}
+  //     />
+  //   </View>
+  // );
+
+  render() {
+    const { deployment, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          deployment: () => {
+            return {
+              store: alt.stores.DeploymentsStore,
+              value: alt.stores.DeploymentsStore.get({
+                entity: deployment,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <DeploymentsShow
+          deployment={deployment}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class DeploymentsShow extends Component {
 
