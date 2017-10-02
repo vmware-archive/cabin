@@ -50,9 +50,7 @@ export default class Search extends Component {
     navBarCustomViewInitialProps: {
       autoFocus: true,
       placeholder: 'Search by name or label',
-      onChange: (text) => {
-        DeviceEventEmitter.emit('search:change', {text});
-      },
+      onChangeEventName: 'search:change',
     },
   };
 

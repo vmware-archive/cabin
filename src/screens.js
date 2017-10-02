@@ -16,12 +16,21 @@
 import { Navigation } from 'react-native-navigation';
 
 import ClustersIndex from 'components/Clusters/ClustersIndex';
+import { ClustersIndexNavBarTitle } from 'components/Clusters/ClustersIndex';
 import ClustersNew from 'components/Clusters/ClustersNew';
 import { ClustersNewGoogleContainer } from 'components/Clusters/ClustersNewGoogle';
 import { ClustersShowContainer } from 'components/Clusters/ClustersShow';
 import { ClustersNavbarTitleContainer } from 'components/Clusters/ClustersNavbarTitle';
 import Search from 'components/Search';
 import SearchBar from 'components/SearchBar';
+
+import { PodsShowContainer } from 'components/Pods/PodsShow';
+import { NodesShowContainer } from 'components/Nodes/NodesShow';
+import { ServicesShowContainer } from 'components/Services/ServicesShow';
+import { ReplicationsShowContainer } from 'components/Replications/ReplicationsShow';
+import { DeploymentsShowContainer } from 'components/Deployments/DeploymentsShow';
+import { HorizontalPodAutoscalersShowContainer } from 'components/HorizontalPodAutoscalers/HorizontalPodAutoscalersShow';
+import EntitiesShow from 'components/EntitiesShow';
 
 import { DeployIndexContainer } from 'components/Deploy/DeployIndex';
 import { DeployClustersContainer } from 'components/Deploy/DeployClusters';
@@ -31,13 +40,24 @@ import { SettingsChartsStoresContainer } from 'components/Settings/SettingsChart
 
 // register all screens of the app (including internal ones)
 export function registerScreens() {
+  // Clusters
   Navigation.registerComponent('cabin.ClustersIndex', () => ClustersIndex);
+  Navigation.registerComponent('cabin.ClustersIndex.Title', () => ClustersIndexNavBarTitle);
   Navigation.registerComponent('cabin.ClustersNew', () => ClustersNew);
   Navigation.registerComponent('cabin.ClustersNewGoogle', () => ClustersNewGoogleContainer);
   Navigation.registerComponent('cabin.ClustersShow', () => ClustersShowContainer);
   Navigation.registerComponent('cabin.ClustersShow.Navbar', () => ClustersNavbarTitleContainer);
   Navigation.registerComponent('cabin.ClustersSearch', () => Search);
   Navigation.registerComponent('cabin.ClustersSearch.SearchBar', () => SearchBar);
+
+  // Entities
+  Navigation.registerComponent('cabin.PodsShow', () => PodsShowContainer);
+  Navigation.registerComponent('cabin.NodesShow', () => NodesShowContainer);
+  Navigation.registerComponent('cabin.ServicesShow', () => ServicesShowContainer);
+  Navigation.registerComponent('cabin.ReplicationsShow', () => ReplicationsShowContainer);
+  Navigation.registerComponent('cabin.DeploymentsShow', () => DeploymentsShowContainer);
+  Navigation.registerComponent('cabin.HPAsShow', () => HorizontalPodAutoscalersShowContainer);
+  Navigation.registerComponent('cabin.EntitiesShow', () => EntitiesShow);
 
   // Deploy
   Navigation.registerComponent('cabin.DeployIndex', () => DeployIndexContainer);

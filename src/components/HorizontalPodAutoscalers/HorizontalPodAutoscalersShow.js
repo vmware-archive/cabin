@@ -20,6 +20,7 @@ import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
 import HorizontalPodAutoscalersActions from 'actions/HorizontalPodAutoscalersActions';
 import AlertUtils from 'utils/AlertUtils';
+import AltContainer from 'alt-container';
 
 const { View, StyleSheet } = ReactNative;
 
@@ -37,6 +38,36 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 });
+
+export class HorizontalPodAutoscalersShowContainer extends Component {
+
+  // TODO: YAML RIGHT BUTTON
+
+  render() {
+    const { hpa, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          hpa: () => {
+            return {
+              store: alt.stores.HorizontalPodAutoscalersStore,
+              value: alt.stores.HorizontalPodAutoscalersStore.get({
+                entity: hpa,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <HorizontalPodAutoscalersShow
+          hpa={hpa}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class HorizontalPodAutoscalersShow extends Component {
   static propTypes = {

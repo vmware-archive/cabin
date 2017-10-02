@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import StatusView from 'components/commons/StatusView';
 import NodesActions from 'actions/NodesActions';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -45,6 +46,62 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
+
+export class NodesShowContainer extends Component {
+
+  // TODO: Right buttons
+  // renderRightButton(navigator) {
+  //   const options = [
+  //     { title: intl('cancel') },
+  //     {
+  //       title: 'Put in maintenance',
+  //       onPress: () => NodesActions.putInMaintenance({ cluster, node }),
+  //     },
+  //   ];
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         flexDirection: 'row',
+  //         alignItems: 'center',
+  //         paddingRight: 10,
+  //       }}
+  //     >
+  //       <NavbarButton
+  //         source={require('images/view.png')}
+  //         style={{ tintColor: Colors.WHITE }}
+  //         onPress={() =>
+  //           navigator.push(
+  //             EntitiesRoutes.getEntitiesYamlRoute({ entity: node })
+  //           )}
+  //       />
+  //       <NavbarButton
+  //         source={require('images/more.png')}
+  //         style={{ tintColor: Colors.WHITE, marginLeft: 15 }}
+  //         onPress={() =>
+  //           ActionSheetUtils.showActionSheetWithOptions({ options })}
+  //       />
+  //     </View>
+  //   );
+  // },
+  render() {
+    const { node, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          node: () => {
+            return {
+              store: alt.stores.NodesStore,
+              value: alt.stores.NodesStore.get({ entity: node, cluster }),
+            };
+          },
+        }}
+      >
+        <NodesShow node={node} cluster={cluster} navigator={navigator} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class NodesShow extends Component {
 

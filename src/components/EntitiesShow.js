@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
 
 export default class EntitiesShow extends Component {
 
+  // TODO: RIGHT YAML BUTTON
+
   static propTypes = {
     entity: PropTypes.instanceOf(Immutable.Map),
   }
