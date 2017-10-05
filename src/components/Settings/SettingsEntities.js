@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import DraggableItem from 'components/commons/DraggableItem';
 import EntityIcon from 'components/commons/EntityIcon';
 import SortableListView from 'react-native-sortable-listview';
@@ -53,6 +53,8 @@ const styles = StyleSheet.create({
 });
 
 export class SettingsEntitiesContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle
 
   render() {
     return (

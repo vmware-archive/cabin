@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
 });
 
 export class DeployClustersContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     return (

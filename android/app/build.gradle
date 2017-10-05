@@ -161,7 +161,6 @@ protobuf {
 }
 
 dependencies {
-    compile project(':react-native-navigation')
     compile project(':ReactAndroid')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-config')
@@ -169,21 +168,21 @@ dependencies {
     compile project(':react-native-material-kit')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:multidex:1.0.1'
+    compile "com.android.support:appcompat-v7:25.0.1"
     compile 'com.facebook.react:react-native:+'
-    // From node_modules
     compile project(':react-native-orientation')
+    compile project(':react-native-navigation')
     compile(project(':react-native-google-signin')) {
         exclude group: "com.google.android.gms"
     }
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
-    // grpc
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+
     compile 'com.google.protobuf:protobuf-java:3.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'io.grpc:grpc-protobuf:1.0.1'
     compile 'io.grpc:grpc-stub:1.0.1'
     compile 'org.kamranzafar:jtar:2.3'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
-    compile 'com.squareup.okhttp3:logging-interceptor:+'
     compile 'com.squareup.okhttp3:logging-interceptor:+'
 }
 

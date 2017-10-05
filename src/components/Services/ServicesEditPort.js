@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ServicesActions from 'actions/ServicesActions';
 import ScrollView from 'components/commons/ScrollView';
@@ -46,6 +46,8 @@ export default class ServicesEditPort extends Component {
     service: PropTypes.instanceOf(Immutable.Map),
     port: PropTypes.instanceOf(Immutable.Map),
   }
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
     rightButtons: [{

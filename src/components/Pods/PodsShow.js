@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import StatusView from 'components/commons/StatusView';
@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
 });
 
 export class PodsShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
     rightButtons: [{

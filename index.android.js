@@ -14,7 +14,44 @@
   limitations under the License.
 */
 import './src/config';
-import { AppRegistry } from 'react-native';
-import Application from './src/components/Application';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
+import { registerScreens } from './src/screens';
+import { Navigation } from 'react-native-navigation';
 
-AppRegistry.registerComponent('Cabin', () => Application);
+registerScreens();
+class AndroidHome extends Component {
+  static navigatorStyle = {
+    ...defaultNavigatorStyle,
+    topTabIconColor: Colors.WHITE,
+    selectedTopTabIconColor: Colors.WHITE,
+    selectedTopTabIndicatorHeight: 4,
+    selectedTopTabIndicatorColor: Colors.WHITE,
+  }
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'icon',
+      icon: require('images/cabin-title-android.png'),
+    }],
+  };
+}
+Navigation.registerComponent('cabin.AndroidHome', () => AndroidHome);
+
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'cabin.AndroidHome',
+    navigatorStyle: defaultNavigatorStyle,
+    topTabs: [{
+      screenId: 'cabin.ClustersIndex',
+      icon: require('images/target.png'),
+    }, {
+      screenId: 'cabin.DeployIndex',
+      icon: require('images/upload.png'),
+    }, {
+      screenId: 'cabin.SettingsIndex',
+      icon: require('images/settings.png'),
+    }],
+  },
+  appStyle: {
+  },
+});
