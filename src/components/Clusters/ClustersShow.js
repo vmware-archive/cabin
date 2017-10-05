@@ -18,7 +18,7 @@ import EntitiesList from 'components/EntitiesList';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import EntitiesActions from 'actions/EntitiesActions';
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
 import NamespacePicker from 'components/commons/NamespacePicker';
 import DeployReleases from 'components/Deploy/DeployReleases';
@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
 });
 
 export class ClustersShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle
 
   static navigatorButtons = {
     rightButtons: [{

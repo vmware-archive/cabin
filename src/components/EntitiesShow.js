@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 
 const {
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
 });
 
 export default class EntitiesShow extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
     rightButtons: [{

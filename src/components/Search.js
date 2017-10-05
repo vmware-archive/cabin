@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ClustersActions from 'actions/ClustersActions';
 import SearchActions from 'actions/SearchActions';
 import SearchEntitiesStore from 'stores/SearchEntitiesStore';
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
 export default class Search extends Component {
 
   static navigatorStyle = {
+    ...defaultNavigatorStyle,
     navBarCustomView: 'cabin.ClustersSearch.SearchBar',
     navBarCustomViewInitialProps: {
       autoFocus: true,

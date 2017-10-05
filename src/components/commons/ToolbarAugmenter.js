@@ -18,8 +18,6 @@ import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import NavigationActions from 'actions/NavigationActions';
-import DeployRoutes from 'routes/DeployRoutes';
-import SettingsRoutes from 'routes/SettingsRoutes';
 
 const { Image, Platform, StyleSheet, Text, ToolbarAndroid, View } = ReactNative;
 
@@ -73,15 +71,15 @@ export default class ToolbarAugmenter extends Component {
         title: 'Deploy',
         icon: require('images/upload.png'),
         show: 'always',
-        onPress: () =>
-          NavigationActions.push(DeployRoutes.getDeployIndexRoute()),
+        // onPress: () =>
+          // NavigationActions.push(DeployRoutes.getDeployIndexRoute()),
       },
       {
         title: 'Settings',
         icon: require('images/settings.png'),
         show: 'never',
-        onPress: () =>
-          NavigationActions.push(SettingsRoutes.getSettingsIndexRoute()),
+        // onPress: () =>
+          // NavigationActions.push(SettingsRoutes.getSettingsIndexRoute()),
       },
     ];
   }

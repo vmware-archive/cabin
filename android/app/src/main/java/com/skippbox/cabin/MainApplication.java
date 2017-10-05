@@ -6,7 +6,6 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.reactnativenavigation.NavigationReactPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -19,6 +18,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.rnfs.RNFSPackage;
+import com.reactnativenavigation.NavigationApplication;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import okhttp3.OkHttpClient;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends NavigationApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -36,19 +36,27 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-            return Arrays.asList(
-                    new MainReactPackage(),
-            new NavigationReactPackage(),
-                    new RNFetchBlobPackage(),
-                    new RNGoogleSigninPackage(),
-                    new ReactNativeConfigPackage(),
-                    new CabinPackage(),
-                    new OrientationPackage(),
-                    new ReactMaterialKitPackage(),
-                    new RNFSPackage()
-            );
+            return getPackages();
         }
     };
+
+    protected List<ReactPackage> getPackages() {
+        return Arrays.asList(
+                new MainReactPackage(),
+                new RNFetchBlobPackage(),
+                new RNGoogleSigninPackage(),
+                new ReactNativeConfigPackage(),
+                new CabinPackage(),
+                new OrientationPackage(),
+                new ReactMaterialKitPackage(),
+                new RNFSPackage()
+        );
+    }
+
+    @Override
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
 
     @Override
     public ReactNativeHost getReactNativeHost() {
@@ -65,5 +73,9 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         super.onCreate();
         CertificateModule.setupClient(OkHttpClientProvider.getOkHttpClient());
+    }
+
+    public List<ReactPackage> createAdditionalReactPackages() {
+        return getPackages();
     }
 }

@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import PStyleSheet from 'styles/PStyleSheet';
 import ScrollView from 'components/commons/ScrollView';
 import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
@@ -84,6 +84,8 @@ const styles = PStyleSheet.create({
 });
 
 export class PodsExecContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     const { pod, cluster, navigator, container } = this.props;

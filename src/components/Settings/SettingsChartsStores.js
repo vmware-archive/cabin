@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
 import AlertUtils from 'utils/AlertUtils';
 import PStyleSheet from 'styles/PStyleSheet';
@@ -54,6 +54,8 @@ const styles = PStyleSheet.create({
 });
 
 export class SettingsChartsStoresContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     return (

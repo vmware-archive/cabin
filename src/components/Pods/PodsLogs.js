@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ScrollView from 'components/commons/ScrollView';
 import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
 import PodsActions from 'actions/PodsActions';
@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
 });
 
 export class PodsLogsContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
     rightButtons: [{
