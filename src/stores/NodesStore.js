@@ -17,7 +17,7 @@ import alt from 'src/alt';
 import NodesActions from 'actions/NodesActions';
 import immutableUtil from 'alt-utils/lib/ImmutableUtil';
 import BaseEntitiesStore from './BaseEntitiesStore';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 class NodesStore extends BaseEntitiesStore {
 
@@ -31,7 +31,7 @@ class NodesStore extends BaseEntitiesStore {
   }
 
   onSetSchedulableFailure({cluster, node, schedulable}) {
-    AlertUtils.showError();
+    SnackbarUtils.showError();
     this.setState(this.state.setIn(['nodes', cluster.get('url'), node.getIn(['metadata', 'uid']), 'spec', 'unschedulable'], schedulable));
   }
 

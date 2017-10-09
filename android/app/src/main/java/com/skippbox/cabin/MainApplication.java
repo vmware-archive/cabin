@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -43,6 +44,7 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
         return Arrays.asList(
                 new MainReactPackage(),
+            new SnackbarPackage(),
                 new RNFetchBlobPackage(),
                 new RNGoogleSigninPackage(),
                 new ReactNativeConfigPackage(),

@@ -16,7 +16,7 @@
 import AltContainer from 'alt-container';
 import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import PStyleSheet from 'styles/PStyleSheet';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
@@ -155,7 +155,7 @@ export default class SettingsChartsStores extends Component {
       this.nameInput.setNativeProps({text: ''});
       this.setState({checking: false, focus: false});
     }).catch(() => {
-      AlertUtils.showWarning({message: intl('settings_repo_failed')});
+      SnackbarUtils.showWarning({title: intl('settings_repo_failed')});
       this.setState({checking: false});
     });
   }

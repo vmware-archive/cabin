@@ -18,7 +18,7 @@ import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import AltContainer from 'alt-container';
 
 const {
@@ -190,7 +190,7 @@ export default class DeploymentsHistory extends Component {
       setTimeout(() => {
         this.refresh();
       }, 500);
-      AlertUtils.showSuccess({message: intl('deployment_rollback_succeed')});
+      SnackbarUtils.showSuccess({title: intl('deployment_rollback_succeed')});
     });
   }
 

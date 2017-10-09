@@ -17,7 +17,7 @@ import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ServicesActions from 'actions/ServicesActions';
 import ScrollView from 'components/commons/ScrollView';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
@@ -113,7 +113,7 @@ export default class ServicesEditPort extends Component {
     ServicesActions.updateServicePorts({cluster, service, ports}).then(() => {
       this.props.navigator.pop();
     }).catch((e) => {
-      AlertUtils.showError({message: e.message});
+      SnackbarUtils.showError({title: e.message});
     });
   }
 }

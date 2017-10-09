@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import Colors from 'styles/Colors';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import NavbarButton from 'components/commons/NavbarButton';
 import YAML from 'js-yaml';
 
@@ -58,7 +58,7 @@ export default class YamlNavbarButton extends Component {
       <NavbarButton source={require('images/copy.png')} style={{tintColor: Colors.WHITE}}
         onPress={() => {
           Clipboard.setString(yaml);
-          AlertUtils.showInfo({message: 'Yaml has been copied to your clipboard', position: 'bottom'});
+          SnackbarUtils.showInfo({title: 'Yaml has been copied to your clipboard'});
         }}
       />
     );

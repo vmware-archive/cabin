@@ -22,7 +22,7 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
@@ -196,7 +196,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
       return;
     }
     if (!this.state.deployment || !this.state.name) {
-      AlertUtils.showError({ message: 'You need to select a deployment' });
+      SnackbarUtils.showError({ title: 'You need to select a deployment' });
       return;
     }
     this.setState({ loading: true });
@@ -206,7 +206,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
     })
       .then(() => NavigationActions.pop())
       .catch(error => {
-        AlertUtils.showError({ message: error.message });
+        SnackbarUtils.showError({ title: error.message });
         this.setState({ loading: false });
       });
   }

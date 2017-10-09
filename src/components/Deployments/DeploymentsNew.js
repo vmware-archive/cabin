@@ -20,7 +20,7 @@ import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import NavigationActions from 'actions/NavigationActions';
 import ClustersActions from 'actions/ClustersActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import ScrollView from 'components/commons/ScrollView';
 
@@ -122,7 +122,7 @@ export default class DeploymentsNew extends Component {
   onSubmit() {
     if (this.state.loading) { return; }
     if (!this.state.image) {
-      AlertUtils.showWarning({message: intl('deployment_new_empty_image')});
+      SnackbarUtils.showWarning({title: intl('deployment_new_empty_image')});
       return;
     }
     this.setState({loading: true});
@@ -133,7 +133,7 @@ export default class DeploymentsNew extends Component {
       namespace: this.state.namespace,
     })
     .then(() => NavigationActions.pop())
-    .catch(e => AlertUtils.showError({message: e.message}))
+    .catch(e => SnackbarUtils.showError({title: e.message}))
     .finally(() => this.setState({loading: false}));
   }
 

@@ -30,6 +30,7 @@
 		7F5261518C09698979DB1ABD /* libPods-cabin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0270A6CD385AC2BB94FB6B /* libPods-cabin.a */; };
 		806BE5779C0741359CCC201D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A81E549F1A3401FBEA6B1F0 /* libReactNativeNavigation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		8C962EA7EB0148E4BC5D170A /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2123359850AC46B3B806EFCB /* libRNSnackbar.a */; };
 		8E5BABED1BB02D8E00D0FDEF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEC1BB02D8E00D0FDEF /* Security.framework */; };
 		8E5BABEF1BB02DBD00D0FDEF /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */; };
 		8E5BABF11BB02DC600D0FDEF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */; };
@@ -176,6 +177,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 6456441F1EB8DA9100672408;
 			remoteInfo = "RNFS-tvOS";
+		};
+		A54A18C61F8B37FE00D9A724 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 858A3C2BA9134592BFA0635E /* RNSnackbar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
+			remoteInfo = RNSnackbar;
 		};
 		A54E7F761F34D45E006C633C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -409,6 +417,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1C0270A6CD385AC2BB94FB6B /* libPods-cabin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cabin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFA7B2FDA29490B986B7C9A /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
+		2123359850AC46B3B806EFCB /* libRNSnackbar.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSnackbar.a; sourceTree = "<group>"; };
 		21BE4C8F4F6B412FA82FD4E7 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		3E1B9DB01DD0E4BA00261358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -419,6 +428,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7A81E549F1A3401FBEA6B1F0 /* libReactNativeNavigation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeNavigation.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		858A3C2BA9134592BFA0635E /* RNSnackbar.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSnackbar.xcodeproj; path = "../node_modules/react-native-snackbar/ios/RNSnackbar.xcodeproj"; sourceTree = "<group>"; };
 		8E5BABEC1BB02D8E00D0FDEF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -497,6 +507,7 @@
 				7F5261518C09698979DB1ABD /* libPods-cabin.a in Frameworks */,
 				DE17D0200A7144689792CE1E /* libRNFetchBlob.a in Frameworks */,
 				806BE5779C0741359CCC201D /* libReactNativeNavigation.a in Frameworks */,
+				8C962EA7EB0148E4BC5D170A /* libRNSnackbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,6 +684,7 @@
 				48CFFEAC0F7647DC94BD7FE1 /* RNFetchBlob.xcodeproj */,
 				1EFA7B2FDA29490B986B7C9A /* RCTMaterialKit.xcodeproj */,
 				DB1BB2489B354205A6BCE570 /* ReactNativeNavigation.xcodeproj */,
+				858A3C2BA9134592BFA0635E /* RNSnackbar.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -713,6 +725,14 @@
 			isa = PBXGroup;
 			children = (
 				A50BC79D1F7E6D0800A52E9A /* libReactNativeNavigation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A54A18C31F8B37FE00D9A724 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A54A18C71F8B37FE00D9A724 /* libRNSnackbar.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -826,6 +846,7 @@
 				9553EF256F2E4A4C8FF48426 /* libRNGoogleSignin.a */,
 				555F917E5DF242319924B978 /* libRNFetchBlob.a */,
 				7A81E549F1A3401FBEA6B1F0 /* libReactNativeNavigation.a */,
+				2123359850AC46B3B806EFCB /* libRNSnackbar.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -987,6 +1008,10 @@
 					ProjectRef = D0C1EEA87F4B447797218AF1 /* RNGoogleSignin.xcodeproj */;
 				},
 				{
+					ProductGroup = A54A18C31F8B37FE00D9A724 /* Products */;
+					ProjectRef = 858A3C2BA9134592BFA0635E /* RNSnackbar.xcodeproj */;
+				},
+				{
 					ProductGroup = A56492D31D351C6500C1DF4F /* Products */;
 					ProjectRef = A56492D21D351C6500C1DF4F /* SafariViewManager.xcodeproj */;
 				},
@@ -1116,6 +1141,13 @@
 			fileType = archive.ar;
 			path = libRNFS.a;
 			remoteRef = A515180C1F338BE900C51796 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A54A18C71F8B37FE00D9A724 /* libRNSnackbar.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSnackbar.a;
+			remoteRef = A54A18C61F8B37FE00D9A724 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A54E7F771F34D45E006C633C /* libRNGoogleSignin.a */ = {
@@ -1449,6 +1481,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = cabin/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -1460,6 +1493,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
+					"\"$(SRCROOT)/cabin\"",
 					"\"$(SRCROOT)/cabin\"",
 					"\"$(SRCROOT)/cabin\"",
 				);
@@ -1507,6 +1541,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-material-kit/iOS/RCTMaterialKit",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 				INFOPLIST_FILE = cabin/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -1518,6 +1553,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Helm",
+					"\"$(SRCROOT)/cabin\"",
 					"\"$(SRCROOT)/cabin\"",
 					"\"$(SRCROOT)/cabin\"",
 				);

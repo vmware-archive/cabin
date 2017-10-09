@@ -24,7 +24,7 @@ import PodsActions from 'actions/PodsActions';
 import EntitiesActions from 'actions/EntitiesActions';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import Alert from 'utils/Alert';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import AltContainer from 'alt-container';
 
 const {
@@ -189,11 +189,11 @@ export default class DeploymentsShow extends Component {
     const config = this.props.deployment.getIn(['metadata', 'annotations', 'kubectl.kubernetes.io/last-applied-configuration']);
     const params = JSON.parse(config);
     if (params === null) {
-      AlertUtils.showError();
+      SnackbarUtils.showError();
       return;
     }
     EntitiesActions.createEntity({cluster, params: Immutable.fromJS(params), entityType: 'deployments'}).then(() => {
-      AlertUtils.showSuccess({message: `Deployment copied to ${cluster.get('name')}`});
+      SnackbarUtils.showSuccess({title: `Deployment copied to ${cluster.get('name')}`});
     });
   }
 

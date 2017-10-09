@@ -17,7 +17,7 @@ import alt from 'src/alt';
 import ClustersApi from 'api/ClustersApi';
 import EntitiesActions from 'actions/EntitiesActions';
 import PodsActions from 'actions/PodsActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 const entityType = 'nodes';
 
@@ -83,7 +83,7 @@ class NodesActions {
     }).then(() => {
       this.putInMaintenanceSuccess({cluster, node});
     }).catch(() => {
-      AlertUtils.showError();
+      SnackbarUtils.showError();
       this.putInMaintenanceFailure({cluster, node});
     });
   }
