@@ -161,6 +161,7 @@ protobuf {
 }
 
 dependencies {
+    compile project(':react-native-snackbar')
     compile project(':ReactAndroid')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-config')

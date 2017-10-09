@@ -25,7 +25,7 @@ import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 const { View, Text, Image, Alert, TouchableOpacity, StyleSheet } = ReactNative;
 
@@ -256,9 +256,9 @@ export default class ClusterItem extends Component {
   }
 
   handleReport() {
-    AlertUtils.showInfo({
-      message: intl('cluster_report_loading'),
-      duration: 30000,
+    SnackbarUtils.showInfo({
+      title: intl('cluster_report_loading'),
+      duration: SnackbarUtils.DURATION_INDEFINITE,
     });
     DeploymentsActions.createDeployment({
       cluster: this.props.cluster,
@@ -268,10 +268,10 @@ export default class ClusterItem extends Component {
       args: EntitiesUtils.spartakusArgs(),
     })
       .then(() => {
-        AlertUtils.showSuccess({ message: intl('cluster_report_success') });
+        SnackbarUtils.showSuccess({ title: intl('cluster_report_success') });
       })
       .catch(e => {
-        AlertUtils.showError({ message: e.message });
+        SnackbarUtils.showError({ title: e.message });
       });
   }
 }

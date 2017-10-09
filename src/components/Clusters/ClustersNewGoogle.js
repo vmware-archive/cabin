@@ -25,7 +25,7 @@ import FAB from 'components/commons/FAB';
 import Alert from 'utils/Alert';
 import StatusView from 'components/commons/StatusView';
 import EmptyView from 'components/commons/EmptyView';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import LocalesUtils from 'utils/LocalesUtils';
 import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
@@ -291,7 +291,7 @@ export default class ClustersNewGoogle extends Component {
     } else if (
       alt.stores.ClustersStore.get(`https://${cluster.get('endpoint')}:443`)
     ) {
-      AlertUtils.showWarning({
+      SnackbarUtils.showWarning({
         message: "You've already added this cluster to Cabin",
       });
       return;
@@ -314,7 +314,7 @@ export default class ClustersNewGoogle extends Component {
       password: googleCluster.getIn(['masterAuth', 'password']),
     });
     ClustersActions.addCluster(cluster.toJS());
-    AlertUtils.showSuccess({ message: 'Cluster added to Cabin' });
+    SnackbarUtils.showSuccess({ title: 'Cluster added to Cabin' });
     setTimeout(() => {
       ClustersActions.checkCluster(cluster);
     }, 1000);
@@ -326,7 +326,7 @@ export default class ClustersNewGoogle extends Component {
       'projectId',
     ]);
     GoogleCloudActions.getZones(projectId).catch(e => {
-      AlertUtils.showError({ message: e.message });
+      SnackbarUtils.showError({ title: e.message });
     });
     this.props.navigator.push(
       ClustersRoutes.getClusterGoogleCreationRoute(projectId)

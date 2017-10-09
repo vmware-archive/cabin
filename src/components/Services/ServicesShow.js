@@ -22,7 +22,7 @@ import SegmentedControl from 'components/commons/SegmentedControl';
 import ServicesActions from 'actions/ServicesActions';
 import NodesActions from 'actions/NodesActions';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import Linking from 'utils/Linking';
 import AltContainer from 'alt-container';
@@ -213,7 +213,7 @@ export default class ServicesShow extends Component {
         NodesActions.fetchNodes(cluster).then(() => {
           const succeed = this.openServiceWithPort({port});
           if (!succeed) {
-            AlertUtils.showError({message: intl('service_open_browser_no_node')});
+            SnackbarUtils.showError({title: intl('service_open_browser_no_node')});
           }
         });
       }

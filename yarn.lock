@@ -2532,7 +2532,11 @@ image-size@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.6.1.tgz#98122a562d59dcc097ef1b2c8191866eb8f5d663"
 
-immutable@3.8.1, immutable@^3.7.4, immutable@~3.7.6:
+immutable@3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
+
+immutable@^3.7.4, immutable@~3.7.6:
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
@@ -4396,10 +4400,6 @@ react-native-material-kit@kemcake/react-native-material-kit:
     prop-types "^15.5.10"
     ramda "^0.24.1"
 
-react-native-message-bar@^2.0.1:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-message-bar/-/react-native-message-bar-2.0.4.tgz#ac551ecc8391057a35cd4c48f9b3d412f0a3e9b2"
-
 react-native-navigation@^1.1.235:
   version "1.1.235"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.235.tgz#53e3dc0eeb2b41b3f8890329550b15d1d5de9ac5"
@@ -4419,6 +4419,10 @@ react-native-parsed-text@kemcake/react-native-parsed-text:
 react-native-safari-view@naoufal/react-native-safari-view:
   version "2.0.0"
   resolved "https://codeload.github.com/naoufal/react-native-safari-view/tar.gz/9b7cf6cefb50a40bfe1d83ba05a408141a94af38"
+
+react-native-snackbar@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-0.4.2.tgz#03979ff445be16115a385d80dc08dd1c77563219"
 
 react-native-sortable-listview@0.2.5:
   version "0.2.5"

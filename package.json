@@ -40,11 +40,11 @@
     "react-native-google-signin": "^0.11.0",
     "react-native-keyboard-aware-scroll-view": "^0.3.0",
     "react-native-material-kit": "kemcake/react-native-material-kit",
-    "react-native-message-bar": "^2.0.1",
     "react-native-navigation": "^1.1.235",
     "react-native-orientation": "yamill/react-native-orientation",
     "react-native-parsed-text": "kemcake/react-native-parsed-text",
     "react-native-safari-view": "naoufal/react-native-safari-view",
+    "react-native-snackbar": "^0.4.2",
     "react-native-sortable-listview": "0.2.5",
     "react-native-tag-input": "jwohlfert23/react-native-tag-input"
   },

@@ -271,7 +271,7 @@ export default class DeployClusters extends Component {
       this.setState({deployed: true});
     }).catch(e => {
       this.setState({error: e});
-      // AlertUtils.showError({message: e.message});
+      // SnackbarUtils.showError({title: e.message});
     }).finally(() => {
       this.deployTries = MAX_RETRIES;
       this.setState({loading: false});

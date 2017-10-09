@@ -22,7 +22,7 @@ import DeploymentsActions from 'actions/DeploymentsActions';
 import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
@@ -146,7 +146,7 @@ export default class ServicesNew extends Component {
       ...this.state,
     }).then(() => NavigationActions.pop())
     .catch((error) => {
-      AlertUtils.showError({message: error.message});
+      SnackbarUtils.showError({title: error.message});
       this.setState({loading: false});
     });
   }

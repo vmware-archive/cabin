@@ -18,7 +18,7 @@ import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import ScrollView from 'components/commons/ScrollView';
 
@@ -170,11 +170,11 @@ export default class ClustersNewGoogleCreation extends Component {
       cluster.masterAuth = undefined;
     }
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
-      AlertUtils.showSuccess({message: 'The cluster has been created on GKE, you can now add it to cabin'});
+      SnackbarUtils.showSuccess({ title: 'The cluster has been created on GKE, you can now add it to cabin' });
       GoogleCloudActions.getClusters(projectId);
       this.props.navigator.pop();
     }).catch(e => {
-      AlertUtils.showError(e && e.message && {message: e.message});
+      SnackbarUtils.showError(e && e.message && {title: e.message});
       this.setState({loading: false});
     });
   }

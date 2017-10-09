@@ -17,13 +17,11 @@ import Navigator from 'components/commons/Navigator';
 import Home from 'components/commons/Home';
 import InitActions from 'actions/InitActions';
 import ActionSheet from '@expo/react-native-action-sheet';
-import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import ToolbarAugmenter from 'components/commons/ToolbarAugmenter';
 
 const {
   BackAndroid,
   DeviceEventEmitter,
-  InteractionManager,
   Platform,
   View,
 } = ReactNative;
@@ -42,11 +40,6 @@ export default class Application extends Component {
   componentDidMount() {
     InitActions.initializeApplication();
     this.actionSheetListener = DeviceEventEmitter.addListener('actionSheet:show', this.onActionSheetShow.bind(this));
-    MessageBarManager.registerMessageBar(this.refs.messageBar);
-    // Remove blue overlay (Fix: https://github.com/KBLNY/react-native-message-bar/issues/19)
-    InteractionManager.runAfterInteractions(() => {
-      MessageBarManager.showAlert({ duration: 10 });
-    });
     if (Platform.OS === 'android') {
       BackAndroid.addEventListener('hardwareBackPress', this.handleBackAndroid);
     }
@@ -54,7 +47,6 @@ export default class Application extends Component {
 
   componentWillUnmount() {
     this.actionSheetListener.remove();
-    MessageBarManager.unregisterMessageBar();
     if (Platform.OS === 'android') {
       BackAndroid.removeEventListener('hardwareBackPress', this.handleBackAndroid);
     }
@@ -88,7 +80,6 @@ export default class Application extends Component {
             }}
             augmentScene={(scene, route) => <ToolbarAugmenter scene={scene} route={route} navigator={this.refs.navigator} />}
           />
-          <MessageBar ref="messageBar"/>
         </View>
       </ActionSheet>
     );

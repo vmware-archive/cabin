@@ -22,7 +22,7 @@ import ListHeader from 'components/commons/ListHeader';
 import ClustersActions from 'actions/ClustersActions';
 import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import GoogleCloudActions from 'actions/GoogleCloudActions';
 import GoogleCloudApi from 'api/GoogleCloudApi';
 import RNFS from 'react-native-fs';
@@ -357,7 +357,7 @@ export default class ClustersNew extends Component {
       })
       .catch(() => {
         this.setState({ loading: false });
-        AlertUtils.showError();
+        SnackbarUtils.showError();
       });
   }
 
@@ -365,7 +365,7 @@ export default class ClustersNew extends Component {
     const url = this.state.certificateUrl;
     const certName = url.substr(url.lastIndexOf('/') + 1);
     if (!this.isValidUrl(url) || certName === '') {
-      AlertUtils.showError({ message: 'Wrong url' });
+      SnackbarUtils.showError({ title: 'Wrong url' });
       return;
     }
     this.setState({ downloadingCertificate: true });
@@ -379,14 +379,14 @@ export default class ClustersNew extends Component {
         });
       })
       .catch(() => {
-        AlertUtils.showError();
+        SnackbarUtils.showError();
         this.setState({ downloadingCertificate: false });
       });
   }
 
   onSubmit() {
     if (!this.isValidUrl(this.state.url)) {
-      AlertUtils.showWarning({ message: intl('cluster_new_wrong_url') });
+      SnackbarUtils.showWarning({ title: intl('cluster_new_wrong_url') });
       return;
     }
     const {
