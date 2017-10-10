@@ -36,7 +36,7 @@ const styles = PStyleSheet.create({
       width: Dimensions.get('window').width - 50,
       height: 32,
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      marginLeft: 35,
+      marginLeft: 6,
       marginTop: 6,
       paddingHorizontal: 10,
       borderRadius: 6,
@@ -87,7 +87,6 @@ export default class SearchBar extends Component {
     }
   }
   render() {
-    console.log('OnChange', this.props);
     return (
       <View style={[styles.container, this.props.style]}>
         {Platform.OS === 'ios' && <Image source={require('images/search.png')} style={styles.icon} />}

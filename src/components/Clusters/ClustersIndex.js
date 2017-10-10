@@ -63,6 +63,10 @@ export default class ClustersIndex extends Component {
   };
 
   static navigatorButtons = {
+    leftButtons: [{
+      id: 'emptySpace',
+      title: '    ',
+    }],
     rightButtons: [{
       id: 'add',
       icon: require('images/add.png'),
