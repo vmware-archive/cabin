@@ -27,7 +27,6 @@ import StatusView from 'components/commons/StatusView';
 import EmptyView from 'components/commons/EmptyView';
 import SnackbarUtils from 'utils/SnackbarUtils';
 import LocalesUtils from 'utils/LocalesUtils';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
 import _ from 'lodash';
 
@@ -328,8 +327,10 @@ export default class ClustersNewGoogle extends Component {
     GoogleCloudActions.getZones(projectId).catch(e => {
       SnackbarUtils.showError({ title: e.message });
     });
-    this.props.navigator.push(
-      ClustersRoutes.getClusterGoogleCreationRoute(projectId)
-    );
+    this.props.navigator.push({
+      screen: 'cabin.ClustersNewGoogleCreation',
+      title: 'Create GKE Cluster',
+      passProps: { projectId },
+    });
   }
 }

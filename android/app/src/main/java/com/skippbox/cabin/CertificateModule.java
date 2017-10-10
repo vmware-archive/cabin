@@ -41,7 +41,6 @@ import javax.net.ssl.X509KeyManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class CertificateModule extends ReactContextBaseJavaModule {
 
@@ -81,11 +80,8 @@ public class CertificateModule extends ReactContextBaseJavaModule {
                 }
             });
 
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
             return builder
-                    .addInterceptor(logging)
+
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS);

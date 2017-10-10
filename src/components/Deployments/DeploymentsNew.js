@@ -18,7 +18,6 @@ import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import NavigationActions from 'actions/NavigationActions';
 import ClustersActions from 'actions/ClustersActions';
 import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersUtils from 'utils/ClustersUtils';
@@ -132,7 +131,7 @@ export default class DeploymentsNew extends Component {
       image: this.state.image,
       namespace: this.state.namespace,
     })
-    .then(() => NavigationActions.pop())
+    .then(() => this.props.navigator.dismissModal())
     .catch(e => SnackbarUtils.showError({title: e.message}))
     .finally(() => this.setState({loading: false}));
   }

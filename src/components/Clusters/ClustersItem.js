@@ -18,9 +18,7 @@ import SwipeRow from 'components/commons/SwipeRow';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersUtils from 'utils/ClustersUtils';
@@ -250,9 +248,11 @@ export default class ClusterItem extends Component {
   }
 
   handleEdit() {
-    NavigationActions.push(
-      ClustersRoutes.getClusterNewRoute(this.props.cluster)
-    );
+    this.props.navigator.showModal({
+      screen: 'cabin.ClustersNew',
+      title: 'Edit Cluster',
+      passProps: { cluster: this.props.cluster },
+    });
   }
 
   handleReport() {

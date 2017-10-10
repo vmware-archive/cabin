@@ -184,7 +184,7 @@ dependencies {
     compile 'io.grpc:grpc-stub:1.0.1'
     compile 'org.kamranzafar:jtar:2.3'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
-    compile 'com.squareup.okhttp3:logging-interceptor:+'
+    //compile 'com.squareup.okhttp3:logging-interceptor:+'
 }
 
 // Run this once to be able to run the application with BUCK

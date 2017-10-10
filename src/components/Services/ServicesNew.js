@@ -19,7 +19,6 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ServicesActions from 'actions/ServicesActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import SnackbarUtils from 'utils/SnackbarUtils';
@@ -144,7 +143,7 @@ export default class ServicesNew extends Component {
     ServicesActions.createService({
       cluster: this.props.cluster,
       ...this.state,
-    }).then(() => NavigationActions.pop())
+    }).then(() => this.props.navigator.dismissModal())
     .catch((error) => {
       SnackbarUtils.showError({title: error.message});
       this.setState({loading: false});

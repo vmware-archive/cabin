@@ -19,10 +19,10 @@ import ScrollView from 'components/commons/ScrollView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ChartsUtils from 'utils/ChartsUtils';
+import NavigationUtils from 'utils/NavigationUtils';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import ServicesActions from 'actions/ServicesActions';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import BaseApi from 'api/BaseApi';
 
 import PropTypes from 'prop-types';
@@ -330,6 +330,12 @@ export default class DeployClusters extends Component {
 
   openCluster(cluster) {
     this.props.navigator.popToRoot();
-    NavigationActions.showCluster(cluster);
+    NavigationUtils.selectTab(0);
+    NavigationUtils.pushOnTab(0, {
+      screen: 'cabin.ClustersShow',
+      title: cluster.get('name'),
+      backButtonTitle: '',
+      passProps: { cluster },
+    });
   }
 }

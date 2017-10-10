@@ -44,7 +44,7 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
         return Arrays.asList(
                 new MainReactPackage(),
-            new SnackbarPackage(),
+                new SnackbarPackage(),
                 new RNFetchBlobPackage(),
                 new RNGoogleSigninPackage(),
                 new ReactNativeConfigPackage(),

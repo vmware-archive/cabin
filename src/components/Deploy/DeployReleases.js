@@ -18,9 +18,8 @@ import ReleasesActions from 'actions/ReleasesActions';
 import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import EmptyView from 'components/commons/EmptyView';
-import NavigationActions from 'actions/NavigationActions';
+import NavigationUtils from 'utils/NavigationUtils';
 import ChartsUtils from 'utils/ChartsUtils';
-import DeployRoutes from 'routes/DeployRoutes';
 
 import PropTypes from 'prop-types';
 const {
@@ -116,7 +115,7 @@ export default class DeployReleases extends Component {
             title={intl('deploy_empty_title')}
             subtitle={intl('deploy_empty_subtitle')}
             actionTitle={intl('deploy_empty_action')}
-            onPress={() => NavigationActions.selectTab(1)}
+            onPress={() => NavigationUtils.selectTab(1)}
           />}
       />
     );
@@ -140,7 +139,7 @@ export default class DeployReleases extends Component {
           subtitle={noTiller ? intl('deploy_no_tiller_svc_alert_subtitle') : this.props.error}
           actionTitle={noTiller ? intl('deploy_empty_action') : intl('deploy_error_action')}
           onPress={() => {
-            noTiller ? NavigationActions.selectTab(1) : this.fetchReleases();
+            noTiller ? NavigationUtils.selectTab(1) : this.fetchReleases();
           }}
         />
     );
@@ -185,6 +184,13 @@ export default class DeployReleases extends Component {
   }
 
   showRelease(release) {
-    this.props.navigator.push(DeployRoutes.getDeployReleasesShowRoute({cluster: this.props.cluster, release}));
+    this.props.navigator.push({
+      screen: 'cabin.DeployReleasesShow',
+      title: release.get('name'),
+      passProps: {
+        cluster: this.props.cluster,
+        release,
+      },
+    });
   }
 }

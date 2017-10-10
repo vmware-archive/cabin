@@ -15,7 +15,6 @@
 */
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import CommonsRoutes from 'routes/CommonsRoutes';
 
 import PropTypes from 'prop-types';
 const {
@@ -100,14 +99,16 @@ export default class HeaderPicker extends Component {
     const { choices, prefix, selectedIndex } = this.props;
     const showFullScreenSelectPicker = choices.size > 9;
     if (showFullScreenSelectPicker && this.props.navigator) {
-      this.props.navigator.push(
-        CommonsRoutes.getSelectPickerRoute({
-          title: prefix,
+      this.props.navigator.push({
+        screen: 'cabin.SelectPicker',
+        title: prefix,
+        backButtonTitle: '',
+        passProps: {
           list: choices,
           selectedId: choices.get(selectedIndex).id,
           onSelect: this.handleSelect.bind(this),
-        })
-      );
+        },
+      });
       return;
     }
     const optionAction = index => {

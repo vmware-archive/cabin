@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
 });
 
 export default class DeployReleasesShow extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
 
   static propTypes = {
     release: PropTypes.instanceOf(Immutable.Map),

@@ -13,7 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import AltContainer from 'alt-container';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
@@ -24,7 +25,6 @@ import ScrollView from 'components/commons/ScrollView';
 
 import {
   StyleSheet,
-  DeviceEventEmitter,
   View,
   Slider,
   Text,
@@ -72,6 +72,36 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ClustersNewGoogleContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [{
+      id: 'done',
+      title: intl('done'),
+    }],
+  };
+
+  render() {
+    return (
+      <AltContainer stores={{
+        zones: () => {
+          return {
+            store: alt.stores.GoogleCloudStore,
+            value: alt.stores.GoogleCloudStore.getZones(),
+          };
+        }}}>
+        <ClustersNewGoogleCreation navigator={navigator} projectId={this.props.projectId} />
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClustersNewGoogleCreation extends Component {
 
   constructor(props) {
@@ -87,19 +117,23 @@ export default class ClustersNewGoogleCreation extends Component {
         password: '',
       },
     };
-  }
-
-  componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('ClustersNewGoogle:submit', this.onSubmit.bind(this));
-  }
-
-  componentWillUnmount() {
-    this.submitListener.remove();
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.zones && !nextProps.zones.isEmpty()) {
       this.setState({zone: nextProps.zones.getIn([0, 'description'])});
+    }
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        this.props.navigator.dismissAllModals();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
     }
   }
 
@@ -172,7 +206,7 @@ export default class ClustersNewGoogleCreation extends Component {
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
       SnackbarUtils.showSuccess({ title: 'The cluster has been created on GKE, you can now add it to cabin' });
       GoogleCloudActions.getClusters(projectId);
-      this.props.navigator.pop();
+      this.props.navigator.dismissModal();
     }).catch(e => {
       SnackbarUtils.showError(e && e.message && {title: e.message});
       this.setState({loading: false});
