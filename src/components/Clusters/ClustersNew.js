@@ -14,7 +14,6 @@
   limitations under the License.
 */
 import PropTypes from 'prop-types';
-import { MessageBar, MessageBarManager } from 'react-native-message-bar';
 import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
@@ -118,12 +117,7 @@ export default class ClustersNew extends Component {
   }
 
   componentDidMount() {
-    MessageBarManager.registerMessageBar(this.refs.messageBar);
     GoogleCloudApi.configureGoogleSignin();
-  }
-
-  componentWillUnmount() {
-    MessageBarManager.unregisterMessageBar();
   }
 
   onNavigatorEvent(event) {
@@ -164,7 +158,6 @@ export default class ClustersNew extends Component {
           <ListHeader title="Authentication" style={{ marginTop: 20 }} />
           {this.renderAuthentication()}
         </ScrollView>
-        <MessageBar ref="messageBar"/>
         {this.state.loading &&
           <ActivityIndicator
             style={styles.loader}

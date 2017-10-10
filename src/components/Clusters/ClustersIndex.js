@@ -13,14 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import ActionSheet from '@expo/react-native-action-sheet';
+import AltContainer from 'alt-container';
 import CollectionView from 'components/commons/CollectionView';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
 import EmptyView from 'components/commons/EmptyView';
-import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import FAB from 'components/commons/FAB';
 
 const {
@@ -80,56 +79,57 @@ export default class ClustersIndex extends Component {
 
   componentDidMount() {
     this.navigationEventListener = DeviceEventEmitter.addListener('clusters:navigation', this.handleShowCluster.bind(this));
+    this.actionSheetListener = DeviceEventEmitter.addListener('actionSheet:show', this.onActionSheetShow.bind(this));
     InteractionManager.runAfterInteractions(() => this.checkClusters());
   }
 
   componentWillUnmount() {
     this.navigationEventListener.remove();
+    this.actionSheetListener.remove();
     clearTimeout(this.checkTimeout);
   }
 
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress' && event.id === 'add') {
-      this.props.navigator.showModal({
-        screen: 'cabin.ClustersNew',
-        title: 'New Cluster',
-      });
+      this.showClusterNew();
     }
   }
 
   render() {
     return (
-      <View style={styles.flex}>
-        <AltContainer stores={{
-          list: () => {
-            return {
-              store: alt.stores.ClustersStore,
-              value: alt.stores.ClustersStore.getClusters(),
-            };
-          }}}>
-          <CollectionView style={styles.list}
-            ref="CollectionView"
-            scrollEnabled={this.state.scrollEnabled}
-            contentInset={{bottom: 40}}
-            scrollIndicatorInsets={{bottom: 0}}
-            contentContainerStyle={styles.listContent}
-            list={alt.stores.ClustersStore.getClusters()}
-            renderRow={this.renderRow.bind(this)}
-            renderEmpty={() => <EmptyView
-                image={require('images/cubes.png')}
-                title={intl('clusters_empty_title')}
-                subtitle={intl('clusters_empty_subtitle')}
-                actionTitle={intl('clusters_empty_action')}
-                onPress={() => NavigationActions.push(ClustersRoutes.getClusterNewRoute())}
-              />}
-            onRefresh={this.handleRefresh.bind(this)}
-          />
-        </AltContainer>
-        {Platform.OS === 'android' &&
-          <FAB
-            backgroundColor={Colors.BLUE}
-            onPress={() => this.props.navigator.push(ClustersRoutes.getClusterNewRoute())} />}
-      </View>
+      <ActionSheet ref="actionSheet">
+        <View style={styles.flex}>
+          <AltContainer stores={{
+            list: () => {
+              return {
+                store: alt.stores.ClustersStore,
+                value: alt.stores.ClustersStore.getClusters(),
+              };
+            }}}>
+            <CollectionView style={styles.list}
+              ref="CollectionView"
+              scrollEnabled={this.state.scrollEnabled}
+              contentInset={{bottom: 40}}
+              scrollIndicatorInsets={{bottom: 0}}
+              contentContainerStyle={styles.listContent}
+              list={alt.stores.ClustersStore.getClusters()}
+              renderRow={this.renderRow.bind(this)}
+              renderEmpty={() => <EmptyView
+                  image={require('images/cubes.png')}
+                  title={intl('clusters_empty_title')}
+                  subtitle={intl('clusters_empty_subtitle')}
+                  actionTitle={intl('clusters_empty_action')}
+                  onPress={() => this.showClusterNew()}
+                />}
+              onRefresh={this.handleRefresh.bind(this)}
+            />
+          </AltContainer>
+          {Platform.OS === 'android' &&
+            <FAB
+              backgroundColor={Colors.BLUE}
+              onPress={() => this.showClusterNew()} />}
+        </View>
+      </ActionSheet>
     );
   }
 
@@ -166,6 +166,13 @@ export default class ClustersIndex extends Component {
     });
   }
 
+  showClusterNew() {
+    this.props.navigator.showModal({
+      screen: 'cabin.ClustersNew',
+      title: 'New Cluster',
+    });
+  }
+
   onSelectCluster(cluster) {
     ClustersActions.fetchClusterEntities(cluster);
     ClustersActions.fetchNamespaces(cluster);
@@ -174,6 +181,28 @@ export default class ClustersIndex extends Component {
       title: cluster.get('name'),
       backButtonTitle: '',
       passProps: { cluster },
+    });
+  }
+
+  onActionSheetShow({options, title}) {
+    let cancelButtonIndex = 0;
+    let destructiveButtonIndex;
+    const titles = options.map((opt, i) => {
+      if (opt.cancel === true) {
+        cancelButtonIndex = i;
+      } else if (opt.destructive === true) {
+        destructiveButtonIndex = i;
+      }
+      return opt.title;
+    });
+    this.refs.actionSheet.showActionSheetWithOptions({
+      title,
+      options: titles,
+      cancelButtonIndex, destructiveButtonIndex,
+    },
+    (index) => {
+      const onPress = options[index].onPress;
+      onPress && onPress(index);
     });
   }
 }

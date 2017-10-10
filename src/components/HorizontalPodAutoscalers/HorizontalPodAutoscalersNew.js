@@ -19,7 +19,6 @@ import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import HorizontalPodAutoscalersActions from 'actions/HorizontalPodAutoscalersActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import SnackbarUtils from 'utils/SnackbarUtils';
@@ -204,7 +203,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
       cluster: this.props.cluster,
       ...this.state,
     })
-      .then(() => NavigationActions.pop())
+      .then(() => this.props.navigator.dismissModal())
       .catch(error => {
         SnackbarUtils.showError({ title: error.message });
         this.setState({ loading: false });

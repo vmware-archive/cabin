@@ -19,10 +19,12 @@ import ClustersIndex from 'components/Clusters/ClustersIndex';
 import { ClustersIndexNavBarTitle } from 'components/Clusters/ClustersIndex';
 import ClustersNew from 'components/Clusters/ClustersNew';
 import { ClustersNewGoogleContainer } from 'components/Clusters/ClustersNewGoogle';
+import { ClustersNewGoogleCreationContainer } from 'components/Clusters/ClustersNewGoogleCreation';
 import { ClustersShowContainer } from 'components/Clusters/ClustersShow';
 import { ClustersNavbarTitleContainer } from 'components/Clusters/ClustersNavbarTitle';
 import Search from 'components/Search';
 import SearchBar from 'components/SearchBar';
+import SelectPicker from 'components/commons/SelectPicker';
 
 import { PodsShowContainer } from 'components/Pods/PodsShow';
 import { PodsLogsContainer } from 'components/Pods/PodsLogs';
@@ -42,6 +44,7 @@ import YamlView from 'components/YamlView';
 
 import { DeployIndexContainer } from 'components/Deploy/DeployIndex';
 import { DeployClustersContainer } from 'components/Deploy/DeployClusters';
+import DeployReleasesShow from 'components/Deploy/DeployReleasesShow';
 import SettingsIndex from 'components/Settings/Settings';
 import { SettingsEntitiesContainer } from 'components/Settings/SettingsEntities';
 import { SettingsChartsStoresContainer } from 'components/Settings/SettingsChartsStores';
@@ -53,10 +56,12 @@ export function registerScreens() {
   Navigation.registerComponent('cabin.ClustersIndex.Title', () => ClustersIndexNavBarTitle);
   Navigation.registerComponent('cabin.ClustersNew', () => ClustersNew);
   Navigation.registerComponent('cabin.ClustersNewGoogle', () => ClustersNewGoogleContainer);
+  Navigation.registerComponent('cabin.ClustersNewGoogleCration', () => ClustersNewGoogleCreationContainer);
   Navigation.registerComponent('cabin.ClustersShow', () => ClustersShowContainer);
   Navigation.registerComponent('cabin.ClustersShow.Navbar', () => ClustersNavbarTitleContainer);
   Navigation.registerComponent('cabin.ClustersSearch', () => Search);
   Navigation.registerComponent('cabin.ClustersSearch.SearchBar', () => SearchBar);
+  Navigation.registerComponent('cabin.SelectPicker', () => SelectPicker);
 
   // Entities
   Navigation.registerComponent('cabin.PodsShow', () => PodsShowContainer);
@@ -78,6 +83,7 @@ export function registerScreens() {
   // Deploy
   Navigation.registerComponent('cabin.DeployIndex', () => DeployIndexContainer);
   Navigation.registerComponent('cabin.DeployClusters', () => DeployClustersContainer);
+  Navigation.registerComponent('cabin.DeployReleasesShow', () => DeployReleasesShow);
 
   // Settings
   Navigation.registerComponent('cabin.SettingsIndex', () => SettingsIndex);
