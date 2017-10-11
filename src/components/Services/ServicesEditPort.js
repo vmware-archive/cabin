@@ -24,6 +24,7 @@ import PropTypes from 'prop-types';
 const {
   View,
   StyleSheet,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -52,7 +53,8 @@ export default class ServicesEditPort extends Component {
   static navigatorButtons = {
     rightButtons: [{
       id: 'done',
-      title: intl('done'),
+      title: Platform.OS === 'ios' ? intl('done') : undefined,
+      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
     }],
   };
 

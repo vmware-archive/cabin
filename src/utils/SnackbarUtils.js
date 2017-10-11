@@ -16,7 +16,6 @@
 import Colors from 'styles/Colors';
 import Snackbar from 'react-native-snackbar';
 
-
 export default class SnackbarUtils {
 
   static DURATION_SHORT = Snackbar.LENGTH_SHORT;

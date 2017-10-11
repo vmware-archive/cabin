@@ -23,7 +23,7 @@ import SegmentedTabs from 'components/commons/SegmentedTabs';
 import NamespacePicker from 'components/commons/NamespacePicker';
 import DeployReleases from 'components/Deploy/DeployReleases';
 
-const { View, Animated, StyleSheet } = ReactNative;
+const { View, Animated, StyleSheet, Platform } = ReactNative;
 
 const styles = StyleSheet.create({
   flex: {
@@ -265,22 +265,28 @@ export default class ClusterShow extends Component {
   }
 
   showDeploymentsNew() {
-    this.props.navigator.showModal({ screen: 'cabin.DeploymentsNew', title: intl('deployment_new'), passProps: {
+    const { navigator } = this.props;
+    const route = { screen: 'cabin.DeploymentsNew', title: intl('deployment_new'), passProps: {
       cluster: this.props.cluster,
-    }});
+    }};
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 
   showServicesNew() {
     const { cluster } = this.props;
     const deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
-    this.props.navigator.showModal({ screen: 'cabin.ServicesNew', title: intl('service_new'), passProps: {
+    const { navigator } = this.props;
+    const present = Platform.OS === 'ios' ? navigator.showModal : navigator.push;
+    present({ screen: 'cabin.ServicesNew', title: intl('service_new'), passProps: {
       cluster,
       deployment,
     }});
   }
 
   showHPANew() {
-    this.props.navigator.showModal({ screen: 'cabin.HPAsNew', title: intl('hpa_new'), passProps: {
+    const { navigator } = this.props;
+    const present = Platform.OS === 'ios' ? navigator.showModal : navigator.push;
+    present({ screen: 'cabin.HPAsNew', title: intl('hpa_new'), passProps: {
       cluster: this.props.cluster,
     }});
   }

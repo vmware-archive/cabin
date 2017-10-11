@@ -82,7 +82,8 @@ export default class ClustersNew extends Component {
     }],
     rightButtons: [{
       id: 'done',
-      title: intl('done'),
+      title: Platform.OS === 'ios' ? intl('done') : undefined,
+      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
     }],
   };
 
@@ -123,7 +124,7 @@ export default class ClustersNew extends Component {
   onNavigatorEvent(event) {
     switch (event.id) {
       case 'cancel':
-        this.props.navigator.dismissModal();
+        Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
         break;
       case 'done':
         this.onSubmit();
@@ -342,10 +343,12 @@ export default class ClustersNew extends Component {
           const projectId = projects.getIn([0, 'projectId']);
           GoogleCloudActions.getProjectPolicy(projectId);
           GoogleCloudActions.getClusters(projectId);
-          this.props.navigator.showModal({
+          const { navigator } = this.props;
+          const route = {
             screen: 'cabin.ClustersNewGoogle',
             title: 'GKE Clusters',
-          });
+          };
+          Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
         }
       })
       .catch(() => {
@@ -424,7 +427,7 @@ export default class ClustersNew extends Component {
         cluster && ClustersActions.checkCluster(cluster);
       }
     }, 1000);
-    this.props.navigator.dismissModal();
+    Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
   }
 
   isValidUrl(url) {

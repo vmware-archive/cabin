@@ -30,6 +30,7 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -83,7 +84,8 @@ export class ClustersNewGoogleContainer extends Component {
     }],
     rightButtons: [{
       id: 'done',
-      title: intl('done'),
+      title: Platform.OS === 'ios' ? intl('done') : undefined,
+      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
     }],
   };
 
@@ -206,7 +208,7 @@ export default class ClustersNewGoogleCreation extends Component {
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
       SnackbarUtils.showSuccess({ title: 'The cluster has been created on GKE, you can now add it to cabin' });
       GoogleCloudActions.getClusters(projectId);
-      this.props.navigator.dismissModal();
+      Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
     }).catch(e => {
       SnackbarUtils.showError(e && e.message && {title: e.message});
       this.setState({loading: false});

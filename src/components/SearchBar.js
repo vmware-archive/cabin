@@ -42,9 +42,9 @@ const styles = PStyleSheet.create({
       borderRadius: 6,
     },
     android: {
-      width: Dimensions.get('window').width - 70,
+      width: Dimensions.get('window').width - 80,
       height: 45,
-      marginLeft: 0,
+      marginTop: 6,
     },
   },
   icon: {

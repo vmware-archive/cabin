@@ -171,10 +171,12 @@ export default class ClustersIndex extends Component {
   }
 
   showClusterNew() {
-    this.props.navigator.showModal({
+    const { navigator } = this.props;
+    const route = {
       screen: 'cabin.ClustersNew',
       title: 'New Cluster',
-    });
+    };
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 
   onSelectCluster(cluster) {
