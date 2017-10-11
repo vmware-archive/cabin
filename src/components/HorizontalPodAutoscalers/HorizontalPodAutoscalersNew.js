@@ -25,7 +25,7 @@ import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
-const { View, ActivityIndicator, StyleSheet } = ReactNative;
+const { View, ActivityIndicator, StyleSheet, Platform } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -65,7 +65,8 @@ export default class HorizontalPodAutoscalersNew extends Component {
     }],
     rightButtons: [{
       id: 'done',
-      title: intl('done'),
+      title: Platform.OS === 'ios' ? intl('done') : undefined,
+      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
     }],
   };
 
@@ -90,7 +91,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
   onNavigatorEvent(event) {
     switch (event.id) {
       case 'cancel':
-        this.props.navigator.dismissModal();
+        Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
         break;
       case 'done':
         this.onSubmit();
@@ -203,7 +204,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
       cluster: this.props.cluster,
       ...this.state,
     })
-      .then(() => this.props.navigator.dismissModal())
+      .then(() => Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop())
       .catch(error => {
         SnackbarUtils.showError({ title: error.message });
         this.setState({ loading: false });

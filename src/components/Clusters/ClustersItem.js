@@ -25,7 +25,15 @@ import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
 import SnackbarUtils from 'utils/SnackbarUtils';
 
-const { View, Text, Image, Alert, TouchableOpacity, StyleSheet } = ReactNative;
+const {
+  View,
+  Text,
+  Image,
+  Alert,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -248,11 +256,13 @@ export default class ClusterItem extends Component {
   }
 
   handleEdit() {
-    this.props.navigator.showModal({
+    const { navigator } = this.props;
+    const route = {
       screen: 'cabin.ClustersNew',
       title: 'Edit Cluster',
       passProps: { cluster: this.props.cluster },
-    });
+    };
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 
   handleReport() {
