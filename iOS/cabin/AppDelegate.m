@@ -32,8 +32,7 @@
   /**
    * Opt 1: Use for dev
    */
-  bundleURL = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-  //bundleURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+  bundleURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 #else
   /**
    * Opt 2: Production with static Bundle
@@ -44,24 +43,7 @@
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
   [[RCCManager sharedInstance] initBridgeWithBundleURL:bundleURL launchOptions:launchOptions];
-  
-  /*RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:bundleURL moduleName:@"Cabin" initialProperties:nil launchOptions:nil];
-
-  NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"LaunchScreen" owner:self options:nil];
-  UIView *launchView = [objects objectAtIndex:0];
-  [launchView setTranslatesAutoresizingMaskIntoConstraints:false];
-  rootView.loadingView = launchView;
-  [rootView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[launch]|" options:NSLayoutFormatAlignAllTop metrics:nil views:@{@"launch":launchView}]];
-  [rootView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[launch]|" options:NSLayoutFormatAlignAllTop metrics:nil views:@{@"launch":launchView}]];
-
-
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIColor *blue = [UIColor colorWithRed:0.258824F green:0.541176F blue:0.749020F alpha:1.0F];
-  self.window.tintColor = blue;
-  UIViewController *rootViewController = [[UIViewController alloc] init];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];*/
+ 
   return YES;
 }
 

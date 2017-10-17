@@ -51,11 +51,16 @@ export default class ServicesEditPort extends Component {
   static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
-    rightButtons: [{
-      id: 'done',
-      title: Platform.OS === 'ios' ? intl('done') : undefined,
-      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
-    }],
+    rightButtons: [Platform.select({
+      ios: {
+        id: 'done',
+        title: intl('done'),
+      },
+      android: {
+        id: 'done',
+        icon: require('images/done.png'),
+      },
+    })],
   };
 
   constructor(props) {

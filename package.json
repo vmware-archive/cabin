@@ -45,7 +45,7 @@
     "react-native-parsed-text": "kemcake/react-native-parsed-text",
     "react-native-safari-view": "naoufal/react-native-safari-view",
     "react-native-snackbar": "^0.4.2",
-    "react-native-sortable-listview": "0.2.5",
+    "react-native-sortable-listview": "^0.2.5",
     "react-native-tag-input": "jwohlfert23/react-native-tag-input"
   },
   "devDependencies": {
