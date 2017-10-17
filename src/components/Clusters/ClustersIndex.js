@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import ActionSheet from '@expo/react-native-action-sheet';
+import ActionSheet from 'react-native-actionsheet';
 import AltContainer from 'alt-container';
 import CollectionView from 'components/commons/CollectionView';
 import Colors, { defaultNavigatorStyle } from 'styles/Colors';
@@ -77,7 +77,9 @@ export default class ClustersIndex extends Component {
     super(props);
     this.state = {
       scrollEnabled: true,
+      actionSheetOptions: { options: [{ title: intl('cancel') }] },
     };
+    this.shouldShowActionSheet = false;
     props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
@@ -87,6 +89,12 @@ export default class ClustersIndex extends Component {
     InteractionManager.runAfterInteractions(() => this.checkClusters());
   }
 
+  componentDidUpdate() {
+    if (this.shouldShowActionSheet) {
+      this.shouldShowActionSheet = false;
+      this.refs.actionSheet.show();
+    }
+  }
   componentWillUnmount() {
     this.navigationEventListener.remove();
     this.actionSheetListener.remove();
@@ -100,8 +108,8 @@ export default class ClustersIndex extends Component {
   }
 
   render() {
+    const { actionSheetOptions } = this.state;
     return (
-      <ActionSheet ref="actionSheet">
         <View style={styles.flex}>
           <AltContainer stores={{
             list: () => {
@@ -132,8 +140,16 @@ export default class ClustersIndex extends Component {
             <FAB
               backgroundColor={Colors.BLUE}
               onPress={() => this.showClusterNew()} />}
+          <ActionSheet
+            ref="actionSheet"
+            tintColor={Colors.BLUE}
+            title={actionSheetOptions.title}
+            options={actionSheetOptions.options}
+            cancelButtonIndex={actionSheetOptions.cancelButtonIndex}
+            destructiveButtonIndex={actionSheetOptions.destructiveButtonIndex}
+            onPress={actionSheetOptions.onPress}
+          />
         </View>
-      </ActionSheet>
     );
   }
 
@@ -201,14 +217,16 @@ export default class ClustersIndex extends Component {
       }
       return opt.title;
     });
-    this.refs.actionSheet.showActionSheetWithOptions({
+    const actionSheetOptions = {
       title,
       options: titles,
       cancelButtonIndex, destructiveButtonIndex,
-    },
-    (index) => {
-      const onPress = options[index].onPress;
-      onPress && onPress(index);
-    });
+      onPress: (index) => {
+        const onPress = options[index].onPress;
+        onPress && onPress(index);
+      },
+    };
+    this.shouldShowActionSheet = true;
+    this.setState({ actionSheetOptions });
   }
 }

@@ -34,6 +34,7 @@ class AndroidHome extends Component {
       icon: require('images/cabin-title-android.png'),
     }],
   };
+
 }
 Navigation.registerComponent('cabin.AndroidHome', () => AndroidHome);
 

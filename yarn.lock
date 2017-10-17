@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@expo/react-native-action-sheet@kemcake/react-native-action-sheet":
-  version "1.0.1"
-  resolved "https://codeload.github.com/kemcake/react-native-action-sheet/tar.gz/5732b0d8e50f98ce482afcfcaaa33677cf11315a"
-  dependencies:
-    hoist-non-react-statics "^2.2.2"
-    prop-types "^15.5.10"
-
 "@expo/react-native-navigator@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@expo/react-native-navigator/-/react-native-navigator-0.5.1.tgz#fa39dceeee5eca30423789782786a92a6cd89a6c"
@@ -2468,10 +2461,6 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.2.2:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
-
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"
@@ -4352,6 +4341,10 @@ react-devtools-core@^2.5.0:
   dependencies:
     shell-quote "^1.6.1"
     ws "^2.0.3"
+
+react-native-actionsheet@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.3.0.tgz#a9552a356dc5939829062353804d5e5609e8f969"
 
 react-native-config@^0.6.0:
   version "0.6.1"
