@@ -62,11 +62,16 @@ export default class DeploymentsNew extends Component {
       id: 'cancel',
       title: intl('cancel'),
     }],
-    rightButtons: [{
-      id: 'done',
-      title: Platform.OS === 'ios' ? intl('done') : undefined,
-      icon: Platform.OS === 'android' ? require('images/done.png') : undefined,
-    }],
+    rightButtons: [Platform.select({
+      ios: {
+        id: 'done',
+        title: intl('done'),
+      },
+      android: {
+        id: 'done',
+        icon: require('images/done.png'),
+      },
+    })],
   };
 
   constructor(props) {

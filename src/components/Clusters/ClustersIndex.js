@@ -158,6 +158,7 @@ export default class ClustersIndex extends Component {
     return (
       <ClustersItem
         cluster={cluster}
+        navigator={this.props.navigator}
         compactSize={isCompactSize}
         onPress={() => this.onSelectCluster(cluster)}
         onSwipeStart={() => this.setState({scrollEnabled: false})}

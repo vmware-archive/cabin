@@ -4394,8 +4394,8 @@ react-native-material-kit@kemcake/react-native-material-kit:
     ramda "^0.24.1"
 
 react-native-navigation@^1.1.235:
-  version "1.1.235"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.235.tgz#53e3dc0eeb2b41b3f8890329550b15d1d5de9ac5"
+  version "1.1.237"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.237.tgz#5dbb233478032eb1bed6a98ee39e1fae885876b6"
   dependencies:
     lodash "4.x.x"
 
@@ -4417,9 +4417,9 @@ react-native-snackbar@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-0.4.2.tgz#03979ff445be16115a385d80dc08dd1c77563219"
 
-react-native-sortable-listview@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.2.5.tgz#10428c681e6fa8140173bbcafcf48914b88e38e9"
+react-native-sortable-listview@^0.2.5:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-sortable-listview/-/react-native-sortable-listview-0.2.6.tgz#d1ed6bb552fa5190994e507c03de5a2921688ca6"
 
 react-native-tag-input@jwohlfert23/react-native-tag-input:
   version "0.0.15"

@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+import PropTypes from 'prop-types';
 import Colors from 'styles/Colors';
 import SwipeRow from 'components/commons/SwipeRow';
 import EntityIcon from 'components/commons/EntityIcon';
@@ -25,8 +26,6 @@ const {
   StyleSheet,
   TouchableOpacity,
 } = ReactNative;
-
-import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   item: {
@@ -100,23 +99,29 @@ export default class ListItem extends Component {
 
   render() {
     const Container = (this.props.onPress || this.props.onLongPress) ? TouchableOpacity : View;
-    return (
-      <SwipeRow onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
-        right={this.props.onDelete && [
-          {text: this.props.deleteTitle || intl('delete'), style: {backgroundColor: Colors.RED}, textStyle: {color: Colors.WHITE}, onPress: this.props.onDelete},
-        ]}>
-        <Container style={[styles.item, this.props.style]} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
-          <View style={styles.left}>
-            {this.renderTitle()}
-          </View>
-          <View style={styles.right}>
-            {this.renderDetail()}
-            {this.props.showArrow && <View style={styles.arrow}/>}
-          </View>
-          {!this.props.hideSeparator && <View style={[styles.separator, this.props.separatorStyle, this.props.isLast && {left: 0}]}/>}
-        </Container>
-      </SwipeRow>
+    const content = (
+      <Container style={[styles.item, this.props.style]} onPress={this.props.onPress} onLongPress={this.props.onLongPress}>
+        <View style={styles.left}>
+          {this.renderTitle()}
+        </View>
+        <View style={styles.right}>
+          {this.renderDetail()}
+          {this.props.showArrow && <View style={styles.arrow}/>}
+        </View>
+        {!this.props.hideSeparator && <View style={[styles.separator, this.props.separatorStyle, this.props.isLast && {left: 0}]}/>}
+      </Container>
     );
+    if (this.props.onSwipeStart) {
+      return (
+        <SwipeRow onSwipeStart={this.props.onSwipeStart} onSwipeEnd={this.props.onSwipeEnd}
+          right={this.props.onDelete && [
+            {text: this.props.deleteTitle || intl('delete'), style: {backgroundColor: Colors.RED}, textStyle: {color: Colors.WHITE}, onPress: this.props.onDelete},
+          ]}>
+          {content}
+        </SwipeRow>
+      );
+    }
+    return content;
   }
 
   renderTitle() {
