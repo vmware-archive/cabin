@@ -8,7 +8,6 @@ import android.util.Log;
 import com.facebook.react.ReactApplication;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 

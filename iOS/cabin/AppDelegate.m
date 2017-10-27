@@ -33,6 +33,7 @@
    * Opt 1: Use for dev
    */
   bundleURL = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+
 #else
   /**
    * Opt 2: Production with static Bundle
