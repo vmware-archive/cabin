@@ -2,22 +2,6 @@
 # yarn lockfile v1
 
 
-"@expo/react-native-navigator@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@expo/react-native-navigator/-/react-native-navigator-0.5.1.tgz#fa39dceeee5eca30423789782786a92a6cd89a6c"
-  dependencies:
-    "@expo/react-native-responsive-image" "^1.2.1"
-    invariant "^2.2.0"
-    prop-types "^15.5.8"
-    react-clone-referenced-element "^1.0.1"
-    react-native-deprecated-custom-components "^0.1.0"
-
-"@expo/react-native-responsive-image@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@expo/react-native-responsive-image/-/react-native-responsive-image-1.2.1.tgz#7bbb86a72114c0c253eacd2a3b8792d0f342969e"
-  dependencies:
-    react-clone-referenced-element "^1.0.1"
-
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -2011,7 +1995,7 @@ fbjs@0.8.12:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9, fbjs@~0.8.9:
+fbjs@^0.8.16, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -2525,7 +2509,7 @@ immutable@3.8.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
-immutable@^3.7.4, immutable@~3.7.6:
+immutable@^3.7.4:
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
@@ -2609,7 +2593,7 @@ intl@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
 
-invariant@^2.2.0, invariant@^2.2.2:
+invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -4349,16 +4333,6 @@ react-native-actionsheet@^2.3.0:
 react-native-config@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.6.1.tgz#0a4c0a6ef8d086aeac9902ac4c3c9d9d19fa888a"
-
-react-native-deprecated-custom-components@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-deprecated-custom-components/-/react-native-deprecated-custom-components-0.1.1.tgz#bb911f01bf2f47f0a91764757bf918f3216e94e9"
-  dependencies:
-    fbjs "~0.8.9"
-    immutable "~3.7.6"
-    prop-types "^15.5.10"
-    react-timer-mixin "^0.13.2"
-    rebound "^0.0.13"
 
 react-native-fetch-blob@^0.10.8:
   version "0.10.8"

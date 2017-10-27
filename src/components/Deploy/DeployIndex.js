@@ -49,8 +49,12 @@ const styles = StyleSheet.create({
   },
   absolute: {
     position: 'absolute',
-    left: 0, bottom: 0, right: 0, top: 30,
-    alignItems: 'center', justifyContent: 'center',
+    left: 0,
+    bottom: 0,
+    right: 0,
+    top: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   failedImage: {
     height: 130,
@@ -83,29 +87,33 @@ const styles = StyleSheet.create({
 });
 
 export class DeployIndexContainer extends Component {
-
   static navigatorStyle = defaultNavigatorStyle;
 
   render() {
     return (
-      <AltContainer stores={{
-        charts: () => {
-          return {
-            store: alt.stores.ChartsStore,
-            value: alt.stores.ChartsStore.getAll(),
-          };
-        }}}>
-        <DeployIndex charts={alt.stores.ChartsStore.getAll()} navigator={this.props.navigator} />
+      <AltContainer
+        stores={{
+          charts: () => {
+            return {
+              store: alt.stores.ChartsStore,
+              value: alt.stores.ChartsStore.getAll(),
+            };
+          },
+        }}
+      >
+        <DeployIndex
+          charts={alt.stores.ChartsStore.getAll()}
+          navigator={this.props.navigator}
+        />
       </AltContainer>
     );
   }
 }
 
 export default class DeployIndex extends Component {
-
   static propTypes = {
     charts: PropTypes.instanceOf(Immutable.Map).isRequired,
-  }
+  };
 
   constructor() {
     super();
@@ -120,80 +128,119 @@ export default class DeployIndex extends Component {
   }
 
   render() {
-    const charts = this.props.charts.map((chart, key) => {
-      return <ChartItem key={key} chart={chart} onPress={() => this.handleSelectChart(chart)} />;
-    }).toArray();
+    const charts = this.props.charts
+      .map((chart, key) => {
+        return (
+          <ChartItem
+            key={key}
+            chart={chart}
+            onPress={() => this.handleSelectChart(chart)}
+          />
+        );
+      })
+      .toArray();
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && this.renderStorePicker()}
-        {this.state.loading &&
+        {this.state.loading && (
           <View style={styles.absolute}>
-            <ActivityIndicator style={{flex: 1}} />
+            <ActivityIndicator style={{ flex: 1 }} />
           </View>
-        }
-        <ScrollView style={styles.list} contentContainerStyle={styles.content} onRefresh={() => ChartsActions.fetchCharts()}>
+        )}
+        <ScrollView
+          style={styles.list}
+          contentContainerStyle={styles.content}
+          onRefresh={() => ChartsActions.fetchCharts()}
+        >
           {charts}
         </ScrollView>
-        {this.state.failed && !this.state.loading &&
-          <View style={styles.absolute}>
-            <Image style={styles.failedImage} source={require('images/cubes.png')} />
-            <Text style={styles.failedTitle}>{intl('deploy_index_failed_title')}</Text>
-            <TouchableOpacity style={styles.failedButton} onPress={() => {
-              this.setState({loading: true});
-              this.fetchCharts();
-            }}><Text style={styles.failedAction}>{intl('deploy_index_failed_action')}</Text>
-            </TouchableOpacity>
-          </View>
-        }
+        {this.state.failed &&
+          !this.state.loading && (
+            <View style={styles.absolute}>
+              <Image
+                style={styles.failedImage}
+                source={require('images/cubes.png')}
+              />
+              <Text style={styles.failedTitle}>
+                {intl('deploy_index_failed_title')}
+              </Text>
+              <TouchableOpacity
+                style={styles.failedButton}
+                onPress={() => {
+                  this.setState({ loading: true });
+                  this.fetchCharts();
+                }}
+              >
+                <Text style={styles.failedAction}>
+                  {intl('deploy_index_failed_action')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         {Platform.OS === 'android' && this.renderStorePicker()}
       </View>
     );
   }
 
   renderStorePicker() {
-    const choices = alt.stores.SettingsStore.getChartsStores()
+    const choices = alt.stores.SettingsStore
+      .getChartsStores()
       .map(s => ({ name: s.get('name'), id: s.get('name') }))
       .push({ name: intl('settings_repo_url_placeholder'), id: 'placeholder' });
     return (
-      <AltContainer stores={{
-        choices: () => {
-          return {
-            store: alt.stores.SettingsStore,
-            value: alt.stores.SettingsStore.getChartsStores()
-              .map(s => ({ name: s.get('name'), id: s.get('name') }))
-              .push({ name: intl('settings_repo_url_placeholder'), id: 'placeholder' }),
-          };
-        },
-        destructiveIndex: () => {
-          return {store: alt.stores.SettingsStore, value: alt.stores.SettingsStore.getChartsStores().size};
-        },
-        selectedIndex: () => {
-          return {
-            store: alt.stores.SettingsStore,
-            value: alt.stores.SettingsStore.getSelectedChartsStoreIndex(),
-          };
-        }}}>
-          <HeaderPicker
-            choices={choices}
-            selectedIndex={alt.stores.SettingsStore.getSelectedChartsStoreIndex()}
-            destructiveIndex={choices.size}
-            onChange={(index) => {
-              if (index === alt.stores.SettingsStore.getChartsStores().size) {
-                this.props.navigator.push({screen: 'cabin.SettingsChartsStores', title: 'Charts Stores'});
-                return;
-              }
-              SettingsActions.updateSelectedChartsStoreIndex(index);
-              this.setState({loading: true});
-              this.fetchCharts();
-            }}/>
+      <AltContainer
+        stores={{
+          choices: () => {
+            return {
+              store: alt.stores.SettingsStore,
+              value: alt.stores.SettingsStore
+                .getChartsStores()
+                .map(s => ({ name: s.get('name'), id: s.get('name') }))
+                .push({
+                  name: intl('settings_repo_url_placeholder'),
+                  id: 'placeholder',
+                }),
+            };
+          },
+          destructiveIndex: () => {
+            return {
+              store: alt.stores.SettingsStore,
+              value: alt.stores.SettingsStore.getChartsStores().size,
+            };
+          },
+          selectedIndex: () => {
+            return {
+              store: alt.stores.SettingsStore,
+              value: alt.stores.SettingsStore.getSelectedChartsStoreIndex(),
+            };
+          },
+        }}
+      >
+        <HeaderPicker
+          choices={choices}
+          selectedIndex={alt.stores.SettingsStore.getSelectedChartsStoreIndex()}
+          destructiveIndex={choices.size}
+          onChange={index => {
+            if (index === alt.stores.SettingsStore.getChartsStores().size) {
+              this.props.navigator.push({
+                screen: 'cabin.SettingsChartsStores',
+                title: 'Charts Stores',
+              });
+              return;
+            }
+            SettingsActions.updateSelectedChartsStoreIndex(index);
+            this.setState({ loading: true });
+            this.fetchCharts();
+          }}
+        />
       </AltContainer>
     );
   }
 
   fetchCharts() {
     ChartsActions.fetchCharts()
-    .then(() => this.setState({loading: false, failed: false}))
-    .catch(() => this.setState({failed: true, loading: false}));
+      .then(() => this.setState({ loading: false, failed: false }))
+      .catch(() => this.setState({ failed: true, loading: false }));
   }
 
   handleSelectChart(chart) {
@@ -204,5 +251,4 @@ export default class DeployIndex extends Component {
       passProps: { chart },
     });
   }
-
 }

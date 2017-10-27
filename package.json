@@ -19,7 +19,6 @@
     "preset": "jest-react-native"
   },
   "dependencies": {
-    "@expo/react-native-navigator": "^0.5.1",
     "alt": "^0.18.6",
     "alt-container": "^1.1.1",
     "alt-utils": "^2.0.0",

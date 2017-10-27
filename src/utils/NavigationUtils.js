@@ -13,20 +13,31 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-const { DeviceEventEmitter } = ReactNative;
+import { Navigation } from 'react-native-navigation';
 
-class NavigationUtils {
+const { Platform } = ReactNative;
 
-  selectTab(index) {
-    // TODO: Change tab to index
-    DeviceEventEmitter.emit('tabbar:setTab', index);
+export default class NavigationUtils {
+  static selectTab(tabIndex, navigator) {
+    if (Platform.OS === 'ios') {
+      navigator.switchToTab({
+        tabIndex,
+      });
+    } else {
+      navigator.switchToTopTab({
+        tabIndex,
+      });
+    }
   }
 
-  pushOnTab(index, route) {
-    // TODO: Push route on navigator at index
-    DeviceEventEmitter.emit('tabbar:push', index, route);
+  static pushOnTab(tabIndex, route) {
+    Navigation.handleDeepLink({
+      link: route.screen,
+      payload: {
+        type: 'push',
+        tabIndex,
+        route,
+      },
+    });
   }
-
 }
-
-export default NavigationUtils;
