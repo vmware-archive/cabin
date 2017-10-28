@@ -13,11 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import PStyleSheet from 'styles/PStyleSheet';
 import ScrollView from 'components/commons/ScrollView';
 import PodsContainerPicker from 'components/Pods/PodsContainerPicker';
 import PodsActions from 'actions/PodsActions';
+import PropTypes from 'prop-types';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -28,7 +30,6 @@ const {
   Animated,
 } = ReactNative;
 
-import PropTypes from 'prop-types';
 
 const styles = PStyleSheet.create({
   container: {
@@ -81,6 +82,35 @@ const styles = PStyleSheet.create({
     left: 0, right: 0, top: 0, bottom: 0,
   },
 });
+
+export class PodsExecContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  render() {
+    const { pod, cluster, navigator, container } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          messages: () => {
+            return {
+              store: alt.stores.PodsStore,
+              value: alt.stores.PodsStore.getExecMessages({ pod, cluster }),
+            };
+          },
+        }}
+      >
+        <PodsExec
+          messages={alt.stores.PodsStore.getExecMessages({ pod, cluster })}
+          pod={pod}
+          container={container}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class PodsExec extends Component {
 

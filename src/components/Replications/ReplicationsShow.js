@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
@@ -21,6 +21,7 @@ import ScrollView from 'components/commons/ScrollView';
 import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import ReplicationsActions from 'actions/ReplicationsActions';
 import PodsActions from 'actions/PodsActions';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -42,6 +43,43 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ReplicationsShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { replication, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          replication: () => {
+            return {
+              store: alt.stores.ReplicationsStore,
+              value: alt.stores.ReplicationsStore.get({
+                entity: replication,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <ReplicationsShow
+          replication={replication}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class ReplicationsShow extends Component {
 
   static propTypes = {
@@ -54,6 +92,16 @@ export default class ReplicationsShow extends Component {
     this.state = {
       sliderValue: props.replication.getIn(['spec', 'replicas']),
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.replication },
+      });
+    }
   }
 
   render() {

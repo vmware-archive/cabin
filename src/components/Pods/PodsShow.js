@@ -13,15 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import StatusView from 'components/commons/StatusView';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import PodsActions from 'actions/PodsActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import EntitiesUtils from 'utils/EntitiesUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -43,11 +43,54 @@ const styles = StyleSheet.create({
   },
 });
 
+export class PodsShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { pod, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          pod: () => {
+            return {
+              store: alt.stores.PodsStore,
+              value: alt.stores.PodsStore.get({ entity: pod, cluster }),
+            };
+          },
+        }}
+      >
+        <PodsShow pod={pod} cluster={cluster} navigator={navigator} />
+      </AltContainer>
+    );
+  }
+}
+
 export default class PodsShow extends Component {
 
   static propTypes = {
     pod: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
+  }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.pod },
+      });
+    }
   }
 
   render() {
@@ -104,10 +147,10 @@ export default class PodsShow extends Component {
   }
 
   showLogs(container) {
-    this.props.navigator.push(EntitiesRoutes.getPodsLogsRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
+    this.props.navigator.push({screen: 'cabin.PodsLogs', title: 'Logs', passProps: {pod: this.props.pod, cluster: this.props.cluster, container}});
   }
 
   showExec(container) {
-    this.props.navigator.push(EntitiesRoutes.getPodsExecRoute({pod: this.props.pod, cluster: this.props.cluster, container}));
+    this.props.navigator.push({screen: 'cabin.PodsExec', title: 'Exec', passProps: {pod: this.props.pod, cluster: this.props.cluster, container}});
   }
 }

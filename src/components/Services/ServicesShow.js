@@ -13,20 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
 import ScrollView from 'components/commons/ScrollView';
 import SegmentedControl from 'components/commons/SegmentedControl';
 import ServicesActions from 'actions/ServicesActions';
-import NavigationActions from 'actions/NavigationActions';
 import NodesActions from 'actions/NodesActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import Linking from 'utils/Linking';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -50,11 +49,61 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ServicesShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { service, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          service: () => {
+            return {
+              store: alt.stores.ServicesStore,
+              value: alt.stores.ServicesStore.get({
+                entity: service,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <ServicesShow
+          service={service}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class ServicesShow extends Component {
 
   static propTypes = {
     service: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
+  }
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.service },
+      });
+    }
   }
 
   render() {
@@ -154,7 +203,7 @@ export default class ServicesShow extends Component {
   }
 
   handleEdit(port) {
-    NavigationActions.push(EntitiesRoutes.getServicesEditPortRoute({service: this.props.service, cluster: this.props.cluster, port}));
+    this.props.navigator.push({ screen: 'cabin.ServicesEditPort', title: 'Edit Port', passProps: {service: this.props.service, cluster: this.props.cluster, port} });
   }
 
   handleOpenPort(port) {
@@ -164,7 +213,7 @@ export default class ServicesShow extends Component {
         NodesActions.fetchNodes(cluster).then(() => {
           const succeed = this.openServiceWithPort({port});
           if (!succeed) {
-            AlertUtils.showError({message: intl('service_open_browser_no_node')});
+            SnackbarUtils.showError({title: intl('service_open_browser_no_node')});
           }
         });
       }

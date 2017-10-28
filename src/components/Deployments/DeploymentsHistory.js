@@ -13,12 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import CollectionView from 'components/commons/CollectionView';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -65,6 +66,47 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 });
+
+export class DeploymentsHistoryContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { deployment, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          replicas: () => {
+            return {
+              store: alt.stores.DeploymentsStore,
+              value: alt.stores.DeploymentsStore.getDeploymentReplicas({
+                deployment,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <DeploymentsHistory
+          deployment={deployment}
+          cluster={cluster}
+          navigator={navigator}
+          replicas={alt.stores.DeploymentsStore.getDeploymentReplicas({
+            deployment,
+            cluster,
+          })}
+        />
+      </AltContainer>
+    );
+  }
+}
 
 export default class DeploymentsHistory extends Component {
 
@@ -148,7 +190,7 @@ export default class DeploymentsHistory extends Component {
       setTimeout(() => {
         this.refresh();
       }, 500);
-      AlertUtils.showSuccess({message: intl('deployment_rollback_succeed')});
+      SnackbarUtils.showSuccess({title: intl('deployment_rollback_succeed')});
     });
   }
 

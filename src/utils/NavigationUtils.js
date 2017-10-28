@@ -13,31 +13,31 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import alt from 'src/alt';
-const { DeviceEventEmitter } = ReactNative;
+import { Navigation } from 'react-native-navigation';
 
-class NavigationActions {
+const { Platform } = ReactNative;
 
-  push(route) {
-    DeviceEventEmitter.emit('application:navigation', {
-      type: 'push', route,
+export default class NavigationUtils {
+  static selectTab(tabIndex, navigator) {
+    if (Platform.OS === 'ios') {
+      navigator.switchToTab({
+        tabIndex,
+      });
+    } else {
+      navigator.switchToTopTab({
+        tabIndex,
+      });
+    }
+  }
+
+  static pushOnTab(tabIndex, route) {
+    Navigation.handleDeepLink({
+      link: route.screen,
+      payload: {
+        type: 'push',
+        tabIndex,
+        route,
+      },
     });
-  }
-
-  pop(route) {
-    DeviceEventEmitter.emit('application:navigation', {
-      type: 'pop', route,
-    });
-  }
-
-  selectTab(index) {
-    DeviceEventEmitter.emit('tabbar:navigation', index);
-  }
-
-  showCluster(cluster) {
-    this.selectTab(0);
-    DeviceEventEmitter.emit('clusters:navigation', cluster);
   }
 }
-
-export default alt.createActions(NavigationActions);

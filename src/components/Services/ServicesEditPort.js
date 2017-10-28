@@ -13,19 +13,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ServicesActions from 'actions/ServicesActions';
-import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
 const {
   View,
   StyleSheet,
-  DeviceEventEmitter,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -49,6 +48,21 @@ export default class ServicesEditPort extends Component {
     port: PropTypes.instanceOf(Immutable.Map),
   }
 
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [Platform.select({
+      ios: {
+        id: 'done',
+        title: intl('done'),
+      },
+      android: {
+        id: 'done',
+        icon: require('images/done.png'),
+      },
+    })],
+  };
+
   constructor(props) {
     super(props);
     const { port } = props;
@@ -63,14 +77,15 @@ export default class ServicesEditPort extends Component {
         nodePort: 33000,
       };
     }
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
-  componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('ServicesEditPort:submit', this.onSubmit.bind(this));
-  }
-
-  componentWillUnmount() {
-    this.submitListener.remove();
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {
@@ -88,7 +103,6 @@ export default class ServicesEditPort extends Component {
           <ListInputItem autoCapitalize="none" autoCorrect={false} defaultValue={this.state.targetPort && this.state.targetPort.toString()} placeholder="Target Port"
             onChangeText={targetPort => this.setState({targetPort: parseInt(targetPort, 10) || ''})}/>
           {this.state.nodePort && <ListInputItem defaultValue={this.state.nodePort.toString()} placeholder="NodePort" editable={false} isLast={true}/>}
-
         </ScrollView>
       </View>
     );
@@ -104,9 +118,9 @@ export default class ServicesEditPort extends Component {
     }
     ports = ports.push(newPort);
     ServicesActions.updateServicePorts({cluster, service, ports}).then(() => {
-      NavigationActions.pop();
+      this.props.navigator.pop();
     }).catch((e) => {
-      AlertUtils.showError({message: e.message});
+      SnackbarUtils.showError({title: e.message});
     });
   }
 }

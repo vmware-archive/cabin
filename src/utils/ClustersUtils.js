@@ -15,7 +15,7 @@
 */
 import Colors from 'styles/Colors';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersActions from 'actions/ClustersActions';
 import Alert from 'utils/Alert';
 
@@ -73,7 +73,7 @@ export default class ClustersUtils {
             onPress: text => {
               ClustersActions.createNamespace({ cluster, namespace: text })
                 .then(() => resolve(text))
-                .catch(e => AlertUtils.showError({ message: e.message }));
+                .catch(e => SnackbarUtils.showError({ title: e.message }));
             },
           },
         ]);

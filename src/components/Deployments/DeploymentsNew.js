@@ -13,14 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import NavigationActions from 'actions/NavigationActions';
 import ClustersActions from 'actions/ClustersActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import ScrollView from 'components/commons/ScrollView';
 
@@ -30,7 +29,7 @@ const {
   View,
   ActivityIndicator,
   StyleSheet,
-  DeviceEventEmitter,
+  Platform,
 } = ReactNative;
 
 const styles = StyleSheet.create({
@@ -56,6 +55,25 @@ export default class DeploymentsNew extends Component {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [Platform.select({
+      ios: {
+        id: 'done',
+        title: intl('done'),
+      },
+      android: {
+        id: 'done',
+        icon: require('images/done.png'),
+      },
+    })],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -64,14 +82,18 @@ export default class DeploymentsNew extends Component {
       namespace: props.cluster.get('currentNamespace') || 'default',
       loading: false,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
-  componentDidMount() {
-    this.submitListener = DeviceEventEmitter.addListener('DeploymentsNew:submit', this.onSubmit.bind(this));
-  }
-
-  componentWillUnmount() {
-    this.submitListener.remove();
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {
@@ -106,7 +128,7 @@ export default class DeploymentsNew extends Component {
   onSubmit() {
     if (this.state.loading) { return; }
     if (!this.state.image) {
-      AlertUtils.showWarning({message: intl('deployment_new_empty_image')});
+      SnackbarUtils.showWarning({title: intl('deployment_new_empty_image')});
       return;
     }
     this.setState({loading: true});
@@ -116,8 +138,8 @@ export default class DeploymentsNew extends Component {
       image: this.state.image,
       namespace: this.state.namespace,
     })
-    .then(() => NavigationActions.pop())
-    .catch(e => AlertUtils.showError({message: e.message}))
+    .then(() => Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop())
+    .catch(e => SnackbarUtils.showError({title: e.message}))
     .finally(() => this.setState({loading: false}));
   }
 

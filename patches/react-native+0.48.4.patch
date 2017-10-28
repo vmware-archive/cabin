@@ -1,0 +1,380 @@
+diff --git a/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..6bcf395
+--- /dev/null
++++ b/node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTActionSheet.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>38</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..e973c2d
+--- /dev/null
++++ b/node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTCameraRoll.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>23</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..e429662
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTGeolocation.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>39</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..4f2b173
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Image/RCTImage.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTImage-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>41</integer>
++		</dict>
++		<key>RCTImage.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>40</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..1890dd5
+--- /dev/null
++++ b/node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTLinking-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>43</integer>
++		</dict>
++		<key>RCTLinking.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>42</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..d6381d4
+--- /dev/null
++++ b/node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTAnimation-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>19</integer>
++		</dict>
++		<key>RCTAnimation.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>18</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..9f90552
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTNetwork-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>45</integer>
++		</dict>
++		<key>RCTNetwork.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>44</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..6077252
+--- /dev/null
++++ b/node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTPushNotification-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>25</integer>
++		</dict>
++		<key>RCTPushNotification.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>24</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..7e29200
+--- /dev/null
++++ b/node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTTest-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>22</integer>
++		</dict>
++		<key>RCTTest.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>21</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..8c2222f
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTSettings-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>47</integer>
++		</dict>
++		<key>RCTSettings.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>46</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Text/RCTText.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Text/RCTText.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..13a2be2
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Text/RCTText.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTText-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>49</integer>
++		</dict>
++		<key>RCTText.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>48</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..eab4a75
+--- /dev/null
++++ b/node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTVibration.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>50</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..af67cc8
+--- /dev/null
++++ b/node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>RCTWebSocket-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>52</integer>
++		</dict>
++		<key>RCTWebSocket.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>51</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>
+diff --git a/node_modules/react-native/React/React.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist b/node_modules/react-native/React/React.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+new file mode 100644
+index 0000000..a4dd61e
+--- /dev/null
++++ b/node_modules/react-native/React/React.xcodeproj/xcuserdata/remi.xcuserdatad/xcschemes/xcschememanagement.plist
+@@ -0,0 +1,69 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>SchemeUserState</key>
++	<dict>
++		<key>React-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>27</integer>
++		</dict>
++		<key>React.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>26</integer>
++		</dict>
++		<key>cxxreact-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>31</integer>
++		</dict>
++		<key>cxxreact.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>30</integer>
++		</dict>
++		<key>double-conversion-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>37</integer>
++		</dict>
++		<key>double-conversion.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>36</integer>
++		</dict>
++		<key>jschelpers-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>33</integer>
++		</dict>
++		<key>jschelpers.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>32</integer>
++		</dict>
++		<key>third-party-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>35</integer>
++		</dict>
++		<key>third-party.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>34</integer>
++		</dict>
++		<key>yoga-tvOS.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>29</integer>
++		</dict>
++		<key>yoga.xcscheme</key>
++		<dict>
++			<key>orderHint</key>
++			<integer>28</integer>
++		</dict>
++	</dict>
++</dict>
++</plist>

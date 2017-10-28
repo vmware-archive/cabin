@@ -13,10 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
-import SettingsRoutes from 'routes/SettingsRoutes';
 import SettingsActions from 'actions/SettingsActions';
 import Linking from 'utils/Linking';
 
@@ -54,6 +53,9 @@ const styles = StyleSheet.create({
 });
 
 export default class Settings extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
   render() {
     const maxReplicas = alt.stores.SettingsStore.getMaxReplicas();
     return (
@@ -67,20 +69,16 @@ export default class Settings extends Component {
           <ListItem
             title={intl('settings_entities_list')}
             showArrow={true}
-            onPress={() => {
-              this.props.navigator.push(
-                SettingsRoutes.getSettingsEntitiesRoute()
-              );
-            }}
+            onPress={() =>
+              this.props.navigator.push({screen: 'cabin.SettingsEntities', title: intl('settings_entities_list')})
+            }
           />
           <ListItem
             title="Charts stores"
             showArrow={true}
-            onPress={() => {
-              this.props.navigator.push(
-                SettingsRoutes.getSettingsChartsStoresRoute()
-              );
-            }}
+            onPress={() =>
+              this.props.navigator.push({screen: 'cabin.SettingsChartsStores', title: 'Charts Stores'})
+            }
           />
           <ListItem
             title="Maximum number of replicas"

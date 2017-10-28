@@ -18,16 +18,22 @@ import SwipeRow from 'components/commons/SwipeRow';
 import Colors from 'styles/Colors';
 import AltContainer from 'alt-container';
 import ClustersActions from 'actions/ClustersActions';
-import NavigationActions from 'actions/NavigationActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import StatusView from 'components/commons/StatusView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
 import ClustersUtils from 'utils/ClustersUtils';
 import EntitiesUtils from 'utils/EntitiesUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
-const { View, Text, Image, Alert, TouchableOpacity, StyleSheet } = ReactNative;
+const {
+  View,
+  Text,
+  Image,
+  Alert,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -250,15 +256,19 @@ export default class ClusterItem extends Component {
   }
 
   handleEdit() {
-    NavigationActions.push(
-      ClustersRoutes.getClusterNewRoute(this.props.cluster)
-    );
+    const { navigator } = this.props;
+    const route = {
+      screen: 'cabin.ClustersNew',
+      title: 'Edit Cluster',
+      passProps: { cluster: this.props.cluster },
+    };
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 
   handleReport() {
-    AlertUtils.showInfo({
-      message: intl('cluster_report_loading'),
-      duration: 30000,
+    SnackbarUtils.showInfo({
+      title: intl('cluster_report_loading'),
+      duration: SnackbarUtils.DURATION_INDEFINITE,
     });
     DeploymentsActions.createDeployment({
       cluster: this.props.cluster,
@@ -268,10 +278,10 @@ export default class ClusterItem extends Component {
       args: EntitiesUtils.spartakusArgs(),
     })
       .then(() => {
-        AlertUtils.showSuccess({ message: intl('cluster_report_success') });
+        SnackbarUtils.showSuccess({ title: intl('cluster_report_success') });
       })
       .catch(e => {
-        AlertUtils.showError({ message: e.message });
+        SnackbarUtils.showError({ title: e.message });
       });
   }
 }

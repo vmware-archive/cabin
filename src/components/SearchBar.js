@@ -24,6 +24,7 @@ const {
   Dimensions,
   InteractionManager,
   Platform,
+  DeviceEventEmitter,
 } = ReactNative;
 
 
@@ -35,15 +36,15 @@ const styles = PStyleSheet.create({
       width: Dimensions.get('window').width - 50,
       height: 32,
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      marginLeft: 35,
+      marginLeft: 6,
       marginTop: 6,
       paddingHorizontal: 10,
       borderRadius: 6,
     },
     android: {
-      width: Dimensions.get('window').width - 70,
+      width: Dimensions.get('window').width - 80,
       height: 45,
-      marginLeft: 0,
+      marginTop: 6,
     },
   },
   icon: {
@@ -69,6 +70,7 @@ export default class SearchBar extends Component {
     autoFocus: PropTypes.boolean,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
+    onChangEventName: PropTypes.string,
   }
 
   componentDidMount() {
@@ -77,6 +79,13 @@ export default class SearchBar extends Component {
     });
   }
 
+  onChange(text) {
+    if (this.props.onChange) {
+      this.props.onChange(text);
+    } else if (this.props.onChangeEventName) {
+      DeviceEventEmitter.emit(this.props.onChangeEventName, {text});
+    }
+  }
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
@@ -90,7 +99,7 @@ export default class SearchBar extends Component {
           returnKeyType="search"
           autoCapitalize="none"
           clearButtonMode="while-editing"
-          onChangeText={this.props.onChange}
+          onChangeText={this.onChange.bind(this)}
         />
       </View>
     );

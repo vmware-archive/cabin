@@ -14,7 +14,34 @@
   limitations under the License.
 */
 import './src/config';
-import ReactNative from 'react-native';
-import Application from './src/components/Application';
+import Colors from 'styles/Colors';
+import { registerScreens } from './src/screens';
+import { Navigation } from 'react-native-navigation';
 
-ReactNative.AppRegistry.registerComponent('Cabin', () => Application);
+registerScreens();
+
+Navigation.startTabBasedApp({
+  tabs: [
+    {
+      label: intl('tabs_clusters'),
+      screen: 'cabin.ClustersIndex',
+      icon: require('images/target.png'),
+      title: intl('tabs_clusters'),
+    },
+    {
+      label: intl('tabs_deploy'),
+      screen: 'cabin.DeployIndex',
+      icon: require('images/upload.png'),
+      title: intl('tabs_deploy'),
+    },
+    {
+      label: intl('tabs_settings'),
+      screen: 'cabin.SettingsIndex',
+      icon: require('images/settings.png'),
+      title: intl('tabs_settings'),
+    },
+  ],
+  tabsStyle: {
+    tabBarSelectedButtonColor: Colors.BLUE,
+  },
+});

@@ -13,9 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import AltContainer from 'alt-container';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import SettingsActions from 'actions/SettingsActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import PStyleSheet from 'styles/PStyleSheet';
 import ListHeader from 'components/commons/ListHeader';
 import ListItem from 'components/commons/ListItem';
@@ -51,6 +52,25 @@ const styles = PStyleSheet.create({
     left: 0, right: 0, top: 0, bottom: 0,
   },
 });
+
+export class SettingsChartsStoresContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  render() {
+    return (
+      <AltContainer stores={{
+        chartsStores: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getChartsStores(),
+          };
+        }}}>
+        <SettingsChartsStores chartsStores={alt.stores.SettingsStore.getChartsStores()} />
+      </AltContainer>
+    );
+  }
+}
 
 export default class SettingsChartsStores extends Component {
 
@@ -135,7 +155,7 @@ export default class SettingsChartsStores extends Component {
       this.nameInput.setNativeProps({text: ''});
       this.setState({checking: false, focus: false});
     }).catch(() => {
-      AlertUtils.showWarning({message: intl('settings_repo_failed')});
+      SnackbarUtils.showWarning({title: intl('settings_repo_failed')});
       this.setState({checking: false});
     });
   }

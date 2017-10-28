@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import LabelsView from 'components/commons/LabelsView';
@@ -22,9 +22,10 @@ import ReplicationsSlider from 'components/Replications/ReplicationsSlider';
 import DeploymentsActions from 'actions/DeploymentsActions';
 import PodsActions from 'actions/PodsActions';
 import EntitiesActions from 'actions/EntitiesActions';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import Alert from 'utils/Alert';
+import SnackbarUtils from 'utils/SnackbarUtils';
+import AltContainer from 'alt-container';
 
 const {
   View,
@@ -46,6 +47,46 @@ const styles = StyleSheet.create({
   },
 });
 
+export class DeploymentsShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'more',
+      icon: require('images/more.png'),
+    }, {
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { deployment, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          deployment: () => {
+            return {
+              store: alt.stores.DeploymentsStore,
+              value: alt.stores.DeploymentsStore.get({
+                entity: deployment,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <DeploymentsShow
+          deployment={deployment}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class DeploymentsShow extends Component {
 
   static propTypes = {
@@ -58,6 +99,30 @@ export default class DeploymentsShow extends Component {
     this.state = {
       sliderValue: props.deployment.getIn(['spec', 'replicas']),
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'yaml':
+        this.props.navigator.push({
+          screen: 'cabin.EntitiesYaml',
+          passProps: { cluster: this.props.cluster, entity: this.props.deployment },
+        });
+        break;
+      case 'more':
+        const options = [
+          { title: intl('cancel') },
+          {
+            title: intl('deployment_rolling_update_action'),
+            onPress: () => {
+              this.performRollingUpdate();
+            },
+          },
+        ];
+        ActionSheetUtils.showActionSheetWithOptions({options});
+        break;
+    }
   }
 
   render() {
@@ -90,7 +155,7 @@ export default class DeploymentsShow extends Component {
   handleShowHistory() {
     const { cluster, deployment } = this.props;
     DeploymentsActions.fetchHistory({cluster, deployment});
-    this.props.navigator.push(EntitiesRoutes.getDeploymentsHistoryRoute({cluster, deployment}));
+    this.props.navigator.push({ screen: 'cabin.DeploymentsHistory', title: intl('history'), passProps: {cluster, deployment} });
   }
 
   handleLabelSubmit({key, value}) {
@@ -124,12 +189,43 @@ export default class DeploymentsShow extends Component {
     const config = this.props.deployment.getIn(['metadata', 'annotations', 'kubectl.kubernetes.io/last-applied-configuration']);
     const params = JSON.parse(config);
     if (params === null) {
-      AlertUtils.showError();
+      SnackbarUtils.showError();
       return;
     }
     EntitiesActions.createEntity({cluster, params: Immutable.fromJS(params), entityType: 'deployments'}).then(() => {
-      AlertUtils.showSuccess({message: `Deployment copied to ${cluster.get('name')}`});
+      SnackbarUtils.showSuccess({title: `Deployment copied to ${cluster.get('name')}`});
     });
+  }
+
+  performRollingUpdate() {
+    const { cluster, deployment } = this.props;
+    const containers = deployment.getIn(
+      ['spec', 'template', 'spec', 'containers'],
+      Immutable.List()
+    );
+    if (containers.size !== 1) {
+      Alert.alert(null, intl('rolling_update_multiple_containers'));
+      return;
+    }
+    Alert.prompt(
+      intl('rolling_update_alert'),
+      `${intl(
+        'rolling_update_alert_subtitle'
+      )} ${containers.first().get('image')}`,
+      [
+        { text: intl('cancel') },
+        {
+          text: intl('rolling_update_start'),
+          onPress: text => {
+            DeploymentsActions.rollingUpdate({
+              cluster,
+              deployment,
+              image: text,
+            });
+          },
+        },
+      ]
+    );
   }
 
 }

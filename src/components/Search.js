@@ -13,11 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ClustersActions from 'actions/ClustersActions';
 import SearchActions from 'actions/SearchActions';
 import SearchEntitiesStore from 'stores/SearchEntitiesStore';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
+import EntitiesUtils from 'utils/EntitiesUtils';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
@@ -44,6 +44,16 @@ const styles = StyleSheet.create({
 });
 
 export default class Search extends Component {
+
+  static navigatorStyle = {
+    ...defaultNavigatorStyle,
+    navBarCustomView: 'cabin.ClustersSearch.SearchBar',
+    navBarCustomViewInitialProps: {
+      autoFocus: true,
+      placeholder: 'Search by name or label',
+      onChangeEventName: 'search:change',
+    },
+  };
 
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
@@ -123,7 +133,7 @@ export default class Search extends Component {
   }
 
   handlePress(entity) {
-    this.props.navigator.push(EntitiesRoutes.getEntitiesShowRoute({entity, entityType: entity.get('kind'), cluster: this.props.cluster}));
+    this.props.navigator.push(EntitiesUtils.getEntitiesShowRoute({entity, entityType: entity.get('kind'), cluster: this.props.cluster}));
   }
 
   handleSearch({text}) {

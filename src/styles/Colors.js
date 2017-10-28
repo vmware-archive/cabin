@@ -34,4 +34,15 @@ const Colors = {
   PINK: '#D2527F',
 };
 
+export const defaultNavigatorStyle = {
+  navBarBackgroundColor: Colors.BLUE,
+  navBarTextColor: Colors.WHITE,
+  navBarLeftButtonColor: Colors.WHITE,
+  navBarRightButtonColor: Colors.WHITE,
+  navBarButtonColor: Colors.WHITE,
+  screenBackgroundColor: Colors.BACKGROUND,
+  navBarNoBorder: true,
+  statusBarColor: Colors.BLUE,
+};
+
 export default Object.freeze(Colors);

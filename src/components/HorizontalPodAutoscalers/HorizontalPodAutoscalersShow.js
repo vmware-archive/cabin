@@ -13,13 +13,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListHeader from 'components/commons/ListHeader';
 import ScrollView from 'components/commons/ScrollView';
 import HorizontalPodAutoscalersActions from 'actions/HorizontalPodAutoscalersActions';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
+import AltContainer from 'alt-container';
 
 const { View, StyleSheet } = ReactNative;
 
@@ -38,11 +39,61 @@ const styles = StyleSheet.create({
   },
 });
 
+export class HorizontalPodAutoscalersShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'yaml',
+      icon: require('images/view.png'),
+    }],
+  };
+
+  render() {
+    const { hpa, cluster, navigator } = this.props;
+    return (
+      <AltContainer
+        stores={{
+          hpa: () => {
+            return {
+              store: alt.stores.HorizontalPodAutoscalersStore,
+              value: alt.stores.HorizontalPodAutoscalersStore.get({
+                entity: hpa,
+                cluster,
+              }),
+            };
+          },
+        }}
+      >
+        <HorizontalPodAutoscalersShow
+          hpa={hpa}
+          cluster={cluster}
+          navigator={navigator}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class HorizontalPodAutoscalersShow extends Component {
   static propTypes = {
     hpa: PropTypes.instanceOf(Immutable.Map),
     cluster: PropTypes.instanceOf(Immutable.Map),
   };
+
+  componentDidMount() {
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'yaml') {
+      this.props.navigator.push({
+        screen: 'cabin.EntitiesYaml',
+        passProps: { cluster: this.props.cluster, entity: this.props.hpa },
+      });
+    }
+  }
 
   render() {
     const { hpa, cluster } = this.props;
@@ -93,7 +144,7 @@ export default class HorizontalPodAutoscalersShow extends Component {
                 cluster,
                 hpa,
                 spec,
-              }).catch(err => AlertUtils.showError({ message: err.message }));
+              }).catch(err => SnackbarUtils.showError({ title: err.message }));
             }}
           />
           <ListInputItem
@@ -110,7 +161,7 @@ export default class HorizontalPodAutoscalersShow extends Component {
                 cluster,
                 hpa,
                 spec,
-              }).catch(err => AlertUtils.showError({ message: err.message }));
+              }).catch(err => SnackbarUtils.showError({ title: err.message }));
             }}
           />
           <ListItem

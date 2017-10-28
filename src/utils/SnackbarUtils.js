@@ -13,29 +13,32 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import { MessageBarManager } from 'react-native-message-bar';
 import Colors from 'styles/Colors';
-import { Platform } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
-class AlertUtils {
+export default class SnackbarUtils {
+
+  static DURATION_SHORT = Snackbar.LENGTH_SHORT;
+  static DURATION_LONG = Snackbar.LENGTH_LONG;
+  static DURATION_INDEFINITE = Snackbar.LENGTH_INDEFINITE;
 
   static showWarning(options) {
-    AlertUtils.showAlert({
-      alertType: 'warning',
+    SnackbarUtils.showAlert({
+      type: 'warning',
       ...options,
     });
   }
 
   static showInfo(options) {
-    AlertUtils.showAlert({
-      alertType: 'info',
+    SnackbarUtils.showAlert({
+      type: 'info',
       ...options,
     });
   }
 
   static showSuccess(options) {
-    AlertUtils.showAlert({
-      alertType: 'success',
+    SnackbarUtils.showAlert({
+      type: 'success',
       ...options,
     });
   }
@@ -45,26 +48,29 @@ class AlertUtils {
     if (!options) {
       options = { message: intl('alert_error') };
     }
-    AlertUtils.showAlert({
-      alertType: 'error',
+    SnackbarUtils.showAlert({
+      type: 'error',
       ...options,
     });
   }
 
   static showAlert(options) {
-    MessageBarManager.showAlert({
-      duration: 5000,
-      viewTopOffset: Platform.OS === 'ios' ? 64 : 56,
-      viewBottomOffset: 50,
-      messageNumberOfLines: 0,
-      stylesheetInfo: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},
-      stylesheetSuccess: {backgroundColor: Colors.GREEN, strokeColor: 'transparent'},
-      stylesheetWarning: {backgroundColor: Colors.ORANGE, strokeColor: 'transparent'},
-      stylesheetError: {backgroundColor: Colors.RED, strokeColor: 'transparent'},
-      stylesheetExtra: {backgroundColor: Colors.BLUE, strokeColor: 'transparent'},
+    let backgroundColor;
+    switch (options.type) {
+      case 'error':
+        backgroundColor = Colors.RED; break;
+      case 'warning':
+        backgroundColor = Colors.ORANGE; break;
+      case 'info':
+        backgroundColor = Colors.BLUE; break;
+      case 'success':
+        backgroundColor = Colors.GREEN; break;
+    }
+    Snackbar.show({
+      title: options.title,
+      duration: SnackbarUtils.DURATION_LONG,
+      backgroundColor,
       ...options,
     });
   }
 }
-
-export default AlertUtils;

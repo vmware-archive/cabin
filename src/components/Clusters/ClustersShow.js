@@ -15,17 +15,15 @@
 */
 import PropTypes from 'prop-types';
 import EntitiesList from 'components/EntitiesList';
-import EntitiesRoutes from 'routes/EntitiesRoutes';
+import EntitiesUtils from 'utils/EntitiesUtils';
 import EntitiesActions from 'actions/EntitiesActions';
-import NavigationActions from 'actions/NavigationActions';
 import AltContainer from 'alt-container';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import SegmentedTabs from 'components/commons/SegmentedTabs';
 import NamespacePicker from 'components/commons/NamespacePicker';
 import DeployReleases from 'components/Deploy/DeployReleases';
-import EntitiesUtils from 'utils/EntitiesUtils';
 
-const { View, Animated, StyleSheet } = ReactNative;
+const { View, Animated, StyleSheet, Platform } = ReactNative;
 
 const styles = StyleSheet.create({
   flex: {
@@ -42,18 +40,62 @@ const styles = StyleSheet.create({
   },
 });
 
+export class ClustersShowContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle
+
+  static navigatorButtons = {
+    rightButtons: [{
+      id: 'search',
+      icon: require('images/search.png'),
+    }],
+  };
+
+  componentDidMount() {
+    this.props.navigator.setStyle({
+      navBarCustomView: 'cabin.ClustersShow.Navbar',
+      navBarCustomViewInitialProps: { clusterUrl: this.props.cluster.get('url') },
+    });
+  }
+
+  render() {
+    return (
+      <AltContainer stores={{
+        cluster: () => {
+          return {
+            store: alt.stores.ClustersStore,
+            value: alt.stores.ClustersStore.get(this.props.cluster.get('url')),
+          };
+        },
+        entitiesToDisplay: () => {
+          return {
+            store: alt.stores.SettingsStore,
+            value: alt.stores.SettingsStore.getEntitiesToDisplay(),
+          };
+        }}}>
+        <ClusterShow
+          navigator={this.props.navigator}
+          entitiesToDisplay={alt.stores.SettingsStore.getEntitiesToDisplay()}
+          cluster={alt.stores.ClustersStore.get(this.props.cluster.get('url'))}
+        />
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClusterShow extends Component {
   static propTypes = {
     cluster: PropTypes.instanceOf(Immutable.Map).isRequired,
     entitiesToDisplay: PropTypes.instanceOf(Immutable.List).isRequired,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       animatedIndex: new Animated.Value(0),
       activePage: 0,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -61,6 +103,15 @@ export default class ClusterShow extends Component {
       e.get('name')
     );
     this.watchEntities(entitiesToDisplay.get(0));
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress' && event.id === 'search') {
+      this.props.navigator.push({
+        screen: 'cabin.ClustersSearch',
+        passProps: { cluster: this.props.cluster },
+      });
+    }
   }
 
   watchEntities(entityType) {
@@ -158,7 +209,7 @@ export default class ClusterShow extends Component {
             entities={store.getAll(cluster)}
             onPress={entity =>
               this.props.navigator.push(
-                EntitiesRoutes.getEntitiesShowRoute({
+                EntitiesUtils.getEntitiesShowRoute({
                   entity,
                   cluster,
                   entityType,
@@ -214,20 +265,29 @@ export default class ClusterShow extends Component {
   }
 
   showDeploymentsNew() {
-    NavigationActions.push(
-      EntitiesRoutes.getDeploymentsNewRoute(this.props.cluster)
-    );
+    const { navigator } = this.props;
+    const route = { screen: 'cabin.DeploymentsNew', title: intl('deployment_new'), passProps: {
+      cluster: this.props.cluster,
+    }};
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 
   showServicesNew() {
-    NavigationActions.push(
-      EntitiesRoutes.getServicesNewRoute({ cluster: this.props.cluster })
-    );
+    const { cluster } = this.props;
+    const deployment = alt.stores.DeploymentsStore.getAll(cluster).first();
+    const { navigator } = this.props;
+    const present = Platform.OS === 'ios' ? navigator.showModal : navigator.push;
+    present({ screen: 'cabin.ServicesNew', title: intl('service_new'), passProps: {
+      cluster,
+      deployment,
+    }});
   }
 
   showHPANew() {
-    NavigationActions.push(
-      EntitiesRoutes.getHPANewRoute({ cluster: this.props.cluster })
-    );
+    const { navigator } = this.props;
+    const present = Platform.OS === 'ios' ? navigator.showModal : navigator.push;
+    present({ screen: 'cabin.HPAsNew', title: intl('hpa_new'), passProps: {
+      cluster: this.props.cluster,
+    }});
   }
 }

@@ -13,20 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ListInputItem from 'components/commons/ListInputItem';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import HorizontalPodAutoscalersActions from 'actions/HorizontalPodAutoscalersActions';
 import DeploymentsActions from 'actions/DeploymentsActions';
-import NavigationActions from 'actions/NavigationActions';
 import ScrollView from 'components/commons/ScrollView';
 import ActionSheetUtils from 'utils/ActionSheetUtils';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 import PropTypes from 'prop-types';
 
-const { View, ActivityIndicator, StyleSheet, DeviceEventEmitter } = ReactNative;
+const { View, ActivityIndicator, StyleSheet, Platform } = ReactNative;
 
 const styles = StyleSheet.create({
   container: {
@@ -57,6 +56,25 @@ export default class HorizontalPodAutoscalersNew extends Component {
     defaultDeployment: PropTypes.instanceOf(Immutable.Map),
   };
 
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'cancel',
+      title: intl('cancel'),
+    }],
+    rightButtons: [Platform.select({
+      ios: {
+        id: 'done',
+        title: intl('done'),
+      },
+      android: {
+        id: 'done',
+        icon: require('images/done.png'),
+      },
+    })],
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -68,18 +86,22 @@ export default class HorizontalPodAutoscalersNew extends Component {
       max: 10,
       loading: false,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
     DeploymentsActions.fetchDeployments(this.props.cluster);
-    this.submitListener = DeviceEventEmitter.addListener(
-      'HorizontalPodAutoscalersNew:submit',
-      this.onSubmit.bind(this)
-    );
   }
 
-  componentWillUnmount() {
-    this.submitListener.remove();
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'cancel':
+        Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
+        break;
+      case 'done':
+        this.onSubmit();
+        break;
+    }
   }
 
   render() {
@@ -179,7 +201,7 @@ export default class HorizontalPodAutoscalersNew extends Component {
       return;
     }
     if (!this.state.deployment || !this.state.name) {
-      AlertUtils.showError({ message: 'You need to select a deployment' });
+      SnackbarUtils.showError({ title: 'You need to select a deployment' });
       return;
     }
     this.setState({ loading: true });
@@ -187,9 +209,9 @@ export default class HorizontalPodAutoscalersNew extends Component {
       cluster: this.props.cluster,
       ...this.state,
     })
-      .then(() => NavigationActions.pop())
+      .then(() => Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop())
       .catch(error => {
-        AlertUtils.showError({ message: error.message });
+        SnackbarUtils.showError({ title: error.message });
         this.setState({ loading: false });
       });
   }

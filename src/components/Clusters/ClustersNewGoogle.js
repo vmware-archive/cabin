@@ -14,7 +14,7 @@
   limitations under the License.
 */
 import PropTypes from 'prop-types';
-import Colors from 'styles/Colors';
+import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import Sizes from 'styles/Sizes';
 import ListHeader from 'components/commons/ListHeader';
 import HeaderPicker from 'components/commons/HeaderPicker';
@@ -25,9 +25,8 @@ import FAB from 'components/commons/FAB';
 import Alert from 'utils/Alert';
 import StatusView from 'components/commons/StatusView';
 import EmptyView from 'components/commons/EmptyView';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 import LocalesUtils from 'utils/LocalesUtils';
-import ClustersRoutes from 'routes/ClustersRoutes';
 import AltContainer from 'alt-container';
 import _ from 'lodash';
 
@@ -81,6 +80,44 @@ const dateOptions = {
   hour12: false,
 };
 
+export class ClustersNewGoogleContainer extends Component {
+
+  static navigatorStyle = defaultNavigatorStyle;
+
+  static navigatorButtons = {
+    leftButtons: [{
+      id: 'close',
+      title: intl('close'),
+    }],
+    rightButtons: [{
+      id: 'logout',
+      title: intl('gke_signout'),
+    }],
+  };
+
+  render() {
+    return (
+      <AltContainer stores={{
+        projects: () => {
+          return {
+            store: alt.stores.GoogleCloudStore,
+            value: alt.stores.GoogleCloudStore.getProjects(),
+          };
+        }, policies: () => {
+          return {
+            store: alt.stores.GoogleCloudStore,
+            value: alt.stores.GoogleCloudStore.getProjectsPolicies(),
+          };
+        }}}>
+        <ClustersNewGoogle navigator={this.props.navigator}
+          selectedProjectId={alt.stores.GoogleCloudStore.getSelectedProjectId()}
+          projects={alt.stores.GoogleCloudStore.getProjects()}
+          policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}/>
+      </AltContainer>
+    );
+  }
+}
+
 export default class ClustersNewGoogle extends Component {
   static propTypes = {
     projects: PropTypes.instanceOf(Immutable.List),
@@ -101,6 +138,19 @@ export default class ClustersNewGoogle extends Component {
     this.state = {
       selectedProjectIndex,
     };
+    props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
+
+  onNavigatorEvent(event) {
+    switch (event.id) {
+      case 'close':
+        this.props.navigator.dismissAllModals();
+        break;
+      case 'logout':
+        GoogleCloudActions.signOut();
+        this.props.navigator.dismissAllModals();
+        break;
+    }
   }
 
   render() {
@@ -240,7 +290,7 @@ export default class ClustersNewGoogle extends Component {
     } else if (
       alt.stores.ClustersStore.get(`https://${cluster.get('endpoint')}:443`)
     ) {
-      AlertUtils.showWarning({
+      SnackbarUtils.showWarning({
         message: "You've already added this cluster to Cabin",
       });
       return;
@@ -263,7 +313,7 @@ export default class ClustersNewGoogle extends Component {
       password: googleCluster.getIn(['masterAuth', 'password']),
     });
     ClustersActions.addCluster(cluster.toJS());
-    AlertUtils.showSuccess({ message: 'Cluster added to Cabin' });
+    SnackbarUtils.showSuccess({ title: 'Cluster added to Cabin' });
     setTimeout(() => {
       ClustersActions.checkCluster(cluster);
     }, 1000);
@@ -275,10 +325,12 @@ export default class ClustersNewGoogle extends Component {
       'projectId',
     ]);
     GoogleCloudActions.getZones(projectId).catch(e => {
-      AlertUtils.showError({ message: e.message });
+      SnackbarUtils.showError({ title: e.message });
     });
-    this.props.navigator.push(
-      ClustersRoutes.getClusterGoogleCreationRoute(projectId)
-    );
+    this.props.navigator.push({
+      screen: 'cabin.ClustersNewGoogleCreation',
+      title: 'Create GKE Cluster',
+      passProps: { projectId },
+    });
   }
 }

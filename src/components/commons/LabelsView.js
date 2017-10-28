@@ -17,7 +17,7 @@ import Colors from 'styles/Colors';
 import ListItem from 'components/commons/ListItem';
 import ListHeader from 'components/commons/ListHeader';
 import TagInput from 'react-native-tag-input';
-import AlertUtils from 'utils/AlertUtils';
+import SnackbarUtils from 'utils/SnackbarUtils';
 
 const { View, StyleSheet } = ReactNative;
 
@@ -80,6 +80,7 @@ export default class LabelsView extends Component {
                 keyboardType="ascii-capable"
                 value={values}
                 regex={/^[a-z0-9.\/]+:[a-z0-9.\/]+$/}
+                labelExtractor={(label) => label}
                 onChange={e => {
                   if (e.length < values.length) {
                     const deletedKey = '';
@@ -123,9 +124,8 @@ export default class LabelsView extends Component {
   }
 
   showError() {
-    AlertUtils.showWarning({
-      title: 'Invalid key:value pair',
-      message: 'Separate key and value with ":" \n(ex: foo:bar)',
+    SnackbarUtils.showWarning({
+      title: 'Invalid key:value pair.\nSeparate key and value with ":" (ex: foo:bar)',
     });
   }
 }
