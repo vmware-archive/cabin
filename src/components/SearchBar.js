@@ -67,7 +67,7 @@ const styles = PStyleSheet.create({
 export default class SearchBar extends Component {
 
   static propTypes = {
-    autoFocus: PropTypes.boolean,
+    autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     onChangEventName: PropTypes.string,

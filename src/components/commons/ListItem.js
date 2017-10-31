@@ -89,10 +89,10 @@ export default class ListItem extends Component {
     hideSeparator: PropTypes.bool,
     separatorStyle: View.propTypes.style,
     showArrow: PropTypes.bool,
-    renderTitle: PropTypes.func,
-    renderDetail: PropTypes.func,
-    onPress: PropTypes.func,
-    onDelete: PropTypes.func,
+    renderTitle: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    renderDetail: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onPress: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+    onDelete: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     deleteTitle: PropTypes.string,
     entity: PropTypes.instanceOf(Immutable.Map), // optional
   }

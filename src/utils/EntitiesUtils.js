@@ -120,6 +120,14 @@ export default class EntitiesUtils {
     if (typeof status === 'object') {
       if (status.get('phase')) {
         status = status.get('phase').toUpperCase();
+      } else if (status.get('containerStatuses') && status.get('containerStatuses').size > 0) {
+        const hasOneContainerReady = status
+          .get('containerStatuses')
+          .find(c => c.get('ready') === true)
+          .size > 0;
+        status = hasOneContainerReady
+          ? Status.READY
+          : Status.NOTREADY;
       } else if (status.get('conditions')) {
         const condition = status
           .get('conditions')

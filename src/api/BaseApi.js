@@ -167,7 +167,7 @@ class BaseApi {
       })
       .then(json => {
         if (json.error) {
-          return this.handleError(json.error);
+          return this.handleError(json.error.message);
         }
         if (json.status === 'Failure') {
           return this.handleError(json.message);

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export class ClustersNewGoogleContainer extends Component {
+export class ClustersNewGoogleCreationContainer extends Component {
 
   static navigatorStyle = defaultNavigatorStyle;
 
@@ -103,7 +103,7 @@ export class ClustersNewGoogleContainer extends Component {
             value: alt.stores.GoogleCloudStore.getZones(),
           };
         }}}>
-        <ClustersNewGoogleCreation navigator={navigator} projectId={this.props.projectId} />
+        <ClustersNewGoogleCreation navigator={this.props.navigator} projectId={this.props.projectId} />
       </AltContainer>
     );
   }
@@ -136,7 +136,7 @@ export default class ClustersNewGoogleCreation extends Component {
   onNavigatorEvent(event) {
     switch (event.id) {
       case 'cancel':
-        this.props.navigator.dismissAllModals();
+        this.dismiss();
         break;
       case 'done':
         this.onSubmit();
@@ -200,6 +200,10 @@ export default class ClustersNewGoogleCreation extends Component {
     ActionSheetUtils.showActionSheetWithOptions({options});
   }
 
+  dismiss() {
+    Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
+  }
+
   onSubmit() {
     if (this.state.loading) { return; }
     this.setState({loading: true});
@@ -213,8 +217,9 @@ export default class ClustersNewGoogleCreation extends Component {
     GoogleCloudActions.createCluster(projectId, zone, cluster).then(() => {
       SnackbarUtils.showSuccess({ title: 'The cluster has been created on GKE, you can now add it to cabin' });
       GoogleCloudActions.getClusters(projectId);
-      Platform.OS === 'ios' ? this.props.navigator.dismissModal() : this.props.navigator.pop();
+      this.dismiss();
     }).catch(e => {
+      console.log('ERROR', e, e.message);
       SnackbarUtils.showError(e && e.message && {title: e.message});
       this.setState({loading: false});
     });

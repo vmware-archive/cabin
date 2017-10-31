@@ -56,7 +56,7 @@ export function registerScreens() {
   Navigation.registerComponent('cabin.ClustersIndex.Title', () => ClustersIndexNavBarTitle);
   Navigation.registerComponent('cabin.ClustersNew', () => ClustersNew);
   Navigation.registerComponent('cabin.ClustersNewGoogle', () => ClustersNewGoogleContainer);
-  Navigation.registerComponent('cabin.ClustersNewGoogleCration', () => ClustersNewGoogleCreationContainer);
+  Navigation.registerComponent('cabin.ClustersNewGoogleCreation', () => ClustersNewGoogleCreationContainer);
   Navigation.registerComponent('cabin.ClustersShow', () => ClustersShowContainer);
   Navigation.registerComponent('cabin.ClustersShow.Navbar', () => ClustersNavbarTitleContainer);
   Navigation.registerComponent('cabin.ClustersSearch', () => Search);

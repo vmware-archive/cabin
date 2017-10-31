@@ -30,7 +30,7 @@ import LocalesUtils from 'utils/LocalesUtils';
 import AltContainer from 'alt-container';
 import _ from 'lodash';
 
-const { View, StyleSheet, Text, TouchableOpacity } = ReactNative;
+const { View, StyleSheet, Text, TouchableOpacity, Platform } = ReactNative;
 
 const styles = StyleSheet.create({
   flex: {
@@ -81,38 +81,47 @@ const dateOptions = {
 };
 
 export class ClustersNewGoogleContainer extends Component {
-
   static navigatorStyle = defaultNavigatorStyle;
 
   static navigatorButtons = {
-    leftButtons: [{
-      id: 'close',
-      title: intl('close'),
-    }],
-    rightButtons: [{
-      id: 'logout',
-      title: intl('gke_signout'),
-    }],
+    leftButtons: [
+      {
+        id: 'close',
+        title: intl('close'),
+      },
+    ],
+    rightButtons: [
+      {
+        id: 'logout',
+        title: intl('gke_signout'),
+      },
+    ],
   };
 
   render() {
     return (
-      <AltContainer stores={{
-        projects: () => {
-          return {
-            store: alt.stores.GoogleCloudStore,
-            value: alt.stores.GoogleCloudStore.getProjects(),
-          };
-        }, policies: () => {
-          return {
-            store: alt.stores.GoogleCloudStore,
-            value: alt.stores.GoogleCloudStore.getProjectsPolicies(),
-          };
-        }}}>
-        <ClustersNewGoogle navigator={this.props.navigator}
+      <AltContainer
+        stores={{
+          projects: () => {
+            return {
+              store: alt.stores.GoogleCloudStore,
+              value: alt.stores.GoogleCloudStore.getProjects(),
+            };
+          },
+          policies: () => {
+            return {
+              store: alt.stores.GoogleCloudStore,
+              value: alt.stores.GoogleCloudStore.getProjectsPolicies(),
+            };
+          },
+        }}
+      >
+        <ClustersNewGoogle
+          navigator={this.props.navigator}
           selectedProjectId={alt.stores.GoogleCloudStore.getSelectedProjectId()}
           projects={alt.stores.GoogleCloudStore.getProjects()}
-          policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}/>
+          policies={alt.stores.GoogleCloudStore.getProjectsPolicies()}
+        />
       </AltContainer>
     );
   }
@@ -203,20 +212,22 @@ export default class ClustersNewGoogle extends Component {
                 />
               );
             }}
-            renderEmpty={() =>
+            renderEmpty={() => (
               <EmptyView
                 title={intl('gke_clusters_empty_title')}
                 subtitle={intl('gke_clusters_empty_subtitle')}
                 actionTitle={intl('gke_clusters_empty_action')}
                 onPress={this.onRefresh.bind(this)}
-              />}
+              />
+            )}
           />
         </AltContainer>
-        {!!canCreate &&
+        {!!canCreate && (
           <FAB
             backgroundColor={Colors.BLUE}
             onPress={this.createCluster.bind(this)}
-          />}
+          />
+        )}
       </View>
     );
   }
@@ -327,10 +338,12 @@ export default class ClustersNewGoogle extends Component {
     GoogleCloudActions.getZones(projectId).catch(e => {
       SnackbarUtils.showError({ title: e.message });
     });
-    this.props.navigator.push({
+    const { navigator } = this.props;
+    const route = {
       screen: 'cabin.ClustersNewGoogleCreation',
       title: 'Create GKE Cluster',
       passProps: { projectId },
-    });
+    };
+    Platform.OS === 'ios' ? navigator.showModal(route) : navigator.push(route);
   }
 }
