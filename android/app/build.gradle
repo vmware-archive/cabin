@@ -91,7 +91,7 @@ android {
         applicationId "com.skippbox.cabin"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 16
+        versionCode 21
         versionName "0.4.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
