@@ -17,25 +17,25 @@ Click on each picture to enlarge.
 <table style="width:100%">
 <tr>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/cluster-add.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/cluster-add.png">
     <p><b>Add Clusters</b></p>
     <img src="images/cluster-add.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/gke.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/gke.png">
     <p><b>Create Cluster on GKE</b></p>
     <img src="images/gke.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/pods.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/pods.png">
     <p><b>Pods View</b></p>
     <img src="images/pods.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/charts.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/charts.png">
     <p><b>Charts View</b></p>
     <img src="images/charts.png" width="170">
     </a>
@@ -43,25 +43,25 @@ Click on each picture to enlarge.
 </tr>
 <tr>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/deployment-view.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/deployment-view.png">
     <p><b>Deployment Scaling</b></p>
     <img src="images/deployment-view.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/logs.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/logs.png">
     <p><b>Pod Logs</b></p>
     <img src="images/logs.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/labels.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/labels.png">
     <p><b>Edit Labels</b></p>
     <img src="images/labels.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/search.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/search.png">
     <p><b>Search by Label</b></p>
     <img src="images/search.png" width="170">
     </a>
@@ -69,25 +69,25 @@ Click on each picture to enlarge.
 </tr>
 <tr>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/yaml-view.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/yaml-view.png">
     <p><b>YAML View</b></p>
     <img src="images/yaml-view.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/ns.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/ns.png">
     <p><b>Namespace Chooser</b></p>
     <img src="images/ns.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/resource-list.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/resource-list.png">
     <p><b>Resource Listing Toggle</b></p>
     <img src="images/resource-list.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/set-image.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/set-image.png">
     <p><b>Set Image</b></p>
     <img src="images/set-image.png" width="170">
     </a>
@@ -95,19 +95,19 @@ Click on each picture to enlarge.
 </tr>
 <tr>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/services.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/services.png">
     <p><b>Service Types</b></p>
     <img src="images/services.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/open-browser.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/open-browser.png">
     <p><b>Open Service in Browser</b></p>
     <img src="images/open-browser.png" width="170">
     </a>
   </td>
   <td>
-    <a href="https://raw.githubusercontent.com/bitnami/cabin/master/images/ghost.png">
+    <a href="https://raw.githubusercontent.com/bitnami-labs/cabin/master/images/ghost.png">
     <p><b>Access Web Apps</b></p>
     <img src="images/ghost.png" width="170">
     </a>
@@ -183,7 +183,7 @@ Check our contributing [guidelines](CONTRIBUTING.md) and send your pull requests
 
 ## Issues
 
-If you face any issues with Cabin, please create an [issue](https://github.com/bitnami/cabin/issues)
+If you face any issues with Cabin, please create an [issue](https://github.com/bitnami-labs/cabin/issues)
 
 **Note** that to preserve as much history as possible we imported a good number of issues from our private repo and the cabin-issues repository.
 
