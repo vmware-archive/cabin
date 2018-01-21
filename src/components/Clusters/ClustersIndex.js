@@ -20,6 +20,7 @@ import Colors, { defaultNavigatorStyle } from 'styles/Colors';
 import ClustersItem from 'components/Clusters/ClustersItem';
 import EmptyView from 'components/commons/EmptyView';
 import ClustersActions from 'actions/ClustersActions';
+import InitActions from 'actions/InitActions';
 import FAB from 'components/commons/FAB';
 
 const {
@@ -103,6 +104,7 @@ export default class ClustersIndex extends Component {
     };
     this.shouldShowActionSheet = false;
     props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    InitActions.initializeApplication();
   }
 
   componentDidMount() {
