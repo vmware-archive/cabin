@@ -147,7 +147,7 @@ Install React Native cli:
 npm install -g react-native-cli
 ```
 
-⚠️ Follow the [Getting Started guide](http://facebook.github.io/react-native/releases/0.48/docs/getting-started.html) to make sure you have everything ready to run a react-native app.
+⚠️ Follow the [Getting Started guide](http://facebook.github.io/react-native/docs/0.48/getting-started.html) to make sure you have everything ready to run a react-native app.
 
 ### iOS
 
