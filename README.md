@@ -6,7 +6,7 @@ Currently still in dev is support for Helm charts. You can view Charts repositor
 
 GKE users will enjoy the ability to create clusters directly from their phone and also add pre-existing GKE clusters to the application to view existing resources.
 
-Cabin is made with [React Native](https://facebook.github.io/react-native/). For [development](##run-locally-using-simulators) purposes you can run the application using both iOS and Android simulators.
+Cabin is made with [React Native](https://facebook.github.io/react-native/). For [development](#run-locally-using-simulators) purposes you can run the application using both iOS and Android simulators.
 
 We would love your help to make it even cooler !
 
