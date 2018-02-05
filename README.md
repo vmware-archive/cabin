@@ -127,21 +127,9 @@ It is full of neat features, check out the screencast below by clicking on the i
 
 ## Run Locally Using Simulators
 
-### Run the packager (for both iOS and Android)
+To develop and test the application you need to setup your local environment, then run the simulator. First, install `react-native-cli` then run the _packager_ in one terminal. Then in another terminal launch the simulator with the `react-native` command. See below for more details.
 
-Install node dependencies:
-
-```
-yarn install
-```
-
-Run the packager:
-
-```
-yarn start
-```
-
-Install React Native cli:
+First, install React Native CLI tools with:
 
 ```
 npm install -g react-native-cli
@@ -149,19 +137,42 @@ npm install -g react-native-cli
 
 ⚠️ Follow the [Getting Started guide](http://facebook.github.io/react-native/docs/0.48/getting-started.html) to make sure you have everything ready to run a react-native app.
 
+### Run the packager (for both iOS and Android)
+
+Now install `yarn`. On OSX simply do `brew install yarn`.
+
+Use `yarn` to install node dependencies:
+
+```
+yarn install
+```
+
+In one terminal session, run the packager:
+
+```
+yarn start
+```
+
+Now depending on your target platform, run the simulator using the appropriate `react-native` command:
+
 ### iOS
 
-Install ios dependencies:
+Install the iOS dependencies:
 
 ```
 gem install cocoapods
 cd iOS/ && pod install
 ```
 
+Note: You may have to remove an existing `Podfile.lock` file.
+
 Run the app on iOS:
 ```
 react-native run-ios
 ```
+
+You may run into Xcode setup issues like [`xcrun: error: unable to find utility "instruments", not a developer   
+`](https://stackoverflow.com/questions/39778607/error-running-react-native-app-from-terminal-ios)
 
 ### Android
 
