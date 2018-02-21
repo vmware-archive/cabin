@@ -32,6 +32,12 @@ message Hook {
         POST_UPGRADE = 6;
         PRE_ROLLBACK = 7;
         POST_ROLLBACK = 8;
+        RELEASE_TEST_SUCCESS = 9;
+        RELEASE_TEST_FAILURE = 10;
+	}
+	enum DeletePolicy {
+	    SUCCEEDED = 0;
+	    FAILED = 1;
 	}
 	string name = 1;
 	// Kind is the Kubernetes kind.
@@ -44,4 +50,8 @@ message Hook {
 	repeated Event events = 5;
 	// LastRun indicates the date/time this was last run.
 	google.protobuf.Timestamp last_run = 6;
+	// Weight indicates the sort order for execution among similar Hook type
+	int32 weight = 7;
+	// DeletePolicies are the policies that indicate when to delete the hook
+	repeated DeletePolicy delete_policies = 8;
 }

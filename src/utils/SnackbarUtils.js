@@ -46,7 +46,7 @@ export default class SnackbarUtils {
 
   static showError(options) {
     if (!options) {
-      options = { message: intl('alert_error') };
+      options = { title: intl('alert_error') };
     }
     SnackbarUtils.showAlert({
       type: 'error',

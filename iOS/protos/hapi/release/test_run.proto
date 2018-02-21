@@ -1,3 +1,4 @@
+
 // Copyright 2016 The Kubernetes Authors All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +15,23 @@
 
 syntax = "proto3";
 
-package hapi.version;
+package hapi.release;
 
-option go_package = "version";
+import "google/protobuf/timestamp.proto";
 
-message Version {
-  // Sem ver string for the version
-  string sem_ver = 1;
-  string git_commit = 2;
-  string git_tree_state = 3;
+option go_package = "release";
+
+message TestRun {
+    enum Status {
+        UNKNOWN = 0;
+        SUCCESS = 1;
+        FAILURE = 2;
+        RUNNING = 3;
+    }
+
+    string name = 1;
+    Status status = 2;
+    string info = 3;
+    google.protobuf.Timestamp started_at = 4;
+    google.protobuf.Timestamp completed_at = 5;
 }
