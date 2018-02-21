@@ -1,3 +1,5 @@
+> **WARNING** The project is currently in a transition phase. There are known issues with Kubernetes 1.8/1.9 clusters. There is no ETA to fix those issues but we are trying to find a sustainable path. As always PR welcome. Thanks for your understanding.
+
 # Cabin, the mobile app for [Kubernetes](https://kubernetes.io)
 
 Cabin is a Mobile application for Kubernetes. It is loaded with features as shown in the [screenshots](##screenshots) and the [screencast](##screencast). It is a mobile native version of the Kubernetes dashboard with intuitive finger actions to manipulate Kubernetes resources. For example you can delete pods with a single left swipe. You can also add, delete labels, scale deployments with a finger scroll, access logs of your pods, run simple exec commands in containers, trigger rolling-updates by changing the image of your deployments, etc...
