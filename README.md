@@ -171,10 +171,14 @@ Run the app on iOS:
 react-native run-ios
 ```
 
+If the command above fails (See [#84](https://github.com/bitnami-labs/cabin/issues/84)), you can compile the iOS project directly from Xcode by opening the `iOS/cabin.xcworkspace`.
+
 You may run into Xcode setup issues like [`xcrun: error: unable to find utility "instruments", not a developer   
 `](https://stackoverflow.com/questions/39778607/error-running-react-native-app-from-terminal-ios)
 
 ### Android
+
+Due to having to use a feature that was removed from React Native, we have to use a fork and thus compile it from source (See [#88](https://github.com/bitnami-labs/cabin/issues/88)). Follow the steps at [Build React Native from source](https://facebook.github.io/react-native/docs/android-building-from-source.html) to correctly set up your environment.
 
 Run the app on Android:
 ```
