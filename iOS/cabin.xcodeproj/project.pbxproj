@@ -26,7 +26,6 @@
 		740C23A33AC5436A844C9FAF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 313D8C69AB544EBFA4D0560F /* SafariServices.framework */; };
 		74A00230789F4AAB9C8ABC4C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E536DE455634319B487EF55 /* SystemConfiguration.framework */; };
 		76AC243849B54DA49E17D3CF /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D71B5767084B478683782EEB /* libRNGoogleSignin.a */; };
-		7F5261518C09698979DB1ABD /* libPods-cabin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C0270A6CD385AC2BB94FB6B /* libPods-cabin.a */; };
 		806BE5779C0741359CCC201D /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A81E549F1A3401FBEA6B1F0 /* libReactNativeNavigation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C962EA7EB0148E4BC5D170A /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2123359850AC46B3B806EFCB /* libRNSnackbar.a */; };
@@ -48,6 +47,7 @@
 		A5E428441C57A85C00C5B9EC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5E428461C57A86100C5B9EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E428451C57A86100C5B9EC /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A5EF5CCA1BD62590002D794B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		D527751A5963BB84E1468A90 /* libPods-cabin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9864F51E36B2068F40FE447C /* libPods-cabin.a */; };
 		DE17D0200A7144689792CE1E /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 555F917E5DF242319924B978 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
@@ -415,16 +415,15 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1C0270A6CD385AC2BB94FB6B /* libPods-cabin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cabin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EFA7B2FDA29490B986B7C9A /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
 		2123359850AC46B3B806EFCB /* libRNSnackbar.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSnackbar.a; sourceTree = "<group>"; };
+		23EEC2822FF11A0AD2EF224F /* Pods-cabin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cabin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cabin/Pods-cabin.debug.xcconfig"; sourceTree = "<group>"; };
 		313D8C69AB544EBFA4D0560F /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		3C431AFC416248F48E7594D4 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		3E1B9DB01DD0E4BA00261358 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3E21C5AC4D364637AC1D745C /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		3EFEA2241DBEFAFC0024B8A3 /* cabin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cabin.entitlements; sourceTree = "<group>"; };
 		48CFFEAC0F7647DC94BD7FE1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		5349BE4043A2232033F0A9C2 /* Pods-cabin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cabin.release.xcconfig"; path = "Pods/Target Support Files/Pods-cabin/Pods-cabin.release.xcconfig"; sourceTree = "<group>"; };
 		555F917E5DF242319924B978 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		5D3569ED397149DB915A75CD /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		5E536DE455634319B487EF55 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -435,7 +434,7 @@
 		8E5BABEC1BB02D8E00D0FDEF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		8E5BABF01BB02DC600D0FDEF /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skippbox.release.xcconfig"; path = "Pods/Target Support Files/Pods-skippbox/Pods-skippbox.release.xcconfig"; sourceTree = "<group>"; };
+		9864F51E36B2068F40FE447C /* libPods-cabin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cabin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A517A8B51DB8CA7200526A06 /* Release+Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Release+Dictionary.h"; sourceTree = "<group>"; };
 		A517A8B61DB8CA7200526A06 /* Release+Dictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Release+Dictionary.m"; sourceTree = "<group>"; };
 		A557E0F31CB29D2300C7193B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -457,15 +456,13 @@
 		A5E22FB51F607D8400543FDD /* libRCTMaterialKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRCTMaterialKit.a; path = "../node_modules/react-native-material-kit/iOS/build/Debug-iphoneos/libRCTMaterialKit.a"; sourceTree = "<group>"; };
 		A5E428431C57A85C00C5B9EC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		A5E428451C57A86100C5B9EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A75C002C16519BF5821472BA /* Pods-cabin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cabin.release.xcconfig"; path = "Pods/Target Support Files/Pods-cabin/Pods-cabin.release.xcconfig"; sourceTree = "<group>"; };
 		AAA17D08BF2A415C8576E351 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
-		B48C0EB48F4EF42345A4D37A /* Pods-skippbox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skippbox.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skippbox/Pods-skippbox.debug.xcconfig"; sourceTree = "<group>"; };
-		B8E5F70A05097343062ABF58 /* libPods-skippbox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-skippbox.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D71B5767084B478683782EEB /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		D921C694E10C4E8DB6C7D3E5 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		DB1BB2489B354205A6BCE570 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		E16378960FC74875ABF38617 /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		E368F5948C46435480D38BB9 /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOrientation.xcodeproj; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; };
-		F4F9286FABE3B654F48DB641 /* Pods-cabin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cabin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cabin/Pods-cabin.debug.xcconfig"; sourceTree = "<group>"; };
 		F5B55EBA477B4146B6956C5C /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		FAB8C7D67DD44F3ABC4728A2 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -499,7 +496,6 @@
 				536A88D3A1B54A7E8E0BC2CF /* libRCTOrientation.a in Frameworks */,
 				A5C7526F305E4C41BF020DF9 /* libRNFS.a in Frameworks */,
 				09DCEB9E846F435EA495890F /* libReactNativeConfig.a in Frameworks */,
-				7F5261518C09698979DB1ABD /* libPods-cabin.a in Frameworks */,
 				DE17D0200A7144689792CE1E /* libRNFetchBlob.a in Frameworks */,
 				806BE5779C0741359CCC201D /* libReactNativeNavigation.a in Frameworks */,
 				8C962EA7EB0148E4BC5D170A /* libRNSnackbar.a in Frameworks */,
@@ -508,6 +504,7 @@
 				740C23A33AC5436A844C9FAF /* SafariServices.framework in Frameworks */,
 				74A00230789F4AAB9C8ABC4C /* SystemConfiguration.framework in Frameworks */,
 				378C96A13ACC4342A2533363 /* AddressBook.framework in Frameworks */,
+				D527751A5963BB84E1468A90 /* libPods-cabin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,6 +614,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3E054739A8CE6A79C2450A98 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				23EEC2822FF11A0AD2EF224F /* Pods-cabin.debug.xcconfig */,
+				A75C002C16519BF5821472BA /* Pods-cabin.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4804E8612B2AE9B345684110 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,25 +635,13 @@
 				8E5BABEE1BB02DBD00D0FDEF /* libicucore.tbd */,
 				8E5BABEC1BB02D8E00D0FDEF /* Security.framework */,
 				A557E0F31CB29D2300C7193B /* NotificationCenter.framework */,
-				B8E5F70A05097343062ABF58 /* libPods-skippbox.a */,
-				1C0270A6CD385AC2BB94FB6B /* libPods-cabin.a */,
 				FAB8C7D67DD44F3ABC4728A2 /* libz.tbd */,
 				313D8C69AB544EBFA4D0560F /* SafariServices.framework */,
 				5E536DE455634319B487EF55 /* SystemConfiguration.framework */,
 				3E21C5AC4D364637AC1D745C /* AddressBook.framework */,
+				9864F51E36B2068F40FE447C /* libPods-cabin.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6158A353A993F578746AC456 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B48C0EB48F4EF42345A4D37A /* Pods-skippbox.debug.xcconfig */,
-				99ABFD3D4904A1013DCC9A39 /* Pods-skippbox.release.xcconfig */,
-				F4F9286FABE3B654F48DB641 /* Pods-cabin.debug.xcconfig */,
-				5349BE4043A2232033F0A9C2 /* Pods-cabin.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -705,8 +699,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				4804E8612B2AE9B345684110 /* Frameworks */,
-				6158A353A993F578746AC456 /* Pods */,
 				A5FDF2A31F350D7C0041AD64 /* Recovered References */,
+				3E054739A8CE6A79C2450A98 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -858,15 +852,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "cabin" */;
 			buildPhases = (
-				68D5A4FE0ED77FBEFC3D2885 /* [CP] Check Pods Manifest.lock */,
+				EDC492E9C28A55BD2DADD78F /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				A579E66E1BD5451E00CD8E2C /* Embed Frameworks */,
 				8E7D82931BF2A2E9009C0CA2 /* Bundle React Native code and images */,
 				A5E71D4D1CB4F72400EEA745 /* Embed App Extensions */,
-				11E510AD3F59F36A6ACB8E7E /* [CP] Embed Pods Frameworks */,
-				1CBC72BF88C90C5CD64C2278 /* [CP] Copy Pods Resources */,
+				C42E10B0854E9D217C64623B /* [CP] Embed Pods Frameworks */,
+				CCD87A2BBA8CA6D15C06613C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -890,6 +884,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AF8A8LC6XQ;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -1355,7 +1350,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11E510AD3F59F36A6ACB8E7E /* [CP] Embed Pods Frameworks */ = {
+		8E7D82931BF2A2E9009C0CA2 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		C42E10B0854E9D217C64623B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1370,7 +1379,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-cabin/Pods-cabin-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1CBC72BF88C90C5CD64C2278 /* [CP] Copy Pods Resources */ = {
+		CCD87A2BBA8CA6D15C06613C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1392,7 +1401,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-cabin/Pods-cabin-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		68D5A4FE0ED77FBEFC3D2885 /* [CP] Check Pods Manifest.lock */ = {
+		EDC492E9C28A55BD2DADD78F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1409,20 +1418,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		8E7D82931BF2A2E9009C0CA2 /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1464,14 +1459,15 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F4F9286FABE3B654F48DB641 /* Pods-cabin.debug.xcconfig */;
+			baseConfigurationReference = 23EEC2822FF11A0AD2EF224F /* Pods-cabin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CODE_SIGN_ENTITLEMENTS = cabin/cabin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = AF8A8LC6XQ;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1512,8 +1508,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = cabin;
-				PROVISIONING_PROFILE = "a449b698-5046-4dfd-98b0-6821d5f3df4b";
-				PROVISIONING_PROFILE_SPECIFIER = "Cabin Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cabin-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1521,14 +1517,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5349BE4043A2232033F0A9C2 /* Pods-cabin.release.xcconfig */;
+			baseConfigurationReference = A75C002C16519BF5821472BA /* Pods-cabin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
 				CODE_SIGN_ENTITLEMENTS = cabin/cabin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = AF8A8LC6XQ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1571,8 +1568,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skippbox.cabin;
 				PRODUCT_NAME = cabin;
-				PROVISIONING_PROFILE = "26634cd1-8905-4ac9-ad43-3ad93999a06a";
-				PROVISIONING_PROFILE_SPECIFIER = "Cabin Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cabin-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

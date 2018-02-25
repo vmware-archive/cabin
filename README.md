@@ -166,7 +166,7 @@ gem install cocoapods
 cd iOS/ && pod install
 ```
 
-Note: You may have to remove an existing `Podfile.lock` file.
+Note: You may have to remove an existing `Podfile.lock` file. See [grpc/grpc#12172](https://github.com/grpc/grpc/issues/12172 ) for more information.
 
 Run the app on iOS:
 ```
