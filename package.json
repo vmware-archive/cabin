@@ -1,6 +1,6 @@
 {
   "name": "cabin",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "the mobile app for Kubernetes",
   "license": "Apache-2.0",
   "private": false,
