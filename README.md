@@ -1,4 +1,6 @@
-> **WARNING** The project is currently in a transition phase. There are known issues with Kubernetes 1.8/1.9 clusters. There is no ETA to fix those issues but we are trying to find a sustainable path. As always PR welcome. Thanks for your understanding.
+> **NOTE** This project is currently not under active development.
+
+> The project is currently in a transition phase. There are known issues with Kubernetes 1.8/1.9 clusters. There is no ETA to fix those issues but we are trying to find a sustainable path. As always PR welcome. Thanks for your understanding.
 
 # Cabin, the mobile app for [Kubernetes](https://kubernetes.io)
 
